@@ -3,11 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/LandingPage">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/LandingPage"
         android:name="cdio.group21.litaire.view.FragmentLandingPage"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_landing_page"/>
+        tools:layout="@layout/fragment_landing_page">
+        <action
+            android:id="@+id/action_LandingPage_to_fragmentThinking"
+            app:destination="@id/fragmentThinking" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentThinking"
+        android:name="cdio.group21.litaire.view.FragmentThinking"
+        android:label="fragment_thinking"
+        tools:layout="@layout/fragment_thinking" >
+        <action
+            android:id="@+id/action_fragmentThinking_to_fragmentSuggestion"
+            app:destination="@id/fragmentSuggestion" />
+        <action
+            android:id="@+id/action_fragmentThinking_to_fragmentNomoves"
+            app:destination="@id/fragmentNomoves" />
+        <action
+            android:id="@+id/action_fragmentThinking_to_fragmentSolved"
+            app:destination="@id/fragmentSolved" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSuggestion"
+        android:name="cdio.group21.litaire.view.FragmentSuggestion"
+        android:label="fragment_suggestion"
+        tools:layout="@layout/fragment_suggestion" />
+    <fragment
+        android:id="@+id/fragmentNomoves"
+        android:name="cdio.group21.litaire.view.FragmentNomoves"
+        android:label="fragment_nomoves"
+        tools:layout="@layout/fragment_nomoves" >
+        <action
+            android:id="@+id/action_fragmentNomoves_to_LandingPage"
+            app:destination="@id/LandingPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSolved"
+        android:name="cdio.group21.litaire.view.FragmentSolved"
+        android:label="fragment_solved"
+        tools:layout="@layout/fragment_solved" >
+        <action
+            android:id="@+id/action_fragmentSolved_to_LandingPage"
+            app:destination="@id/LandingPage" />
+    </fragment>
 </navigation>

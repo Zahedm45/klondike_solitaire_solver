@@ -6,7 +6,7 @@
     android:id="@+id/layout_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.FragmentLandingPage">
+    tools:context=".view.FragmentSuggestion">
 
     <ImageView
         android:id="@+id/iv_background"
