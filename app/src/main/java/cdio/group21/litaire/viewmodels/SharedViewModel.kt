@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cdio.group21.litaire.data.Card
 
-class LandingPageVM : ViewModel() {
+class SharedViewModel : ViewModel() {
     private val cardNumber = MutableLiveData<Int>()
     private val cardType = MutableLiveData<Enum<Card>>()
 
