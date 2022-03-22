@@ -21,7 +21,8 @@ class FragmentThinking : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
+        _binding = FragmentThinkingBinding.inflate(inflater, container, false)
         return binding.root
     }
 

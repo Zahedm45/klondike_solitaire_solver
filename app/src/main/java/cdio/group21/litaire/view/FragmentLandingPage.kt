@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.navigation.fragment.findNavController
+import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import com.swein.easypermissionmanager.EasyPermissionManager
 import java.io.File
@@ -32,6 +34,7 @@ class FragmentLandingPage : Fragment() {
         if (success){
             binding.tvTitle.visibility = View.GONE
             binding.ivBackground.setImageURI(tempImageUri)
+            findNavController().navigate(R.id.action_LandingPage_to_fragmentThinking)
         }
 
     }
