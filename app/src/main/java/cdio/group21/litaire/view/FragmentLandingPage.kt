@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
+import cdio.group21.litaire.viewmodels.SharedViewModel
 import com.swein.easypermissionmanager.EasyPermissionManager
 import java.io.File
 
@@ -22,6 +24,8 @@ class FragmentLandingPage : Fragment() {
     private var _binding: FragmentLandingPageBinding? = null
 
     private val binding get() = _binding!!
+
+    private val viewModel: SharedViewModel by activityViewModels()
 
     //TODO used to select pictures from album - may need to initialize inside onViewCreated()
     private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
@@ -34,6 +38,7 @@ class FragmentLandingPage : Fragment() {
         if (success){
             binding.tvTitle.visibility = View.GONE
             binding.ivBackground.setImageURI(tempImageUri)
+            viewModel.setImageURI(tempImageUri!!)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentThinking)
         }
 
