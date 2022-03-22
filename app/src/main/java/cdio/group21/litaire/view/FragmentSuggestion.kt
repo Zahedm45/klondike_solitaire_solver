@@ -5,10 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import cdio.group21.litaire.R
+import cdio.group21.litaire.databinding.FragmentLandingPageBinding
+import cdio.group21.litaire.databinding.FragmentSuggestionBinding
 
 
 class FragmentSuggestion : Fragment() {
+
+    private var _binding: FragmentSuggestionBinding? = null
+
+    private val binding get() = _binding!!
+
+    private val viewModel: FragmentThinkingVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,23 +27,9 @@ class FragmentSuggestion : Fragment() {
         return inflater.inflate(R.layout.fragment_suggestion, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentSuggestion.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentSuggestion().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // TODO: Use the ViewModel
     }
+
 }
