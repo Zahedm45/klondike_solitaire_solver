@@ -29,7 +29,7 @@ class FragmentLandingPage : Fragment() {
 
     //TODO used to select pictures from album - may need to initialize inside onViewCreated()
     private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
-        binding.ivInfo1.setImageURI(it)
+        binding.ivBackground.setImageURI(it)
     }
 
     private var tempImageUri: Uri? = null
