@@ -31,11 +31,12 @@ class FragmentLandingPage : Fragment() {
         binding.ivInfo1.setImageURI(it)
     }
 
-    private var tempImageUri: Uri? =null
+    private var tempImageUri: Uri? = null
     private var tempImageFilePath = ""
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()){ success ->
         if (success){
-            binding.ivInfo1.setImageURI(tempImageUri)
+            binding.tvTitle.visibility = View.GONE
+            binding.ivBackground.setImageURI(tempImageUri)
         }
 
     }
