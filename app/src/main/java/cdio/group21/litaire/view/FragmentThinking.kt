@@ -9,13 +9,14 @@ import androidx.fragment.app.activityViewModels
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.databinding.FragmentThinkingBinding
+import cdio.group21.litaire.viewmodels.SharedViewModel
 
 class FragmentThinking : Fragment() {
     private var _binding: FragmentThinkingBinding? = null
 
     private val binding get() = _binding!!
     //Shared viewmodel between fragments because some data is shared.
-    private val viewModel: FragmentThinkingVM by activityViewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

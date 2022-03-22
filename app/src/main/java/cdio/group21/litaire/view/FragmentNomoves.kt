@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import cdio.group21.litaire.R
-import cdio.group21.litaire.databinding.FragmentLandingPageBinding
-import cdio.group21.litaire.databinding.FragmentSuggestionBinding
+import cdio.group21.litaire.databinding.FragmentNomovesBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
 
 
-class FragmentSuggestion : Fragment() {
+class FragmentNomoves : Fragment() {
 
-    private var _binding: FragmentSuggestionBinding? = null
+    private var _binding: FragmentNomovesBinding? = null
 
     private val binding get() = _binding!!
 
@@ -32,5 +31,4 @@ class FragmentSuggestion : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // TODO: Use the ViewModel
     }
-
 }
