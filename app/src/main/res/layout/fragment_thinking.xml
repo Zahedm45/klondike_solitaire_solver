@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_camera_button"
+        android:id="@+id/iv_thinking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/vector_camera_circle"
@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Take a picture"
+                android:text="Thinking..."
                 android:layout_gravity="center_horizontal"
                 android:textSize="18sp" />
         </androidx.cardview.widget.CardView>
