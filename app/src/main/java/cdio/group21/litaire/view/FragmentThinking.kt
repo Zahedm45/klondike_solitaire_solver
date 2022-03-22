@@ -7,16 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import cdio.group21.litaire.R
+import cdio.group21.litaire.databinding.FragmentLandingPageBinding
+import cdio.group21.litaire.databinding.FragmentThinkingBinding
 
 class FragmentThinking : Fragment() {
+    private var _binding: FragmentThinkingBinding? = null
+
+    private val binding get() = _binding!!
     //Shared viewmodel between fragments because some data is shared.
     private val viewModel: FragmentThinkingVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_thinking, container, false)
+    ): View {
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
