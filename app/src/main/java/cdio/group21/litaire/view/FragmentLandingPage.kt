@@ -51,19 +51,10 @@ class FragmentLandingPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val easyPermissionManager = EasyPermissionManager(this.requireActivity())
-        easyPermissionManager.requestPermission(
-            "permission",
-            "permissions are necessary",
-            "setting",
-            arrayOf(
-                android.Manifest.permission.CAMERA,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-            )
+
 
         binding.ivCameraButton.setOnClickListener() {
+            promptPermissions()
             tempImageUri = FileProvider.getUriForFile(this.requireContext(),
                 "cdio.group21.litaire.provider", createImageFile().also {
                     tempImageFilePath = it.absolutePath
