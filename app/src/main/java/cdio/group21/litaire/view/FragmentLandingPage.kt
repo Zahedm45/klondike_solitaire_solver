@@ -26,8 +26,7 @@ class FragmentLandingPage : Fragment() {
 
     private val binding get() = _binding!!
 
-
-
+    //TODO used to select pictures from album - may need to initialize inside onViewCreated()
     private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
         binding.ivInfo1.setImageURI(it)
     }
@@ -51,10 +50,10 @@ class FragmentLandingPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        promptPermissions()
 
         binding.ivCameraButton.setOnClickListener() {
-            promptPermissions()
+
             tempImageUri = FileProvider.getUriForFile(this.requireContext(),
                 "cdio.group21.litaire.provider", createImageFile().also {
                     tempImageFilePath = it.absolutePath
