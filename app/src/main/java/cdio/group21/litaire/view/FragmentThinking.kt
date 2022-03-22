@@ -28,7 +28,8 @@ class FragmentThinking : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO: Use the ViewModel
+        binding.ivBackground.setImageURI(viewModel.getImageURI().value)
+
     }
 
 }
