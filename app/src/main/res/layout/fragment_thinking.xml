@@ -32,29 +32,25 @@
 
     </ProgressBar>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/text_box"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.92">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thinking..."
                 android:layout_gravity="center_horizontal"
-                android:textSize="18sp" />
+                android:textSize="28sp" />
         </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
