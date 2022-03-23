@@ -29,7 +29,7 @@ class FragmentThinking : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivBackground.setImageURI(viewModel.getImageURI().value)
-
+        //TODO should redirect using findNavController() to FragmentSuggestion or FragmentNoMoves when coroutine is finished. i.e. use observer.
     }
 
 }

@@ -20,5 +20,8 @@ class SharedViewModel : ViewModel() {
         return imageURI
     }
 
+    //TODO add Coroutine that handles response from ML model and SolitaireSolver, then updates cardNumber and cardType
+
+
 
 }

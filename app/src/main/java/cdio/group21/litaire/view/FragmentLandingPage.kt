@@ -56,6 +56,7 @@ class FragmentLandingPage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         promptPermissions()
 
+        //TODO make camera landscape mode?
         binding.ivCameraButton.setOnClickListener() {
 
             tempImageUri = FileProvider.getUriForFile(this.requireContext(),
