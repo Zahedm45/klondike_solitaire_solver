@@ -53,10 +53,10 @@
 
                 <ImageView
                     android:id="@+id/iv_info_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/vector_tbd"
+                    android:src="@drawable/vector_hearts"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     >
@@ -69,6 +69,7 @@
                     android:textSize="18sp"
                     android:layout_gravity="center_vertical"
                     android:text="4"
+                    android:textColor="@color/black"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp">
                 </TextView>
@@ -85,28 +86,29 @@
                     android:minHeight="48dp"
                     >
                 </ImageView>
-
+                <ImageView
+                    android:id="@+id/iv_info_3"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/vector_spades"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    >
+                </ImageView>
                 <TextView
                     android:id="@+id/tv_info_2"
                     android:textSize="18sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
+                    android:textColor="@color/black"
                     android:layout_gravity="center_vertical"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp">
                 </TextView>
 
-                <ImageView
-                    android:id="@+id/iv_info_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/vector_tbd"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    >
-                </ImageView>
+
             </LinearLayout>
 
 
