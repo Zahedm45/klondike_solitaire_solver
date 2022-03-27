@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.databinding.FragmentThinkingBinding
@@ -22,14 +24,28 @@ class FragmentThinking : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentThinkingBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getCardNumber().observe(this.viewLifecycleOwner, Observer {
+            navigateToSuggestion()
+        })
+
+
         binding.ivBackground.setImageURI(viewModel.getImageURI().value)
+        viewModel.processImage(viewModel.getImageURI().value!!)
+        //viewModel.processImage(viewModel.getImageURI().value!!)
         //TODO should redirect using findNavController() to FragmentSuggestion or FragmentNoMoves when coroutine is finished. i.e. use observer.
+    }
+
+    private fun navigateToSuggestion(){
+        findNavController().navigate(R.id.action_fragmentThinking_to_fragmentSuggestion)
     }
 
 }

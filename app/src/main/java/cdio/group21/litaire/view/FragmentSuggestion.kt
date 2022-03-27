@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.databinding.FragmentSuggestionBinding
+import cdio.group21.litaire.databinding.FragmentThinkingBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
 
 
@@ -25,6 +26,7 @@ class FragmentSuggestion : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        _binding = FragmentSuggestionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
