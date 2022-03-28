@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import cdio.group21.litaire.databinding.ActivityMainBinding
+import com.swein.easypermissionmanager.EasyPermissionManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +21,17 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        val easyPermissionManager = EasyPermissionManager(this)
+        easyPermissionManager.requestPermission(
+            "permission",
+            "permissions are necessary",
+            "setting",
+            arrayOf(
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        )
     }
 
 

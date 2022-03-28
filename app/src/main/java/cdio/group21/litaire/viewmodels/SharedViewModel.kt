@@ -31,11 +31,12 @@ class SharedViewModel : ViewModel() {
     }
 
     //TODO this is just a sample. Needs to work with interface for ML model and solitaire solver.
-    fun processImage(uri: Uri) {
+    fun processImage(uri: Uri, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch{
             delay(3000L)
             cardNumber.value = 4
             cardType.value = Card.Clubs
+            onSuccess()
         }
     }
 }

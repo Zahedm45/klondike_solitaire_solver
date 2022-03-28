@@ -33,7 +33,11 @@
         android:id="@+id/fragmentSuggestion"
         android:name="cdio.group21.litaire.view.FragmentSuggestion"
         android:label="fragment_suggestion"
-        tools:layout="@layout/fragment_suggestion" />
+        tools:layout="@layout/fragment_suggestion" >
+        <action
+            android:id="@+id/action_fragmentSuggestion_to_LandingPage"
+            app:destination="@id/LandingPage" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentNomoves"
         android:name="cdio.group21.litaire.view.FragmentNomoves"

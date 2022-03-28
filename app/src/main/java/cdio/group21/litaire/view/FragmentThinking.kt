@@ -33,19 +33,18 @@ class FragmentThinking : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getCardNumber().observe(this.viewLifecycleOwner, Observer {
-            navigateToSuggestion()
-        })
-
-
         binding.ivBackground.setImageURI(viewModel.getImageURI().value)
-        viewModel.processImage(viewModel.getImageURI().value!!)
+        //TODO should navigate to solved or nomoves dependent on data received
+        viewModel.processImage(viewModel.getImageURI().value!!, {navigateToSuggestion()}, {navigateToSuggestion()})
         //viewModel.processImage(viewModel.getImageURI().value!!)
-        //TODO should redirect using findNavController() to FragmentSuggestion or FragmentNoMoves when coroutine is finished. i.e. use observer.
     }
 
     private fun navigateToSuggestion(){
         findNavController().navigate(R.id.action_fragmentThinking_to_fragmentSuggestion)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
 }

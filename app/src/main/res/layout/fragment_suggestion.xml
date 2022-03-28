@@ -21,12 +21,12 @@
         android:id="@+id/iv_backbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/vector_camera_circle"
         android:minWidth="48dp"
         android:minHeight="48dp"
+        android:src="@drawable/vector_backarrow_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
