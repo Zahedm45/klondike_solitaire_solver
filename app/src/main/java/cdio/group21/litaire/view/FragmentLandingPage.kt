@@ -41,7 +41,6 @@ class FragmentLandingPage : Fragment() {
             viewModel.setImageURI(tempImageUri!!)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentThinking)
         }
-
     }
 
     override fun onCreateView(
@@ -54,7 +53,9 @@ class FragmentLandingPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        promptPermissions()
+        if(!this.isResumed) {
+            promptPermissions()
+        }
 
         //TODO make camera landscape mode?
         binding.ivCameraButton.setOnClickListener() {
