@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentNomovesBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
@@ -29,6 +30,9 @@ class FragmentNomoves : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.ivBackbutton.setOnClickListener(){
+            findNavController().navigate(R.id.action_fragmentNomoves_to_LandingPage)
+        }
         // TODO: Use the ViewModel
     }
 }
