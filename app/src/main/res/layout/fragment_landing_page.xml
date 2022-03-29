@@ -45,6 +45,19 @@
 
     </ImageView>
 
+    <ImageView
+        android:id="@+id/iv_album_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/vector_album_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/iv_camera_button"
+        app:layout_constraintStart_toStartOf="@id/iv_camera_button"
+        app:layout_constraintTop_toBottomOf="@id/iv_camera_button"
+        app:layout_constraintVertical_bias="0.16000003">
+
+    </ImageView>
+
 
 
 

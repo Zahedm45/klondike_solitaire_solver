@@ -12,6 +12,7 @@ import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.databinding.FragmentThinkingBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
+import java.io.File
 
 class FragmentThinking : Fragment() {
     private var _binding: FragmentThinkingBinding? = null
@@ -46,5 +47,7 @@ class FragmentThinking : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
     }
+
+
 
 }
