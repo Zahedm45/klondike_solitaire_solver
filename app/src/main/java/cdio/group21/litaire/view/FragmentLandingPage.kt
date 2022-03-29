@@ -53,9 +53,6 @@ class FragmentLandingPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(!this.isResumed) {
-            promptPermissions()
-        }
 
         //TODO make camera landscape mode?
         binding.ivCameraButton.setOnClickListener() {
