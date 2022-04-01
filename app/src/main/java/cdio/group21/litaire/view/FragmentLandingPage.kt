@@ -1,28 +1,28 @@
 package cdio.group21.litaire.view
 
+import android.app.Activity.RESULT_OK
+import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
-import com.swein.easypermissionmanager.EasyPermissionManager
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.vision.detector.ObjectDetector
 import java.io.File
-
 
 
 class FragmentLandingPage : Fragment() {
@@ -40,18 +40,11 @@ class FragmentLandingPage : Fragment() {
     }
 
     private var tempImageUri: Uri? = null
-    private var tempImageFilePath = ""
-    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()){ success ->
-        if (success){
-            binding.tvTitle.visibility = View.GONE
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback{
+        if(it.resultCode == RESULT_OK){
             binding.ivBackground.setImageURI(tempImageUri)
-            viewModel.setImageURI(tempImageUri!!)
-            val bitmap = MediaStore.Images.Media.getBitmap(this.activity?.contentResolver, tempImageUri)
-            runObjectDetection(bitmap)
-            //findNavController().navigate(R.id.action_LandingPage_to_fragmentThinking)
         }
-    }
-
+    })
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,13 +58,8 @@ class FragmentLandingPage : Fragment() {
 
         //TODO make camera landscape mode?
         binding.ivCameraButton.setOnClickListener() {
+            takePicture()
 
-            tempImageUri = FileProvider.getUriForFile(this.requireContext(),
-                "cdio.group21.litaire.provider", createImageFile().also {
-                    tempImageFilePath = it.absolutePath
-                })
-
-            cameraLauncher.launch(tempImageUri)
         }
 
         binding.ivAlbumButton.setOnClickListener(){
@@ -84,9 +72,17 @@ class FragmentLandingPage : Fragment() {
         _binding = null
     }
 
-    private fun createImageFile() : File{
-        val storageDirectory = this.activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("temp_image", "jpg", storageDirectory)
+    private fun takePicture(){
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
+        tempImageUri = requireContext().contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            values
+        )!!
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
+        cameraLauncher.launch(cameraIntent)
     }
 
     //TODO: Should be separated in its own companion object of class or class - go through viewmodel
