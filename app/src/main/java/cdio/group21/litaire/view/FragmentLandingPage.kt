@@ -1,6 +1,7 @@
 package cdio.group21.litaire.view
 
 import android.app.Activity.RESULT_OK
+import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -43,6 +44,7 @@ class FragmentLandingPage : Fragment() {
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback{
         if(it.resultCode == RESULT_OK){
             binding.ivBackground.setImageURI(tempImageUri)
+            runObjectDetection(uriToBitmap(tempImageUri!!, this.requireContext().contentResolver))
         }
     })
     override fun onCreateView(
@@ -55,7 +57,6 @@ class FragmentLandingPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         //TODO make camera landscape mode?
         binding.ivCameraButton.setOnClickListener() {
             takePicture()
@@ -98,12 +99,16 @@ class FragmentLandingPage : Fragment() {
             .setScoreThreshold(confidLevel)
             .build()
         val detector = ObjectDetector.createFromFileAndOptions(
-            this.context,
+            this.requireContext(),
             "spade8_2.tflite",
             options
         )
 
-
+        val detector2 = ObjectDetector.createFromFileAndOptions(
+        this.requireContext(),
+        "spade8_2.tflite",
+        options
+        )
 
         // Step 3: Feed given image to the detector
         val results = detector.detect(image)
@@ -126,6 +131,11 @@ class FragmentLandingPage : Fragment() {
 
     }
 
+    /**
+     *@param bitmap the bitmap representation of the image that was processed
+     *@param detectionResults the list of Detectionresults
+     *@return Bitmap of the ML processed image with a layered box and its detection rate
+     */
     private fun drawDetectionResult(
         bitmap: Bitmap,
         detectionResults: List<DetectionResult>
@@ -168,6 +178,11 @@ class FragmentLandingPage : Fragment() {
         return outputBitmap
     }
 
+}
+
+private fun uriToBitmap(uri: Uri, cr: ContentResolver) : Bitmap{
+    val bitmap = MediaStore.Images.Media.getBitmap(cr, uri)
+    return bitmap
 }
 
 data class DetectionResult(val boundingBox: RectF, val text: String)
