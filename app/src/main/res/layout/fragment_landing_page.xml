@@ -29,38 +29,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/iv_camera_button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/vector_camera_circle"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/iv_camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vector_camera_circle"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            >
+        </ImageView>
 
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/iv_album_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/vector_album_circle"
+        <ImageView
+            android:id="@+id/iv_album_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/vector_album_circle"
+            android:layout_gravity="center_horizontal">
+        </ImageView>
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/pb_thinking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:indeterminate="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/iv_camera_button"
-        app:layout_constraintStart_toStartOf="@id/iv_camera_button"
-        app:layout_constraintTop_toBottomOf="@id/iv_camera_button"
-        app:layout_constraintVertical_bias="0.16000003">
-
-    </ImageView>
-
-
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </ProgressBar>
 
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/text_box"
@@ -74,6 +83,7 @@
             app:layout_constraintVertical_bias="0.92">
 
             <TextView
+                android:id="@+id/tv_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Take a picture"

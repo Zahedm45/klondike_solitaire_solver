@@ -11,22 +11,15 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_landing_page">
         <action
-            android:id="@+id/action_LandingPage_to_fragmentThinking"
-            app:destination="@id/fragmentThinking" />
-    </fragment>
-    <fragment
-        android:id="@+id/fragmentThinking"
-        android:name="cdio.group21.litaire.view.FragmentThinking"
-        android:label="fragment_thinking"
-        tools:layout="@layout/fragment_thinking" >
-        <action
-            android:id="@+id/action_fragmentThinking_to_fragmentSuggestion"
-            app:destination="@id/fragmentSuggestion" />
-        <action
-            android:id="@+id/action_fragmentThinking_to_fragmentNomoves"
+            android:id="@+id/action_LandingPage_to_fragmentNomoves"
             app:destination="@id/fragmentNomoves" />
         <action
-            android:id="@+id/action_fragmentThinking_to_fragmentSolved"
+            android:id="@+id/action_LandingPage_to_fragmentSuggestion"
+            app:destination="@id/fragmentSuggestion"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_LandingPage_to_fragmentSolved"
             app:destination="@id/fragmentSolved" />
     </fragment>
     <fragment

@@ -1,14 +1,12 @@
 package cdio.group21.litaire.view
 
 import android.app.Activity.RESULT_OK
-import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,14 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
+import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.vision.detector.ObjectDetector
-import java.io.File
 
 
 class FragmentLandingPage : Fragment() {
@@ -32,42 +32,57 @@ class FragmentLandingPage : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModel: SharedViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val viewModel: LandingPageViewModel by viewModels()
 
     //TODO used to select pictures from album - may need to initialize inside onViewCreated()
     private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
-        val bitmap = MediaStore.Images.Media.getBitmap(this.activity?.contentResolver, it)
-        runObjectDetection(bitmap)
+        binding.ivBackground.setImageURI(it)
+        viewModel.setImageBitmap(uriToBitmap(it!!))
+        sharedViewModel.setImageBitmap(uriToBitmap(it!!))
+        updateUItoLoading()
     }
 
     private var tempImageUri: Uri? = null
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback{
         if(it.resultCode == RESULT_OK){
             binding.ivBackground.setImageURI(tempImageUri)
-            runObjectDetection(uriToBitmap(tempImageUri!!, this.requireContext().contentResolver))
+            viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+            sharedViewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+            updateUItoLoading()
         }
     })
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLandingPageBinding.inflate(inflater, container, false)
+        viewModel.getImageBitmap().observe(viewLifecycleOwner) {
+            binding.ivBackground.setImageBitmap(it)
+            viewModel.processImage(this.requireContext(), it)
+            //findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+        }
+
+        viewModel.getDetectionList().observe(viewLifecycleOwner){
+            val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
+            sharedViewModel.setImageBitmap(imgResult)
+            findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO make camera landscape mode?
         binding.ivCameraButton.setOnClickListener() {
             takePicture()
-
         }
-
         binding.ivAlbumButton.setOnClickListener(){
             selectPictureLauncher.launch("image/*")
         }
-    }
 
+
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -84,51 +99,6 @@ class FragmentLandingPage : Fragment() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
         cameraLauncher.launch(cameraIntent)
-    }
-
-    //TODO: Should be separated in its own companion object of class or class - go through viewmodel
-    private fun runObjectDetection(bitmap: Bitmap) {
-        val confidLevel = 0.3f
-
-        // Step 1: Create TFLite's TensorImage object
-        val image = TensorImage.fromBitmap(bitmap)
-
-        // Step 2: Initialize the detector object
-        val options = ObjectDetector.ObjectDetectorOptions.builder()
-            .setMaxResults(5)
-            .setScoreThreshold(confidLevel)
-            .build()
-        val detector = ObjectDetector.createFromFileAndOptions(
-            this.requireContext(),
-            "spade8_2.tflite",
-            options
-        )
-
-        val detector2 = ObjectDetector.createFromFileAndOptions(
-        this.requireContext(),
-        "spade8_2.tflite",
-        options
-        )
-
-        // Step 3: Feed given image to the detector
-        val results = detector.detect(image)
-
-        // Step 4: Parse the detection result and show it
-        val resultToDisplay = results.map {
-            // Get the top-1 category and craft the display text
-            val category = it.categories.first()
-            val text = "${category.label}, ${category.score.times(100).toInt()}%"
-
-            // Create a data object to display the detection result
-
-            DetectionResult(it.boundingBox, text)
-        }
-        Log.i(TAG, "result.. $resultToDisplay" )
-        // Draw the detection result on the bitmap and show it.
-        val imgWithResult = drawDetectionResult(bitmap, resultToDisplay)
-
-            binding.ivBackground.setImageBitmap(imgWithResult)
-
     }
 
     /**
@@ -177,12 +147,20 @@ class FragmentLandingPage : Fragment() {
         }
         return outputBitmap
     }
+    private fun uriToBitmap(uri: Uri) : Bitmap{
+        val bitmap = MediaStore.Images.Media.getBitmap(this.requireActivity().contentResolver, uri)
+        return bitmap
+    }
 
+    private fun updateUItoLoading(){
+        binding.ivAlbumButton.visibility = View.GONE
+        binding.ivCameraButton.visibility = View.GONE
+        binding.tvTitle.visibility = View.GONE
+        binding.tvAction.text = "Loading..."
+        binding.pbThinking.visibility = View.VISIBLE
+    }
 }
 
-private fun uriToBitmap(uri: Uri, cr: ContentResolver) : Bitmap{
-    val bitmap = MediaStore.Images.Media.getBitmap(cr, uri)
-    return bitmap
-}
+
 
 data class DetectionResult(val boundingBox: RectF, val text: String)

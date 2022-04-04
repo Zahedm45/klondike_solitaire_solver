@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
-import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.databinding.FragmentSuggestionBinding
-import cdio.group21.litaire.databinding.FragmentThinkingBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
 
 
@@ -33,6 +31,9 @@ class FragmentSuggestion : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getImageBitmap().observe(viewLifecycleOwner, {
+            binding.ivBackground.setImageBitmap(it)
+        })
         binding.ivBackbutton.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
         }

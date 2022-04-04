@@ -34,15 +34,13 @@ class FragmentThinking : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ivBackground.setImageURI(viewModel.getImageURI().value)
+        //binding.ivBackground.setImageURI(viewModel.getImageURI().value)
         //TODO should navigate to solved or nomoves dependent on data received
-        viewModel.processImage(viewModel.getImageURI().value!!, {navigateToSuggestion()}, {navigateToSuggestion()})
+        //viewModel.processImage(viewModel.getImageURI().value!!, {navigateToSuggestion()}, {navigateToSuggestion()})
         //viewModel.processImage(viewModel.getImageURI().value!!)
     }
 
-    private fun navigateToSuggestion(){
-        findNavController().navigate(R.id.action_fragmentThinking_to_fragmentSuggestion)
-    }
+    
 
     override fun onDestroyView() {
         super.onDestroyView()
