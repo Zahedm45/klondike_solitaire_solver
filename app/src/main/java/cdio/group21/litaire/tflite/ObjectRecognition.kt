@@ -4,7 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
-import cdio.group21.litaire.view.DetectionResult
+import cdio.group21.litaire.data.DetectionResult
+
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.vision.detector.ObjectDetector
 

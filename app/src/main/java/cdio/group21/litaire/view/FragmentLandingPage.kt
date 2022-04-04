@@ -14,11 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
+import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
@@ -129,7 +131,7 @@ class FragmentLandingPage : Fragment() {
             // calculate the right font size
             pen.style = Paint.Style.FILL_AND_STROKE
             pen.color = Color.BLUE
-            pen.strokeWidth = 2F
+            pen.strokeWidth = 8F
 
             pen.textSize = 96F
             pen.getTextBounds(it.text, 0, it.text.length, tagSize)
@@ -163,4 +165,4 @@ class FragmentLandingPage : Fragment() {
 
 
 
-data class DetectionResult(val boundingBox: RectF, val text: String)
+

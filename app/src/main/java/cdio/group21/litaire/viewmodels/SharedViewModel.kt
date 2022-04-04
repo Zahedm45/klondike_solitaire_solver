@@ -8,8 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cdio.group21.litaire.data.Card
+import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.tflite.ObjectRecognition
-import cdio.group21.litaire.view.DetectionResult
+
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
