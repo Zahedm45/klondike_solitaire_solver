@@ -34,7 +34,6 @@ class FragmentSolved : Fragment() {
         binding.ivBackbutton.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentSolved_to_LandingPage)
         }
-        // TODO: Use the ViewModel
     }
 
 }

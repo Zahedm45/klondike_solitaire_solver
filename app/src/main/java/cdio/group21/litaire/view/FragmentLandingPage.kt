@@ -37,7 +37,7 @@ class FragmentLandingPage : Fragment() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: LandingPageViewModel by viewModels()
 
-    //TODO used to select pictures from album - may need to initialize inside onViewCreated()
+
     private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
         binding.ivBackground.setImageURI(it)
         viewModel.setImageBitmap(uriToBitmap(it!!))

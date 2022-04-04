@@ -37,7 +37,6 @@ class FragmentSuggestion : Fragment() {
         binding.ivBackbutton.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
         }
-        // TODO: Use the ViewModel
     }
 
 }

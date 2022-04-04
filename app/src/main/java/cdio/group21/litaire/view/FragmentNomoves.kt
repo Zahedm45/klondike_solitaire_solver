@@ -33,6 +33,6 @@ class FragmentNomoves : Fragment() {
         binding.ivBackbutton.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentNomoves_to_LandingPage)
         }
-        // TODO: Use the ViewModel
+
     }
 }

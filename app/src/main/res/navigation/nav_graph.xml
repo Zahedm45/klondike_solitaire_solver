@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/LandingPage"
         android:name="cdio.group21.litaire.view.FragmentLandingPage"
-        android:label="@string/first_fragment_label"
+        android:label="fragment_landing_page"
         tools:layout="@layout/fragment_landing_page">
         <action
             android:id="@+id/action_LandingPage_to_fragmentNomoves"
