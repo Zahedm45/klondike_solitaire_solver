@@ -39,10 +39,14 @@ class FragmentLandingPage : Fragment() {
 
 
     private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
-        binding.ivBackground.setImageURI(it)
-        viewModel.setImageBitmap(uriToBitmap(it!!))
-        sharedViewModel.setImageBitmap(uriToBitmap(it!!))
-        updateUItoLoading()
+        it?.apply {
+            binding.ivBackground.setImageURI(it)
+            viewModel.setImageBitmap(uriToBitmap(it))
+            sharedViewModel.setImageBitmap(uriToBitmap(it))
+            updateUItoLoading()
+        }
+
+
     }
 
     private var tempImageUri: Uri? = null
@@ -161,6 +165,8 @@ class FragmentLandingPage : Fragment() {
         binding.tvAction.text = "Loading..."
         binding.pbThinking.visibility = View.VISIBLE
     }
+
+
 }
 
 
