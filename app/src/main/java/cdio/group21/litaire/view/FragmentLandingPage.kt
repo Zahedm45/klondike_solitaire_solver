@@ -71,6 +71,8 @@ class FragmentLandingPage : Fragment() {
         }
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
+            Log.i(TAG,"result..2")
+            findPosition(it)
             val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
@@ -107,6 +109,19 @@ class FragmentLandingPage : Fragment() {
         cameraLauncher.launch(cameraIntent)
     }
 
+    private fun findPosition(
+        results: List<DetectionResult>
+    ) {
+        results.forEach { crr ->
+            val i = crr.boundingBox
+
+            Log.i(TAG, "right: ${i.right}, left: ${i.left}, top: ${i.top}, bottom: ${i.bottom} and ${crr.text}")
+
+
+        }
+
+
+    }
     /**
      *@param bitmap the bitmap representation of the image that was processed
      *@param detectionResults the list of Detectionresults
@@ -135,21 +150,24 @@ class FragmentLandingPage : Fragment() {
             // calculate the right font size
             pen.style = Paint.Style.FILL_AND_STROKE
             pen.color = Color.BLUE
-            pen.strokeWidth = 8F
+            pen.strokeWidth = 1F
 
-            pen.textSize = 96F
+            pen.textSize = 20F
             pen.getTextBounds(it.text, 0, it.text.length, tagSize)
-            val fontSize: Float = pen.textSize * box.width() / tagSize.width()
+            val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
 
             // adjust the font size so texts are inside the bounding box
-            if (fontSize < pen.textSize) pen.textSize = fontSize
+            //if (fontSize < pen.textSize) pen.textSize = fontSize
 
             var margin = (box.width() - tagSize.width()) / 2.0F
             if (margin < 0F) margin = 0F
+
+
             canvas.drawText(
                 it.text, box.left + margin,
                 box.top + tagSize.height().times(1F), pen
             )
+
         }
         return outputBitmap
     }

@@ -21,12 +21,12 @@ import org.tensorflow.lite.task.vision.detector.ObjectDetector
 
             // Step 2: Initialize the detector object
             val options = ObjectDetector.ObjectDetectorOptions.builder()
-                .setMaxResults(5)
+                //.setMaxResults()
                 .setScoreThreshold(confidLevel)
                 .build()
             val detector = ObjectDetector.createFromFileAndOptions(
                 context,
-                "epochs3_playing_cards.tflite",
+                "spade8_2.tflite",
                 options
             )
 
