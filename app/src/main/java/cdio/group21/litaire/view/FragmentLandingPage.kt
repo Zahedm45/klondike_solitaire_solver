@@ -72,7 +72,7 @@ class FragmentLandingPage : Fragment() {
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
             Log.i(TAG,"result..2")
-            findPosition(it)
+            //findPosition(it)
             val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
@@ -111,16 +111,57 @@ class FragmentLandingPage : Fragment() {
 
     private fun findPosition(
         results: List<DetectionResult>
-    ) {
-        results.forEach { crr ->
-            val i = crr.boundingBox
+    ): DetectionResult {
+        var bottom : HashMap<String, Int> = HashMap()
+        var top : HashMap<String, Int> = HashMap()
+        var left : HashMap<String, Int> = HashMap()
+        var right : HashMap<String, Int> = HashMap()
 
-            Log.i(TAG, "right: ${i.right}, left: ${i.left}, top: ${i.top}, bottom: ${i.bottom} and ${crr.text}")
 
+        var Xs : HashMap<String, Int> = HashMap()
+        var Ys : HashMap<String, Int> = HashMap()
 
+        var all : ArrayList<ArrayList<DetectionResult>> = ArrayList()
+
+        for (x in all) {
+            x.add() = ArrayList()
         }
 
 
+        var alignment = 2
+
+        results.forEach(
+
+        )
+
+
+
+
+
+
+
+
+
+        var one = results[0]
+        var two = results[1]
+
+        var y = 0.0F
+
+
+        results.forEach { crr ->
+            //val i = crr.boundingBox
+            //Log.i(TAG, "right: ${i.right}, left: ${i.left}, top: ${i.top}, bottom: ${i.bottom} and ${crr.text}")
+            one = crr
+            Log.i(TAG, "x ${one.boundingBox.centerX()}, y ${one.boundingBox.centerY()}, result: $one")
+            if (crr.boundingBox.centerY() > y) {
+                y = crr.boundingBox.centerY()
+                two = crr
+            }
+        }
+
+        Log.i(TAG, "First $two")
+
+        return two
     }
     /**
      *@param bitmap the bitmap representation of the image that was processed
@@ -136,37 +177,44 @@ class FragmentLandingPage : Fragment() {
         val pen = Paint()
         pen.textAlign = Paint.Align.LEFT
 
+        val val1 = findPosition(detectionResults)
+
         detectionResults.forEach {
-            // draw bounding box
-            pen.color = Color.RED
-            pen.strokeWidth = 0.7F
-            pen.style = Paint.Style.STROKE
-            val box = it.boundingBox
-            canvas.drawRect(box, pen)
+            if (val1 != it){
+
+                // draw bounding box
+                pen.color = Color.RED
+                pen.strokeWidth = 0.7F
+                pen.style = Paint.Style.STROKE
+                val box = it.boundingBox
+                canvas.drawRect(box, pen)
 
 
-            val tagSize = Rect(0, 0, 0, 0)
+                val tagSize = Rect(0, 0, 0, 0)
 
-            // calculate the right font size
-            pen.style = Paint.Style.FILL_AND_STROKE
-            pen.color = Color.RED
-            pen.strokeWidth = 1.5F
+                // calculate the right font size
+                pen.style = Paint.Style.FILL_AND_STROKE
+                pen.color = Color.RED
+                pen.strokeWidth = 1.5F
 
-            pen.textSize = 25F
-            pen.getTextBounds(it.text, 0, it.text.length, tagSize)
-            val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
+                pen.textSize = 25F
+                pen.getTextBounds(it.text, 0, it.text.length, tagSize)
+                val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
 
-            // adjust the font size so texts are inside the bounding box
-            if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
+                // adjust the font size so texts are inside the bounding box
+                if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
 
-            var margin = (box.width() - tagSize.width()) / 2.0F
-            //if (margin < 0F) margin = 0F
+                var margin = (box.width() - tagSize.width()) / 2.0F
+                //if (margin < 0F) margin = 0F
+
+                canvas.drawText(
+                    it.text, box.left + margin,
+                    box.top + tagSize.height().times(1F), pen
+                )
 
 
-            canvas.drawText(
-                it.text, box.left + margin,
-                box.top + tagSize.height().times(1F), pen
-            )
+            }
+
         }
         return outputBitmap
     }
