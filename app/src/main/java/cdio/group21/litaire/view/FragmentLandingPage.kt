@@ -21,6 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
@@ -111,58 +112,66 @@ class FragmentLandingPage : Fragment() {
 
     private fun findPosition(
         results: List<DetectionResult>
-    ): DetectionResult {
-        var bottom : HashMap<String, Int> = HashMap()
-        var top : HashMap<String, Int> = HashMap()
-        var left : HashMap<String, Int> = HashMap()
-        var right : HashMap<String, Int> = HashMap()
+    ) {
 
+        val sortedResult: ArrayList<SortedResult> = ArrayList()
+        val alignment = 2
 
-        var Xs : HashMap<String, Int> = HashMap()
-        var Ys : HashMap<String, Int> = HashMap()
-
-        var all : ArrayList<ArrayList<DetectionResult>> = ArrayList()
-
-        for (x in all) {
-            x.add() = ArrayList()
-        }
-
-
-        var alignment = 2
-
-        results.forEach(
-
-        )
-
-
-
-
-
-
-
-
-
-        var one = results[0]
-        var two = results[1]
-
-        var y = 0.0F
-
+        var blockFound = false
 
         results.forEach { crr ->
-            //val i = crr.boundingBox
-            //Log.i(TAG, "right: ${i.right}, left: ${i.left}, top: ${i.top}, bottom: ${i.bottom} and ${crr.text}")
-            one = crr
-            Log.i(TAG, "x ${one.boundingBox.centerX()}, y ${one.boundingBox.centerY()}, result: $one")
-            if (crr.boundingBox.centerY() > y) {
-                y = crr.boundingBox.centerY()
-                two = crr
+            val box = crr.boundingBox
+            if (sortedResult.isNullOrEmpty()) {
+
+                val list : ArrayList<DetectionResult> = ArrayList()
+                list.add(crr)
+                val newToBeAdded = SortedResult(box.centerX(), box.centerY(), list)
+                sortedResult.add(newToBeAdded)
+
+
+            } else {
+                sortedResult.forEach {
+                    if ((box.centerX() - it.centerX) <= alignment) {
+                        it.block.add(crr)
+                        blockFound = true
+                    }
+                }
+
+                if ( !blockFound) {
+                    val list : ArrayList<DetectionResult> = ArrayList()
+                    list.add(crr)
+                    val newToBeAdded = SortedResult(box.centerX(), box.centerY(), list)
+                    sortedResult.add(newToBeAdded)
+                }
+            }
+
+
+        }
+
+        printOut(sortedResult)
+
+
+    }
+
+
+
+
+    private fun printOut(sortedResult: ArrayList<SortedResult>){
+
+        sortedResult.forEach {
+            Log.i(TAG, "Block: ${it.centerX}")
+            it.block.forEach { crr ->
+                Log.i(TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr}")
+
             }
         }
 
-        Log.i(TAG, "First $two")
-
-        return two
     }
+
+
+
+
+
     /**
      *@param bitmap the bitmap representation of the image that was processed
      *@param detectionResults the list of Detectionresults
@@ -177,10 +186,11 @@ class FragmentLandingPage : Fragment() {
         val pen = Paint()
         pen.textAlign = Paint.Align.LEFT
 
-        val val1 = findPosition(detectionResults)
+        findPosition(detectionResults)
+        val val1 = true
 
         detectionResults.forEach {
-            if (val1 != it){
+            if (val1 == true){
 
                 // draw bounding box
                 pen.color = Color.RED
