@@ -26,7 +26,7 @@ import org.tensorflow.lite.task.vision.detector.ObjectDetector
                 .build()
             val detector = ObjectDetector.createFromFileAndOptions(
                 context,
-                "spade8_2.tflite",
+                "epochs3_playing_cards.tflite",
                 options
             )
 
