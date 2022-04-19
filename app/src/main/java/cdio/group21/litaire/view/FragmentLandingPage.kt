@@ -139,7 +139,7 @@ class FragmentLandingPage : Fragment() {
         detectionResults.forEach {
             // draw bounding box
             pen.color = Color.RED
-            pen.strokeWidth = 8F
+            pen.strokeWidth = 0.7F
             pen.style = Paint.Style.STROKE
             val box = it.boundingBox
             canvas.drawRect(box, pen)
@@ -149,25 +149,24 @@ class FragmentLandingPage : Fragment() {
 
             // calculate the right font size
             pen.style = Paint.Style.FILL_AND_STROKE
-            pen.color = Color.BLUE
-            pen.strokeWidth = 1F
+            pen.color = Color.RED
+            pen.strokeWidth = 1.5F
 
-            pen.textSize = 20F
+            pen.textSize = 25F
             pen.getTextBounds(it.text, 0, it.text.length, tagSize)
             val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
 
             // adjust the font size so texts are inside the bounding box
-            //if (fontSize < pen.textSize) pen.textSize = fontSize
+            if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
 
             var margin = (box.width() - tagSize.width()) / 2.0F
-            if (margin < 0F) margin = 0F
+            //if (margin < 0F) margin = 0F
 
 
             canvas.drawText(
                 it.text, box.left + margin,
                 box.top + tagSize.height().times(1F), pen
             )
-
         }
         return outputBitmap
     }

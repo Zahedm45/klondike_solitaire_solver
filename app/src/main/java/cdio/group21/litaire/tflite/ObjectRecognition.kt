@@ -38,7 +38,7 @@ import org.tensorflow.lite.task.vision.detector.ObjectDetector
             val resultToDisplay = results.map {
                 // Get the top-1 category and craft the display text
                 val category = it.categories.first()
-                val text = "${category.label}, ${category.score.times(100).toInt()}%"
+                val text = "${category.label}${category.score.times(100).toInt()}%"
 
                 // Create a data object to display the detection result
 
