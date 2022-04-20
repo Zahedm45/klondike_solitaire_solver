@@ -125,7 +125,6 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
-
         //printOut(centerXBlock)
         //sortAccordingToXCoordinate(centerXBlock)
 
@@ -154,17 +153,15 @@ class LandingPageViewModel: ViewModel() {
 
             }
         }
-
     }
 
-    private fun printDetectedResult(results: List<DetectionResult>){
+    private fun printOut(results: List<DetectionResult>){
         results.forEach {
             Log.i(ContentValues.TAG,"MachineL => $it")
         }
     }
 
-    private fun prin(results: List<DetectionResult>) {
-
+    private fun printOutCoordinates(results: List<DetectionResult>) {
         results.forEach {
             Log.i(ContentValues.TAG, "Block2: x: ${it.boundingBox.centerX()}, y: ${it.boundingBox.centerY()}, ${it}")
         }

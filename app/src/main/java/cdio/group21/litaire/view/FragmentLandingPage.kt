@@ -62,6 +62,13 @@ class FragmentLandingPage : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLandingPageBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
             binding.ivBackground.setImageBitmap(it)
             viewModel.processImage(this.requireContext(), it)
@@ -73,11 +80,9 @@ class FragmentLandingPage : Fragment() {
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
         }
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+
         binding.ivCameraButton.setOnClickListener() {
             takePicture()
         }
