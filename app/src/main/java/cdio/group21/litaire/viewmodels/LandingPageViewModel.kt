@@ -96,11 +96,13 @@ class LandingPageViewModel: ViewModel() {
 
 
         //val foundationAndWaste = ArrayList<DetectionResult>()
+        if (centerYBlock.size != 0) {
+            centerYBlock[0].block.forEach {
+                //foundationAndWaste.add(it)
+                foundation.add(it)
+                //visitedBox.add(it)
+            }
 
-        centerYBlock[0].block.forEach {
-            //foundationAndWaste.add(it)
-            foundation.add(it)
-            //visitedBox.add(it)
         }
 
         foundation.sortBy { it.boundingBox.centerX() }

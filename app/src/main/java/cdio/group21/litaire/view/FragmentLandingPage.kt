@@ -76,16 +76,19 @@ class FragmentLandingPage : Fragment() {
         }
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
+            if (it.isNotEmpty()) {
+                viewModel.foundationAndWaste(it)
+                viewModel.tableaus(it)
+                viewModel.printFoundation(viewModel.foundation)
+                viewModel.printWaste(viewModel.waste)
+                viewModel.printTableaus(viewModel.tableaus)
+            }
 
-            viewModel.foundationAndWaste(it)
-            viewModel.tableaus(it)
-            viewModel.printFoundation(viewModel.foundation)
-            viewModel.printTableaus(viewModel.tableaus)
-            viewModel.printWaste(viewModel.waste)
 
             val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+
         }
 
 
