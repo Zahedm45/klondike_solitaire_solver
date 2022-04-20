@@ -22,7 +22,12 @@ class LandingPageViewModel: ViewModel() {
     private val imageBitmap = MutableLiveData<Bitmap>()
     private val detectionList = MutableLiveData<List<DetectionResult>>()
 
-    val visited: ArrayList<DetectionResult> = ArrayList()
+    //val visitedBox: ArrayList<DetectionResult> = ArrayList()
+
+    val foundation: ArrayList<DetectionResult> = ArrayList()
+    var tableaus: ArrayList<SortedResult> = ArrayList()
+    lateinit var waste: DetectionResult
+
 
 
     fun setImageBitmap(bitmap: Bitmap){
@@ -86,73 +91,76 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
-        printOut(centerYBlock)
+        //printOut(centerYBlock)
         centerYBlock.sortBy { it.centerY }
 
 
-        val foundationAndWaste = ArrayList<DetectionResult>()
+        //val foundationAndWaste = ArrayList<DetectionResult>()
 
         centerYBlock[0].block.forEach {
-            foundationAndWaste.add(it)
-            visited.add(it)
-
+            //foundationAndWaste.add(it)
+            foundation.add(it)
+            //visitedBox.add(it)
         }
 
+        foundation.sortBy { it.boundingBox.centerX() }
 
+        waste = foundation.get(foundation.size-1)
+        foundation.removeAt(foundation.size - 1)
 
-        printOut(foundationAndWaste)
-
-
-
-
+       // printOut(foundationAndWaste)
 
     }
 
 
 
-    fun findPosition(
+    fun tableaus(
         results: List<DetectionResult>
     ) {
 
         val centerXBlock: ArrayList<SortedResult> = ArrayList()
         //val alignment = 2.0F
 
-        results.forEach { crr ->
+        results.forEach { curr ->
 
-            var blockFound = false
-            val box = crr.boundingBox
-            var width = 0.0f
-            for (it in centerXBlock) {
-                //alignment = Math.abs(box.width() - it.block[0].boundingBox.width())
-                width = it.block[0].boundingBox.width()/2.0F
-                val delta = Math.abs(box.centerX() - it.centerX)
+            if (!foundation.contains(curr)) {
+                var blockFound = false
+                val box = curr.boundingBox
+                var width = 0.0f
+                for (it in centerXBlock) {
+                    //alignment = Math.abs(box.width() - it.block[0].boundingBox.width())
+                    width = it.block[0].boundingBox.width()/2.0F
+                    val delta = Math.abs(box.centerX() - it.centerX)
 
-                //Log.i(TAG, "Width: ${width}, delta: ${delta}")
+                    //Log.i(TAG, "Width: ${width}, delta: ${delta}")
 
-                if (delta < width) {
-                    it.block.add(crr)
-                    blockFound = true
-                    break
+                    if (delta < width) {
+                        it.block.add(curr)
+                        blockFound = true
+                        break
+                    }
                 }
-            }
 
 
-            if (!blockFound) {
-                val list : ArrayList<DetectionResult> = ArrayList()
-                list.add(crr)
-                val newToBeAdded = SortedResult(centerX = box.centerX(), centerY = box.centerY(), block = list)
-                centerXBlock.add(newToBeAdded)
+                if (!blockFound) {
+                    val list : ArrayList<DetectionResult> = ArrayList()
+                    list.add(curr)
+                    val newToBeAdded = SortedResult(centerX = box.centerX(), centerY = box.centerY(), block = list)
+                    centerXBlock.add(newToBeAdded)
+                }
             }
         }
 
         //printOut(centerXBlock)
-        //sortAccordingToXCoordinate(centerXBlock)
+        tableaus = sortAccordingToXCoordinate(centerXBlock)
 
     }
 
 
 
-    private fun sortAccordingToXCoordinate(centerXBlock: ArrayList<SortedResult>) {
+     fun sortAccordingToXCoordinate(
+         centerXBlock: ArrayList<SortedResult>
+     ):ArrayList<SortedResult> {
         centerXBlock.sortBy { it.centerX }
 
         centerXBlock.forEach { curr ->
@@ -160,28 +168,49 @@ class LandingPageViewModel: ViewModel() {
                 it.boundingBox.centerY()
             }
         }
+         return centerXBlock
     }
 
 
 
-    private fun printOut(sortedResult: ArrayList<SortedResult>){
-
-        sortedResult.forEach {
-            Log.i(ContentValues.TAG, "Block: ${it.centerY}")
-            it.block.forEach { crr ->
+     fun printTableaus(sortedResult: ArrayList<SortedResult>){
+         Log.i(ContentValues.TAG, "Block: Tableaus")
+         var i = 0
+         sortedResult.forEach {
+            //Log.i(ContentValues.TAG, "Block: ${it.centerX}")
+             Log.i(ContentValues.TAG, "Block: $i")
+             it.block.forEach { crr ->
                 Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr}")
 
             }
-        }
+             i++
+         }
     }
 
-    private fun printOut(results: List<DetectionResult>){
+
+     fun printFoundation(results: ArrayList<DetectionResult>){
+         Log.i(ContentValues.TAG, "Block: Foundation")
+         results.forEach { crr ->
+             Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr}")
+         }
+    }
+
+
+    fun printWaste(waste: DetectionResult) {
+        Log.i(ContentValues.TAG, "Block: Waste")
+        Log.i(ContentValues.TAG, "Block: x: ${waste.boundingBox.centerX()}, y: ${waste.boundingBox.centerY()}, ${waste}")
+
+    }
+
+
+
+     fun printOut(results: List<DetectionResult>){
         results.forEach {
             Log.i(ContentValues.TAG,"MachineL => $it")
         }
     }
 
-    private fun printOutCoordinates(results: List<DetectionResult>) {
+     fun printOutCoordinates(results: List<DetectionResult>) {
         results.forEach {
             Log.i(ContentValues.TAG, "Block2: x: ${it.boundingBox.centerX()}, y: ${it.boundingBox.centerY()}, ${it}")
         }
