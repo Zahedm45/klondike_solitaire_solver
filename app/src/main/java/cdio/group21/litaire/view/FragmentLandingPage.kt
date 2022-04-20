@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,8 +24,6 @@ import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
-import org.tensorflow.lite.support.image.TensorImage
-import org.tensorflow.lite.task.vision.detector.ObjectDetector
 
 
 class FragmentLandingPage : Fragment() {
@@ -73,7 +70,7 @@ class FragmentLandingPage : Fragment() {
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
             Log.i(TAG,"result..2")
-            //findPosition(it)
+            findPosition(it)
             val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
@@ -114,7 +111,7 @@ class FragmentLandingPage : Fragment() {
         results: List<DetectionResult>
     ) {
 
-        val sortedResult: ArrayList<SortedResult> = ArrayList()
+        val centerXBlock: ArrayList<SortedResult> = ArrayList()
         val alignment = 2.0F
 
         results.forEach { crr ->
@@ -122,7 +119,7 @@ class FragmentLandingPage : Fragment() {
             var blockFound = false
             val box = crr.boundingBox
 
-            for (it in sortedResult) {
+            for (it in centerXBlock) {
                 val delta = Math.abs(box.centerX() - it.centerX)
                 if (delta < alignment) {
                     it.block.add(crr)
@@ -136,17 +133,25 @@ class FragmentLandingPage : Fragment() {
                 val list : ArrayList<DetectionResult> = ArrayList()
                 list.add(crr)
                 val newToBeAdded = SortedResult(centerX = box.centerX(), centerY = box.centerY(), block = list)
-                sortedResult.add(newToBeAdded)
+                centerXBlock.add(newToBeAdded)
             }
-
-
         }
 
-        printOut(sortedResult)
 
+        printOut(centerXBlock)
+        sortAccordingToXCoordinate(centerXBlock)
 
     }
 
+
+
+    private fun sortAccordingToXCoordinate(centerXBlock: ArrayList<SortedResult>) {
+
+
+        centerXBlock.sortBy { it.centerX }
+        printOut(centerXBlock)
+
+    }
 
 
 
@@ -159,6 +164,7 @@ class FragmentLandingPage : Fragment() {
 
             }
         }
+
 
     }
 
@@ -180,7 +186,6 @@ class FragmentLandingPage : Fragment() {
         val pen = Paint()
         pen.textAlign = Paint.Align.LEFT
 
-        findPosition(detectionResults)
         val val1 = true
 
         detectionResults.forEach {
