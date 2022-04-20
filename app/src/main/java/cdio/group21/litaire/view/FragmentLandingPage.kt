@@ -121,6 +121,7 @@ class FragmentLandingPage : Fragment() {
             val box = crr.boundingBox
 
             for (it in centerXBlock) {
+                //alignment = Math.abs(box.width() - it.block[0].boundingBox.width())
                 val delta = Math.abs(box.centerX() - it.centerX)
                 if (delta < alignment) {
                     it.block.add(crr)
