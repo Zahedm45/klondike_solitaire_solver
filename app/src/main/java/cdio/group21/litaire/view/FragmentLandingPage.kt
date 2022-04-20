@@ -76,6 +76,9 @@ class FragmentLandingPage : Fragment() {
         }
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
+
+            viewModel.foundationAndWaste(it)
+
             val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
