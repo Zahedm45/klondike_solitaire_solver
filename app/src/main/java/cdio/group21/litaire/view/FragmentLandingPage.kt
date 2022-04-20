@@ -69,8 +69,9 @@ class FragmentLandingPage : Fragment() {
         }
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
-            Log.i(TAG,"result..2")
+            prin(it)
             findPosition(it)
+            foundationAndWaste(it)
             val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
@@ -157,6 +158,25 @@ class FragmentLandingPage : Fragment() {
 
     }
 
+    val visited: ArrayList<DetectionResult> = ArrayList()
+
+    private fun foundationAndWaste(results: List<DetectionResult>) {
+        val xSort = results.sortedBy { it.boundingBox.centerX() }
+        val ySort = results.sortedBy { it.boundingBox.centerY() }
+
+
+        Log.i(TAG, "Hello ->  x: ${xSort[0]}, y: ${ySort[0]}")
+
+
+
+/*        for (i in xSort.indices){
+            if (xSort[i] == ySort[i]) {
+                Log.i(TAG, "helloooo ${ySort[i]}")
+                break
+            }
+        }*/
+    }
+
 
 
     private fun printOut(sortedResult: ArrayList<SortedResult>){
@@ -169,9 +189,14 @@ class FragmentLandingPage : Fragment() {
             }
         }
 
-
     }
 
+    private fun prin(results: List<DetectionResult>) {
+
+        results.forEach {
+            Log.i(TAG, "Block2: x: ${it.boundingBox.centerX()}, y: ${it.boundingBox.centerY()}, ${it}")
+        }
+    }
 
 
 
