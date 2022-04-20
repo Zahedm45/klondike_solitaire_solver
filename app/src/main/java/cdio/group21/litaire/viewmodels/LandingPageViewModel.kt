@@ -55,7 +55,7 @@ class LandingPageViewModel: ViewModel() {
 
 
     fun foundationAndWaste(results: List<DetectionResult>) {
-        printOut(results)
+        //printOut(results)
         val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
         results.forEach { crr ->
@@ -87,6 +87,24 @@ class LandingPageViewModel: ViewModel() {
         }
 
         printOut(centerYBlock)
+        centerYBlock.sortBy { it.centerY }
+
+
+        val foundationAndWaste = ArrayList<DetectionResult>()
+
+        centerYBlock[0].block.forEach {
+            foundationAndWaste.add(it)
+            visited.add(it)
+
+        }
+
+
+
+        printOut(foundationAndWaste)
+
+
+
+
 
     }
 
