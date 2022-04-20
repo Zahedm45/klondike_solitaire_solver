@@ -119,11 +119,15 @@ class FragmentLandingPage : Fragment() {
 
             var blockFound = false
             val box = crr.boundingBox
-
+            var width = 0.0f
             for (it in centerXBlock) {
                 //alignment = Math.abs(box.width() - it.block[0].boundingBox.width())
+                 width = it.block[0].boundingBox.width()/2.0F
                 val delta = Math.abs(box.centerX() - it.centerX)
-                if (delta < alignment) {
+
+                Log.i(TAG, "Width: ${width}, delta: ${delta}")
+
+                if (delta < width) {
                     it.block.add(crr)
                     blockFound = true
                     break
@@ -141,7 +145,7 @@ class FragmentLandingPage : Fragment() {
 
 
         printOut(centerXBlock)
-        sortAccordingToXCoordinate(centerXBlock)
+        //sortAccordingToXCoordinate(centerXBlock)
 
     }
 
