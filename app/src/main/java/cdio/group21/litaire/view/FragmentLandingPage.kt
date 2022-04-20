@@ -146,9 +146,13 @@ class FragmentLandingPage : Fragment() {
 
 
     private fun sortAccordingToXCoordinate(centerXBlock: ArrayList<SortedResult>) {
-
-
         centerXBlock.sortBy { it.centerX }
+
+        centerXBlock.forEach { curr ->
+            curr.block.sortBy {
+                it.boundingBox.centerY()
+            }
+        }
         printOut(centerXBlock)
 
     }
