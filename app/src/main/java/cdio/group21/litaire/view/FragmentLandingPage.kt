@@ -117,30 +117,37 @@ class FragmentLandingPage : Fragment() {
         val sortedResult: ArrayList<SortedResult> = ArrayList()
         val alignment = 2.0F
 
-        var blockFound = false
 
         results.forEach { crr ->
+
+            var blockFound = false
 
             //Log.i(TAG, "heer ${crr}")
             val box = crr.boundingBox
 
-            sortedResult.forEach {
-                if ((box.centerX() - it.centerX) <= alignment) {
+
+
+            for (it in sortedResult) {
+                val difference = Math.abs(box.centerX() - it.centerX)
+                Log.i(TAG, "Difference: $difference")
+                if (difference < alignment) {
                     it.block.add(crr)
                     blockFound = true
-                    return@forEach
+                    break
                 }
             }
 
 
 
+
+
+
             if (!blockFound) {
                 Log.i(TAG, "here1")
-                val list : ArrayList<DetectionResult> = ArrayList()
+                var list : ArrayList<DetectionResult> = ArrayList()
                 list.add(crr)
-                val newToBeAdded = SortedResult(box.centerX(), box.centerY(), list)
+                val newToBeAdded = SortedResult(centerX = box.centerX(), centerY = box.centerY(), block = list)
                 sortedResult.add(newToBeAdded)
-                blockFound = false
             }
 
             Log.i(TAG, "HERE2")
