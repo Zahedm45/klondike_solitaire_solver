@@ -123,7 +123,7 @@ class LandingPageViewModel: ViewModel() {
 
         results.forEach { curr ->
 
-            if (!foundation.contains(curr)) {
+            if (!foundation.contains(curr) && waste != curr) {
                 var blockFound = false
                 val box = curr.boundingBox
                 var width = 0.0f
