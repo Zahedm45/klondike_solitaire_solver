@@ -113,7 +113,7 @@ class FragmentLandingPage : Fragment() {
     ) {
 
         val centerXBlock: ArrayList<SortedResult> = ArrayList()
-        val alignment = 2.0F
+        //val alignment = 2.0F
 
         results.forEach { crr ->
 
@@ -125,7 +125,7 @@ class FragmentLandingPage : Fragment() {
                  width = it.block[0].boundingBox.width()/2.0F
                 val delta = Math.abs(box.centerX() - it.centerX)
 
-                Log.i(TAG, "Width: ${width}, delta: ${delta}")
+                //Log.i(TAG, "Width: ${width}, delta: ${delta}")
 
                 if (delta < width) {
                     it.block.add(crr)
@@ -170,20 +170,39 @@ class FragmentLandingPage : Fragment() {
     val visited: ArrayList<DetectionResult> = ArrayList()
 
     private fun foundationAndWaste(results: List<DetectionResult>) {
-        val xSort = results.sortedBy { it.boundingBox.centerX() }
-        val ySort = results.sortedBy { it.boundingBox.centerY() }
 
+        val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
-        Log.i(TAG, "Hello ->  x: ${xSort[0]}, y: ${ySort[0]}")
+        results.forEach { crr ->
 
+            var blockFound = false
+            val box = crr.boundingBox
+            var width = 0.0f
 
+            for (it in centerYBlock) {
+                width = it.block[0].boundingBox.height()/2.0F
+                val delta = Math.abs(box.centerY() - it.centerY)
 
-/*        for (i in xSort.indices){
-            if (xSort[i] == ySort[i]) {
-                Log.i(TAG, "helloooo ${ySort[i]}")
-                break
+                //Log.i(TAG, "Width: ${width}, delta: ${delta}")
+
+                if (delta < width) {
+                    it.block.add(crr)
+                    blockFound = true
+                    break
+                }
             }
-        }*/
+
+
+            if (!blockFound) {
+                val list : ArrayList<DetectionResult> = ArrayList()
+                list.add(crr)
+                val newToBeAdded = SortedResult(centerX = box.centerX(), centerY = box.centerY(), block = list)
+                centerYBlock.add(newToBeAdded)
+            }
+        }
+
+
+
     }
 
 
@@ -198,6 +217,12 @@ class FragmentLandingPage : Fragment() {
             }
         }
 
+    }
+
+    private fun printDetectedResult(results: List<DetectionResult>){
+        results.forEach {
+            Log.i(TAG,"MachineL => $it")
+        }
     }
 
     private fun prin(results: List<DetectionResult>) {
@@ -251,7 +276,7 @@ class FragmentLandingPage : Fragment() {
                 // adjust the font size so texts are inside the bounding box
                 if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
 
-                var margin = (box.width() - tagSize.width()) / 2.0F
+                val margin = (box.width() - tagSize.width()) / 2.0F
                 //if (margin < 0F) margin = 0F
 
                 canvas.drawText(
