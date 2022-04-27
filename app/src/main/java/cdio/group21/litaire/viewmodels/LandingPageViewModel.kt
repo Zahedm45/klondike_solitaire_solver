@@ -59,7 +59,7 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    fun foundationAndWaste(results: List<DetectionResult>) {
+    fun detect_foundationAndWaste(results: List<DetectionResult>) {
         //printOut(results)
         val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
@@ -116,7 +116,7 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    fun tableaus(
+    fun detect_tableaus(
         results: List<DetectionResult>
     ) {
 

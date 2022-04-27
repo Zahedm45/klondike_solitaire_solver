@@ -2,13 +2,11 @@ package cdio.group21.litaire.view
 
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
-import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
@@ -77,8 +74,8 @@ class FragmentLandingPage : Fragment() {
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
-                viewModel.foundationAndWaste(it)
-                viewModel.tableaus(it)
+                viewModel.detect_foundationAndWaste(it)
+                viewModel.detect_tableaus(it)
                 viewModel.printFoundation(viewModel.foundation)
                 viewModel.printWaste(viewModel.waste)
                 viewModel.printTableaus(viewModel.tableaus)
