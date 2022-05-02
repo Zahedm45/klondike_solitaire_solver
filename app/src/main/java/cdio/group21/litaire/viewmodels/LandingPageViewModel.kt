@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
+import cdio.group21.litaire.data.SubResult
 import cdio.group21.litaire.tflite.ObjectRecognition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -24,7 +25,7 @@ class LandingPageViewModel: ViewModel() {
 
     //val visitedBox: ArrayList<DetectionResult> = ArrayList()
 
-    val foundation: ArrayList<DetectionResult> = ArrayList()
+    var foundation: ArrayList<DetectionResult> = ArrayList()
     var tableaus: ArrayList<SortedResult> = ArrayList()
     lateinit var waste: DetectionResult
 
@@ -58,8 +59,54 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
+/*    fun getSubResult(
+        results: ArrayList<DetectionResult>
+    ): ArrayList<SubResult> {
 
-    fun detect_foundationAndWaste(results: List<DetectionResult>) {
+        val subResult: ArrayList<SubResult> = ArrayList()
+
+        results.forEach {
+
+        }
+
+
+    }*/
+
+
+    fun removeDuplicate(
+        results: ArrayList<DetectionResult>
+    ): ArrayList<DetectionResult> {
+
+        results[0].text.split("")
+
+
+
+
+        val newResult: ArrayList<DetectionResult> = ArrayList()
+
+        var i = 1
+
+
+
+
+        while (i < results.size) {
+            if (i % 2 == 0 ){
+
+                val crrText = results[i].text[0] +""+ results[i].text[1]
+                val newText = results[i+1].text[0] +""+ results[i+1].text[1]
+
+
+                if (crrText == newText){
+                    newResult.add(results.get(i))
+                }
+            }
+        }
+
+        return newResult
+    }
+
+
+    fun detectFoundationAndWaste(results: List<DetectionResult>) {
         //printOut(results)
         val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
@@ -105,6 +152,8 @@ class LandingPageViewModel: ViewModel() {
 
         }
 
+        foundation = removeDuplicate(foundation)
+
         foundation.sortBy { it.boundingBox.centerX() }
 
         waste = foundation.get(foundation.size-1)
@@ -116,7 +165,7 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    fun detect_tableaus(
+    fun detectTableaus(
         results: List<DetectionResult>
     ) {
 

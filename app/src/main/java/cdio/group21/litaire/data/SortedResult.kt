@@ -5,3 +5,9 @@ data class SortedResult(
     var centerY: Float,
     var block: ArrayList<DetectionResult> = ArrayList()
 )
+
+
+data class SubResult(
+    val result: DetectionResult,
+    val foundDuplicate: Boolean
+)

@@ -41,7 +41,6 @@ class FragmentLandingPage : Fragment() {
             updateUItoLoading()
         }
 
-
     }
 
     private var tempImageUri: Uri? = null
@@ -74,8 +73,8 @@ class FragmentLandingPage : Fragment() {
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
-                viewModel.detect_foundationAndWaste(it)
-                viewModel.detect_tableaus(it)
+                viewModel.detectFoundationAndWaste(it)
+                viewModel.detectTableaus(it)
                 viewModel.printFoundation(viewModel.foundation)
                 viewModel.printWaste(viewModel.waste)
                 viewModel.printTableaus(viewModel.tableaus)
