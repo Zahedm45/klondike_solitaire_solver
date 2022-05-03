@@ -62,18 +62,6 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
-/*    fun getSubResult(
-        results: ArrayList<DetectionResult>
-    ): ArrayList<SubResult> {
-
-        val subResult: ArrayList<SubResult> = ArrayList()
-
-        results.forEach {
-
-        }
-
-
-    }*/
 
 
     private fun removeDuplicate(
