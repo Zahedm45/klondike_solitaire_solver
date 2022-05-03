@@ -76,8 +76,10 @@ class FragmentLandingPage : Fragment() {
         viewModel.getDetectionList().observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
                 viewModel.detectFoundationAndWaste(it)
-
                 viewModel.detectTableaus(viewModel.resultAfterFoundationWaste)
+
+                viewModel.setNewResults()
+
                 viewModel.printFoundation(viewModel.foundation)
                 viewModel.printWaste(viewModel.waste)
                 viewModel.printTableaus(viewModel.tableaus)

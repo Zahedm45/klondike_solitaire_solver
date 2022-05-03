@@ -18,19 +18,19 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LandingPageViewModel: ViewModel() {
-    private val cardNumber = MutableLiveData<Int>()
     private val cardType = MutableLiveData<Enum<Card>>()
     private val imageBitmap = MutableLiveData<Bitmap>()
     private val detectionList = MutableLiveData<List<DetectionResult>>()
 
-    //val visitedBox: ArrayList<DetectionResult> = ArrayList()
 
     var resultAfterFoundationWaste: ArrayList<DetectionResult> = ArrayList()
 
+    lateinit var newResult: List<DetectionResult>
 
+    lateinit var waste: DetectionResult
     var foundation: ArrayList<DetectionResult> = ArrayList()
     var tableaus: ArrayList<SortedResult> = ArrayList()
-    lateinit var waste: DetectionResult
+
 
 
 
@@ -240,6 +240,26 @@ class LandingPageViewModel: ViewModel() {
             }
         }
          return centerXBlock
+    }
+
+
+
+
+    fun setNewResults() {
+        val toBeAdded: ArrayList<DetectionResult> = ArrayList()
+
+        foundation.forEach {
+            toBeAdded.add(it)
+        }
+        toBeAdded.add(waste)
+
+        tableaus.forEach { block ->
+            block.block.forEach { toBeAdded.add(it) }
+        }
+
+        newResult = toBeAdded
+
+        Log.i(TAG, "hello ${newResult}")
     }
 
 
