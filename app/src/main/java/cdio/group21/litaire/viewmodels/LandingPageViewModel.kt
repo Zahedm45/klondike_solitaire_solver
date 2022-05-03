@@ -1,6 +1,7 @@
 package cdio.group21.litaire.viewmodels
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
@@ -11,7 +12,6 @@ import androidx.lifecycle.viewModelScope
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
-import cdio.group21.litaire.data.SubResult
 import cdio.group21.litaire.tflite.ObjectRecognition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -73,36 +73,39 @@ class LandingPageViewModel: ViewModel() {
     }*/
 
 
-    fun removeDuplicate(
+    private fun removeDuplicate(
         results: ArrayList<DetectionResult>
     ): ArrayList<DetectionResult> {
 
-        results[0].text.split("")
-
-
-
-
-        val newResult: ArrayList<DetectionResult> = ArrayList()
+        results.sortBy { it.boundingBox.centerX() }
 
         var i = 1
 
-
-
+        val toBeRemoved: ArrayList<DetectionResult> = ArrayList()
 
         while (i < results.size) {
-            if (i % 2 == 0 ){
+            val crrText = results[i].text[0] +""+ results[i].text[1]
+            val newText = results[i-1].text[0] +""+ results[i-1].text[1]
 
-                val crrText = results[i].text[0] +""+ results[i].text[1]
-                val newText = results[i+1].text[0] +""+ results[i+1].text[1]
-
-
-                if (crrText == newText){
-                    newResult.add(results.get(i))
-                }
+            if (crrText == newText){
+                toBeRemoved.add(results[i])
             }
+
+            i += 2
         }
 
-        return newResult
+
+        //Log.i(TAG, "to be removed:  ${toBeRemoved}")
+
+
+        toBeRemoved.forEach {
+            results.remove(it)
+        }
+
+
+       // Log.i(TAG, "result: ${results}")
+
+        return results
     }
 
 
@@ -120,8 +123,6 @@ class LandingPageViewModel: ViewModel() {
                 width = it.block[0].boundingBox.height()/2.0F
                 val delta = Math.abs(box.centerY() - it.centerY)
 
-                //Log.i(TAG, "Width: ${width}, delta: ${delta}")
-
                 if (delta < width) {
                     it.block.add(crr)
                     blockFound = true
@@ -138,28 +139,27 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
-        //printOut(centerYBlock)
         centerYBlock.sortBy { it.centerY }
 
+        var foundationAndWaste: ArrayList<DetectionResult> = ArrayList()
 
-        //val foundationAndWaste = ArrayList<DetectionResult>()
+
         if (centerYBlock.size != 0) {
             centerYBlock[0].block.forEach {
-                //foundationAndWaste.add(it)
-                foundation.add(it)
-                //visitedBox.add(it)
+                foundationAndWaste.add(it)
             }
 
         }
 
-        foundation = removeDuplicate(foundation)
+/*        foundation = removeDuplicate(foundation)
+        Log.i(TAG, "hellllo${foundation[0]}")*/
 
-        foundation.sortBy { it.boundingBox.centerX() }
+        val afterRemovingDup = removeDuplicate(foundationAndWaste)
 
-        waste = foundation.get(foundation.size-1)
-        foundation.removeAt(foundation.size - 1)
+        waste = afterRemovingDup[0]
+        afterRemovingDup.removeLast()
 
-       // printOut(foundationAndWaste)
+        foundation = afterRemovingDup
 
     }
 

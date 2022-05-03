@@ -26,7 +26,7 @@ import org.tensorflow.lite.task.vision.detector.ObjectDetector
                 .build()
             val detector = ObjectDetector.createFromFileAndOptions(
                 context,
-                "yolov4_float16.tflite",
+                "spade8_2.tflite",
                 options
             )
 
