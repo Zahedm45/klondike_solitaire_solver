@@ -2,11 +2,13 @@ package cdio.group21.litaire.view
 
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +76,7 @@ class FragmentLandingPage : Fragment() {
         viewModel.getDetectionList().observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
                 viewModel.detectFoundationAndWaste(it)
+
                 viewModel.detectTableaus(viewModel.resultAfterFoundationWaste)
                 viewModel.printFoundation(viewModel.foundation)
                 viewModel.printWaste(viewModel.waste)

@@ -87,7 +87,6 @@ class LandingPageViewModel: ViewModel() {
         while (i < results.size) {
             val crrText = results[i].text[0] +""+ results[i].text[1]
             val newText = results[i-1].text[0] +""+ results[i-1].text[1]
-
             if (crrText == newText){
                 toBeRemoved.add(results[i])
             }
@@ -193,14 +192,44 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
-        //printOut(centerXBlock)
-        tableaus = sortAccordingToXCoordinate(centerXBlock)
+        val temp = sortAccordingToXCoordinate(centerXBlock)
+
+        tableaus = removeDuplicateTableaus(temp)
 
     }
 
 
+    private fun removeDuplicateTableaus(
+        results: ArrayList<SortedResult>
+    ):ArrayList<SortedResult> {
 
-     fun sortAccordingToXCoordinate(
+        var i = 1
+
+        while (i < results.size) {
+            val prev = results[i-1].block[0].text[0] + "" + results[i-1].block[0].text[1]
+            val curr = results[i].block[0].text[0] + "" + results[i].block[0].text[1]
+
+            if (prev == curr) {
+                results[i].centerY = 0.0f
+                results[i].centerX = 0.0f
+            }
+
+            i += 2
+        }
+
+
+        val newResult: ArrayList<SortedResult> = ArrayList()
+
+        results.forEach {
+            if (it.centerX != 0.0f && it.centerY != 0.0f) {
+                newResult.add(it)
+            }
+        }
+
+        return newResult
+    }
+
+     private fun sortAccordingToXCoordinate(
          centerXBlock: ArrayList<SortedResult>
      ):ArrayList<SortedResult> {
         centerXBlock.sortBy { it.centerX }
