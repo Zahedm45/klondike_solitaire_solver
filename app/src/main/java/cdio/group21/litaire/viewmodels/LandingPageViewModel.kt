@@ -64,29 +64,7 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    private fun removeDuplicate(
-        results: ArrayList<DetectionResult>
-    ): ArrayList<DetectionResult> {
 
-        results.sortBy { it.boundingBox.centerX() }
-        var i = 1
-        val toBeRemoved: ArrayList<DetectionResult> = ArrayList()
-
-        while (i < results.size) {
-            val crrText = results[i].text[0] +""+ results[i].text[1]
-            val newText = results[i-1].text[0] +""+ results[i-1].text[1]
-            if (crrText == newText){
-                toBeRemoved.add(results[i])
-            }
-            i += 2
-        }
-
-        toBeRemoved.forEach {
-            results.remove(it)
-        }
-
-        return results
-    }
 
 
     fun detectFoundationAndWaste(results: List<DetectionResult>) {
@@ -183,9 +161,50 @@ class LandingPageViewModel: ViewModel() {
         val temp = sortAccordingToXCoordinate(centerXBlock)
 
         tableaus = removeDuplicateTableaus(temp)
-
     }
 
+
+
+    /**
+     * Duplicates in Waste and Foundation can be deleted by calling this function.
+     * @param results is a list of detected results.
+     * @return new detected results, where the duplicates do not exist.
+     * @author Zahed(s186517)
+     */
+
+    private fun removeDuplicate(
+        results: ArrayList<DetectionResult>
+    ): ArrayList<DetectionResult> {
+
+        results.sortBy { it.boundingBox.centerX() }
+        var i = 1
+        val toBeRemoved: ArrayList<DetectionResult> = ArrayList()
+
+        while (i < results.size) {
+            val crrText = results[i].text[0] +""+ results[i].text[1]
+            val newText = results[i-1].text[0] +""+ results[i-1].text[1]
+            if (crrText == newText){
+                toBeRemoved.add(results[i])
+            }
+            i += 2
+        }
+
+        toBeRemoved.forEach {
+            results.remove(it)
+        }
+
+        return results
+    }
+
+
+
+
+    /**
+     * Duplicates in Tableuas blocks can be deleted by calling this function.
+     * @param results is a list of detected results.
+     * @return new detected results, where the duplicates do not exist.
+     * @author Zahed(s186517)
+     */
 
     private fun removeDuplicateTableaus(
         results: ArrayList<SortedResult>
@@ -207,7 +226,6 @@ class LandingPageViewModel: ViewModel() {
 
 
         val newResult: ArrayList<SortedResult> = ArrayList()
-
         results.forEach {
             if (it.centerX != 0.0f && it.centerY != 0.0f) {
                 newResult.add(it)
@@ -216,6 +234,10 @@ class LandingPageViewModel: ViewModel() {
 
         return newResult
     }
+
+
+
+
 
      private fun sortAccordingToXCoordinate(
          centerXBlock: ArrayList<SortedResult>
@@ -231,7 +253,11 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
-
+    /**
+     * This method gathers all the detected results from "waste", "foundation" and "tableuas", and sets them to "newResult".
+     * "newResult" contains a list of all the detected results that have been finalised(removed duplicates)
+     * @author Zahed(s186517)
+     */
 
     fun setNewResults() {
         val toBeAdded: ArrayList<DetectionResult> = ArrayList()
