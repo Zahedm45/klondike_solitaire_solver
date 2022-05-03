@@ -33,27 +33,9 @@ class FragmentLandingPage : Fragment() {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: LandingPageViewModel by viewModels()
-
-
-    private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
-        it?.apply {
-            binding.ivBackground.setImageURI(it)
-            viewModel.setImageBitmap(uriToBitmap(it))
-            sharedViewModel.setImageBitmap(uriToBitmap(it))
-            updateUItoLoading()
-        }
-
-    }
-
     private var tempImageUri: Uri? = null
-    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback{
-        if(it.resultCode == RESULT_OK){
-            binding.ivBackground.setImageURI(tempImageUri)
-            viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
-            sharedViewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
-            updateUItoLoading()
-        }
-    })
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,7 +68,7 @@ class FragmentLandingPage : Fragment() {
             }
 
 
-            val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
+            val imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, viewModel.newResult)
             sharedViewModel.setImageBitmap(imgResult)
             findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
 
@@ -120,6 +102,32 @@ class FragmentLandingPage : Fragment() {
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
         cameraLauncher.launch(cameraIntent)
     }
+
+
+
+
+
+    private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
+        it?.apply {
+            binding.ivBackground.setImageURI(it)
+            viewModel.setImageBitmap(uriToBitmap(it))
+            sharedViewModel.setImageBitmap(uriToBitmap(it))
+            updateUItoLoading()
+        }
+
+    }
+
+
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback{
+        if(it.resultCode == RESULT_OK){
+            binding.ivBackground.setImageURI(tempImageUri)
+            viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+            sharedViewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+            updateUItoLoading()
+        }
+    })
+
+
 
 
 
