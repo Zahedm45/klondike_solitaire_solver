@@ -78,9 +78,7 @@ class LandingPageViewModel: ViewModel() {
     ): ArrayList<DetectionResult> {
 
         results.sortBy { it.boundingBox.centerX() }
-
         var i = 1
-
         val toBeRemoved: ArrayList<DetectionResult> = ArrayList()
 
         while (i < results.size) {
@@ -90,31 +88,21 @@ class LandingPageViewModel: ViewModel() {
             if (crrText == newText){
                 toBeRemoved.add(results[i])
             }
-
             i += 2
         }
-
-
-        //Log.i(TAG, "to be removed:  ${toBeRemoved}")
-
 
         toBeRemoved.forEach {
             results.remove(it)
         }
-
-
-       // Log.i(TAG, "result: ${results}")
 
         return results
     }
 
 
     fun detectFoundationAndWaste(results: List<DetectionResult>) {
-        //printOut(results)
         val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
         results.forEach { crr ->
-
             var blockFound = false
             val box = crr.boundingBox
             var width = 0.0f
@@ -140,25 +128,19 @@ class LandingPageViewModel: ViewModel() {
         }
 
         centerYBlock.sortBy { it.centerY }
-
-        var foundationAndWaste: ArrayList<DetectionResult> = ArrayList()
-
+        val tempFoundationAndWaste: ArrayList<DetectionResult> = ArrayList()
 
         if (centerYBlock.size != 0) {
             centerYBlock[0].block.forEach {
-                foundationAndWaste.add(it)
+                tempFoundationAndWaste.add(it)
             }
-
         }
 
-/*        foundation = removeDuplicate(foundation)
-        Log.i(TAG, "hellllo${foundation[0]}")*/
 
-        val afterRemovingDup = removeDuplicate(foundationAndWaste)
 
+        val afterRemovingDup = removeDuplicate(tempFoundationAndWaste)
         waste = afterRemovingDup[0]
-        afterRemovingDup.removeLast()
-
+        afterRemovingDup.removeFirst()
         foundation = afterRemovingDup
 
     }
