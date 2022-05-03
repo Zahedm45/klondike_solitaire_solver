@@ -25,6 +25,9 @@ class LandingPageViewModel: ViewModel() {
 
     //val visitedBox: ArrayList<DetectionResult> = ArrayList()
 
+    var resultAfterFoundationWaste: ArrayList<DetectionResult> = ArrayList()
+
+
     var foundation: ArrayList<DetectionResult> = ArrayList()
     var tableaus: ArrayList<SortedResult> = ArrayList()
     lateinit var waste: DetectionResult
@@ -136,6 +139,12 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
+
+        results.forEach {
+            if (!tempFoundationAndWaste.contains(it)) {
+                resultAfterFoundationWaste.add(it)
+            }
+        }
 
 
         val afterRemovingDup = removeDuplicate(tempFoundationAndWaste)
