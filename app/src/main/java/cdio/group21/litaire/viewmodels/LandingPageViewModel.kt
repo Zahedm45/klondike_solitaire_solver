@@ -26,6 +26,7 @@ class LandingPageViewModel: ViewModel() {
     var resultAfterFoundationWaste: ArrayList<DetectionResult> = ArrayList()
 
     lateinit var newResult: List<DetectionResult>
+    var isNewResultInitialized = false
 
     lateinit var waste: DetectionResult
     var foundation: ArrayList<DetectionResult> = ArrayList()
@@ -271,6 +272,7 @@ class LandingPageViewModel: ViewModel() {
         }
 
         newResult = toBeAdded
+        isNewResultInitialized = true
     }
 
 
