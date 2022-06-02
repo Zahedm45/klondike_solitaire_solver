@@ -50,31 +50,42 @@ class FragmentLandingPage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
+            Log.i(TAG, "image width 2 ${it.width}")
             binding.ivBackground.setImageBitmap(it)
             viewModel.processImage(this.requireContext(), it)
             //findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
         }
 
         viewModel.getDetectionList().observe(viewLifecycleOwner){
-            var imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, it)
 
-            if (it.isNotEmpty()) {
-                viewModel.detectFoundationAndWaste(it)
-                viewModel.detectTableaus(viewModel.resultAfterFoundationWaste)
-                viewModel.setNewResults()
+            val img = viewModel.getImageBitmap().value
 
-                viewModel.printWaste(viewModel.waste)
-                viewModel.printFoundation(viewModel.foundation)
-                viewModel.printTableaus(viewModel.tableaus)
+            if (img != null) {
 
-                imgResult = drawDetectionResult(viewModel.getImageBitmap().value!!, viewModel.newResult)
+                var imgResult = drawDetectionResult(img, it)
+
+
+                if (it.isNotEmpty()) {
+                    viewModel.detectFoundationAndWaste(it, viewModel.getImageBitmap().value!!)
+                    viewModel.detectTableaus(viewModel.resultAfterFoundationWaste)
+                    viewModel.setNewResults()
+
+
+                    if (viewModel.waste != null) {
+                        viewModel.printWaste(viewModel.waste!!)
+                    }
+
+                    viewModel.printFoundation(viewModel.foundation)
+                    viewModel.printTableaus(viewModel.tableaus)
+
+                    imgResult = drawDetectionResult(img, viewModel.newResult)
+                }
+
+
+                sharedViewModel.setImageBitmap(imgResult)
+                findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+
             }
-
-
-
-
-            sharedViewModel.setImageBitmap(imgResult)
-            findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
 
         }
 
