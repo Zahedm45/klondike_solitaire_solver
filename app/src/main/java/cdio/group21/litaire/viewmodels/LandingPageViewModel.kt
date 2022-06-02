@@ -1,7 +1,6 @@
 package cdio.group21.litaire.viewmodels
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
@@ -77,6 +76,8 @@ class LandingPageViewModel: ViewModel() {
             var width = 0.0f
 
             for (it in centerYBlock) {
+                //width = it.block.last().boundingBox.height() / 2.0F
+
                 width = it.block[0].boundingBox.height()/2.0F
                 val delta = Math.abs(box.centerY() - it.centerY)
 
@@ -105,7 +106,6 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
-
         results.forEach {
             if (!tempFoundationAndWaste.contains(it)) {
                 resultAfterFoundationWaste.add(it)
@@ -113,10 +113,10 @@ class LandingPageViewModel: ViewModel() {
         }
 
 
-        val afterRemovingDup = removeDuplicate(tempFoundationAndWaste)
-        waste = afterRemovingDup[0]
-        afterRemovingDup.removeFirst()
-        foundation = afterRemovingDup
+        val afterRemoveDuplicate = removeDuplicate(tempFoundationAndWaste)
+        waste = afterRemoveDuplicate[0]
+        afterRemoveDuplicate.removeFirst()
+        foundation = afterRemoveDuplicate
 
     }
 
@@ -237,9 +237,6 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
-
-
-
      private fun sortAccordingToXCoordinate(
          centerXBlock: ArrayList<SortedResult>
      ):ArrayList<SortedResult> {
@@ -319,10 +316,6 @@ class LandingPageViewModel: ViewModel() {
             Log.i(ContentValues.TAG, "Block2: x: ${it.boundingBox.centerX()}, y: ${it.boundingBox.centerY()}, ${it}")
         }
     }
-
-
-
-
 
 
 }
