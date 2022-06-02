@@ -62,11 +62,6 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
-
-
-
-
-
     fun detectFoundationAndWaste(results: List<DetectionResult>) {
         val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
@@ -76,9 +71,9 @@ class LandingPageViewModel: ViewModel() {
             var width = 0.0f
 
             for (it in centerYBlock) {
-                //width = it.block.last().boundingBox.height() / 2.0F
+                width = it.block.last().boundingBox.height() / 2.0F
 
-                width = it.block[0].boundingBox.height()/2.0F
+                //width = it.block[0].boundingBox.height()/2.0F
                 val delta = Math.abs(box.centerY() - it.centerY)
 
                 if (delta < width) {
@@ -112,10 +107,17 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
+        /**
+         * TODO
+         * Needs to check how many cards in the block
+         */
 
         val afterRemoveDuplicate = removeDuplicate(tempFoundationAndWaste)
-        waste = afterRemoveDuplicate[0]
-        afterRemoveDuplicate.removeFirst()
+/*        waste = afterRemoveDuplicate[0]
+        afterRemoveDuplicate.removeFirst()*/
+
+        waste = afterRemoveDuplicate.last()
+        afterRemoveDuplicate.removeLast()
         foundation = afterRemoveDuplicate
 
     }
@@ -137,7 +139,9 @@ class LandingPageViewModel: ViewModel() {
                 var width = 0.0f
                 for (it in centerXBlock) {
                     //alignment = Math.abs(box.width() - it.block[0].boundingBox.width())
-                    width = it.block[0].boundingBox.width()/2.0F
+                    //width = it.block[0].boundingBox.width()/2.0F
+
+                    width = it.block.last().boundingBox.width() / 2.0F
                     val delta = Math.abs(box.centerX() - it.centerX)
 
                     //Log.i(TAG, "Width: ${width}, delta: ${delta}")
