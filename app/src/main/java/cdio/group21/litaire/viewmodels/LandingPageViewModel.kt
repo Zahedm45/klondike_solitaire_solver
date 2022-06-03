@@ -78,7 +78,6 @@ class LandingPageViewModel: ViewModel() {
 
             for (it in centerYBlock) {
                 width = it.block.last().boundingBox.height() / 2.0F
-
                 //width = it.block[0].boundingBox.height()/2.0F
                 val delta = Math.abs(box.centerY() - it.centerY)
 
@@ -406,6 +405,7 @@ class LandingPageViewModel: ViewModel() {
 
 
     }
+
 
 
 }
