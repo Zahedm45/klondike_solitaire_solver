@@ -23,6 +23,7 @@ import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
+import cdio.group21.litaire.viewmodels.solver.Solver
 
 
 class FragmentLandingPage : Fragment() {
@@ -48,6 +49,8 @@ class FragmentLandingPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Solver()
 
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
             binding.ivBackground.setImageBitmap(it)
