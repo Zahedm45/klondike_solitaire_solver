@@ -9,7 +9,13 @@ class Solver {
     var foundation: ArrayList<DetectionResult> = ArrayList()
     var tableaus: ArrayList<SortedResult> = ArrayList()
 
+/* This function evaluates the foundation piles always wanting to move cards to the foundation pile*/
+    fun evalFoundation(){
 
+    }
+/* This function evaluates the tableau should find the optimal step which would be chronologically build the piles*/
+    fun evalTableau(){
 
+    }
 
 }
