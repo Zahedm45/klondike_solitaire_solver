@@ -27,7 +27,8 @@ class Solver {
 
 
 
-/* This function evaluates the foundation piles always wanting to move cards to the foundation pile*/
+/* This function evaluates the foundation piles and calculates the sum to figure out
+* the game */
     fun evalFoundation(): Int{
     var sum = 0
 
@@ -36,7 +37,8 @@ class Solver {
         }
     return sum
     }
-/* This function evaluates the tableau should find the optimal step which would be chronologically build the piles*/
+
+/* This function evaluates the tableau and finds the largest column*/
     fun evalTableau():Int {
 
         var size = 0
