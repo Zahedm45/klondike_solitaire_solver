@@ -39,7 +39,7 @@
             android:layout_width="@dimen/text_box"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:cardElevation="8dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All solved!"
+                android:text="No moves!"
                 android:layout_gravity="center_horizontal"
                 android:textSize="18sp" />
         </androidx.cardview.widget.CardView>

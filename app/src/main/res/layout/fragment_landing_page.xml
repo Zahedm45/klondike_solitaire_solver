@@ -75,7 +75,7 @@
             android:layout_width="@dimen/text_box"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:cardElevation="8dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,9 +86,9 @@
                 android:id="@+id/tv_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Take a picture"
+                android:text="Take a picture or select from album to continue."
                 android:layout_gravity="center_horizontal"
-                android:textSize="28sp" />
+                android:textSize="16sp" />
         </androidx.cardview.widget.CardView>
 
 
