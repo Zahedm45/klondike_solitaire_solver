@@ -10,6 +10,10 @@ import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.vision.detector.ObjectDetector
 
 
+/**
+ * This method was taken from the internet (implemented by tfl) and has been modified by us.
+ */
+
     object ObjectRecognition {
 
         fun processImage(context: Context, bitmap: Bitmap): List<DetectionResult> {

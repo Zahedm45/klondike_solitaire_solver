@@ -4,7 +4,12 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.util.Log
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.get
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +33,7 @@ class LandingPageViewModel: ViewModel() {
     lateinit var newResult: List<DetectionResult>
     var isNewResultInitialized = false
 
-    lateinit var waste: DetectionResult
+    var waste: DetectionResult? = null
     var foundation: ArrayList<DetectionResult> = ArrayList()
     var tableaus: ArrayList<SortedResult> = ArrayList()
 
@@ -63,12 +68,7 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
-
-
-
-
-
-    fun detectFoundationAndWaste(results: List<DetectionResult>) {
+    fun detectFoundationAndWaste(results: List<DetectionResult>, img: Bitmap) {
         val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
         results.forEach { crr ->
@@ -77,7 +77,8 @@ class LandingPageViewModel: ViewModel() {
             var width = 0.0f
 
             for (it in centerYBlock) {
-                width = it.block[0].boundingBox.height()/2.0F
+                width = it.block.last().boundingBox.height() / 2.0F
+                //width = it.block[0].boundingBox.height()/2.0F
                 val delta = Math.abs(box.centerY() - it.centerY)
 
                 if (delta < width) {
@@ -105,18 +106,79 @@ class LandingPageViewModel: ViewModel() {
             }
         }
 
-
         results.forEach {
             if (!tempFoundationAndWaste.contains(it)) {
                 resultAfterFoundationWaste.add(it)
             }
         }
 
+        /**
+         * TODO
+         * Needs to check how many cards in the block. The waste and the foundations are correct only if there
+         *  are four foundations and a waste (for now).
+         */
 
-        val afterRemovingDup = removeDuplicate(tempFoundationAndWaste)
-        waste = afterRemovingDup[0]
-        afterRemovingDup.removeFirst()
-        foundation = afterRemovingDup
+        val afterRemoveDuplicate = removeDuplicate(tempFoundationAndWaste)
+/*        waste = afterRemoveDuplicate[0]
+        afterRemoveDuplicate.removeFirst()*/
+
+        if (afterRemoveDuplicate.isNullOrEmpty()) {
+            return
+            // No cards to work with
+        }
+
+
+
+
+        val last = afterRemoveDuplicate.last().boundingBox
+        val secondLast = afterRemoveDuplicate[afterRemoveDuplicate.size - 2].boundingBox
+
+        val rightSide = img.width - last.centerX()
+        val leftSide = last.centerX() - secondLast.centerX()
+
+        //Log.i(TAG, "right222  ${rightSide}  left ${leftSide} width ${img.width}, ${rightSide + rightSide * 0.25}")
+
+        if (leftSide > (rightSide + rightSide * 0.25 )) {
+            waste = afterRemoveDuplicate.last()
+            afterRemoveDuplicate.removeLast()
+
+        }
+        foundation = afterRemoveDuplicate
+
+
+
+/*        if(afterRemoveDuplicate.size > 0) {
+            waste = afterRemoveDuplicate.last()
+            afterRemoveDuplicate.removeLast()
+            foundation = afterRemoveDuplicate
+
+
+        } else if (afterRemoveDuplicate.size == 0) {
+
+*//*
+            val last = afterRemoveDuplicate.last().boundingBox
+            val secondLast = afterRemoveDuplicate[afterRemoveDuplicate.size - 2].boundingBox
+
+            val deltaLastToImgWidth = img.width - last.right
+
+
+
+            val lastLeftSide = (img.width - secondLast.right)
+
+            Log.i(TAG, "left 12 ${lastLeftSide}  right ${deltaLastToImgWidth} width ${img.width}")
+
+*//*
+
+
+
+        }*/
+
+
+
+/*        val first = afterRemoveDuplicate.first().boundingBox
+        Log.i(TAG, "left 11 ${first.left}  right ${first.right} width ${first.width()}")*/
+
+
 
     }
 
@@ -131,13 +193,21 @@ class LandingPageViewModel: ViewModel() {
 
         results.forEach { curr ->
 
-            if (!foundation.contains(curr) && waste != curr) {
+            if (!foundation.contains(curr)) { // double check
+                if (waste != null) {
+                    if (waste == curr) {
+                       return@forEach
+                    }
+                }
+
                 var blockFound = false
                 val box = curr.boundingBox
                 var width = 0.0f
                 for (it in centerXBlock) {
                     //alignment = Math.abs(box.width() - it.block[0].boundingBox.width())
-                    width = it.block[0].boundingBox.width()/2.0F
+                    //width = it.block[0].boundingBox.width()/2.0F
+
+                    width = it.block.last().boundingBox.width() / 2.0F
                     val delta = Math.abs(box.centerX() - it.centerX)
 
                     //Log.i(TAG, "Width: ${width}, delta: ${delta}")
@@ -237,9 +307,6 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
-
-
-
      private fun sortAccordingToXCoordinate(
          centerXBlock: ArrayList<SortedResult>
      ):ArrayList<SortedResult> {
@@ -265,7 +332,12 @@ class LandingPageViewModel: ViewModel() {
         foundation.forEach {
             toBeAdded.add(it)
         }
-        toBeAdded.add(waste)
+
+
+        if (waste != null) {
+           toBeAdded.add(waste!!)
+        }
+
 
         tableaus.forEach { block ->
             block.block.forEach { toBeAdded.add(it) }
@@ -321,7 +393,18 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
+    fun drawBoundingBox(image : Bitmap) {
+        val outputBitmap = image.copy(Bitmap.Config.ARGB_8888, true)
+        val canvas = Canvas(outputBitmap)
 
+        val paint = Paint()
+
+        canvas.drawRect(0.0f, 0.0f, image.width.toFloat(), image.height.toFloat(), paint)
+
+        Log.i(TAG, "hello ${canvas.width}")
+
+
+    }
 
 
 
