@@ -1,6 +1,9 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import android.content.ContentValues.TAG
 import android.graphics.RectF
+import android.nfc.Tag
+import android.util.Log
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
@@ -17,24 +20,41 @@ class Solver {
         val landingPageViewModel = LandingPageViewModel()
         landingPageViewModel.printFoundation(foundation)
         landingPageViewModel.printTableaus(tableaus)
+        Log.i(TAG, "print Tableau eval: ${evalTableau()}")
+        Log.i(TAG, "print Foundation eval: ${evalFoundation()}")
 
     }
 
 
 
 /* This function evaluates the foundation piles always wanting to move cards to the foundation pile*/
-    fun evalFoundation(){
+    fun evalFoundation(): Int{
+    var sum = 0
 
+    foundation.forEach {
+        sum += it.text[0].toString().toInt()
+        }
+    return sum
     }
 /* This function evaluates the tableau should find the optimal step which would be chronologically build the piles*/
-    fun evalTableau(){
+    fun evalTableau():Int {
 
+        var size = 0
+
+        tableaus.forEach {
+
+            if (it.block.size > size) {
+                size = it.block.size
+            }
+
+        }
+      return size
     }
 
 
     fun simulateRandomCards() {
 
-        foundation.add(DetectionResult(RectF(), "8d"))
+        foundation.add(DetectionResult(RectF(), "9d"))
         foundation.add(DetectionResult(RectF(), "5h"))
         foundation.add(DetectionResult(RectF(), "1s"))
         foundation.add(DetectionResult(RectF(), "4c"))
