@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.graphics.RectF
 import android.nfc.Tag
 import android.util.Log
+import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
@@ -20,10 +21,9 @@ class Solver {
         val landingPageViewModel = LandingPageViewModel()
         landingPageViewModel.printFoundation(foundation)
         landingPageViewModel.printTableaus(tableaus)
-        Log.i(TAG, "print Tableau eval: ${evalTableau()}")
-        Log.i(TAG, "print Foundation eval: ${evalFoundation()}")
+/*        Log.i(TAG, "print Tableau eval: ${evalTableau()}")
+        Log.i(TAG, "print Foundation eval: ${evalFoundation()}")*/
 
-        UtilSolver.setCardsToDetectionResult(foundation, tableaus)
 
         Log.i(TAG, "hello ${foundation[0].card}")
 
@@ -41,14 +41,14 @@ class Solver {
 
 /* This function evaluates the foundation piles and calculates the sum to figure out
 * the game */
-    fun evalFoundation(): Int{
+/*    fun evalFoundation(): Int{
     var sum = 0
 
     foundation.forEach {
         sum += it.text[0].toString().toInt()
         }
     return sum
-    }
+    }*/
 
 /* This function evaluates the tableau and finds the largest column*/
     fun evalTableau():Int {
@@ -84,10 +84,10 @@ class Solver {
 
     fun simulateRandomCards() {
 
-        foundation.add(DetectionResult(RectF(), "9d", null))
-        foundation.add(DetectionResult(RectF(), "5h", null))
-        foundation.add(DetectionResult(RectF(), "1s", null))
-        foundation.add(DetectionResult(RectF(), "4c", null))
+        foundation.add(DetectionResult(RectF(), 100, Card(9, "d")))
+        foundation.add(DetectionResult(RectF(), 100, Card(5, "h")))
+        foundation.add(DetectionResult(RectF(), 100, Card(1, "s")))
+        foundation.add(DetectionResult(RectF(), 100, Card(4, "c")))
 
         val suits = arrayOf("s", "h", "d", "c")
         val values = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
@@ -110,7 +110,7 @@ class Solver {
 
             }
         }*/
-        tableaus[0].block.add(DetectionResult(RectF(), "10d", null))
+        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(10, "d")))
     }
 
 

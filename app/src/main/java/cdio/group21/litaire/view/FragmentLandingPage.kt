@@ -174,7 +174,7 @@ class FragmentLandingPage : Fragment() {
                 pen.strokeWidth = 1.5F
 
                 pen.textSize = 25F
-                pen.getTextBounds(it.text, 0, it.text.length, tagSize)
+                pen.getTextBounds(it.toText(), 0, it.toText().length, tagSize)
                 val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
 
                 // adjust the font size so texts are inside the bounding box
@@ -184,7 +184,7 @@ class FragmentLandingPage : Fragment() {
                 //if (margin < 0F) margin = 0F
 
                 canvas.drawText(
-                    it.text, box.left + margin,
+                    it.toText(), box.left + margin,
                     box.top + tagSize.height().times(1F), pen
                 )
 

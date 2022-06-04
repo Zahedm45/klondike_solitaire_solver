@@ -9,7 +9,7 @@ import cdio.group21.litaire.data.SortedResult
 class UtilSolver {
     companion object {
 
-        fun setCardsToDetectionResult(
+/*        fun setCardsToDetectionResult(
             foundation: ArrayList<DetectionResult>,
             tableaus: ArrayList<SortedResult>
         ) {
@@ -26,6 +26,6 @@ class UtilSolver {
                 it.card =  Card(value, suit)
             }
 
-        }
+        }*/
     }
 }
