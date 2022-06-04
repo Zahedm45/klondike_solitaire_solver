@@ -20,12 +20,12 @@ class GameLogic {
                 if (it.block.isNullOrEmpty()) {
                     return@forEach
                 }
-                val cardText = it.block.last().text
+/*                val cardText = it.block.last().text
                 val returnVal = evalBlockToFoundation(cardText, foundations)
                 if (returnVal != null) {
                     val card = Card(cardText[0].toString(), cardText[1].toString())
                     possibleMoves.add(Move(card, tableaus.indexOf(it).toString(), returnVal.text))
-                }
+                }*/
             }
 
             return possibleMoves
