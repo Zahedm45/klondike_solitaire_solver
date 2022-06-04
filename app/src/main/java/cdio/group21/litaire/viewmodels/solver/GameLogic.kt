@@ -11,7 +11,7 @@ class GameLogic {
     companion object {
 
 
-/*        fun findAllPossibleMoves(
+        fun findAllPossibleMoves(
             foundations: ArrayList<DetectionResult>, tableaus: ArrayList<SortedResult>
         ): ArrayList<Move> {
             val possibleMoves: ArrayList<Move> = ArrayList()
@@ -23,12 +23,12 @@ class GameLogic {
                     continue
                 }
 
-                val cardText = item.block.last().text
+                val card = item.block.last().card
 
                 for (k in foundations.indices) {
-                    val foundation = foundations[k]
-                    if (evalBlockToFoundation(foundation.text, cardText)) {
-                        val card = Card(cardText[0].toString(), cardText[1].toString())
+                    val foundation = foundations[k].card
+                    if (evalBlockToFoundation(foundation, card)) {
+
                         val newMove = Move(true, card,  index, k)
                         possibleMoves.add(newMove)
                     }
@@ -40,28 +40,27 @@ class GameLogic {
 
 
             return possibleMoves
-        }*/
+        }
 
 
 
 
-        fun evalBlockToFoundation(foundation: String, card: String): Boolean {
-            val suit = card[1]
-            val num = card[0].toString().toInt()
+        fun evalBlockToFoundation(foundation: Card, card: Card): Boolean {
+            val suit = card.suit
+            val num = card.value
 
-            val suit2 = foundation[1]
-            val num2 = foundation[0].toString().toInt()
-
-            Log.i(TAG, "here 2")
+            val suit2 = foundation.suit
+            val num2 = foundation.value
 
             if (suit == suit2) {
                 if(num2-num == -1){
-                    Log.i(TAG, "here22 $card $foundation")
                     return true
                 }
             }
             return false
         }
+
+
 
 
         fun evalBlockToBlock(destination: String, source: String): Boolean{

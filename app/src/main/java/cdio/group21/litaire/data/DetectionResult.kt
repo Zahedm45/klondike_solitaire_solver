@@ -7,6 +7,6 @@ class DetectionResult(
     ) {
 
     fun toText() : String {
-        return card.value.toString() + card.suit + percentage
+        return card.value.toString() + card.suit +"," + percentage
     }
 }
