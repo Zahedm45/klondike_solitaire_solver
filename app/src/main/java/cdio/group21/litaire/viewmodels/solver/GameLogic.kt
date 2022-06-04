@@ -16,17 +16,25 @@ class GameLogic {
         ): ArrayList<Move> {
             val possibleMoves: ArrayList<Move> = ArrayList()
 
-            tableaus.forEach {
-                if (it.block.isNullOrEmpty()) {
-                    return@forEach
+            for (index in tableaus.indices) {
+                val item = tableaus[index]
+
+                if (item.block.isNullOrEmpty()) {
+                    continue
                 }
-/*                val cardText = it.block.last().text
-                val returnVal = evalBlockToFoundation(cardText, foundations)
-                if (returnVal != null) {
-                    val card = Card(cardText[0].toString(), cardText[1].toString())
-                    possibleMoves.add(Move(card, tableaus.indexOf(it).toString(), returnVal.text))
-                }*/
+                val cardText = item.block.last().text
+                foundations.forEach { foundation ->
+                    if (evalBlockToFoundation(foundation.text, cardText)) {
+                        val card = Card(cardText[0].toString(), cardText[1].toString())
+                        val newMove = Move(card,  tableaus.indexOf())
+                    }
+                }
+
             }
+
+
+
+
 
             return possibleMoves
         }
@@ -95,3 +103,33 @@ class GameLogic {
 
     }
 }
+
+
+
+
+
+
+
+/*
+tableaus.forEach { tableau ->
+    if (tableau.block.isNullOrEmpty()) {
+        return@forEach
+    }
+
+    val cardText = tableau.block.last().text
+    foundations.forEach { foundation ->
+        if (GameLogic.evalBlockToFoundation(foundation.text, cardText)) {
+            val card = Card(cardText[0].toString(), cardText[1].toString())
+            val newMove = Move(card,  tableaus.indexOf())
+        }
+    }
+
+*/
+/*                val cardText = it.block.last().text
+                val returnVal = evalBlockToFoundation(cardText, foundations)
+                if (returnVal != null) {
+                    val card = Card(cardText[0].toString(), cardText[1].toString())
+                    possibleMoves.add(Move(card, tableaus.indexOf(it).toString(), returnVal.text))
+                }*//*
+
+}*/
