@@ -1,7 +1,20 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.SortedResult
+
 class GameLogic {
     companion object {
+
+
+        fun findAllPossibleMoves(
+            foundations: ArrayList<DetectionResult>, tableaus: ArrayList<SortedResult>
+        ){
+            val possibleMoves: ArrayList<> = ArrayList()
+
+
+
+        }
 
 
         fun evalBlockToFoundation(foundation: String, card: String): Boolean {
@@ -16,7 +29,6 @@ class GameLogic {
                     return true
                 }
             }
-
             return false
         }
 
