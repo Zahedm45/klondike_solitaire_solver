@@ -11,7 +11,7 @@ class GameLogic {
     companion object {
 
 
-        fun findAllPossibleMoves(
+/*        fun findAllPossibleMoves(
             foundations: ArrayList<DetectionResult>, tableaus: ArrayList<SortedResult>
         ): ArrayList<Move> {
             val possibleMoves: ArrayList<Move> = ArrayList()
@@ -40,7 +40,7 @@ class GameLogic {
 
 
             return possibleMoves
-        }
+        }*/
 
 
 

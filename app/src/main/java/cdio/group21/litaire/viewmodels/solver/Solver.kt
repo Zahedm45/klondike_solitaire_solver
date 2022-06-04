@@ -23,12 +23,17 @@ class Solver {
         Log.i(TAG, "print Tableau eval: ${evalTableau()}")
         Log.i(TAG, "print Foundation eval: ${evalFoundation()}")
 
+        UtilSolver.setCardsToDetectionResult(foundation, tableaus)
 
+        Log.i(TAG, "hello ${foundation[0].card}")
+
+/*
         val k = GameLogic.findAllPossibleMoves(foundation, tableaus)
 
         k.forEach {
             Log.i(TAG, "print100: $it")
         }
+*/
 
     }
 

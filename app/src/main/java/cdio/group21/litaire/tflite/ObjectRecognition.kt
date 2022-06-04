@@ -42,7 +42,7 @@ import org.tensorflow.lite.task.vision.detector.ObjectDetector
 
                 // Create a data object to display the detection result
 
-                DetectionResult(it.boundingBox, text)
+                DetectionResult(it.boundingBox, text, null)
             }
             Log.i(ContentValues.TAG, "result.. $resultToDisplay")
             println("End of processImage: ${Thread.currentThread()}")
