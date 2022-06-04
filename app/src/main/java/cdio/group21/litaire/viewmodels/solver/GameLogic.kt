@@ -22,14 +22,17 @@ class GameLogic {
                 if (item.block.isNullOrEmpty()) {
                     continue
                 }
+
                 val cardText = item.block.last().text
-                foundations.forEach { foundation ->
+
+                for (k in foundations.indices) {
+                    val foundation = foundations[k]
                     if (evalBlockToFoundation(foundation.text, cardText)) {
                         val card = Card(cardText[0].toString(), cardText[1].toString())
-                        val newMove = Move(card,  tableaus.indexOf())
+                        val newMove = Move(true, card,  index, k)
+                        possibleMoves.add(newMove)
                     }
                 }
-
             }
 
 
@@ -38,20 +41,6 @@ class GameLogic {
 
             return possibleMoves
         }
-
-
-/*        fun evalBlockToFoundation(
-            card: String, foundations: ArrayList<DetectionResult>
-        ): DetectionResult? {
-            Log.i(TAG, "here 1")
-
-            foundations.forEach {
-                if (evalBlockToFoundation(it.text, card)) {
-                    return it
-                }
-            }
-            return null
-        }*/
 
 
 
@@ -67,7 +56,7 @@ class GameLogic {
 
             if (suit == suit2) {
                 if(num2-num == -1){
-                    Log.i(TAG, "hereh $card $foundation")
+                    Log.i(TAG, "here22 $card $foundation")
                     return true
                 }
             }

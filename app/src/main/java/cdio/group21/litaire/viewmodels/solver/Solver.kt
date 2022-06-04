@@ -79,10 +79,10 @@ class Solver {
 
     fun simulateRandomCards() {
 
-        foundation.add(DetectionResult(RectF(), "9d"))
-        foundation.add(DetectionResult(RectF(), "5h"))
-        foundation.add(DetectionResult(RectF(), "1s"))
-        foundation.add(DetectionResult(RectF(), "4c"))
+        foundation.add(DetectionResult(RectF(), "9d", null))
+        foundation.add(DetectionResult(RectF(), "5h", null))
+        foundation.add(DetectionResult(RectF(), "1s", null))
+        foundation.add(DetectionResult(RectF(), "4c", null))
 
         val suits = arrayOf("s", "h", "d", "c")
         val values = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
@@ -105,7 +105,8 @@ class Solver {
 
             }
         }*/
-        tableaus[0].block.add(DetectionResult(RectF(), "10d"))
+        tableaus[0].block.add(DetectionResult(RectF(), "10d", null))
     }
+
 
 }
