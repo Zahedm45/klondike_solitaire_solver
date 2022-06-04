@@ -54,6 +54,22 @@ class Solver {
     }
 
 
+    /**
+     * Returns amount of the empty blocks
+     */
+    fun emptyBlock(): Int {
+        var counter = 0
+        tableaus.forEach {
+
+            if (it.block.size < 1) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+
+
     fun simulateRandomCards() {
 
         foundation.add(DetectionResult(RectF(), "9d"))
