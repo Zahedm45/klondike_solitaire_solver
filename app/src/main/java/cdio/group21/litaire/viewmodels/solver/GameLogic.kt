@@ -1,6 +1,10 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 
 class GameLogic {
@@ -9,12 +13,39 @@ class GameLogic {
 
         fun findAllPossibleMoves(
             foundations: ArrayList<DetectionResult>, tableaus: ArrayList<SortedResult>
-        ){
-            val possibleMoves: ArrayList<> = ArrayList()
+        ): ArrayList<Move> {
+            val possibleMoves: ArrayList<Move> = ArrayList()
 
+            tableaus.forEach {
+                if (it.block.isNullOrEmpty()) {
+                    return@forEach
+                }
+                val cardText = it.block.last().text
+                val returnVal = evalBlockToFoundation(cardText, foundations)
+                if (returnVal != null) {
+                    val card = Card(cardText[0].toString(), cardText[1].toString())
+                    possibleMoves.add(Move(card, tableaus.indexOf(it).toString(), returnVal.text))
+                }
+            }
 
-
+            return possibleMoves
         }
+
+
+/*        fun evalBlockToFoundation(
+            card: String, foundations: ArrayList<DetectionResult>
+        ): DetectionResult? {
+            Log.i(TAG, "here 1")
+
+            foundations.forEach {
+                if (evalBlockToFoundation(it.text, card)) {
+                    return it
+                }
+            }
+            return null
+        }*/
+
+
 
 
         fun evalBlockToFoundation(foundation: String, card: String): Boolean {
@@ -24,13 +55,17 @@ class GameLogic {
             val suit2 = foundation[1]
             val num2 = foundation[0].toString().toInt()
 
+            Log.i(TAG, "here 2")
+
             if (suit == suit2) {
-                if(num2-num == 1){
+                if(num2-num == -1){
+                    Log.i(TAG, "hereh $card $foundation")
                     return true
                 }
             }
             return false
         }
+
 
         fun evalBlockToBlock(destination: String, source: String): Boolean{
             val suit = destination[1]

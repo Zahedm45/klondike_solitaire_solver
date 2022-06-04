@@ -23,6 +23,13 @@ class Solver {
         Log.i(TAG, "print Tableau eval: ${evalTableau()}")
         Log.i(TAG, "print Foundation eval: ${evalFoundation()}")
 
+
+        val k = GameLogic.findAllPossibleMoves(foundation, tableaus)
+
+        k.forEach {
+            Log.i(TAG, "print100: $it")
+        }
+
     }
 
 
@@ -87,7 +94,7 @@ class Solver {
         }
 
 
-        for (suit in suits) {
+/*        for (suit in suits) {
 
             for (value in values) {
 
@@ -97,7 +104,8 @@ class Solver {
                 tableaus[randomInt].block.add(DetectionResult(RectF(), card))
 
             }
-        }
+        }*/
+        tableaus[0].block.add(DetectionResult(RectF(), "10d"))
     }
 
 }

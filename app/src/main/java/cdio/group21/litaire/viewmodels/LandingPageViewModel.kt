@@ -18,7 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LandingPageViewModel: ViewModel() {
-    private val cardType = MutableLiveData<Enum<Card>>()
+    //private val cardType = MutableLiveData<Enum<Card>>()
     private val imageBitmap = MutableLiveData<Bitmap>()
     private val detectionList = MutableLiveData<List<DetectionResult>>()
 
@@ -43,9 +43,11 @@ class LandingPageViewModel: ViewModel() {
         return imageBitmap
     }
 
+/*
     fun getCardNumber() : LiveData<Enum<Card>>{
         return cardType
     }
+*/
 
     fun getDetectionList() : LiveData<List<DetectionResult>>{
         return detectionList
