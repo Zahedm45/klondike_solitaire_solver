@@ -1,7 +1,6 @@
 package cdio.group21.litaire.viewmodels
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
@@ -9,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.tflite.ObjectRecognition
@@ -115,7 +113,7 @@ class LandingPageViewModel: ViewModel() {
         }
 
 
-        val afterRemovingDup = removeDuplicate(tempFoundationAndWaste)
+        val afterRemovingDup = removeDuplicateInFW(tempFoundationAndWaste)
         waste = afterRemovingDup[0]
         afterRemovingDup.removeFirst()
         foundation = afterRemovingDup
@@ -175,7 +173,7 @@ class LandingPageViewModel: ViewModel() {
      * @author Zahed(s186517)
      */
 
-    private fun removeDuplicate(
+    private fun removeDuplicateInFW(
         results: ArrayList<DetectionResult>
     ): ArrayList<DetectionResult> {
 
