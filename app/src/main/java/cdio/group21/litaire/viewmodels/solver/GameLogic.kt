@@ -32,40 +32,7 @@ class GameLogic {
                     }
                 }
 
-
-                //isMovePossibleFromTableauToTableau(item, tableaus, indexTableau)
-
-
-
-
-
-
-/*                for (i in item.block.indices) {
-
-                    val sourceCard = item.block[i].card
-
-                    for (k in tableaus.indices) {
-
-                        if (k == indexTableau) {
-                            continue
-                        }
-
-                        val destCard = tableaus[k].block.last().card
-                        if (evalBlockToBlock(destCard, sourceCard)) {
-
-                            val newMove = Move(false, sourceCard, indexTableau, k)
-                            possibleMoves.add(newMove)
-                            break
-                        }
-                    }
-
-                }*/
-
-
-
             }
-
-
 
             return possibleMoves
         }
@@ -173,33 +140,3 @@ class GameLogic {
 
     }
 }
-
-
-
-
-
-
-
-/*
-tableaus.forEach { tableau ->
-    if (tableau.block.isNullOrEmpty()) {
-        return@forEach
-    }
-
-    val cardText = tableau.block.last().text
-    foundations.forEach { foundation ->
-        if (GameLogic.evalBlockToFoundation(foundation.text, cardText)) {
-            val card = Card(cardText[0].toString(), cardText[1].toString())
-            val newMove = Move(card,  tableaus.indexOf())
-        }
-    }
-
-*/
-/*                val cardText = it.block.last().text
-                val returnVal = evalBlockToFoundation(cardText, foundations)
-                if (returnVal != null) {
-                    val card = Card(cardText[0].toString(), cardText[1].toString())
-                    possibleMoves.add(Move(card, tableaus.indexOf(it).toString(), returnVal.text))
-                }*//*
-
-}*/
