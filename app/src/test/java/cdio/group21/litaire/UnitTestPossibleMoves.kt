@@ -60,20 +60,22 @@ class UnitTestPossibleMoves {
         // Initializing the expected moves
         val move1 = Move(true, Card(10, "d"), 1, 0)
         val move2 = Move(true, Card(2, "s"), 3, 2)
+        val move3 = Move(false, Card(2, "d"), 3, 2)
+
 
         // Initializing an unexpected move
-        val move3 = Move(true, Card(3, "c"), 2, 3)
+        val move4 = Move(true, Card(3, "c"), 2, 3)
 
 
         val result = GameLogic.findAllPossibleMoves(foundation, tableaus)
 
-        assertEquals(result.size, 2)
+        assertEquals(result.size, 3)
 
         assertEquals(result.contains(move1), true)
         assertEquals(result.contains(move2), true)
-        assertEquals(result.contains(move2), true)
+        assertEquals(result.contains(move3), true)
 
-        assertEquals(result.contains(move3), false)
+        assertEquals(result.contains(move4), false)
 
 
     }

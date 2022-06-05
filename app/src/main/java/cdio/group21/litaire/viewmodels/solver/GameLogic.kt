@@ -15,13 +15,13 @@ class GameLogic {
             val possibleMoves: ArrayList<Move> = ArrayList()
 
             for (indexTableau in tableaus.indices) {
-                val item = tableaus[indexTableau]
+                val itemBlock = tableaus[indexTableau]
 
-                if (item.block.isNullOrEmpty()) {
+                if (itemBlock.block.isNullOrEmpty()) {
                     continue
                 }
 
-                val card = item.block.last().card
+                val card = itemBlock.block.last().card
 
                 for (k in foundations.indices) {
                     val foundation = foundations[k].card
@@ -30,6 +30,11 @@ class GameLogic {
                         val newMove = Move(true, card,  indexTableau, k)
                         possibleMoves.add(newMove)
                     }
+                }
+
+                val movesInCurrBlock = possibleMovesFromBlockToBlock(itemBlock, tableaus, indexTableau)
+                movesInCurrBlock.forEach { currMove ->
+                    possibleMoves.add(currMove)
                 }
 
             }

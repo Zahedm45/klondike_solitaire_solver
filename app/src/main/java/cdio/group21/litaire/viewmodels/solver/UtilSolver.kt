@@ -5,6 +5,7 @@ import android.graphics.RectF
 import android.util.Log
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 
 class UtilSolver {
@@ -41,6 +42,12 @@ class UtilSolver {
 
                 }
             }
+
+        }
+
+
+
+        fun moveFromBlockToBlock(move: Move, ) {
 
         }
 
