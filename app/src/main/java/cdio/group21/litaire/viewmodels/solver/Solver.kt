@@ -115,7 +115,15 @@ class Solver {
             val sourceCard = sourceBlock[i].card
             if (move.card == sourceCard) {
 
-                if (GameLogic.evalBlockToBlock(destBlock.last().card, sourceCard)) {
+                if (move.card.value == 13) {
+                    for (j in 0..6) {
+                        if (tableaus[j].block.isEmpty()) {
+                            hasCardMoved = true
+                            break
+                        }
+                    }
+
+                } else if (GameLogic.evalBlockToBlock(destBlock.last().card, sourceCard)) {
                     //destBlock.add(sourceBlock[i])
                     hasCardMoved = true
                 }

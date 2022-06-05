@@ -6,6 +6,7 @@ import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.viewmodels.solver.GameLogic
+import cdio.group21.litaire.viewmodels.solver.Solver
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -168,7 +169,7 @@ class UnitTestPossibleMoves {
 
 
 
-
+    lateinit var result: ArrayList<Move>
 
     @Test
     fun allPossibleMoves() {
@@ -220,9 +221,6 @@ class UnitTestPossibleMoves {
 
 
 
-
-
-
         var result = GameLogic.allPossibleMoves(foundation, tableaus)
 
         assertEquals(result.size, 4)
@@ -250,8 +248,6 @@ class UnitTestPossibleMoves {
 
 
 
-
-
         // Adding another card which is possible to move
         tableaus[4].block.add( DetectionResult(RectF(), 10, Card(8, "s")))
         tableaus[4].block.add( DetectionResult(RectF(), 10, Card(5, "null")))
@@ -262,8 +258,321 @@ class UnitTestPossibleMoves {
 
         result = GameLogic.allPossibleMoves(foundation, tableaus)
         assertEquals(result.size, 4)
+        assertEquals(result.contains(Move(false, Card(8, "s"), 4, 6)), true)
 
 
+
+    }
+
+
+    fun initializeBlocks() {
+        for (i in 0..6) {
+            val k = SortedResult(0f, 0f, ArrayList())
+            tableaus.add(k)
+        }
+    }
+
+
+    @Test
+    fun moveFromBlockToFoundation() {
+
+        initializeBlocks()
+        val detect1 = DetectionResult(RectF(), 100, Card(9, "d"))
+        val detect2 = DetectionResult(RectF(), 100, Card(5, "h"))
+        foundation.add(detect1)
+        foundation.add(detect2)
+
+        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+        tableaus[1].block.add(detect3)
+
+        assertEquals(foundation[0] == detect1, true)
+        assertEquals(foundation[1] == detect2, true)
+
+        assertEquals(tableaus[1].block.last() == detect3, true)
+
+
+
+        var moves = GameLogic.allPossibleMoves(foundation, tableaus)
+        val solver = Solver()
+        solver.foundation = foundation
+        solver.tableaus = tableaus
+
+
+        moves.forEach {
+            solver.moveFromBlockToFoundation(it)
+        }
+        assertEquals(foundation[1] == detect2, false)
+        assertEquals(foundation[1] == detect3, true)
+
+        assertEquals(tableaus[1].block.isEmpty(), true)
+
+    }
+
+
+    @Test
+    fun moveFromBlockToFoundation2() {
+        initializeBlocks()
+        val detect1 = DetectionResult(RectF(), 100, Card(9, "d"))
+        val detect2 = DetectionResult(RectF(), 100, Card(5, "h"))
+        foundation.add(detect1)
+        foundation.add(detect2)
+
+        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
+        tableaus[1].block.add(detect4)
+        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+        tableaus[1].block.add(detect3)
+
+        tableaus[0].block.add(DetectionResult(RectF(), 0, Card(12, "d")))
+
+        assertEquals(foundation[0] == detect1, true)
+        assertEquals(foundation[1] == detect2, true)
+
+        assertEquals(tableaus[1].block.last() == detect3, true)
+
+
+
+        val moves = GameLogic.allPossibleMoves(foundation, tableaus)
+        val solver = Solver()
+        solver.foundation = foundation
+        solver.tableaus = tableaus
+
+        assertEquals(moves.size, 1)
+
+        moves.forEach {
+            solver.moveFromBlockToFoundation(it)
+        }
+        assertEquals(foundation[1] == detect2, false)
+        assertEquals(foundation[1] == detect3, true)
+
+        assertEquals(tableaus[1].block.size, 1)
+
+        assertEquals(tableaus[1].block.last(), detect4)
+    }
+
+
+
+
+    @Test
+    fun moveBlockToBlock1() {
+        initializeBlocks()
+
+        val detect1 = DetectionResult(RectF(), 0, Card(12, "d"))
+        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
+
+        tableaus[0].block.add(detect1)
+        tableaus[0].block.add(detect2)
+
+
+
+        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
+        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+
+        tableaus[2].block.add(detect4)
+        tableaus[2].block.add(detect3)
+
+        assertEquals(tableaus[2].block.size, 2)
+        assertEquals(tableaus[0].block.size, 2)
+
+
+        val moves = GameLogic.allPossibleMoves(foundation, tableaus)
+        assertEquals(moves.size, 1)
+        assertEquals(moves[0], Move(false, Card(5, "s"), 0, 2))
+
+
+        val solver = Solver()
+        solver.foundation = foundation
+        solver.tableaus = tableaus
+
+        moves.forEach {
+            solver.moveFromBlockToBlock(it)
+        }
+
+        assertEquals(tableaus[2].block.last(), detect2)
+        assertEquals(tableaus[2].block.size, 3)
+
+        assertEquals(tableaus[0].block.size, 1)
+        assertEquals(tableaus[0].block.last(), detect1)
+
+    }
+
+
+
+    @Test
+    fun moveBlockToBlock2() {
+        initializeBlocks()
+
+        val detect1 = DetectionResult(RectF(), 0, Card(12, "d"))
+        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
+        val detect5 = DetectionResult(RectF(), 0, Card(10, "s"))
+
+
+        tableaus[0].block.add(detect1)
+        tableaus[0].block.add(detect2)
+        tableaus[0].block.add(detect5)
+
+
+
+
+        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
+        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+
+        tableaus[2].block.add(detect4)
+        tableaus[2].block.add(detect3)
+
+
+        assertEquals(tableaus[0].block.size, 3)
+        assertEquals(tableaus[2].block.size, 2)
+
+
+
+        val moves = GameLogic.allPossibleMoves(foundation, tableaus)
+        assertEquals(moves.size, 1)
+        assertEquals(moves[0], Move(false, Card(5, "s"), 0, 2))
+
+
+        val solver = Solver()
+        solver.foundation = foundation
+        solver.tableaus = tableaus
+
+
+        assertEquals(tableaus[2].block.last(), detect3)
+
+        moves.forEach {
+            solver.moveFromBlockToBlock(it)
+        }
+
+        assertEquals(tableaus[2].block.last(), detect2)
+        assertEquals(tableaus[2].block.size, 4)
+
+        assertEquals(tableaus[0].block.size, 1)
+        assertEquals(tableaus[0].block.last(), detect1)
+
+    }
+
+
+
+
+
+    @Test
+    fun moveBlockToBlock3() {
+        initializeBlocks()
+
+        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
+        tableaus[0].block.add(detect2)
+
+
+
+        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
+        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+
+        tableaus[2].block.add(detect4)
+        tableaus[2].block.add(detect3)
+
+        assertEquals(tableaus[0].block.size, 1)
+        assertEquals(tableaus[2].block.size, 2)
+
+
+        val moves = GameLogic.allPossibleMoves(foundation, tableaus)
+        assertEquals(moves.size, 1)
+        assertEquals(moves[0], Move(false, Card(5, "s"), 0, 2))
+
+
+        val solver = Solver()
+        solver.foundation = foundation
+        solver.tableaus = tableaus
+
+
+        solver.moveFromBlockToBlock(moves[0])
+
+        assertEquals(tableaus[2].block.last(), detect2)
+        assertEquals(tableaus[2].block.size, 3)
+
+        assertEquals(tableaus[0].block.size, 0)
+
+    }
+
+
+
+
+    @Test
+    fun moveBlockToBlock4() {
+        initializeBlocks()
+
+        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
+        tableaus[6].block.add(detect2)
+
+
+
+        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
+        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+
+        tableaus[2].block.add(detect4)
+        tableaus[2].block.add(detect3)
+
+        assertEquals(tableaus[6].block.size, 1)
+        assertEquals(tableaus[2].block.size, 2)
+
+
+        val moves = GameLogic.allPossibleMoves(foundation, tableaus)
+        assertEquals(moves.size, 1)
+        assertEquals(moves[0], Move(false, Card(5, "s"), 6, 2))
+
+
+        val solver = Solver()
+        solver.foundation = foundation
+        solver.tableaus = tableaus
+
+
+        solver.moveFromBlockToBlock(moves[0])
+
+        assertEquals(tableaus[2].block.last(), detect2)
+        assertEquals(tableaus[2].block.size, 3)
+
+        assertEquals(tableaus[6].block.size, 0)
+
+    }
+
+
+
+
+
+    @Test
+    fun moveBlockToBlock5() {
+        initializeBlocks()
+
+        val detect2 = DetectionResult(RectF(), 0, Card(13, "s"))
+        tableaus[6].block.add(detect2)
+
+
+
+        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
+        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+
+        tableaus[2].block.add(detect4)
+        tableaus[2].block.add(detect3)
+
+        assertEquals(tableaus[6].block.size, 1)
+        assertEquals(tableaus[2].block.size, 2)
+
+
+        val moves = GameLogic.allPossibleMoves(foundation, tableaus)
+        assertEquals(moves.size, 1)
+        assertEquals(moves[0], Move(false, Card(13, "s"), 6, 0))
+
+
+        val solver = Solver()
+        solver.foundation = foundation
+        solver.tableaus = tableaus
+
+        assertEquals(tableaus[0].block.size, 0)
+
+        solver.moveFromBlockToBlock(moves[0])
+
+
+        assertEquals(tableaus[0].block.size, 1)
+        assertEquals(tableaus[0].block.last(), detect2)
+
+        assertEquals(tableaus[6].block.size, 0)
 
     }
 }
