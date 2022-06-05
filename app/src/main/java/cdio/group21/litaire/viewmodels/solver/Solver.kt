@@ -3,13 +3,14 @@ package cdio.group21.litaire.viewmodels.solver
 import android.content.ContentValues.TAG
 import android.util.Log
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.GameSate
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 
 class Solver {
 
     var waste = null
-    var foundation: ArrayList<DetectionResult> = ArrayList()
+    var foundations: ArrayList<DetectionResult> = ArrayList()
     var tableaus: ArrayList<SortedResult> = ArrayList()
 
 
@@ -34,10 +35,10 @@ class Solver {
 
 /* This function evaluates the foundation piles and calculates the sum to figure out
 * the game */
-    fun evalFoundation(): Int{
+    fun evalFoundation(foundations: ArrayList<DetectionResult>): Int{
     var sum = 0
 
-    foundation.forEach {
+    foundations.forEach {
         sum += it.card.value
         }
     return sum
@@ -74,20 +75,25 @@ class Solver {
     }
 
 
-    fun moveFromBlockToFoundation(move: Move): Boolean {
+    fun moveFromBlockToFoundation(
+        move: Move,
+        foundations: ArrayList<DetectionResult>,
+        tableaus: ArrayList<SortedResult>
+
+    ): Boolean {
         val sour = move.indexOfTableau
         val dest = move.indexOfDestination
         val block = tableaus[sour].block
 
         if (block.last().card == move.card) {
             if (dest == -1) {
-                foundation.add(block.last())
+                foundations.add(block.last())
                 block.removeLast()
                 return true
 
             } else if (dest in 0..3) {
-                if (GameLogic.evalBlockToFoundation(foundation[dest].card, move.card)) {
-                    foundation[dest] = block.last()
+                if (GameLogic.evalBlockToFoundation(foundations[dest].card, move.card)) {
+                    foundations[dest] = block.last()
                     block.removeLast()
                     return true
                 }
@@ -102,7 +108,11 @@ class Solver {
 
 
 
-    fun moveFromBlockToBlock(move: Move): Boolean {
+    fun moveFromBlockToBlock(
+        move: Move,
+        tableaus: ArrayList<SortedResult>
+
+    ): Boolean {
         val sourceIndex = move.indexOfTableau
         val destBlock = tableaus[move.indexOfDestination].block
         var sourceBlock = tableaus[sourceIndex].block
@@ -157,5 +167,84 @@ class Solver {
 
 
 
+    fun move_(
+        move: Move,
+        foundations: ArrayList<DetectionResult>,
+        tableaus: ArrayList<SortedResult>
+    ): Boolean {
+        if (move.isMoveToFoundation) {
+            return moveFromBlockToFoundation(move, foundations, tableaus)
+        }
+        return moveFromBlockToBlock(move,tableaus)
+    }
+
+
+
+    fun findBestMove(): Move? {
+        var oldTableaus = tableaus
+        var oldFoundations = foundations
+
+
+
+
+        val availableMoves = GameLogic.allPossibleMoves(foundations, tableaus)
+
+
+        var initialState = GameSate(evalFoundation(oldFoundations), 0)
+       // var stateAfterFirstMove = initialState
+
+        var move: Move? = null
+        val depth = 3
+
+/*
+        availableMoves.forEach {
+            if (!move_(it, oldFoundations, oldTableaus)){
+                Log.i(TAG, "Error: Some thing is not right!")
+                return@forEach
+            }
+            var stateAfterFistMove = GameSate(evalFoundation(oldFoundations), 0)
+
+            val newSate = ai(tableaus, foundations,  stateAfterFistMove, depth)
+
+            if (newSate.foundations > initialState.foundations) {
+                move = it
+                initialState = newSate
+            }
+
+
+*/
+/*            tableaus = oldTableaus
+            foundations = oldFoundations*//*
+
+        }
+
+*/
+
+        return move
+    }
+
+
+/*    fun ai(
+        currTableaus: ArrayList<SortedResult>,
+        currFoundations: ArrayList<DetectionResult>,
+        stateAfterFistMove: GameSate,
+        depth: Int
+    ): GameSate {
+
+        if (depth < 1) {
+
+        }
+
+
+
+        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currTableaus)
+
+        newPossibleMoves.forEach {
+            ai()
+
+        }
+
+
+    }*/
 
 }

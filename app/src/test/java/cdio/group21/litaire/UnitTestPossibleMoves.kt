@@ -294,12 +294,12 @@ class UnitTestPossibleMoves {
 
         var moves = GameLogic.allPossibleMoves(foundation, tableaus)
         val solver = Solver()
-        solver.foundation = foundation
+        solver.foundations = foundation
         solver.tableaus = tableaus
 
 
         moves.forEach {
-            solver.moveFromBlockToFoundation(it)
+            solver.moveFromBlockToFoundation(it, foundation, tableaus)
         }
         assertEquals(foundation[1] == detect2, false)
         assertEquals(foundation[1] == detect3, true)
@@ -333,13 +333,13 @@ class UnitTestPossibleMoves {
 
         val moves = GameLogic.allPossibleMoves(foundation, tableaus)
         val solver = Solver()
-        solver.foundation = foundation
+        solver.foundations = foundation
         solver.tableaus = tableaus
 
         assertEquals(moves.size, 1)
 
         moves.forEach {
-            solver.moveFromBlockToFoundation(it)
+            solver.moveFromBlockToFoundation(it, foundation, tableaus)
         }
         assertEquals(foundation[1] == detect2, false)
         assertEquals(foundation[1] == detect3, true)
@@ -380,11 +380,11 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundation = foundation
+        solver.foundations = foundation
         solver.tableaus = tableaus
 
         moves.forEach {
-            solver.moveFromBlockToBlock(it)
+            solver.moveFromBlockToBlock(it, tableaus)
         }
 
         assertEquals(tableaus[2].block.last(), detect2)
@@ -431,14 +431,14 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundation = foundation
+        solver.foundations = foundation
         solver.tableaus = tableaus
 
 
         assertEquals(tableaus[2].block.last(), detect3)
 
         moves.forEach {
-            solver.moveFromBlockToBlock(it)
+            solver.moveFromBlockToBlock(it, tableaus)
         }
 
         assertEquals(tableaus[2].block.last(), detect2)
@@ -478,11 +478,11 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundation = foundation
+        solver.foundations = foundation
         solver.tableaus = tableaus
 
 
-        solver.moveFromBlockToBlock(moves[0])
+        solver.moveFromBlockToBlock(moves[0], tableaus)
 
         assertEquals(tableaus[2].block.last(), detect2)
         assertEquals(tableaus[2].block.size, 3)
@@ -519,11 +519,11 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundation = foundation
+        solver.foundations = foundation
         solver.tableaus = tableaus
 
 
-        solver.moveFromBlockToBlock(moves[0])
+        solver.moveFromBlockToBlock(moves[0], tableaus)
 
         assertEquals(tableaus[2].block.last(), detect2)
         assertEquals(tableaus[2].block.size, 3)
@@ -561,12 +561,12 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundation = foundation
+        solver.foundations = foundation
         solver.tableaus = tableaus
 
         assertEquals(tableaus[0].block.size, 0)
 
-        solver.moveFromBlockToBlock(moves[0])
+        solver.moveFromBlockToBlock(moves[0], tableaus)
 
 
         assertEquals(tableaus[0].block.size, 1)
