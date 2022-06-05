@@ -25,13 +25,12 @@ class Solver {
         Log.i(TAG, "print Foundation eval: ${evalFoundation()}")*/
 
 
-        //Log.i(TAG, "hello ${foundation[0].card}")
-
         val k = GameLogic.findAllPossibleMoves(foundation, tableaus)
 
         k.forEach {
             Log.i(TAG, "print100: $it")
         }
+
 
     }
 
@@ -39,14 +38,14 @@ class Solver {
 
 /* This function evaluates the foundation piles and calculates the sum to figure out
 * the game */
-/*    fun evalFoundation(): Int{
+    fun evalFoundation(): Int{
     var sum = 0
 
     foundation.forEach {
-        sum += it.text[0].toString().toInt()
+        sum += it.card.value
         }
     return sum
-    }*/
+    }
 
 /* This function evaluates the tableau and finds the largest column*/
     fun evalTableau():Int {
@@ -109,23 +108,10 @@ class Solver {
             }
         }*/
 
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(5, "s")))
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(3, "s")))
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(2, "s")))
-
-
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(4, "h")))
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(3, "d")))
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(10, "d")))
-
-        tableaus[2].block.add(DetectionResult(RectF(), 100, Card(4, "h")))
-
-        tableaus[2].block.add(DetectionResult(RectF(), 100, Card(3, "c")))
-
-
-
 
     }
+
+
 
 
 }

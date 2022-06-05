@@ -1,7 +1,5 @@
 package cdio.group21.litaire.viewmodels.solver
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Move
@@ -16,8 +14,8 @@ class GameLogic {
         ): ArrayList<Move> {
             val possibleMoves: ArrayList<Move> = ArrayList()
 
-            for (index in tableaus.indices) {
-                val item = tableaus[index]
+            for (indexTableau in tableaus.indices) {
+                val item = tableaus[indexTableau]
 
                 if (item.block.isNullOrEmpty()) {
                     continue
@@ -29,13 +27,40 @@ class GameLogic {
                     val foundation = foundations[k].card
                     if (evalBlockToFoundation(foundation, card)) {
 
-                        val newMove = Move(true, card,  index, k)
+                        val newMove = Move(true, card,  indexTableau, k)
                         possibleMoves.add(newMove)
                     }
                 }
+
+
+
+
+
+
+                for (i in item.block.indices) {
+
+                    val sourceCard = item.block[i].card
+
+                    for (k in tableaus.indices) {
+
+                        if (k == indexTableau) {
+                            continue
+                        }
+
+                        val destCard = tableaus[k].block.last().card
+                        if (evalBlockToBlock(destCard, sourceCard)) {
+
+                            val newMove = Move(false, sourceCard, indexTableau, k)
+                            possibleMoves.add(newMove)
+                            break
+                        }
+                    }
+
+                }
+
+
+
             }
-
-
 
 
 
@@ -43,6 +68,19 @@ class GameLogic {
         }
 
 
+
+        private fun isMovePossibleFromTableauToTableau(
+            card: Card,
+            tableaus: ArrayList<SortedResult>
+        ): Boolean {
+
+            tableaus.forEach {
+               if ( it.block.last().card == card) {
+                   return true
+               }
+            }
+            return false
+        }
 
 
         fun evalBlockToFoundation(foundation: Card, card: Card): Boolean {
@@ -63,15 +101,16 @@ class GameLogic {
 
 
 
-        fun evalBlockToBlock(destination: String, source: String): Boolean{
-            val suit = destination[1]
-            val num = destination[0].toString().toInt()
+        fun evalBlockToBlock(destination: Card, source: Card): Boolean{
 
-            val suit2 = source[1]
-            val num2 = source[0].toString().toInt()
+            val suit = destination.suit
+            val num = destination.value
 
-            if(suit == 's' || suit == 'c'){
-                if (suit2 == 'h' || suit2 == 'd'){
+            val suit2 = source.suit
+            val num2 = source.value
+
+            if(suit == "s" || suit == "c"){
+                if (suit2 == "h" || suit2 == "d"){
                     if(num-num2 == 1) {
                         return true
                     }
@@ -79,7 +118,7 @@ class GameLogic {
             }
 
             else{
-                if (suit2 == 's' || suit2 == 'c'){
+                if (suit2 == "s" || suit2 == "c"){
                     if(num-num2 == 1) {
                         return true
                     }
