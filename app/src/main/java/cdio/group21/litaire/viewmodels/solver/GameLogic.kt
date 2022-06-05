@@ -113,7 +113,7 @@ class GameLogic {
 
                             val newMove = Move(false, sourceCard, indexTableau, k)
                             possibleMoves.add(newMove)
-                            break
+
                         }
 
                     }

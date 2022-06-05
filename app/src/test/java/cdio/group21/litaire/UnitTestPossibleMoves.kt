@@ -157,6 +157,11 @@ class UnitTestPossibleMoves {
 
 
 
+        tableaus[5].block.add(DetectionResult(RectF(), 0, Card(3, "c")))
+
+
+
+
         val returnVal: ArrayList<Move> = ArrayList()
 
         for (indexTableau in tableaus.indices) {
@@ -173,14 +178,26 @@ class UnitTestPossibleMoves {
         }
 
 
-        assertEquals(returnVal.size, 3)
-
-
+        assertEquals(returnVal.size, 4)
 
 
 
         val expMove1 = Move(false, Card(5, "s"), 0, 3)
-        val UnExpMove1 = Move(false, Card(2, "c"), 0, 2)
+        assertEquals(returnVal[0], expMove1)
+
+        val expMove2 = Move(false, Card(2, "d"), 3, 2)
+        assertEquals(returnVal[1], expMove2)
+
+        val expMove3 = Move(false, Card(2, "d"), 3, 5)
+        assertEquals(returnVal[2], expMove3)
+
+        val expMove4 = Move(false, Card(13, "h"), 4, 6)
+        assertEquals(returnVal[3], expMove4)
+
+
+        val unExpMove1 = Move(false, Card(2, "c"), 0, 2)
+
+        assertEquals(returnVal.contains(unExpMove1), false)
 
 
     }
