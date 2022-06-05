@@ -47,9 +47,7 @@ class UtilSolver {
 
 
 
-        fun moveFromBlockToBlock(move: Move, ) {
 
-        }
 
 
     }
