@@ -22,7 +22,7 @@ class Solver {
         Log.i(TAG, "print Foundation eval: ${evalFoundation()}")*/
 
 
-        val k = GameLogic.findAllPossibleMoves(foundation, tableaus)
+        val k = GameLogic.allPossibleMoves(foundation, tableaus)
 
         k.forEach {
             Log.i(TAG, "print100: $it")

@@ -9,8 +9,9 @@ class GameLogic {
     companion object {
 
 
-        fun findAllPossibleMoves(
-            foundations: ArrayList<DetectionResult>, tableaus: ArrayList<SortedResult>
+        fun allPossibleMoves(
+            foundations: ArrayList<DetectionResult>,
+            tableaus: ArrayList<SortedResult>
         ): ArrayList<Move> {
             val possibleMoves: ArrayList<Move> = ArrayList()
 
@@ -23,14 +24,23 @@ class GameLogic {
 
                 val card = itemBlock.block.last().card
 
-                for (k in foundations.indices) {
-                    val foundation = foundations[k].card
-                    if (evalBlockToFoundation(foundation, card)) {
+                if (card.value == 1 && foundations.size < 4) {
+                    val newMove = Move(true, card,  indexTableau, -1)
+                    possibleMoves.add(newMove)
 
-                        val newMove = Move(true, card,  indexTableau, k)
-                        possibleMoves.add(newMove)
+                } else {
+                    for (k in foundations.indices) {
+                        val foundation = foundations[k].card
+                        if (evalBlockToFoundation(foundation, card)) {
+
+                            val newMove = Move(true, card,  indexTableau, k)
+                            possibleMoves.add(newMove)
+                        }
                     }
+
                 }
+
+
 
                 val movesInCurrBlock = possibleMovesFromBlockToBlock(itemBlock, tableaus, indexTableau)
                 movesInCurrBlock.forEach { currMove ->

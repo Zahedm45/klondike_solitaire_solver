@@ -20,14 +20,14 @@ class UnitTestPossibleMoves {
     var tableaus: ArrayList<SortedResult> = ArrayList()
 
     @Test
-    fun moveFromTableauToFoundation() {
+    fun allPossibleMoves() {
 
 
         // Adding cards to the foundations
         foundation.add(DetectionResult(RectF(), 100, Card(9, "d")))
         foundation.add(DetectionResult(RectF(), 100, Card(5, "h")))
         foundation.add(DetectionResult(RectF(), 100, Card(1, "s")))
-        foundation.add(DetectionResult(RectF(), 100, Card(4, "c")))
+        //foundation.add(DetectionResult(RectF(), 100, Card(4, "c")))
 
 
         for (i in 0..6) {
@@ -55,27 +55,45 @@ class UnitTestPossibleMoves {
         tableaus[3].block.add(DetectionResult(RectF(), 100, Card(2, "s")))
 
 
+        tableaus[4].block.add(DetectionResult(RectF(), 100, Card(1, "c")))
+
+
+
 
 
         // Initializing the expected moves
         val move1 = Move(true, Card(10, "d"), 1, 0)
         val move2 = Move(true, Card(2, "s"), 3, 2)
         val move3 = Move(false, Card(2, "d"), 3, 2)
+        val move4 = Move(true, Card(1, "c"), 4, -1)
 
 
-        // Initializing an unexpected move
-        val move4 = Move(true, Card(3, "c"), 2, 3)
 
 
-        val result = GameLogic.findAllPossibleMoves(foundation, tableaus)
 
-        assertEquals(result.size, 3)
+
+        var result = GameLogic.allPossibleMoves(foundation, tableaus)
+
+        assertEquals(result.size, 4)
 
         assertEquals(result.contains(move1), true)
         assertEquals(result.contains(move2), true)
         assertEquals(result.contains(move3), true)
+        assertEquals(result.contains(move4), true)
 
-        assertEquals(result.contains(move4), false)
+
+
+
+        // Initializing an unexpected move
+        val move5 = Move(true, Card(3, "c"), 2, 3)
+        assertEquals(result.contains(move5), false)
+
+
+
+        foundation.add(DetectionResult(RectF(), 100, Card(4, "c")))
+        result = GameLogic.allPossibleMoves(foundation, tableaus)
+
+        assertEquals(result.size, 3)
 
 
     }
@@ -164,7 +182,7 @@ class UnitTestPossibleMoves {
 
 
 
-        val returnVal: ArrayList<Move> = ArrayList()
+        var returnVal: ArrayList<Move> = ArrayList()
 
         for (indexTableau in tableaus.indices) {
             val itemBlock = tableaus[indexTableau]
@@ -201,6 +219,27 @@ class UnitTestPossibleMoves {
 
         assertEquals(returnVal.contains(unExpMove1), false)
 
+
+
+
+// Testing whether or not the card 13h is able to move when there is no free block
+        tableaus[6].block.add(DetectionResult(RectF(), 0, Card(10, "c")))
+        returnVal = ArrayList()
+
+        for (indexTableau in tableaus.indices) {
+            val itemBlock = tableaus[indexTableau]
+
+            if (itemBlock.block.isNullOrEmpty()) {
+                continue
+            }
+            val movesInCurrBlock = GameLogic.possibleMovesFromBlockToBlock(itemBlock, tableaus, indexTableau)
+
+            movesInCurrBlock.forEach {
+                returnVal.add(it)
+            }
+        }
+
+        assertEquals(returnVal.size, 3)
 
     }
 }
