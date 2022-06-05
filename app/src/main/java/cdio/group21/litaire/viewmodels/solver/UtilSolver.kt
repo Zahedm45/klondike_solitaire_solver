@@ -1,6 +1,7 @@
 package cdio.group21.litaire.viewmodels.solver
 
 import android.content.ContentValues.TAG
+import android.graphics.RectF
 import android.util.Log
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
@@ -9,23 +10,40 @@ import cdio.group21.litaire.data.SortedResult
 class UtilSolver {
     companion object {
 
-/*        fun setCardsToDetectionResult(
+        fun simulateRandomCards(
             foundation: ArrayList<DetectionResult>,
             tableaus: ArrayList<SortedResult>
         ) {
 
-            foundation.forEach {
-                var text = it.text
-                val suit = text.last().toString()
-                Log.i(TAG, "heredd $text $suit")
+            foundation.add(DetectionResult(RectF(), 100, Card(9, "d")))
+            foundation.add(DetectionResult(RectF(), 100, Card(5, "h")))
+            foundation.add(DetectionResult(RectF(), 100, Card(1, "s")))
+            foundation.add(DetectionResult(RectF(), 100, Card(4, "c")))
 
-                text.dropLast(1)
+            val suits = arrayOf("s", "h", "d", "c")
+            val values = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 
-                Log.i(TAG, "heredd $text")
-                val value = text.toInt()
-                it.card =  Card(value, suit)
+
+            for (i in 0..6) {
+                val k = SortedResult(0f, 0f, ArrayList())
+                tableaus.add(k)
             }
 
-        }*/
+
+            for (suit in suits) {
+
+                for (value in values) {
+
+                    val randomInt = (0..6).random()
+                    val card = Card(value, suit)
+
+                    tableaus[randomInt].block.add(DetectionResult(RectF(), 0, card))
+
+                }
+            }
+
+        }
+
+
     }
 }
