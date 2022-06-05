@@ -33,11 +33,14 @@ class GameLogic {
                 }
 
 
+                //isMovePossibleFromTableauToTableau(item, tableaus, indexTableau)
 
 
 
 
-                for (i in item.block.indices) {
+
+
+/*                for (i in item.block.indices) {
 
                     val sourceCard = item.block[i].card
 
@@ -56,7 +59,7 @@ class GameLogic {
                         }
                     }
 
-                }
+                }*/
 
 
 
@@ -69,17 +72,57 @@ class GameLogic {
 
 
 
-        private fun isMovePossibleFromTableauToTableau(
-            card: Card,
-            tableaus: ArrayList<SortedResult>
-        ): Boolean {
+        fun possibleMovesFromBlockToBlock(
+            item: SortedResult,
+            tableaus: ArrayList<SortedResult>,
+            indexTableau: Int
+        ): ArrayList<Move> {
 
-            tableaus.forEach {
-               if ( it.block.last().card == card) {
-                   return true
-               }
+            val possibleMoves: ArrayList<Move> = ArrayList()
+
+            item.block.forEach {
+
+                val sourceCard = it.card
+
+                for (k in tableaus.indices) {
+
+                    if (k == indexTableau) {
+                        continue
+                    }
+
+
+
+                    if (sourceCard.value == 13) {
+
+                        for (iter in tableaus.indices) {
+                            if (tableaus[iter].block.isEmpty()) {
+                                val newMove = Move(false, sourceCard, indexTableau, iter)
+                                possibleMoves.add(newMove)
+                                break
+                            }
+                        }
+                        break
+
+                    } else if (tableaus[k].block.isEmpty()) {
+                        continue
+
+                    } else {
+
+                        val destCard = tableaus[k].block.last().card
+                        if (evalBlockToBlock(destCard, sourceCard)) {
+
+                            val newMove = Move(false, sourceCard, indexTableau, k)
+                            possibleMoves.add(newMove)
+                            break
+                        }
+
+                    }
+
+
+
+                }
             }
-            return false
+            return possibleMoves
         }
 
 
