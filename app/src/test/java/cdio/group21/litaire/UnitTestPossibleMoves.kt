@@ -294,8 +294,8 @@ class UnitTestPossibleMoves {
 
         var moves = GameLogic.allPossibleMoves(foundation, tableaus)
         val solver = Solver()
-        solver.foundations = foundation
-        solver.tableaus = tableaus
+/*        solver.foundations = foundation
+        solver.tableaus = tableaus*/
 
 
         moves.forEach {
@@ -333,8 +333,8 @@ class UnitTestPossibleMoves {
 
         val moves = GameLogic.allPossibleMoves(foundation, tableaus)
         val solver = Solver()
-        solver.foundations = foundation
-        solver.tableaus = tableaus
+/*        solver.foundations = foundation
+        solver.tableaus = tableaus*/
 
         assertEquals(moves.size, 1)
 
@@ -380,8 +380,8 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundations = foundation
-        solver.tableaus = tableaus
+/*        solver.foundations = foundation
+        solver.tableaus = tableaus*/
 
         moves.forEach {
             solver.moveFromBlockToBlock(it, tableaus)
@@ -431,8 +431,8 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundations = foundation
-        solver.tableaus = tableaus
+/*        solver.foundations = foundation
+        solver.tableaus = tableaus*/
 
 
         assertEquals(tableaus[2].block.last(), detect3)
@@ -441,7 +441,9 @@ class UnitTestPossibleMoves {
             solver.moveFromBlockToBlock(it, tableaus)
         }
 
-        assertEquals(tableaus[2].block.last(), detect2)
+        assertEquals(tableaus[2].block[tableaus[2].block.size-2], detect2)
+
+        assertEquals(tableaus[2].block.last(), detect5)
         assertEquals(tableaus[2].block.size, 4)
 
         assertEquals(tableaus[0].block.size, 1)
@@ -478,8 +480,8 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundations = foundation
-        solver.tableaus = tableaus
+/*        solver.foundations = foundation
+        solver.tableaus = tableaus*/
 
 
         solver.moveFromBlockToBlock(moves[0], tableaus)
@@ -519,8 +521,8 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundations = foundation
-        solver.tableaus = tableaus
+/*        solver.foundations = foundation
+        solver.tableaus = tableaus*/
 
 
         solver.moveFromBlockToBlock(moves[0], tableaus)
@@ -561,8 +563,8 @@ class UnitTestPossibleMoves {
 
 
         val solver = Solver()
-        solver.foundations = foundation
-        solver.tableaus = tableaus
+/*        solver.foundations = foundation
+        solver.tableaus = tableaus*/
 
         assertEquals(tableaus[0].block.size, 0)
 

@@ -50,7 +50,8 @@ class FragmentLandingPage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Solver()
+        val solver = Solver()
+        solver.initt()
 
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
             binding.ivBackground.setImageBitmap(it)

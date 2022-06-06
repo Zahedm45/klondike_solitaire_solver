@@ -6,12 +6,13 @@ import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.GameSate
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
+import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Solver {
 
     var waste = null
-    var foundations: ArrayList<DetectionResult> = ArrayList()
-    var tableaus: ArrayList<SortedResult> = ArrayList()
+    val foundations: ArrayList<DetectionResult> = ArrayList()
+    val tableaus: ArrayList<SortedResult> = ArrayList()
 
 
 /*    init {
@@ -45,7 +46,7 @@ class Solver {
     }
 
 /* This function evaluates the tableau and finds the largest column*/
-    fun evalTableau():Int {
+    fun evalTableau(tableaus: ArrayList<SortedResult>):Int {
 
         var size = 0
 
@@ -63,7 +64,7 @@ class Solver {
     /**
      * Returns amount of the empty blocks
      */
-    fun emptyBlock(): Int {
+    fun emptyBlock(tableaus: ArrayList<SortedResult>): Int {
         var counter = 0
         tableaus.forEach {
 
@@ -151,11 +152,22 @@ class Solver {
         if (hasCardMoved) {
             var dropItems = sourceBlock.size - i
 
+            val newList: ArrayList<DetectionResult> = ArrayList()
+
             while (dropItems > 0) {
-                destBlock.add(tableaus[sourceIndex].block.last())
+                //destBlock.add(tableaus[sourceIndex].block.last())
+
+                newList.add(tableaus[sourceIndex].block.last())
                 tableaus[sourceIndex].block.removeLast()
                 dropItems--
             }
+
+
+            for (k in newList.indices) {
+                destBlock.add(newList.last())
+                newList.removeLast()
+            }
+
 
             return true
         }
@@ -181,8 +193,8 @@ class Solver {
 
 
     fun findBestMove(): Move? {
-        var oldTableaus = tableaus
-        var oldFoundations = foundations
+        /*var oldTableaus = tableaus
+        var oldFoundations = foundations*/
 
 
 
@@ -190,61 +202,120 @@ class Solver {
         val availableMoves = GameLogic.allPossibleMoves(foundations, tableaus)
 
 
-        var initialState = GameSate(evalFoundation(oldFoundations), 0)
+        var initialState = GameSate(evalFoundation(foundations), 0)
        // var stateAfterFirstMove = initialState
 
         var move: Move? = null
         val depth = 3
 
-/*
+        var leafValue: ArrayList<GameSate> = ArrayList()
+
         availableMoves.forEach {
+
+            var oldTableaus = tableaus
+            var oldFoundations = foundations
+
             if (!move_(it, oldFoundations, oldTableaus)){
-                Log.i(TAG, "Error: Some thing is not right!")
+                Log.i(TAG, "Error: Something is not right!")
                 return@forEach
             }
             var stateAfterFistMove = GameSate(evalFoundation(oldFoundations), 0)
 
-            val newSate = ai(tableaus, foundations,  stateAfterFistMove, depth)
+            ai(tableaus, foundations,  leafValue, depth)
+            leafValue.sortBy { gs ->
+                gs.foundations
+            }
+            val newSate = leafValue.first()
 
             if (newSate.foundations > initialState.foundations) {
                 move = it
                 initialState = newSate
             }
 
-
-*/
-/*            tableaus = oldTableaus
-            foundations = oldFoundations*//*
-
         }
 
-*/
 
         return move
     }
 
 
-/*    fun ai(
+    fun ai(
         currTableaus: ArrayList<SortedResult>,
         currFoundations: ArrayList<DetectionResult>,
-        stateAfterFistMove: GameSate,
+        leafValues: ArrayList<GameSate>,
         depth: Int
-    ): GameSate {
+    ) {
 
         if (depth < 1) {
-
+            val sate = GameSate(evalFoundation(currFoundations), emptyBlock(currTableaus))
+            leafValues.add(sate)
+            return
         }
 
 
 
         val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currTableaus)
 
-        newPossibleMoves.forEach {
-            ai()
+        if(newPossibleMoves.isEmpty()) {
+            val sate = GameSate(evalFoundation(currFoundations), emptyBlock(currTableaus))
+            leafValues.add(sate)
+            return
 
         }
 
+        newPossibleMoves.forEach {
+            var tab = currTableaus
+            var fou = currFoundations
 
-    }*/
+            move_(it, fou, tab)
+            ai(currTableaus, currFoundations, leafValues, depth-1)
+
+        }
+
+    }
+
+
+
+    fun initt() {
+
+        UtilSolver.simulateRandomCards(foundations, tableaus)
+        val landingPageViewModel = LandingPageViewModel()
+        landingPageViewModel.printFoundation(foundations)
+        landingPageViewModel.printTableaus(tableaus)
+
+        val nextMove = findBestMove()
+
+        Log.i(TAG, "The next move is: $nextMove")
+
+
+
+
+
+
+
+
+
+
+/*        Log.i(TAG, "print Tableau eval: ${evalTableau(tableaus)}")
+        Log.i(TAG, "print Foundation eval: ${evalFoundation(foundations)}")*/
+
+
+/*        val k = GameLogic.allPossibleMoves(foundations, tableaus)
+
+*//*        Log.i(TAG, "print100: ${k[0]}")
+        move_(k[0], foundations, tableaus)*//*
+
+        landingPageViewModel.printFoundation(foundations)
+        landingPageViewModel.printTableaus(tableaus)*/
+
+
+/*        k.forEach {
+            move_(it, foundations, tableaus)
+            Log.i(TAG, "print100: $it")
+
+            landingPageViewModel.printFoundation(foundations)
+            landingPageViewModel.printTableaus(tableaus)
+        }*/
+    }
 
 }
