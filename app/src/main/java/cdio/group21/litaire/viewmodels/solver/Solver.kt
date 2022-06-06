@@ -48,19 +48,18 @@ class Solver {
         val game = Game()
 
 
-        val nextMove = ai.findBestMove(foundations, tableaus)
+        //val nextMove = ai.findBestMove(foundations, tableaus)
 
-/*        for (i in 0..1) {
+        for (i in 0..10) {
             val nextMove = ai.findBestMove(foundations, tableaus)
             if (nextMove != null) {
                 game.move_(nextMove, foundations, tableaus)
 
-                Log.i(TAG, "\n\n\n\n")
-*//*                landingPageViewModel.printFoundation2(foundations)
-                landingPageViewModel.printTableaus2(tableaus)*//*
+                landingPageViewModel.printFoundation2(foundations)
+                landingPageViewModel.printTableaus2(tableaus)
             }
 
-        }*/
+        }
 
 
     }

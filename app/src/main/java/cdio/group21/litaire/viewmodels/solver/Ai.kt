@@ -12,7 +12,7 @@ class Ai {
         foundations: ArrayList<Card>,
         tableaus: ArrayList<ArrayList<Card>>
     ): Move? {
-        val depth = 3
+        val depth = 5
 
         val availableMoves = GameLogic.allPossibleMoves(foundations, tableaus)
         var initialState = GameSate(ga.evalFoundation(foundations), 0)
@@ -22,33 +22,18 @@ class Ai {
         availableMoves.forEach {
 
 
-
-
-
             val tableaus_copy = ArrayList(tableaus.map { k ->
-                ArrayList(k.map { c ->
-                    c.deepCopy()
-                })
+                ArrayList(k.map { c -> c.deepCopy() })
             })
 
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
 
-
-            val landingPageViewModel = LandingPageViewModel()
-            landingPageViewModel.printTableaus2(tableaus)
-
-            Log.i(TAG, "move: $it")
+           // Log.i(TAG, "move: $it")
             ga.move_(it, foundaitons_copy, tableaus_copy )
 
-            landingPageViewModel.printTableaus2(tableaus)
+            algorithm(tableaus_copy, foundaitons_copy, leafValue, depth)
 
-            return move
-
-            // algorithm(tableaus_copy, foundaitons_copy,  leafValue, depth)
-
-/*            leafValue.sortBy { gs ->
-                gs.foundations
-            }
+            leafValue.sortBy { gs -> gs.foundations }
 
 
             val newSate = leafValue.last()
@@ -67,17 +52,17 @@ class Ai {
 
                     // newSate.emptyBlock > initialState.emptyBlock ||
                 }
-            }*/
+            }
 
         }
 
-        //Log.i(TAG, "The next move is: $move, $initialState")
+        println( "The next move is: $move, $initialState")
 
         return move
     }
 
 
-/*    private fun algorithm(
+    private fun algorithm(
         currTableaus: ArrayList<ArrayList<Card>>,
         currFoundations: ArrayList<Card>,
         leafValues: ArrayList<GameSate>,
@@ -97,14 +82,12 @@ class Ai {
         }
 
         newPossibleMoves.forEach { move ->
-// detect -> detect.deepCopy()
-            val tab = ArrayList(currTableaus.map {
-                it.map { c ->
-                    c.deepCopy()
-                }
+
+            val tab = ArrayList(currTableaus.map { k ->
+                ArrayList(k.map { c -> c.deepCopy() })
             })
+
             val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
-            //Log.i(TAG, "one two...")
 
             ga.move_(move, fou , tab)
             algorithm(tab, fou, leafValues, depth-1)
@@ -112,7 +95,7 @@ class Ai {
 
         }
 
-    }*/
+    }
 
 
 

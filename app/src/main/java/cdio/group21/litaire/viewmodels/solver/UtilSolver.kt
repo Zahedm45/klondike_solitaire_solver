@@ -16,10 +16,10 @@ class UtilSolver {
             tableaus: ArrayList<ArrayList<Card>>
         ) {
 
-            foundation.add(Card(9, "d"))
+/*            foundation.add(Card(9, "d"))
             foundation.add(Card(5, "h"))
             foundation.add(Card(1, "s"))
-            foundation.add(Card(4, "c"))
+            foundation.add(Card(4, "c"))*/
 
             val suits = arrayOf("s", "h", "d", "c")
             val values = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
