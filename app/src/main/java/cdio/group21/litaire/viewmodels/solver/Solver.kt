@@ -59,9 +59,9 @@ class Solver {
             if (nextMove != null) {
                 game.move_(nextMove, foundations, tableaus)
 
-/*                Log.i(TAG, "\n\n\n\n")
+                Log.i(TAG, "\n\n\n\n")
                 landingPageViewModel.printFoundation(foundations)
-                landingPageViewModel.printTableaus(tableaus)*/
+                landingPageViewModel.printTableaus(tableaus)
             }
 
         }

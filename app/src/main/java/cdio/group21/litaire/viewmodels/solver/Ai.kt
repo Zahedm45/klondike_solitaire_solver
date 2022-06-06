@@ -8,10 +8,8 @@ import cdio.group21.litaire.data.GameSate
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 
 class Ai {
 
@@ -20,7 +18,7 @@ class Ai {
         foundations: ArrayList<DetectionResult>,
         tableaus: ArrayList<SortedResult>
     ): Move? {
-        val depth = 4
+        val depth = 3
 
         val availableMoves = GameLogic.allPossibleMoves(foundations, tableaus)
         var initialState = GameSate(ga.evalFoundation(foundations), 0)
@@ -30,13 +28,7 @@ class Ai {
         availableMoves.forEach {
 
 
-            CoroutineScope(Dispatchers.IO).launch {
 
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    clearProgressBar()
-                }
-            }
 
 
             val tableaus_copy = ArrayList(tableaus.map { detect -> detect.deepCopy() })
@@ -103,7 +95,7 @@ class Ai {
 
             val tab = ArrayList(currTableaus.map { detect -> detect.deepCopy() })
             val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
-            Log.i(TAG, "one two...")
+            //Log.i(TAG, "one two...")
 
             ga.move_(move, fou , tab)
             algorithm(tab, fou, leafValues, depth-1)
