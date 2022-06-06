@@ -50,7 +50,7 @@ class Solver {
 
         //val nextMove = ai.findBestMove(foundations, tableaus)
 
-        for (i in 0..10) {
+        for (i in 0..40) {
             val nextMove = ai.findBestMove(foundations, tableaus)
             if (nextMove != null) {
                 game.move_(nextMove, foundations, tableaus)
