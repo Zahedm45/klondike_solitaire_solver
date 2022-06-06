@@ -3,7 +3,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-
+        maven {
+            url = uri("https://packagecloud.io/tobiasmaneschijn/cdio21/maven2")
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'

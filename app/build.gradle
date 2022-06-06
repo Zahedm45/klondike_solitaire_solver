@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
 }
 
+
 android {
     compileSdk 31
 
@@ -47,7 +48,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
-    
+
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
 
     implementation 'org.tensorflow:tensorflow-lite-task-vision:0.3.1'
