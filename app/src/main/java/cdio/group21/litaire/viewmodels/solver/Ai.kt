@@ -1,22 +1,14 @@
 package cdio.group21.litaire.viewmodels.solver
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
-import android.util.Log
-import cdio.group21.litaire.data.DetectionResult
-import cdio.group21.litaire.data.GameSate
-import cdio.group21.litaire.data.Move
-import cdio.group21.litaire.data.SortedResult
-import cdio.group21.litaire.viewmodels.LandingPageViewModel
+import cdio.group21.litaire.data.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Main
 
 class Ai {
 
     val ga = Game()
-    fun findBestMove(
-        foundations: ArrayList<DetectionResult>,
-        tableaus: ArrayList<SortedResult>
+/*    fun findBestMove(
+        foundations: ArrayList<Card>,
+        tableaus: ArrayList<ArrayList<Card>>
     ): Move? {
         val depth = 3
 
@@ -69,9 +61,10 @@ class Ai {
         //Log.i(TAG, "The next move is: $move, $initialState")
 
         return move
-    }
+    }*/
 
 
+/*
     private fun algorithm(
         currTableaus: ArrayList<SortedResult>,
         currFoundations: ArrayList<DetectionResult>,
@@ -104,10 +97,11 @@ class Ai {
         }
 
     }
+*/
 
 
 
-    private fun setGameState(
+/*    private fun setGameState(
         currTableaus: ArrayList<SortedResult>,
         currFoundations: ArrayList<DetectionResult>,
         leafValues: ArrayList<GameSate>
@@ -119,7 +113,7 @@ class Ai {
             val sate = GameSate(evalF, evalB)
             leafValues.add(sate)
         }
-    }
+    }*/
 
 
 }

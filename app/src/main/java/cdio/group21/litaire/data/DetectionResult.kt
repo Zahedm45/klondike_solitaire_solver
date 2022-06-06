@@ -16,3 +16,17 @@ data class DetectionResult(
         card: Card = this.card
     ) = DetectionResult(boundingBox, percentage, card)
 }
+
+
+
+
+
+
+data class DetectionResult2(
+    var card: Card
+) {
+
+    fun deepCopy(
+        card: Card = this.card
+    ) = DetectionResult2(card)
+}

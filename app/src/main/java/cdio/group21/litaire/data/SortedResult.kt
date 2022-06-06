@@ -13,3 +13,16 @@ data class SortedResult(
     ) = SortedResult(centerX, centerY, block)
 
 }
+
+
+
+
+data class SortedResult2(
+    var block: ArrayList<Card> = ArrayList()
+) {
+
+    fun deepCopy(
+        block: ArrayList<Card> = this.block.map { it.deepCopy()} as ArrayList<Card>
+    ) = SortedResult2(block)
+
+}

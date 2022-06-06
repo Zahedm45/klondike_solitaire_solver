@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.tflite.ObjectRecognition
@@ -301,12 +302,40 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
+
      fun printFoundation(results: ArrayList<DetectionResult>){
-         Log.i(ContentValues.TAG, "Block: Foundation")
+         Log.i(ContentValues.TAG, "Foundation")
          results.forEach { crr ->
              Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr.toText()}")
          }
     }
+
+
+
+
+
+    fun printTableaus2(sortedResult: ArrayList<ArrayList<Card>>){
+        Log.i(ContentValues.TAG, "Tableaus")
+        var i = 0
+        sortedResult.forEach {
+            //Log.i(ContentValues.TAG, "Block: ${it.centerX}")
+            Log.i(ContentValues.TAG, "\nBlock: ${i}")
+            it.forEach { crr ->
+                Log.i(ContentValues.TAG, "              ${crr.value.toString()+crr.suit}")
+
+            }
+            i++
+        }
+    }
+
+
+    fun printFoundation2(results: ArrayList<Card>){
+        Log.i(ContentValues.TAG, "Foundation")
+        results.forEach { crr ->
+            Log.i(ContentValues.TAG, "                 ${crr.value.toString()+crr.suit}")
+        }
+    }
+
 
 
     fun printWaste(waste: DetectionResult) {

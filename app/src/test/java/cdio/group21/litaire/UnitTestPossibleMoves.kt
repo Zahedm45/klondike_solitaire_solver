@@ -1,13 +1,9 @@
 package cdio.group21.litaire
 
-import android.graphics.RectF
 import cdio.group21.litaire.data.Card
-import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Move
-import cdio.group21.litaire.data.SortedResult
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
-import cdio.group21.litaire.viewmodels.solver.Solver
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -18,23 +14,22 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class UnitTestPossibleMoves {
-    var foundation: ArrayList<DetectionResult> = ArrayList()
-    var tableaus: ArrayList<SortedResult> = ArrayList()
 
+    private var foundation: ArrayList<Card> = ArrayList()
+    private val tableaus: ArrayList<ArrayList<Card>> = ArrayList()
 
 
     @Test
     fun possibleMovesFromBlockToBlock() {
 
         for (i in 0..6) {
-            val k = SortedResult(0f, 0f, ArrayList())
-            tableaus.add(k)
+            tableaus.add(ArrayList())
         }
 
 
-        tableaus[0].block.add(DetectionResult(RectF(), 10, Card(5, "s")))
+        tableaus[0].add(Card(5, "s"))
 
-        tableaus[3].block.add(DetectionResult(RectF(), 10, Card(6, "h")))
+        tableaus[3].add(Card(6, "h"))
 
 
 
@@ -43,7 +38,7 @@ class UnitTestPossibleMoves {
         for (indexTableau in tableaus.indices) {
             val item = tableaus[indexTableau]
 
-            if (item.block.isNullOrEmpty()) {
+            if (item.isNullOrEmpty()) {
                 continue
             }
             val movesInCurrBlock = GameLogic.possibleMovesFromBlockToBlock(item, tableaus, indexTableau)
@@ -65,44 +60,42 @@ class UnitTestPossibleMoves {
     }
 
 
-
     @Test
     fun possibleMovesFromBlockToBlock2() {
 
         for (i in 0..6) {
-            val k = SortedResult(0f, 0f, ArrayList())
-            tableaus.add(k)
+            tableaus.add(ArrayList())
         }
 
 
-        tableaus[0].block.add(DetectionResult(RectF(), 10, Card(5, "s")))
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(3, "h")))
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(2, "c")))
+        tableaus[0].add(Card(5, "s"))
+        tableaus[0].add(Card(3, "h"))
+        tableaus[0].add(Card(2, "c"))
 
 
 
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(4, "h")))
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(3, "d")))
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(10, "d")))
+        tableaus[1].add(Card(4, "h"))
+        tableaus[1].add(Card(3, "d"))
+        tableaus[1].add(Card(10, "d"))
 
 
 
-        tableaus[2].block.add(DetectionResult(RectF(), 100, Card(11, "h")))
-        tableaus[2].block.add(DetectionResult(RectF(), 0, Card(3, "s")))
+        tableaus[2].add(Card(11, "h"))
+        tableaus[2].add(Card(3, "s"))
 
 
-        tableaus[3].block.add(DetectionResult(RectF(), 100, Card(2, "d")))
-        tableaus[3].block.add(DetectionResult(RectF(), 100, Card(2, "s")))
-        tableaus[3].block.add(DetectionResult(RectF(), 10, Card(6, "h")))
+        tableaus[3].add(Card(2, "d"))
+        tableaus[3].add(Card(2, "s"))
+        tableaus[3].add(Card(6, "h"))
 
 
-        tableaus[4].block.add(DetectionResult(RectF(), 100, Card(7, "s")))
-        tableaus[4].block.add(DetectionResult(RectF(), 0, Card(12, "c")))
-        tableaus[4].block.add(DetectionResult(RectF(), 100, Card(13, "h")))
+        tableaus[4].add(Card(7, "s"))
+        tableaus[4].add(Card(12, "c"))
+        tableaus[4].add(Card(13, "h"))
 
 
 
-        tableaus[5].block.add(DetectionResult(RectF(), 0, Card(3, "c")))
+        tableaus[5].add(Card(3, "c"))
 
 
 
@@ -112,7 +105,7 @@ class UnitTestPossibleMoves {
         for (indexTableau in tableaus.indices) {
             val itemBlock = tableaus[indexTableau]
 
-            if (itemBlock.block.isNullOrEmpty()) {
+            if (itemBlock.isNullOrEmpty()) {
                 continue
             }
             val movesInCurrBlock = GameLogic.possibleMovesFromBlockToBlock(itemBlock, tableaus, indexTableau)
@@ -148,13 +141,13 @@ class UnitTestPossibleMoves {
 
 
 // Testing whether or not the card 13h is able to move when there is no free block
-        tableaus[6].block.add(DetectionResult(RectF(), 0, Card(10, "c")))
+        tableaus[6].add(Card(10, "c"))
         returnVal = ArrayList()
 
         for (indexTableau in tableaus.indices) {
             val itemBlock = tableaus[indexTableau]
 
-            if (itemBlock.block.isNullOrEmpty()) {
+            if (itemBlock.isNullOrEmpty()) {
                 continue
             }
             val movesInCurrBlock = GameLogic.possibleMovesFromBlockToBlock(itemBlock, tableaus, indexTableau)
@@ -177,38 +170,37 @@ class UnitTestPossibleMoves {
 
 
         // Adding cards to the foundations
-        foundation.add(DetectionResult(RectF(), 100, Card(9, "d")))
-        foundation.add(DetectionResult(RectF(), 100, Card(5, "h")))
-        foundation.add(DetectionResult(RectF(), 100, Card(1, "s")))
+        foundation.add(Card(9, "d"))
+        foundation.add(Card(5, "h"))
+        foundation.add(Card(1, "s"))
         //foundation.add(DetectionResult(RectF(), 100, Card(4, "c")))
 
 
         for (i in 0..6) {
-            val k = SortedResult(0f, 0f, ArrayList())
-            tableaus.add(k)
+            tableaus.add(ArrayList())
         }
 
 
         //  Adding cards to the tableaus
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(5, "s")))
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(3, "h")))
-        tableaus[0].block.add(DetectionResult(RectF(), 100, Card(2, "c")))
+        tableaus[0].add(Card(5, "s"))
+        tableaus[0].add(Card(3, "h"))
+        tableaus[0].add(Card(2, "c"))
 
 
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(4, "h")))
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(3, "d")))
-        tableaus[1].block.add(DetectionResult(RectF(), 100, Card(10, "d")))
+        tableaus[1].add(Card(4, "h"))
+        tableaus[1].add(Card(3, "d"))
+        tableaus[1].add(Card(10, "d"))
 
 
-        tableaus[2].block.add(DetectionResult(RectF(), 100, Card(4, "h")))
-        tableaus[2].block.add(DetectionResult(RectF(), 100, Card(3, "c")))
+        tableaus[2].add(Card(4, "h"))
+        tableaus[2].add(Card(3, "c"))
 
 
-        tableaus[3].block.add(DetectionResult(RectF(), 100, Card(2, "d")))
-        tableaus[3].block.add(DetectionResult(RectF(), 100, Card(2, "s")))
+        tableaus[3].add(Card(2, "d"))
+        tableaus[3].add(Card(2, "s"))
 
 
-        tableaus[4].block.add(DetectionResult(RectF(), 100, Card(1, "c")))
+        tableaus[4].add(Card(1, "c"))
 
 
 
@@ -241,7 +233,7 @@ class UnitTestPossibleMoves {
 
 
 
-        foundation.add(DetectionResult(RectF(), 100, Card(4, "c")))
+        foundation.add(Card(4, "c"))
         result = GameLogic.allPossibleMoves(foundation, tableaus)
 
         assertEquals(result.size, 3)
@@ -250,11 +242,11 @@ class UnitTestPossibleMoves {
 
 
         // Adding another card which is possible to move
-        tableaus[4].block.add( DetectionResult(RectF(), 10, Card(8, "s")))
-        tableaus[4].block.add( DetectionResult(RectF(), 10, Card(5, "null")))
+        tableaus[4].add( Card(8, "s"))
+        tableaus[4].add(Card(5, "null"))
 
 
-        tableaus[6].block.add(DetectionResult(RectF(), 10, Card(9, "h")))
+        tableaus[6].add(Card(9, "h"))
 
 
         result = GameLogic.allPossibleMoves(foundation, tableaus)
@@ -268,8 +260,7 @@ class UnitTestPossibleMoves {
 
     fun initializeBlocks() {
         for (i in 0..6) {
-            val k = SortedResult(0f, 0f, ArrayList())
-            tableaus.add(k)
+            tableaus.add(ArrayList())
         }
     }
 
@@ -278,18 +269,18 @@ class UnitTestPossibleMoves {
     fun moveFromBlockToFoundation() {
 
         initializeBlocks()
-        val detect1 = DetectionResult(RectF(), 100, Card(9, "d"))
-        val detect2 = DetectionResult(RectF(), 100, Card(5, "h"))
-        foundation.add(detect1)
-        foundation.add(detect2)
+        val card1 = Card(9, "d")
+        val card2 = Card(5, "h")
+        foundation.add(card1)
+        foundation.add(card2)
 
-        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
-        tableaus[1].block.add(detect3)
+        val card3 = Card(6, "h")
+        tableaus[1].add(card3)
 
-        assertEquals(foundation[0] == detect1, true)
-        assertEquals(foundation[1] == detect2, true)
+        assertEquals(foundation[0] == card1, true)
+        assertEquals(foundation[1] == card2, true)
 
-        assertEquals(tableaus[1].block.last() == detect3, true)
+        assertEquals(tableaus[1].last() == card3, true)
 
 
 
@@ -303,9 +294,9 @@ class UnitTestPossibleMoves {
             game.moveFromBlockToFoundation(it, foundation, tableaus)
         }
 //        assertEquals(foundation[1] == detect2, false)
-        assertEquals(foundation[1] == detect3, true)
+        assertEquals(foundation[1] == card3, true)
 
-        assertEquals(tableaus[1].block.isEmpty(), true)
+        assertEquals(tableaus[1].isEmpty(), true)
 
     }
 
@@ -313,29 +304,28 @@ class UnitTestPossibleMoves {
     @Test
     fun moveFromBlockToFoundation2() {
         initializeBlocks()
-        val detect1 = DetectionResult(RectF(), 100, Card(9, "d"))
-        val detect2 = DetectionResult(RectF(), 100, Card(5, "h"))
+        val detect1 = Card(9, "d")
+        val detect2 = Card(5, "h")
         foundation.add(detect1)
         foundation.add(detect2)
 
-        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
-        tableaus[1].block.add(detect4)
-        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
-        tableaus[1].block.add(detect3)
+        val detect4 = Card(5, "c")
+        tableaus[1].add(detect4)
+        val detect3 = Card(6, "h")
+        tableaus[1].add(detect3)
 
-        tableaus[0].block.add(DetectionResult(RectF(), 0, Card(12, "d")))
+        tableaus[0].add(Card(12, "d"))
 
         assertEquals(foundation[0] == detect1, true)
         assertEquals(foundation[1] == detect2, true)
 
-        assertEquals(tableaus[1].block.last() == detect3, true)
+        assertEquals(tableaus[1].last() == detect3, true)
 
 
 
         val moves = GameLogic.allPossibleMoves(foundation, tableaus)
         val game = Game()
-/*        solver.foundations = foundation
-        solver.tableaus = tableaus*/
+
 
         assertEquals(moves.size, 1)
 
@@ -345,9 +335,9 @@ class UnitTestPossibleMoves {
        // assertEquals(foundation[1] == detect2, false)
         assertEquals(foundation[1] == detect3, true)
 
-        assertEquals(tableaus[1].block.size, 1)
+        assertEquals(tableaus[1].size, 1)
 
-        assertEquals(tableaus[1].block.last(), detect4)
+        assertEquals(tableaus[1].last(), detect4)
     }
 
 
@@ -357,22 +347,22 @@ class UnitTestPossibleMoves {
     fun moveBlockToBlock1() {
         initializeBlocks()
 
-        val detect1 = DetectionResult(RectF(), 0, Card(12, "d"))
-        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
+        val detect1 = Card(12, "d")
+        val detect2 = Card(5, "s")
 
-        tableaus[0].block.add(detect1)
-        tableaus[0].block.add(detect2)
+        tableaus[0].add(detect1)
+        tableaus[0].add(detect2)
 
 
 
-        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
-        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+        val detect4 = Card(5, "c")
+        val detect3 = Card(6, "h")
 
-        tableaus[2].block.add(detect4)
-        tableaus[2].block.add(detect3)
+        tableaus[2].add(detect4)
+        tableaus[2].add(detect3)
 
-        assertEquals(tableaus[2].block.size, 2)
-        assertEquals(tableaus[0].block.size, 2)
+        assertEquals(tableaus[2].size, 2)
+        assertEquals(tableaus[0].size, 2)
 
 
         val moves = GameLogic.allPossibleMoves(foundation, tableaus)
@@ -381,18 +371,16 @@ class UnitTestPossibleMoves {
 
 
         val game = Game()
-/*        solver.foundations = foundation
-        solver.tableaus = tableaus*/
 
         moves.forEach {
             game.moveFromBlockToBlock(it, tableaus)
         }
 
-        assertEquals(tableaus[2].block.last(), detect2)
-        assertEquals(tableaus[2].block.size, 3)
+        assertEquals(tableaus[2].last(), detect2)
+        assertEquals(tableaus[2].size, 3)
 
-        assertEquals(tableaus[0].block.size, 1)
-        assertEquals(tableaus[0].block.last(), detect1)
+        assertEquals(tableaus[0].size, 1)
+        assertEquals(tableaus[0].last(), detect1)
 
     }
 
@@ -402,27 +390,27 @@ class UnitTestPossibleMoves {
     fun moveBlockToBlock2() {
         initializeBlocks()
 
-        val detect1 = DetectionResult(RectF(), 0, Card(12, "d"))
-        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
-        val detect5 = DetectionResult(RectF(), 0, Card(10, "s"))
+        val detect1 = Card(12, "d")
+        val detect2 = Card(5, "s")
+        val detect5 = Card(10, "s")
 
 
-        tableaus[0].block.add(detect1)
-        tableaus[0].block.add(detect2)
-        tableaus[0].block.add(detect5)
+        tableaus[0].add(detect1)
+        tableaus[0].add(detect2)
+        tableaus[0].add(detect5)
 
 
 
 
-        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
-        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+        val detect4 = Card(5, "c")
+        val detect3 = Card(6, "h")
 
-        tableaus[2].block.add(detect4)
-        tableaus[2].block.add(detect3)
+        tableaus[2].add(detect4)
+        tableaus[2].add(detect3)
 
 
-        assertEquals(tableaus[0].block.size, 3)
-        assertEquals(tableaus[2].block.size, 2)
+        assertEquals(tableaus[0].size, 3)
+        assertEquals(tableaus[2].size, 2)
 
 
 
@@ -432,23 +420,21 @@ class UnitTestPossibleMoves {
 
 
         val game = Game()
-        /*        solver.foundations = foundation
-        solver.tableaus = tableaus*/
 
 
-        assertEquals(tableaus[2].block.last(), detect3)
+        assertEquals(tableaus[2].last(), detect3)
 
         moves.forEach {
             game.moveFromBlockToBlock(it, tableaus)
         }
 
-        assertEquals(tableaus[2].block[tableaus[2].block.size-2], detect2)
+        assertEquals(tableaus[2][tableaus[2].size - 2], detect2)
 
-        assertEquals(tableaus[2].block.last(), detect5)
-        assertEquals(tableaus[2].block.size, 4)
+        assertEquals(tableaus[2].last(), detect5)
+        assertEquals(tableaus[2].size, 4)
 
-        assertEquals(tableaus[0].block.size, 1)
-        assertEquals(tableaus[0].block.last(), detect1)
+        assertEquals(tableaus[0].size, 1)
+        assertEquals(tableaus[0].last(), detect1)
 
     }
 
@@ -460,19 +446,19 @@ class UnitTestPossibleMoves {
     fun moveBlockToBlock3() {
         initializeBlocks()
 
-        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
-        tableaus[0].block.add(detect2)
+        val detect2 = Card(5, "s")
+        tableaus[0].add(detect2)
 
 
 
-        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
-        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+        val detect4 = Card(5, "c")
+        val detect3 = Card(6, "h")
 
-        tableaus[2].block.add(detect4)
-        tableaus[2].block.add(detect3)
+        tableaus[2].add(detect4)
+        tableaus[2].add(detect3)
 
-        assertEquals(tableaus[0].block.size, 1)
-        assertEquals(tableaus[2].block.size, 2)
+        assertEquals(tableaus[0].size, 1)
+        assertEquals(tableaus[2].size, 2)
 
 
         val moves = GameLogic.allPossibleMoves(foundation, tableaus)
@@ -481,16 +467,13 @@ class UnitTestPossibleMoves {
 
 
         val game = Game()
-/*        solver.foundations = foundation
-        solver.tableaus = tableaus*/
-
 
         game.moveFromBlockToBlock(moves[0], tableaus)
 
-        assertEquals(tableaus[2].block.last(), detect2)
-        assertEquals(tableaus[2].block.size, 3)
+        assertEquals(tableaus[2].last(), detect2)
+        assertEquals(tableaus[2].size, 3)
 
-        assertEquals(tableaus[0].block.size, 0)
+        assertEquals(tableaus[0].size, 0)
 
     }
 
@@ -501,19 +484,19 @@ class UnitTestPossibleMoves {
     fun moveBlockToBlock4() {
         initializeBlocks()
 
-        val detect2 = DetectionResult(RectF(), 0, Card(5, "s"))
-        tableaus[6].block.add(detect2)
+        val detect2 = Card(5, "s")
+        tableaus[6].add(detect2)
 
 
 
-        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
-        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+        val detect4 = Card(5, "c")
+        val detect3 = Card(6, "h")
 
-        tableaus[2].block.add(detect4)
-        tableaus[2].block.add(detect3)
+        tableaus[2].add(detect4)
+        tableaus[2].add(detect3)
 
-        assertEquals(tableaus[6].block.size, 1)
-        assertEquals(tableaus[2].block.size, 2)
+        assertEquals(tableaus[6].size, 1)
+        assertEquals(tableaus[2].size, 2)
 
 
         val moves = GameLogic.allPossibleMoves(foundation, tableaus)
@@ -522,16 +505,14 @@ class UnitTestPossibleMoves {
 
 
         val game = Game()
-/*        solver.foundations = foundation
-        solver.tableaus = tableaus*/
 
 
         game.moveFromBlockToBlock(moves[0], tableaus)
 
-        assertEquals(tableaus[2].block.last(), detect2)
-        assertEquals(tableaus[2].block.size, 3)
+        assertEquals(tableaus[2].last(), detect2)
+        assertEquals(tableaus[2].size, 3)
 
-        assertEquals(tableaus[6].block.size, 0)
+        assertEquals(tableaus[6].size, 0)
 
     }
 
@@ -543,19 +524,19 @@ class UnitTestPossibleMoves {
     fun moveBlockToBlock5() {
         initializeBlocks()
 
-        val detect2 = DetectionResult(RectF(), 0, Card(13, "s"))
-        tableaus[6].block.add(detect2)
+        val detect2 = Card(13, "s")
+        tableaus[6].add(detect2)
 
 
 
-        val detect4 = DetectionResult(RectF(), 100, Card(5, "c"))
-        val detect3 = DetectionResult(RectF(), 100, Card(6, "h"))
+        val detect4 = Card(5, "c")
+        val detect3 = Card(6, "h")
 
-        tableaus[2].block.add(detect4)
-        tableaus[2].block.add(detect3)
+        tableaus[2].add(detect4)
+        tableaus[2].add(detect3)
 
-        assertEquals(tableaus[6].block.size, 1)
-        assertEquals(tableaus[2].block.size, 2)
+        assertEquals(tableaus[6].size, 1)
+        assertEquals(tableaus[2].size, 2)
 
 
         val moves = GameLogic.allPossibleMoves(foundation, tableaus)
@@ -564,18 +545,17 @@ class UnitTestPossibleMoves {
 
 
         val game = Game()
-/*        solver.foundations = foundation
-        solver.tableaus = tableaus*/
 
-        assertEquals(tableaus[0].block.size, 0)
+
+        assertEquals(tableaus[0].size, 0)
 
         game.moveFromBlockToBlock(moves[0], tableaus)
 
 
-        assertEquals(tableaus[0].block.size, 1)
-        assertEquals(tableaus[0].block.last(), detect2)
+        assertEquals(tableaus[0].size, 1)
+        assertEquals(tableaus[0].last(), detect2)
 
-        assertEquals(tableaus[6].block.size, 0)
+        assertEquals(tableaus[6].size, 0)
 
     }
 }

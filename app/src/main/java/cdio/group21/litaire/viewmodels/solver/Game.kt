@@ -1,8 +1,8 @@
 package cdio.group21.litaire.viewmodels.solver
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.util.Log
+import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
@@ -13,11 +13,11 @@ class Game {
 
     /* This function evaluates the foundation piles and calculates the sum to figure out
     * the game */
-    fun evalFoundation(foundations: ArrayList<DetectionResult>): Int{
+    fun evalFoundation(foundations: ArrayList<Card>): Int{
         var sum = 0
 
         foundations.forEach {
-            sum += it.card.value
+            sum += it.value
         }
         return sum
     }
@@ -55,24 +55,24 @@ class Game {
 
     fun moveFromBlockToFoundation(
         move: Move,
-        foundations: ArrayList<DetectionResult>,
-        tableaus: ArrayList<SortedResult>
+        foundations: ArrayList<Card>,
+        tableaus: ArrayList<ArrayList<Card>>
 
     ): Boolean {
 
         //Log.i(TAG, "Move to foundation")
         val sour = move.indexOfTableau
         val dest = move.indexOfDestination
-        val block = tableaus[sour].block
+        val block = tableaus[sour]
 
-        if (block.last().card == move.card) {
+        if (block.last() == move.card) {
             if (dest == -1) {
                 foundations.add(block.last())
                 block.removeLast()
                 return true
 
             } else if (dest in 0..3) {
-                if (GameLogic.evalBlockToFoundation(foundations[dest].card, move.card)) {
+                if (GameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = block.last()
                     block.removeLast()
                     return true
@@ -90,30 +90,30 @@ class Game {
 
     fun moveFromBlockToBlock(
         move: Move,
-        tableaus: ArrayList<SortedResult>
+        tableaus: ArrayList<ArrayList<Card>>
 
     ): Boolean {
         val sourceIndex = move.indexOfTableau
-        val destBlock = tableaus[move.indexOfDestination].block
-        var sourceBlock = tableaus[sourceIndex].block
+        val destBlock = tableaus[move.indexOfDestination]
+        var sourceBlock = tableaus[sourceIndex]
         var hasCardMoved = false
 
 
         var i = 0
         while (i < sourceBlock.size) {
 
-            val sourceCard = sourceBlock[i].card
+            val sourceCard = sourceBlock[i]
             if (move.card == sourceCard) {
 
                 if (move.card.value == 13) {
                     for (j in 0..6) {
-                        if (tableaus[j].block.isEmpty()) {
+                        if (tableaus[j].isEmpty()) {
                             hasCardMoved = true
                             break
                         }
                     }
 
-                } else if (GameLogic.evalBlockToBlock(destBlock.last().card, sourceCard)) {
+                } else if (GameLogic.evalBlockToBlock(destBlock.last(), sourceCard)) {
                     //destBlock.add(sourceBlock[i])
                     hasCardMoved = true
                 }
@@ -131,13 +131,13 @@ class Game {
         if (hasCardMoved) {
             var dropItems = sourceBlock.size - i
 
-            val newList: ArrayList<DetectionResult> = ArrayList()
+            val newList: ArrayList<Card> = ArrayList()
 
             while (dropItems > 0) {
                 //destBlock.add(tableaus[sourceIndex].block.last())
 
-                newList.add(tableaus[sourceIndex].block.last())
-                tableaus[sourceIndex].block.removeLast()
+                newList.add(tableaus[sourceIndex].last())
+                tableaus[sourceIndex].removeLast()
                 dropItems--
             }
 
@@ -160,8 +160,8 @@ class Game {
 
     fun move_(
         move: Move,
-        foundations: ArrayList<DetectionResult>,
-        tableaus: ArrayList<SortedResult>
+        foundations: ArrayList<Card>,
+        tableaus: ArrayList<ArrayList<Card>>
     ): Boolean {
         if (move.isMoveToFoundation) {
             return moveFromBlockToFoundation(move, foundations, tableaus)
