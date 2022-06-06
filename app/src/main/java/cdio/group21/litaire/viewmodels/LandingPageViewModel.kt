@@ -291,7 +291,7 @@ class LandingPageViewModel: ViewModel() {
          var i = 0
          sortedResult.forEach {
             //Log.i(ContentValues.TAG, "Block: ${it.centerX}")
-             Log.i(ContentValues.TAG, "Block: ${i+1}")
+             Log.i(ContentValues.TAG, "Block: ${i}")
              it.block.forEach { crr ->
                 Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr.toText()}")
 
