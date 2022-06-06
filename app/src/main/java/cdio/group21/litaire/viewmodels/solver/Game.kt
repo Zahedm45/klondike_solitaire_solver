@@ -41,11 +41,11 @@ class Game {
     /**
      * Returns amount of the empty blocks
      */
-    fun emptyBlock(tableaus: ArrayList<SortedResult>): Int {
+    fun emptyBlock(tableaus: ArrayList<ArrayList<Card>>): Int {
         var counter = 0
         tableaus.forEach {
 
-            if (it.block.size < 1) {
+            if (it.size < 1) {
                 counter++
             }
         }

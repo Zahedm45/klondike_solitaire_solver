@@ -41,22 +41,23 @@ class Solver {
 
         UtilSolver.simulateRandomCards(foundations, tableaus)
         val landingPageViewModel = LandingPageViewModel()
-        landingPageViewModel.printFoundation2(foundations)
-        landingPageViewModel.printTableaus2(tableaus)
+/*        landingPageViewModel.printFoundation2(foundations)
+        landingPageViewModel.printTableaus2(tableaus)*/
 
         val ai = Ai()
         val game = Game()
 
 
+        val nextMove = ai.findBestMove(foundations, tableaus)
 
-      /*  for (i in 0..20) {
+/*        for (i in 0..1) {
             val nextMove = ai.findBestMove(foundations, tableaus)
             if (nextMove != null) {
                 game.move_(nextMove, foundations, tableaus)
 
                 Log.i(TAG, "\n\n\n\n")
-                landingPageViewModel.printFoundation(foundations)
-                landingPageViewModel.printTableaus(tableaus)
+*//*                landingPageViewModel.printFoundation2(foundations)
+                landingPageViewModel.printTableaus2(tableaus)*//*
             }
 
         }*/

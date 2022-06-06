@@ -1,12 +1,14 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import cdio.group21.litaire.data.*
-import kotlinx.coroutines.*
+import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Ai {
 
     val ga = Game()
-/*    fun findBestMove(
+    fun findBestMove(
         foundations: ArrayList<Card>,
         tableaus: ArrayList<ArrayList<Card>>
     ): Move? {
@@ -23,24 +25,35 @@ class Ai {
 
 
 
-            val tableaus_copy = ArrayList(tableaus.map { detect -> detect.deepCopy() })
+            val tableaus_copy = ArrayList(tableaus.map { k ->
+                ArrayList(k.map { c ->
+                    c.deepCopy()
+                })
+            })
+
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
 
+
+            val landingPageViewModel = LandingPageViewModel()
+            landingPageViewModel.printTableaus2(tableaus)
+
+            Log.i(TAG, "move: $it")
             ga.move_(it, foundaitons_copy, tableaus_copy )
 
+            landingPageViewModel.printTableaus2(tableaus)
 
-            //var stateAfterFistMove = GameSate(ga.evalFoundation(foundaitons_copy), 0)
+            return move
 
-            algorithm(tableaus_copy, foundaitons_copy,  leafValue, depth)
+            // algorithm(tableaus_copy, foundaitons_copy,  leafValue, depth)
 
-            leafValue.sortBy { gs ->
+/*            leafValue.sortBy { gs ->
                 gs.foundations
             }
 
 
             val newSate = leafValue.last()
 
-            //Log.i(TAG, "Leaf val largest $newSate, move: $it")
+
 
             if (newSate.foundations > initialState.foundations) {
                 move = it
@@ -54,20 +67,19 @@ class Ai {
 
                     // newSate.emptyBlock > initialState.emptyBlock ||
                 }
-            }
+            }*/
 
         }
 
         //Log.i(TAG, "The next move is: $move, $initialState")
 
         return move
-    }*/
+    }
 
 
-/*
-    private fun algorithm(
-        currTableaus: ArrayList<SortedResult>,
-        currFoundations: ArrayList<DetectionResult>,
+/*    private fun algorithm(
+        currTableaus: ArrayList<ArrayList<Card>>,
+        currFoundations: ArrayList<Card>,
         leafValues: ArrayList<GameSate>,
         depth: Int
     ) {
@@ -85,8 +97,12 @@ class Ai {
         }
 
         newPossibleMoves.forEach { move ->
-
-            val tab = ArrayList(currTableaus.map { detect -> detect.deepCopy() })
+// detect -> detect.deepCopy()
+            val tab = ArrayList(currTableaus.map {
+                it.map { c ->
+                    c.deepCopy()
+                }
+            })
             val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
             //Log.i(TAG, "one two...")
 
@@ -96,14 +112,13 @@ class Ai {
 
         }
 
-    }
-*/
+    }*/
 
 
 
-/*    private fun setGameState(
-        currTableaus: ArrayList<SortedResult>,
-        currFoundations: ArrayList<DetectionResult>,
+    private fun setGameState(
+        currTableaus: ArrayList<ArrayList<Card>>,
+        currFoundations: ArrayList<Card>,
         leafValues: ArrayList<GameSate>
     ) {
         val evalF = ga.evalFoundation(currFoundations)
@@ -113,10 +128,24 @@ class Ai {
             val sate = GameSate(evalF, evalB)
             leafValues.add(sate)
         }
-    }*/
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

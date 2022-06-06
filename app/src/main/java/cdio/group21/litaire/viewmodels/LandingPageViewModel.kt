@@ -314,26 +314,34 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    fun printTableaus2(sortedResult: ArrayList<ArrayList<Card>>){
+    fun printTableaus2(blocks: ArrayList<ArrayList<Card>>){
         Log.i(ContentValues.TAG, "Tableaus")
         var i = 0
-        sortedResult.forEach {
-            //Log.i(ContentValues.TAG, "Block: ${it.centerX}")
-            Log.i(ContentValues.TAG, "\nBlock: ${i}")
-            it.forEach { crr ->
-                Log.i(ContentValues.TAG, "              ${crr.value.toString()+crr.suit}")
 
+        blocks.forEach { block ->
+            print("         Block: $i ->")
+            block.forEach {
+                print("   ${it.value.toString() + it.suit}")
             }
+            println("\n")
             i++
         }
+
     }
 
 
     fun printFoundation2(results: ArrayList<Card>){
-        Log.i(ContentValues.TAG, "Foundation")
+        //Log.i(ContentValues.TAG, "Foundation")
+
+        print("Foundations -> ")
+
         results.forEach { crr ->
-            Log.i(ContentValues.TAG, "                 ${crr.value.toString()+crr.suit}")
+            print("   ${crr.value.toString()+crr.suit}")
+
+
+           // Log.i(ContentValues.TAG, "                 ${crr.value.toString()+crr.suit}")
         }
+        println()
     }
 
 
