@@ -29,7 +29,7 @@ class LandingPageViewModel: ViewModel() {
 
     lateinit var waste: DetectionResult
     var foundation: ArrayList<DetectionResult> = ArrayList()
-    var tableaus: ArrayList<SortedResult> = ArrayList()
+    var block: ArrayList<SortedResult> = ArrayList()
 
 
 
@@ -123,7 +123,7 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    fun detectTableaus(
+    fun detectBlock(
         results: List<DetectionResult>
     ) {
 
@@ -162,7 +162,7 @@ class LandingPageViewModel: ViewModel() {
 
         val temp = sortAccordingToXCoordinate(centerXBlock)
 
-        tableaus = removeDuplicateTableaus(temp)
+        block = removeDuplicateBlock(temp)
     }
 
 
@@ -211,7 +211,7 @@ class LandingPageViewModel: ViewModel() {
      * @author Zahed(s186517)
      */
 
-    private fun removeDuplicateTableaus(
+    private fun removeDuplicateBlock(
         results: ArrayList<SortedResult>
     ):ArrayList<SortedResult> {
 
@@ -277,7 +277,7 @@ class LandingPageViewModel: ViewModel() {
         }
         toBeAdded.add(waste)
 
-        tableaus.forEach { block ->
+        block.forEach { block ->
             block.block.forEach { toBeAdded.add(it) }
         }
 
@@ -287,8 +287,8 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-     fun printTableaus(sortedResult: ArrayList<SortedResult>){
-         Log.i(ContentValues.TAG, "Block: Tableaus")
+     fun printBlock(sortedResult: ArrayList<SortedResult>){
+         Log.i(ContentValues.TAG, "Block: ")
          var i = 0
          sortedResult.forEach {
             //Log.i(ContentValues.TAG, "Block: ${it.centerX}")
@@ -314,8 +314,8 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    fun printTableaus2(blocks: ArrayList<ArrayList<Card>>){
-        Log.i(ContentValues.TAG, "Tableaus")
+    fun printBlock2(blocks: ArrayList<ArrayList<Card>>){
+        Log.i(ContentValues.TAG, "Block2")
         var i = 0
 
         blocks.forEach { block ->
