@@ -3,7 +3,6 @@ package cdio.group21.litaire.viewmodels.solver
 import android.content.ContentValues
 import android.util.Log
 import cdio.group21.litaire.data.Card
-import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 
@@ -22,12 +21,12 @@ class Game {
         return sum
     }
 
-    /* This function evaluates the tableau and finds the largest column*/
-    fun evalTableau(tableaus: ArrayList<SortedResult>):Int {
+    /* This function evaluates the blocks and finds the largest column*/
+    fun evalBlock(blocks: ArrayList<SortedResult>):Int {
 
         var size = 0
 
-        tableaus.forEach {
+        blocks.forEach {
 
             if (it.block.size > size) {
                 size = it.block.size
@@ -41,9 +40,9 @@ class Game {
     /**
      * Returns amount of the empty blocks
      */
-    fun emptyBlock(tableaus: ArrayList<ArrayList<Card>>): Int {
+    fun emptyBlock(blocks: ArrayList<ArrayList<Card>>): Int {
         var counter = 0
-        tableaus.forEach {
+        blocks.forEach {
 
             if (it.size < 1) {
                 counter++
@@ -56,14 +55,14 @@ class Game {
     fun moveFromBlockToFoundation(
         move: Move,
         foundations: ArrayList<Card>,
-        tableaus: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<ArrayList<Card>>
 
     ): Boolean {
 
         //Log.i(TAG, "Move to foundation")
-        val sour = move.indexOfTableau
+        val sour = move.indexOfBlock
         val dest = move.indexOfDestination
-        val block = tableaus[sour]
+        val block = blocks[sour]
 
         if (block.last() == move.card) {
             if (dest == -1) {
@@ -90,12 +89,12 @@ class Game {
 
     fun moveFromBlockToBlock(
         move: Move,
-        tableaus: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<ArrayList<Card>>
 
     ): Boolean {
-        val sourceIndex = move.indexOfTableau
-        val destBlock = tableaus[move.indexOfDestination]
-        var sourceBlock = tableaus[sourceIndex]
+        val sourceIndex = move.indexOfBlock
+        val destBlock = blocks[move.indexOfDestination]
+        var sourceBlock = blocks[sourceIndex]
         var hasCardMoved = false
 
 
@@ -107,7 +106,7 @@ class Game {
 
                 if (move.card.value == 13) {
                     for (j in 0..6) {
-                        if (tableaus[j].isEmpty()) {
+                        if (blocks[j].isEmpty()) {
                             hasCardMoved = true
                             break
                         }
@@ -134,10 +133,10 @@ class Game {
             val newList: ArrayList<Card> = ArrayList()
 
             while (dropItems > 0) {
-                //destBlock.add(tableaus[sourceIndex].block.last())
+                //destBlock.add(blocks[sourceIndex].block.last())
 
-                newList.add(tableaus[sourceIndex].last())
-                tableaus[sourceIndex].removeLast()
+                newList.add(blocks[sourceIndex].last())
+                blocks[sourceIndex].removeLast()
                 dropItems--
             }
 
@@ -161,12 +160,12 @@ class Game {
     fun move_(
         move: Move,
         foundations: ArrayList<Card>,
-        tableaus: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<ArrayList<Card>>
     ): Boolean {
         if (move.isMoveToFoundation) {
-            return moveFromBlockToFoundation(move, foundations, tableaus)
+            return moveFromBlockToFoundation(move, foundations, blocks)
         }
-        return moveFromBlockToBlock(move,tableaus)
+        return moveFromBlockToBlock(move,blocks)
     }
 
 }
