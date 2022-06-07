@@ -1,7 +1,5 @@
 package cdio.group21.litaire.viewmodels.solver
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
@@ -9,12 +7,12 @@ class Solver {
 
     var waste = null
     private var foundations: ArrayList<Card> = ArrayList()
-    private val tableaus: ArrayList<ArrayList<Card>> = ArrayList()
+    private val block: ArrayList<ArrayList<Card>> = ArrayList()
 
 
     fun initt() {
 
-        UtilSolver.simulateRandomCards(foundations, tableaus)
+        UtilSolver.simulateRandomCards(foundations, block)
         val landingPageViewModel = LandingPageViewModel()
 /*        landingPageViewModel.printFoundation2(foundations)
         landingPageViewModel.printTableaus2(tableaus)*/
@@ -26,12 +24,12 @@ class Solver {
         //val nextMove = ai.findBestMove(foundations, tableaus)
 
         for (i in 0..40) {
-            val nextMove = ai.findBestMove(foundations, tableaus)
+            val nextMove = ai.findBestMove(foundations, block)
             if (nextMove != null) {
-                game.move_(nextMove, foundations, tableaus)
+                game.move_(nextMove, foundations, block)
 
                 landingPageViewModel.printFoundation2(foundations)
-                landingPageViewModel.printTableaus2(tableaus)
+                landingPageViewModel.printTableaus2(block)
             }
 
         }
