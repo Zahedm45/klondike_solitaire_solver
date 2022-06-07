@@ -72,14 +72,14 @@ class Ai {
 
         newPossibleMoves.forEach { move ->
 
-            val tab = ArrayList(currBlocks.map { k ->
+            val blo = ArrayList(currBlocks.map { k ->
                 ArrayList(k.map { c -> c.deepCopy() })
             })
 
             val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
 
-            ga.move_(move, fou , tab)
-            algorithm(tab, fou, leafValues, depth-1)
+            ga.move_(move, fou , blo)
+            algorithm(blo, fou, leafValues, depth-1)
 
 
         }
