@@ -11,7 +11,7 @@ class Game {
 
 
     /* This function evaluates the foundation piles and calculates the sum to figure out
-    * the game */
+    * the game's state */
     fun evalFoundation(foundations: ArrayList<Card>): Int{
         var sum = 0
 
