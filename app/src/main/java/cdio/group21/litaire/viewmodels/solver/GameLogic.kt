@@ -65,7 +65,7 @@ class GameLogic {
             tempBlock.add(block[cur_index])
             cur_index--
 
-            while (cur_index > 0){
+            while (cur_index >= 0){
                 val deCard = block[cur_index]
                 val seCard = tempBlock.last()
 
