@@ -89,7 +89,8 @@ class Game {
 
     fun moveFromBlockToBlock(
         move: Move,
-        blocks: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<ArrayList<Card>>,
+        lastMoves: HashMap<String, Boolean>?
 
     ): Boolean {
         val sourceIndex = move.indexOfBlock.toInt()
@@ -104,8 +105,7 @@ class Game {
             val sourceCard = sourceBlock[i]
             if (move.card == sourceCard) {
 
-                val byte: Byte = 13
-                if (move.card.value == byte) {
+                if (move.card.value == (13).toByte()) {
                     for (j in 0..6) {
                         if (blocks[j].isEmpty()) {
                             hasCardMoved = true
@@ -116,6 +116,7 @@ class Game {
                 } else if (GameLogic.evalBlockToBlock(destBlock.last(), sourceCard)) {
                     //destBlock.add(sourceBlock[i])
                     hasCardMoved = true
+
                 }
 
                 break
@@ -125,23 +126,33 @@ class Game {
 
 
 
-
-
-
         if (hasCardMoved) {
-            var dropItems = sourceBlock.size - i
 
+            // Adds the card's position to the hashmap
+            val key = if (i == 0) {
+                "${move.indexOfBlock}b${move.card.value}${move.card.suit}"
+
+            } else {
+                val itsPreC = sourceBlock[i-1]
+                "${itsPreC.value}${itsPreC.suit}${move.card.value}${move.card.suit}"
+            }
+
+            lastMoves?.put(key, true)
+
+
+
+            // Removes the card(s) from source block.
+            var dropItems = sourceBlock.size - i
             val newList: ArrayList<Card> = ArrayList()
 
             while (dropItems > 0) {
-                //destBlock.add(blocks[sourceIndex].block.last())
-
                 newList.add(blocks[sourceIndex].last())
                 blocks[sourceIndex].removeLast()
                 dropItems--
             }
 
 
+            // Adds the card(s) to the destination block.
             for (k in newList.indices) {
                 destBlock.add(newList.last())
                 newList.removeLast()
@@ -161,12 +172,13 @@ class Game {
     fun move_(
         move: Move,
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<ArrayList<Card>>,
+        lastMoves: HashMap<String, Boolean>?
     ): Boolean {
         if (move.isMoveToFoundation) {
             return moveFromBlockToFoundation(move, foundations, blocks)
         }
-        return moveFromBlockToBlock(move,blocks)
+        return moveFromBlockToBlock(move,blocks, lastMoves)
     }
 
 }

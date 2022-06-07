@@ -5,14 +5,14 @@ import cdio.group21.litaire.data.*
 class Ai {
 
 
-    private val lastMoves: ArrayList<String> = ArrayList()
+    //private val lastMoves: ArrayList<Move> = ArrayList()
 
     val ga = Game()
     fun findBestMove(
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>
     ): Move? {
-        val depth = 5
+        val depth = 4
 
         val availableMoves = GameLogic.allPossibleMoves(foundations, blocks)
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
@@ -33,7 +33,7 @@ class Ai {
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
 
 
-            ga.move_(it, foundaitons_copy, blocks_copy )
+            ga.move_(it, foundaitons_copy, blocks_copy, null)
             algorithm(blocks_copy, foundaitons_copy, leafValue, depth-1)
 
 
@@ -62,21 +62,7 @@ class Ai {
         }
 
 
-/*
-        move?.let {
-            val newLastMove = "${it.card.value}${it.card.suit}${it.}"
 
-
-
-            lastMoves.add(it)
-        }*/
-
-
-/*        if(lastMoves.contains(move)) {
-            return null
-        }
-
-        move?.let { lastMoves.add(it) }*/
 
 
         println( "The next move is: $move, $initialState")
@@ -112,7 +98,7 @@ class Ai {
 
             val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
 
-            ga.move_(move, fou , blo)
+            ga.move_(move, fou, blo, null)
             algorithm(blo, fou, leafValues, depth-1)
 
 
