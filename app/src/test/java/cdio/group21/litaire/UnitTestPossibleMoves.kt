@@ -41,11 +41,13 @@ class UnitTestPossibleMoves {
             if (item.isNullOrEmpty()) {
                 continue
             }
-            val movesInCurrBlock = GameLogic.possibleMovesFromBlockToBlock(item, tableaus, indexTableau)
+            GameLogic.possibleMovesFromBlockToBlock(
+                item,
+                tableaus,
+                indexTableau,
+                returnVal
+            )
 
-            movesInCurrBlock.forEach {
-                returnVal.add(it)
-            }
 
         }
 
@@ -108,11 +110,15 @@ class UnitTestPossibleMoves {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            val movesInCurrBlock = GameLogic.possibleMovesFromBlockToBlock(itemBlock, tableaus, indexTableau)
+            GameLogic.hasChecked = false
 
-            movesInCurrBlock.forEach {
-                returnVal.add(it)
-            }
+            GameLogic.possibleMovesFromBlockToBlock(
+                itemBlock,
+                tableaus,
+                indexTableau,
+                returnVal
+            )
+
         }
 
 
@@ -150,11 +156,13 @@ class UnitTestPossibleMoves {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            val movesInCurrBlock = GameLogic.possibleMovesFromBlockToBlock(itemBlock, tableaus, indexTableau)
+            GameLogic.possibleMovesFromBlockToBlock(
+                itemBlock,
+                tableaus,
+                indexTableau,
+                returnVal
+            )
 
-            movesInCurrBlock.forEach {
-                returnVal.add(it)
-            }
         }
 
         assertEquals(returnVal.size, 3)
