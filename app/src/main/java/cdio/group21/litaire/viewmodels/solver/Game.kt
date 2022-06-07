@@ -90,7 +90,7 @@ class Game {
     fun moveFromBlockToBlock(
         move: Move,
         blocks: ArrayList<ArrayList<Card>>,
-        lastMoves: HashMap<String, Boolean>?
+        lastMoves: HashMap<String, HashMap<String, Boolean>>?
 
     ): Boolean {
         val sourceIndex = move.indexOfBlock.toInt()
@@ -129,16 +129,34 @@ class Game {
         if (hasCardMoved) {
 
             // Adds the card's position to the hashmap
-            val key = if (i == 0) {
-                "${move.indexOfBlock}b${move.card.value}${move.card.suit}"
+            if (lastMoves !== null) {
+                val cardKey = "${move.card.value}${move.card.suit}"
+                val prevCardsKey = if (i == 0) {
+                    "b${move.indexOfBlock}"
 
-            } else {
-                val itsPreC = sourceBlock[i-1]
-                "${itsPreC.value}${itsPreC.suit}${move.card.value}${move.card.suit}"
+                } else {
+                    val itsPreC = sourceBlock[i-1]
+                    "${itsPreC.value}${itsPreC.suit}"
+                }
+
+                val outterHash = lastMoves.get(cardKey)
+
+                if (outterHash != null) {
+
+                    if(outterHash.containsKey(prevCardsKey)) {
+                       // println("It contains the key: ${cardKey} ${prevCardsKey}")
+                    } else {
+                        outterHash.put(prevCardsKey, true)
+                    }
+
+
+                } else {
+                    val newInnerH: HashMap<String, Boolean> = HashMap()
+
+                    newInnerH.put(prevCardsKey, true)
+                    lastMoves.put(cardKey, newInnerH)
+                }
             }
-
-            lastMoves?.put(key, true)
-
 
 
             // Removes the card(s) from source block.
@@ -173,7 +191,7 @@ class Game {
         move: Move,
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>,
-        lastMoves: HashMap<String, Boolean>?
+        lastMoves: HashMap<String, HashMap<String, Boolean>>?
     ): Boolean {
         if (move.isMoveToFoundation) {
             return moveFromBlockToFoundation(move, foundations, blocks)
