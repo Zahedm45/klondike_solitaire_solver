@@ -73,7 +73,7 @@ class GameLogic {
             tempBlock.add(block[cur_index])
             cur_index--
 
-            //checks if the rest of the block is in an increasing order
+            //checks if the rest of the block is in an increasing order and adds them if so
             while (cur_index >= 0){
                 val deCard = block[cur_index]
                 val seCard = tempBlock.last()
