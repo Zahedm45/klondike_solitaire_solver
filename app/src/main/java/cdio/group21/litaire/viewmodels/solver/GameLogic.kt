@@ -53,18 +53,27 @@ class GameLogic {
             return possibleMoves
         }
 
-
+        /*
+        * checkBlock() :
+        * Function that returns a block
+        * of possible cards to be moved
+        * in a block
+        */
         fun checkBlock(block: ArrayList<Card>):  ArrayList<Card>? {
+            // check if block is empty
             if(block.isEmpty()) {
                 return null
             }
 
+            //should start from the back of the array (first visible card in block)
             var cur_index = block.size-1
             var tempBlock: ArrayList<Card> = ArrayList()
 
+            //add the first visible card, as 1 card should always be moved (unless empty)
             tempBlock.add(block[cur_index])
             cur_index--
 
+            //checks if the rest of the block is in an increasing order
             while (cur_index >= 0){
                 val deCard = block[cur_index]
                 val seCard = tempBlock.last()
