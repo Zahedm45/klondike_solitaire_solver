@@ -95,35 +95,26 @@ class Game {
     ): Boolean {
         val sourceIndex = move.indexOfBlock.toInt()
         val destBlock = blocks[move.indexOfDestination.toInt()]
-        var sourceBlock = blocks[sourceIndex]
+        val sourceBlock = blocks[sourceIndex]
         var hasCardMoved = false
 
 
-        var i = 0
-        while (i < sourceBlock.size) {
+        val i = sourceBlock.indexOf(move.card)
 
-            val sourceCard = sourceBlock[i]
-            if (move.card == sourceCard) {
+        if (i != -1) {
 
-                if (move.card.value == (13).toByte()) {
-                    for (j in 0..6) {
-                        if (blocks[j].isEmpty()) {
-                            hasCardMoved = true
-                            break
-                        }
+            if (move.card.value == (13).toByte()) {
+                for (j in 0..6) {
+                    if (blocks[j].isEmpty()) {
+                        hasCardMoved = true
+                        break
                     }
-
-                } else if (GameLogic.evalBlockToBlock(destBlock.last(), sourceCard)) {
-                    //destBlock.add(sourceBlock[i])
-                    hasCardMoved = true
-
                 }
 
-                break
+            } else if (GameLogic.evalBlockToBlock(destBlock.last(), move.card)) {
+                hasCardMoved = true
             }
-            i += 1
         }
-
 
 
         if (hasCardMoved) {
@@ -132,7 +123,7 @@ class Game {
             addCardPosition(lastMoves, sourceBlock, move, i)
 
 
-            // Removes the card(s) from source block.
+            // Removes the card(s) from the source block.
             var dropItems = sourceBlock.size - i
             val newList: ArrayList<Card> = ArrayList()
 
@@ -153,10 +144,8 @@ class Game {
             return true
         }
 
-
         return false
     }
-
 
 
 
@@ -210,3 +199,33 @@ class Game {
         }
     }
 }
+
+
+
+
+
+
+
+
+/*        while (i < sourceBlock.size) {
+
+            val sourceCard = sourceBlock[i]
+            if (move.card == sourceCard) {
+
+                if (move.card.value == (13).toByte()) {
+                    for (j in 0..6) {
+                        if (blocks[j].isEmpty()) {
+                            hasCardMoved = true
+                            break
+                        }
+                    }
+
+                } else if (GameLogic.evalBlockToBlock(destBlock.last(), sourceCard)) {
+                    hasCardMoved = true
+
+                }
+
+                break
+            }
+            i += 1
+        }*/

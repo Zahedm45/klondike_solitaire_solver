@@ -26,6 +26,7 @@ class Ai {
                 return@forEach
             }*/
 
+
             val blocks_copy = ArrayList(blocks.map { k ->
 
                 ArrayList(k.map { c -> c.deepCopy() })
