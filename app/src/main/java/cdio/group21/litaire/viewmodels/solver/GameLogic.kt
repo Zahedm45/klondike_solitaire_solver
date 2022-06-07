@@ -31,7 +31,7 @@ class GameLogic {
 
 
                 if (lastCard.value == (1).toByte() && foundations.size < 4) {
-                    val newMove = Move(true, lastCard,  indexBlock, -1)
+                    val newMove = Move(true, lastCard,  indexBlock.toByte(), -1)
 
                     possibleMoves.add(newMove)
 
@@ -40,7 +40,7 @@ class GameLogic {
                         val foundation = foundations[k]
                         if (evalBlockToFoundation(foundation, lastCard)) {
 
-                            val newMove = Move(true, lastCard,  indexBlock, k)
+                            val newMove = Move(true, lastCard,  indexBlock.toByte(), k.toByte())
                             possibleMoves.add(newMove)
                         }
                     }
@@ -98,7 +98,7 @@ class GameLogic {
 
                     if (sourceCard.value == (13).toByte()) {
                         if (hasChecked && emptyBlockIndex >= 0) {
-                            val newMove = Move(false, sourceCard, indexBlock, emptyBlockIndex)
+                            val newMove = Move(false, sourceCard, indexBlock.toByte(), emptyBlockIndex.toByte())
                             possibleMoves.add(newMove)
 
                         } else if (!hasChecked) {
@@ -106,7 +106,7 @@ class GameLogic {
 
                             for (iter in blocks.indices) {
                                 if (blocks[iter].isEmpty()) {
-                                    val newMove = Move(false, sourceCard, indexBlock, iter)
+                                    val newMove = Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
                                     possibleMoves.add(newMove)
                                     hasChecked = true
                                     emptyBlockIndex = iter
@@ -128,7 +128,7 @@ class GameLogic {
                         val destCard = blocks[k].last()
                         if (evalBlockToBlock(destCard, sourceCard)) {
 
-                            val newMove = Move(false, sourceCard, indexBlock, k)
+                            val newMove = Move(false, sourceCard, indexBlock.toByte(), k.toByte())
                             possibleMoves.add(newMove)
 
                         }

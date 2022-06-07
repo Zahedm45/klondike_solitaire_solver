@@ -60,8 +60,8 @@ class Game {
     ): Boolean {
 
         //Log.i(TAG, "Move to foundation")
-        val sour = move.indexOfBlock
-        val dest = move.indexOfDestination
+        val sour = move.indexOfBlock.toInt()
+        val dest = move.indexOfDestination.toInt()
         val block = blocks[sour]
 
         if (block.last() == move.card) {
@@ -92,8 +92,8 @@ class Game {
         blocks: ArrayList<ArrayList<Card>>
 
     ): Boolean {
-        val sourceIndex = move.indexOfBlock
-        val destBlock = blocks[move.indexOfDestination]
+        val sourceIndex = move.indexOfBlock.toInt()
+        val destBlock = blocks[move.indexOfDestination.toInt()]
         var sourceBlock = blocks[sourceIndex]
         var hasCardMoved = false
 

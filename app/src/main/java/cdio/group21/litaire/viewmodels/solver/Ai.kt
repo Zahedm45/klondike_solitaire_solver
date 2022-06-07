@@ -12,7 +12,7 @@ class Ai {
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>
     ): Move? {
-        val depth = 4
+        val depth = 5
 
         val availableMoves = GameLogic.allPossibleMoves(foundations, blocks)
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
