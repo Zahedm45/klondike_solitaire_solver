@@ -54,6 +54,32 @@ class GameLogic {
         }
 
 
+        fun checkBlock(block: ArrayList<Card>):  ArrayList<Card>? {
+            if(block.isEmpty()) {
+                return null
+            }
+
+            var cur_index = block.size-1
+            var tempBlock: ArrayList<Card> = ArrayList()
+
+            tempBlock.add(block[cur_index])
+            cur_index--
+
+            while (cur_index > 0){
+                val deCard = block[cur_index]
+                val seCard = tempBlock.last()
+
+                if(evalBlockToBlock(deCard,seCard)){
+                    tempBlock.add(deCard)
+
+                }
+                else {
+                    break
+                }
+                cur_index--
+            }
+            return tempBlock
+        }
 
         fun possibleMovesFromBlockToBlock(
             sourceBlock: ArrayList<Card>,
