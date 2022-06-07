@@ -48,8 +48,8 @@ import org.tensorflow.lite.task.vision.detector.ObjectDetector
                  */
                 val cardText = category.label
 
-                val suit = cardText.last().toString()
-                val value = cardText.dropLast(1).toInt()
+                val suit = cardText.last()
+                val value = cardText.dropLast(1).toByte()
 
                 val card = Card(value, suit)
 

@@ -25,13 +25,17 @@ class Solver {
 
         //val nextMove = ai.findBestMove(foundations, tableaus)
 
-        for (i in 0..40) {
+        for (i in 0..20) {
             val nextMove = ai.findBestMove(foundations, tableaus)
             if (nextMove != null) {
                 game.move_(nextMove, foundations, tableaus)
 
                 landingPageViewModel.printFoundation2(foundations)
                 landingPageViewModel.printTableaus2(tableaus)
+
+            } else {
+                println("No more move available!")
+                break
             }
 
         }

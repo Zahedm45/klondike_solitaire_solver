@@ -105,7 +105,8 @@ class Game {
             val sourceCard = sourceBlock[i]
             if (move.card == sourceCard) {
 
-                if (move.card.value == 13) {
+                val byte: Byte = 13
+                if (move.card.value == byte) {
                     for (j in 0..6) {
                         if (tableaus[j].isEmpty()) {
                             hasCardMoved = true

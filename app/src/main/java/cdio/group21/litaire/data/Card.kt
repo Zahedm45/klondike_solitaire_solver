@@ -1,12 +1,12 @@
 package cdio.group21.litaire.data
 
 data class Card(
-    val value : Int,
-    val suit : String
+    val value : Byte,
+    val suit : Char
 ) {
     fun deepCopy(
-        value: Int = this.value,
-        suit: String = this.suit
+        value: Byte = this.value,
+        suit: Char = this.suit
     ) = Card(value, suit)
 
 }

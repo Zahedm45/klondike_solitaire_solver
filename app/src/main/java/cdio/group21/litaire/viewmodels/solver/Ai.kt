@@ -7,6 +7,9 @@ import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Ai {
 
+
+    private val lastMoves: ArrayList<String> = ArrayList()
+
     val ga = Game()
     fun findBestMove(
         foundations: ArrayList<Card>,
@@ -21,16 +24,25 @@ class Ai {
 
         availableMoves.forEach {
 
+/*            if (lastMoves.contains(it)) {
+                return@forEach
+            }*/
+
             val tableaus_copy = ArrayList(tableaus.map { k ->
                 ArrayList(k.map { c -> c.deepCopy() })
             })
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
 
             ga.move_(it, foundaitons_copy, tableaus_copy )
-            algorithm(tableaus_copy, foundaitons_copy, leafValue, depth)
+            algorithm(tableaus_copy, foundaitons_copy, leafValue, depth-1)
 
             leafValue.sortBy { gs -> gs.foundations }
             val newSate = leafValue.last()
+
+
+
+
+
 
             if (newSate.foundations > initialState.foundations) {
                 move = it
@@ -47,6 +59,24 @@ class Ai {
             }
 
         }
+
+
+/*
+        move?.let {
+            val newLastMove = "${it.card.value}${it.card.suit}${it.}"
+
+
+
+            lastMoves.add(it)
+        }*/
+
+
+/*        if(lastMoves.contains(move)) {
+            return null
+        }
+
+        move?.let { lastMoves.add(it) }*/
+
 
         println( "The next move is: $move, $initialState")
 
