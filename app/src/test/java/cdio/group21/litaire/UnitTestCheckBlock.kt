@@ -10,7 +10,7 @@ class UnitTestCheckBlock {
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 
     /*
-    * Tests is a block of  3 cards, where 2 are in order
+    * Tests if a block of  3 cards, where 2 are in order
     * will be added to the temp block
     */
     @Test
@@ -39,7 +39,7 @@ class UnitTestCheckBlock {
     }
 
     /*
-    * Tests is a block of  3 cards, where only 1 is in order
+    * Tests if a block of 4 cards, where only 1 is in order
     * and will be added to the temp block
     */
     @Test
@@ -69,7 +69,7 @@ class UnitTestCheckBlock {
     }
 
     /*
-    * Tests is a block of  3 cards, where all are in order
+    * Tests if a block of  3 cards, where all are in order
     * will be added to the temp block
     */
     @Test
@@ -98,7 +98,7 @@ class UnitTestCheckBlock {
     }
 
     /*
-    * Tests is a block of 0 cards, if
+    * Tests if a block of 0 cards, if
     * it returns null
     */
     @Test
