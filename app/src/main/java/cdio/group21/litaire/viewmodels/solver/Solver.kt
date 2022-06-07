@@ -45,7 +45,6 @@ class Solver {
                 break
 
             }
-
         }
 
 

@@ -195,7 +195,7 @@ class Game {
             if (outterHash != null) {
 
                 if(outterHash.containsKey(prevCardsKey)) {
-                    // println("It contains the key: ${cardKey} ${prevCardsKey}")
+                     println("It contains the key: ${cardKey} ${prevCardsKey}")
                 } else {
                     outterHash.put(prevCardsKey, true)
                 }
