@@ -7,9 +7,12 @@ import org.junit.Test
 
 class UnitTestCheckBlock {
 
-    private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 
+    /*
+    * Tests is a block of  3 cards, where 2 are in order
+    * will be added to the temp block
+    */
     @Test
     fun checkBlock2Cards(){
 
@@ -30,11 +33,15 @@ class UnitTestCheckBlock {
         }
         else
         {
-            Assert.assertEquals(1+1,3)
+            Assert.assertEquals(returnVal,null)
         }
 
     }
 
+    /*
+    * Tests is a block of  3 cards, where only 1 is in order
+    * and will be added to the temp block
+    */
     @Test
     fun checkBlock1Card(){
 
@@ -44,6 +51,7 @@ class UnitTestCheckBlock {
 
 
         blocks[0].add(Card(1, 's'))
+        blocks[0].add(Card(13, 's'))
         blocks[0].add(Card(7, 'h'))
         blocks[0].add(Card(5, 's'))
 
@@ -55,7 +63,60 @@ class UnitTestCheckBlock {
         }
         else
         {
-            Assert.assertEquals(1+1,3)
+            Assert.assertEquals(returnVal,null)
+        }
+
+    }
+
+    /*
+    * Tests is a block of  3 cards, where all are in order
+    * will be added to the temp block
+    */
+    @Test
+    fun checkBlockAllCards(){
+
+        for (i in 0..6) {
+            blocks.add(ArrayList())
+        }
+
+
+        blocks[0].add(Card(7, 'c'))
+        blocks[0].add(Card(6, 'h'))
+        blocks[0].add(Card(5, 's'))
+
+
+        var returnVal = GameLogic.checkBlock(blocks[0])
+
+        if (returnVal != null) {
+            Assert.assertEquals(returnVal.size, 3)
+        }
+        else
+        {
+            Assert.assertEquals(returnVal,null)
+        }
+
+    }
+
+    /*
+    * Tests is a block of 0 cards, if
+    * it returns null
+    */
+    @Test
+    fun checkBlockEmptyBlock(){
+
+        for (i in 0..6) {
+            blocks.add(ArrayList())
+        }
+
+
+        var returnVal = GameLogic.checkBlock(blocks[0])
+
+        if (returnVal != null) {
+            Assert.assertEquals(returnVal.size, 3)
+        }
+        else
+        {
+            Assert.assertEquals(returnVal,null)
         }
 
     }
