@@ -26,15 +26,15 @@ class Ai {
                 return@forEach
             }*/
 
-            val tableaus_copy = ArrayList(tableaus.map { k ->
+            val blocks_copy = ArrayList(blocks.map { k ->
 
                 ArrayList(k.map { c -> c.deepCopy() })
             })
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
 
 
-            ga.move_(it, foundaitons_copy, tableaus_copy )
-            algorithm(tableaus_copy, foundaitons_copy, leafValue, depth-1)
+            ga.move_(it, foundaitons_copy, blocks_copy )
+            algorithm(blocks_copy, foundaitons_copy, leafValue, depth-1)
 
 
             leafValue.sortBy { gs -> gs.foundations }
