@@ -11,7 +11,7 @@ class UnitTestCheckBlock {
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 
     @Test
-    fun checkBlock(){
+    fun checkBlock2Cards(){
 
         for (i in 0..6) {
             blocks.add(ArrayList())
@@ -34,4 +34,30 @@ class UnitTestCheckBlock {
         }
 
     }
+
+    @Test
+    fun checkBlock1Card(){
+
+        for (i in 0..6) {
+            blocks.add(ArrayList())
+        }
+
+
+        blocks[0].add(Card(1, 's'))
+        blocks[0].add(Card(7, 'h'))
+        blocks[0].add(Card(5, 's'))
+
+
+        var returnVal = GameLogic.checkBlock(blocks[0])
+
+        if (returnVal != null) {
+            Assert.assertEquals(returnVal.size, 1)
+        }
+        else
+        {
+            Assert.assertEquals(1+1,3)
+        }
+
+    }
+
 }
