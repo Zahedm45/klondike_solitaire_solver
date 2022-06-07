@@ -15,7 +15,7 @@ class Solver {
         UtilSolver.simulateRandomCards(foundations, block)
         val landingPageViewModel = LandingPageViewModel()
 /*        landingPageViewModel.printFoundation2(foundations)
-        landingPageViewModel.printTableaus2(tableaus)*/
+        landingPageViewModel.printBlock2(block)*/
 
         val ai = Ai()
         val game = Game()
@@ -29,7 +29,7 @@ class Solver {
                 game.move_(nextMove, foundations, block)
 
                 landingPageViewModel.printFoundation2(foundations)
-                landingPageViewModel.printTableaus2(block)
+                landingPageViewModel.printBlock2(block)
             }
 
         }
