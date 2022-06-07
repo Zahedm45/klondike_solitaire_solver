@@ -21,7 +21,7 @@ class Solver {
         val game = Game()
 
 
-        //val nextMove = ai.findBestMove(foundations, tableaus)
+        //val nextMove = ai.findBestMove(foundations, block)
 
         for (i in 0..40) {
             val nextMove = ai.findBestMove(foundations, block)
