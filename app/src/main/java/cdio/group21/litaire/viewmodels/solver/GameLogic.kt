@@ -31,7 +31,7 @@ class GameLogic {
 
 
                 if (lastCard.value == (1).toByte() && foundations.size < 4) {
-                    val newMove = Move(true, lastCard,  indexTableau, -1)
+                    val newMove = Move(true, lastCard,  indexBlock, -1)
 
                     possibleMoves.add(newMove)
 

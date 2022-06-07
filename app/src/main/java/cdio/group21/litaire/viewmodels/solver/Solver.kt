@@ -7,12 +7,12 @@ class Solver {
 
     var waste = null
     private var foundations: ArrayList<Card> = ArrayList()
-    private val block: ArrayList<ArrayList<Card>> = ArrayList()
+    private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 
 
     fun initt() {
 
-        UtilSolver.simulateRandomCards(foundations, block)
+        UtilSolver.simulateRandomCards(foundations, blocks)
         val landingPageViewModel = LandingPageViewModel()
 /*        landingPageViewModel.printFoundation2(foundations)
         landingPageViewModel.printBlock2(block)*/
@@ -21,18 +21,18 @@ class Solver {
         val game = Game()
 
 
-        //val nextMove = ai.findBestMove(foundations, block)
+        //val nextMove = ai.findBestMove(foundations, blocks)
 
 
         for (i in 0..20) {
-            val nextMove = ai.findBestMove(foundations, tableaus)
+            val nextMove = ai.findBestMove(foundations, blocks)
 
             if (nextMove != null) {
-                game.move_(nextMove, foundations, block)
+                game.move_(nextMove, foundations, blocks)
 
                 landingPageViewModel.printFoundation2(foundations)
 
-                landingPageViewModel.printTableaus2(tableaus)
+                landingPageViewModel.printBlock2(blocks)
 
             } else {
                 println("No more move available!")
