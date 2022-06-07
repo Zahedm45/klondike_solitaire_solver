@@ -15,8 +15,8 @@ class UtilSolver {
             foundation.add(Card(1, "s"))
             foundation.add(Card(4, "c"))*/
 
-            val suits = arrayOf("s", "h", "d", "c")
-            val values = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+            val suits: Array<Char> = arrayOf('s', 'h', 'd', 'c')
+            val values: Array<Byte> = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
 
 
             for (i in 0..6) {

@@ -29,8 +29,10 @@ class GameLogic {
 
                 val lastCard = block.last()
 
-                if (lastCard.value == 1 && foundations.size < 4) {
-                    val newMove = Move(true, lastCard,  indexBlock, -1)
+
+                if (lastCard.value == (1).toByte() && foundations.size < 4) {
+                    val newMove = Move(true, lastCard,  indexTableau, -1)
+
                     possibleMoves.add(newMove)
 
                 } else {
@@ -68,7 +70,7 @@ class GameLogic {
                         continue
                     }
 
-                    if (sourceCard.value == 13) {
+                    if (sourceCard.value == (13).toByte()) {
                         if (hasChecked && emptyBlockIndex >= 0) {
                             val newMove = Move(false, sourceCard, indexBlock, emptyBlockIndex)
                             possibleMoves.add(newMove)
@@ -136,8 +138,8 @@ class GameLogic {
             val suit2 = source.suit
             val num2 = source.value
 
-            if(suit == "s" || suit == "c"){
-                if (suit2 == "h" || suit2 == "d"){
+            if(suit == 's' || suit == 'c'){
+                if (suit2 == 'h' || suit2 == 'd'){
                     if(num-num2 == 1) {
                         return true
                     }
@@ -145,7 +147,7 @@ class GameLogic {
             }
 
             else{
-                if (suit2 == "s" || suit2 == "c"){
+                if (suit2 == 's' || suit2 == 'c'){
                     if(num-num2 == 1) {
                         return true
                     }
