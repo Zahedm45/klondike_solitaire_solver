@@ -12,31 +12,6 @@ class Solver {
     private val tableaus: ArrayList<ArrayList<Card>> = ArrayList()
 
 
-/*    init {
-        UtilSolver.simulateRandomCards(foundation, tableaus)
-        val landingPageViewModel = LandingPageViewModel()
-        landingPageViewModel.printFoundation(foundation)
-        landingPageViewModel.printTableaus(tableaus)
-*//*        Log.i(TAG, "print Tableau eval: ${evalTableau()}")
-        Log.i(TAG, "print Foundation eval: ${evalFoundation()}")*//*
-
-
-        val k = GameLogic.allPossibleMoves(foundation, tableaus)
-
-        k.forEach {
-            Log.i(TAG, "print100: $it")
-        }
-
-    }*/
-
-
-
-
-
-
-
-
-
     fun initt() {
 
         UtilSolver.simulateRandomCards(foundations, tableaus)
@@ -60,8 +35,28 @@ class Solver {
             }
 
         }
-
-
     }
 
 }
+
+
+
+
+
+
+/*    init {
+        UtilSolver.simulateRandomCards(foundation, tableaus)
+        val landingPageViewModel = LandingPageViewModel()
+        landingPageViewModel.printFoundation(foundation)
+        landingPageViewModel.printTableaus(tableaus)
+*//*        Log.i(TAG, "print Tableau eval: ${evalTableau()}")
+        Log.i(TAG, "print Foundation eval: ${evalFoundation()}")*//*
+
+
+        val k = GameLogic.allPossibleMoves(foundation, tableaus)
+
+        k.forEach {
+            Log.i(TAG, "print100: $it")
+        }
+
+    }*/

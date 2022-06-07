@@ -12,7 +12,7 @@ class Ai {
         foundations: ArrayList<Card>,
         tableaus: ArrayList<ArrayList<Card>>
     ): Move? {
-        val depth = 3
+        val depth = 4
 
         val availableMoves = GameLogic.allPossibleMoves(foundations, tableaus)
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
@@ -109,52 +109,3 @@ class Ai {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Log.i(TAG, "Move:  $move")
-
-
-//k.printFoundation(fou)
-//k.printTableaus(tab)
-//val k = LandingPageViewModel()
-
-
-/*            Log.i(TAG, "After move")
-           // k.printFoundation(fou)
-            k.printTableaus(currTableaus)
-            k.printTableaus(tab)*/
-
-
-
-/*            val evalF = ga.evalFoundation(currFoundations)
-            val evalB = ga.emptyBlock(currTableaus)
-
-            if (evalF != 0 || evalB != 0) {
-                val sate = GameSate(evalF, evalB)
-                leafValues.add(sate)
-            }*/
-
-
-
-
-/*            Log.i(TAG, "new move----")
-
-            leafValue.forEach {
-                if (it.foundations != 0) {
-                    Log.i(TAG, "leaf val: ${it.foundations}")
-                }
-            }*/
