@@ -1,7 +1,6 @@
 package cdio.group21.litaire.viewmodels
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
@@ -18,7 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LandingPageViewModel: ViewModel() {
-    private val cardType = MutableLiveData<Enum<Card>>()
+    //private val cardType = MutableLiveData<Enum<Card>>()
     private val imageBitmap = MutableLiveData<Bitmap>()
     private val detectionList = MutableLiveData<List<DetectionResult>>()
 
@@ -43,9 +42,11 @@ class LandingPageViewModel: ViewModel() {
         return imageBitmap
     }
 
+/*
     fun getCardNumber() : LiveData<Enum<Card>>{
         return cardType
     }
+*/
 
     fun getDetectionList() : LiveData<List<DetectionResult>>{
         return detectionList
@@ -113,7 +114,7 @@ class LandingPageViewModel: ViewModel() {
         }
 
 
-        val afterRemovingDup = removeDuplicate(tempFoundationAndWaste)
+        val afterRemovingDup = removeDuplicateInFW(tempFoundationAndWaste)
         waste = afterRemovingDup[0]
         afterRemovingDup.removeFirst()
         foundation = afterRemovingDup
@@ -173,7 +174,7 @@ class LandingPageViewModel: ViewModel() {
      * @author Zahed(s186517)
      */
 
-    private fun removeDuplicate(
+    private fun removeDuplicateInFW(
         results: ArrayList<DetectionResult>
     ): ArrayList<DetectionResult> {
 
@@ -182,11 +183,14 @@ class LandingPageViewModel: ViewModel() {
         val toBeRemoved: ArrayList<DetectionResult> = ArrayList()
 
         while (i < results.size) {
-            val crrText = results[i].text[0] +""+ results[i].text[1]
+            if (results[i].card == results[i-1].card) {
+                toBeRemoved.add(results[i])
+            }
+/*            val crrText = results[i].text[0] +""+ results[i].text[1]
             val newText = results[i-1].text[0] +""+ results[i-1].text[1]
             if (crrText == newText){
                 toBeRemoved.add(results[i])
-            }
+            }*/
             i += 2
         }
 
@@ -214,13 +218,19 @@ class LandingPageViewModel: ViewModel() {
         var i = 1
 
         while (i < results.size) {
-            val prev = results[i-1].block[0].text[0] + "" + results[i-1].block[0].text[1]
+/*            val prev = results[i-1].block[0].text[0] + "" + results[i-1].block[0].text[1]
             val curr = results[i].block[0].text[0] + "" + results[i].block[0].text[1]
 
             if (prev == curr) {
                 results[i].centerY = 0.0f
                 results[i].centerX = 0.0f
-            }
+            }*/
+
+
+           if (results[i-1].block[0].card == results[i].block[0].card) {
+               results[i].centerY = 0.0f
+               results[i].centerX = 0.0f
+           }
 
             i += 2
         }
@@ -282,9 +292,9 @@ class LandingPageViewModel: ViewModel() {
          var i = 0
          sortedResult.forEach {
             //Log.i(ContentValues.TAG, "Block: ${it.centerX}")
-             Log.i(ContentValues.TAG, "Block: ${i+1}")
+             Log.i(ContentValues.TAG, "Block: ${i}")
              it.block.forEach { crr ->
-                Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr}")
+                Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr.toText()}")
 
             }
              i++
@@ -292,17 +302,53 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
+
      fun printFoundation(results: ArrayList<DetectionResult>){
-         Log.i(ContentValues.TAG, "Block: Foundation")
+         Log.i(ContentValues.TAG, "Foundation")
          results.forEach { crr ->
-             Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr}")
+             Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr.toText()}")
          }
     }
 
 
+
+
+
+    fun printTableaus2(blocks: ArrayList<ArrayList<Card>>){
+        Log.i(ContentValues.TAG, "Tableaus")
+        var i = 0
+
+        blocks.forEach { block ->
+            print("         Block: $i ->")
+            block.forEach {
+                print("   ${it.value.toString() + it.suit}")
+            }
+            println("\n")
+            i++
+        }
+
+    }
+
+
+    fun printFoundation2(results: ArrayList<Card>){
+        //Log.i(ContentValues.TAG, "Foundation")
+
+        print("Foundations -> ")
+
+        results.forEach { crr ->
+            print("   ${crr.value.toString()+crr.suit}")
+
+
+           // Log.i(ContentValues.TAG, "                 ${crr.value.toString()+crr.suit}")
+        }
+        println()
+    }
+
+
+
     fun printWaste(waste: DetectionResult) {
         Log.i(ContentValues.TAG, "Block: Waste")
-        Log.i(ContentValues.TAG, "Block: x: ${waste.boundingBox.centerX()}, y: ${waste.boundingBox.centerY()}, ${waste}")
+        Log.i(ContentValues.TAG, "Block: x: ${waste.boundingBox.centerX()}, y: ${waste.boundingBox.centerY()}, ${waste.toText()}")
 
     }
 
@@ -310,13 +356,13 @@ class LandingPageViewModel: ViewModel() {
 
      fun printOut(results: List<DetectionResult>){
         results.forEach {
-            Log.i(ContentValues.TAG,"MachineL => $it")
+            Log.i(ContentValues.TAG,"MachineL => ${it.toText()}")
         }
     }
 
      fun printOutCoordinates(results: List<DetectionResult>) {
         results.forEach {
-            Log.i(ContentValues.TAG, "Block2: x: ${it.boundingBox.centerX()}, y: ${it.boundingBox.centerY()}, ${it}")
+            Log.i(ContentValues.TAG, "Block2: x: ${it.boundingBox.centerX()}, y: ${it.boundingBox.centerY()}, ${it.toText()}")
         }
     }
 

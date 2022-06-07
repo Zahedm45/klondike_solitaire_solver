@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 
 import org.tensorflow.lite.support.image.TensorImage
@@ -38,14 +39,29 @@ import org.tensorflow.lite.task.vision.detector.ObjectDetector
             val resultToDisplay = results.map {
                 // Get the top-1 category and craft the display text
                 val category = it.categories.first()
-                val text = "${category.label}${category.score.times(100).toInt()}%"
+                //val text = "${category.label}${category.score.times(100).toInt()}%"
 
                 // Create a data object to display the detection result
 
-                DetectionResult(it.boundingBox, text)
+                /**
+                 * TODO
+                 */
+                val cardText = category.label
+
+                val suit = cardText.last().toString()
+                val value = cardText.dropLast(1).toInt()
+
+                val card = Card(value, suit)
+
+                DetectionResult(it.boundingBox, category.score.times(100).toInt(), card)
             }
-            Log.i(ContentValues.TAG, "result.. $resultToDisplay")
+
+
+            Log.i(ContentValues.TAG, "result. ${resultToDisplay.size}. $resultToDisplay")
             println("End of processImage: ${Thread.currentThread()}")
             return resultToDisplay
         }
+
+
+
     }
