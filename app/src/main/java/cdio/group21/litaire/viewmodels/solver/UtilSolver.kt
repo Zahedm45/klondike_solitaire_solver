@@ -1,19 +1,13 @@
 package cdio.group21.litaire.viewmodels.solver
 
-import android.content.ContentValues.TAG
-import android.graphics.RectF
-import android.util.Log
 import cdio.group21.litaire.data.Card
-import cdio.group21.litaire.data.DetectionResult
-import cdio.group21.litaire.data.Move
-import cdio.group21.litaire.data.SortedResult
 
 class UtilSolver {
     companion object {
 
         fun simulateRandomCards(
             foundation: ArrayList<Card>,
-            tableaus: ArrayList<ArrayList<Card>>
+            block: ArrayList<ArrayList<Card>>
         ) {
 
 /*            foundation.add(Card(9, "d"))
@@ -27,7 +21,7 @@ class UtilSolver {
 
             for (i in 0..6) {
                 //val k = SortedResult(0f, 0f, ArrayList())
-                tableaus.add(ArrayList())
+                block.add(ArrayList())
             }
 
 
@@ -38,7 +32,7 @@ class UtilSolver {
                     val randomInt = (0..6).random()
                     val card = Card(value, suit)
 
-                    tableaus[randomInt].add(card)
+                    block[randomInt].add(card)
 
                 }
             }
