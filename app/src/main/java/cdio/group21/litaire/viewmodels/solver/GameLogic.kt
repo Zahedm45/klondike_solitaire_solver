@@ -12,7 +12,7 @@ class GameLogic {
 
         fun allPossibleMoves(
             foundations: ArrayList<Card>,
-            tableaus: ArrayList<ArrayList<Card>>
+            blocks: ArrayList<ArrayList<Card>>
         ): ArrayList<Move> {
 
             emptyBlockIndex = -1
@@ -20,8 +20,8 @@ class GameLogic {
 
             val possibleMoves: ArrayList<Move> = ArrayList()
 
-            for (indexTableau in tableaus.indices) {
-                val block = tableaus[indexTableau]
+            for (indexBlock in blocks.indices) {
+                val block = blocks[indexBlock]
 
                 if (block.isNullOrEmpty()) {
                     continue
@@ -29,8 +29,10 @@ class GameLogic {
 
                 val lastCard = block.last()
 
+
                 if (lastCard.value == (1).toByte() && foundations.size < 4) {
                     val newMove = Move(true, lastCard,  indexTableau, -1)
+
                     possibleMoves.add(newMove)
 
                 } else {
@@ -38,13 +40,13 @@ class GameLogic {
                         val foundation = foundations[k]
                         if (evalBlockToFoundation(foundation, lastCard)) {
 
-                            val newMove = Move(true, lastCard,  indexTableau, k)
+                            val newMove = Move(true, lastCard,  indexBlock, k)
                             possibleMoves.add(newMove)
                         }
                     }
                 }
 
-                possibleMovesFromBlockToBlock(block, tableaus, indexTableau, possibleMoves)
+                possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves)
 
             }
 
@@ -55,30 +57,30 @@ class GameLogic {
 
         fun possibleMovesFromBlockToBlock(
             sourceBlock: ArrayList<Card>,
-            tableaus: ArrayList<ArrayList<Card>>,
-            indexTableau: Int,
+            blocks: ArrayList<ArrayList<Card>>,
+            indexBlock: Int,
             possibleMoves: ArrayList<Move>
         ){
 
             sourceBlock.forEach { sourceCard ->
 
-                for (k in tableaus.indices) {
+                for (k in blocks.indices) {
 
-                    if (k == indexTableau || tableaus[k].isEmpty()) {
+                    if (k == indexBlock || blocks[k].isEmpty()) {
                         continue
                     }
 
                     if (sourceCard.value == (13).toByte()) {
                         if (hasChecked && emptyBlockIndex >= 0) {
-                            val newMove = Move(false, sourceCard, indexTableau, emptyBlockIndex)
+                            val newMove = Move(false, sourceCard, indexBlock, emptyBlockIndex)
                             possibleMoves.add(newMove)
 
                         } else if (!hasChecked) {
 
 
-                            for (iter in tableaus.indices) {
-                                if (tableaus[iter].isEmpty()) {
-                                    val newMove = Move(false, sourceCard, indexTableau, iter)
+                            for (iter in blocks.indices) {
+                                if (blocks[iter].isEmpty()) {
+                                    val newMove = Move(false, sourceCard, indexBlock, iter)
                                     possibleMoves.add(newMove)
                                     hasChecked = true
                                     emptyBlockIndex = iter
@@ -97,10 +99,10 @@ class GameLogic {
 
                     }  else {
 
-                        val destCard = tableaus[k].last()
+                        val destCard = blocks[k].last()
                         if (evalBlockToBlock(destCard, sourceCard)) {
 
-                            val newMove = Move(false, sourceCard, indexTableau, k)
+                            val newMove = Move(false, sourceCard, indexBlock, k)
                             possibleMoves.add(newMove)
 
                         }
