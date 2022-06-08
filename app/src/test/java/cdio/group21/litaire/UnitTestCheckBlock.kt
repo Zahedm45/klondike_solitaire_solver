@@ -9,6 +9,7 @@ import org.junit.Test
 class UnitTestCheckBlock {
 
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 
     /*
     * Tests if a block of  3 cards, where 2 are in order
@@ -176,7 +177,8 @@ class UnitTestCheckBlock {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
             Assert.assertEquals(returnVal.size, 0)
@@ -234,11 +236,12 @@ class UnitTestCheckBlock {
             GameLogic.hasChecked = false
 
              val result = GameLogic.possibleMovesFromBlockToBlock(
-                itemBlock,
-                blocks,
-                indexBlock,
-                returnVal
-            )
+                 itemBlock,
+                 blocks,
+                 indexBlock,
+                 returnVal,
+                 lastMovesMap
+             )
 
 
         }
@@ -303,7 +306,8 @@ class UnitTestCheckBlock {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
 
@@ -375,7 +379,8 @@ class UnitTestCheckBlock {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
 
@@ -450,7 +455,8 @@ class UnitTestCheckBlock {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
 

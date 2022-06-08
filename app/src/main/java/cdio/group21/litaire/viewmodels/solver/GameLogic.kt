@@ -12,7 +12,8 @@ class GameLogic {
 
         fun allPossibleMoves(
             foundations: ArrayList<Card>,
-            blocks: ArrayList<ArrayList<Card>>
+            blocks: ArrayList<ArrayList<Card>>,
+            lastMovesMap: HashMap<String, HashMap<String, Boolean>>
         ): ArrayList<Move> {
 
             emptyBlockIndex = -1
@@ -46,7 +47,7 @@ class GameLogic {
                     }
                 }
 
-                possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves)
+                possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves, lastMovesMap)
 
 
 
@@ -97,7 +98,8 @@ class GameLogic {
             sourceBlock: ArrayList<Card>,
             blocks: ArrayList<ArrayList<Card>>,
             indexBlock: Int,
-            possibleMoves: ArrayList<Move>
+            possibleMoves: ArrayList<Move>,
+            lastMovesMap: HashMap<String, HashMap<String, Boolean>>
         ){
 
 
@@ -119,6 +121,11 @@ class GameLogic {
 
                     if (sourceCard.value == (13).toByte()) {
                         if (hasChecked && emptyBlockIndex >= 0) {
+
+
+
+
+
                             val newMove = Move(false, sourceCard, indexBlock.toByte(), emptyBlockIndex.toByte())
                             possibleMoves.add(newMove)
 

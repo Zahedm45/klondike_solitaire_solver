@@ -10,22 +10,20 @@ class Ai {
     val ga = Game()
     fun findBestMove(
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<ArrayList<Card>>,
     ): Move? {
-        val depth = 4
+        val depth = 15
+        val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
 
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks)
+        val mapCopy = HashMap(Solver.lastMoves)
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
         var move: Move? = null
         val leafValue: ArrayList<GameSate> = ArrayList()
 
+        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, mapCopy)
+
+
         availableMoves.forEach {
-
-
-/*            if (lastMoves.contains(it)) {
-                return@forEach
-            }*/
-
 
             val blocks_copy = ArrayList(blocks.map { k ->
 
@@ -35,7 +33,7 @@ class Ai {
 
 
             ga.move_(it, foundaitons_copy, blocks_copy, null)
-            algorithm(blocks_copy, foundaitons_copy, leafValue, depth-1)
+            algorithm(blocks_copy, foundaitons_copy, leafValue,mapCopy, depth-1)
 
 
             leafValue.sortBy { gs -> gs.foundations }
@@ -67,6 +65,8 @@ class Ai {
         }
 
 
+        initialState.foundations = initialState.foundations - oldState.foundations
+        initialState.emptyBlock = initialState.emptyBlock - oldState.emptyBlock
 
 
 
@@ -80,6 +80,7 @@ class Ai {
         currBlocks: ArrayList<ArrayList<Card>>,
         currFoundations: ArrayList<Card>,
         leafValues: ArrayList<GameSate>,
+        lastMovesMap: HashMap<String, HashMap<String, Boolean>>,
         depth: Int
     ) {
 
@@ -88,7 +89,7 @@ class Ai {
             return
         }
 
-        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks)
+        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, lastMovesMap)
 
         if(newPossibleMoves.isEmpty()) {
             setGameState(currBlocks, currFoundations, leafValues, depth)
@@ -102,9 +103,10 @@ class Ai {
             })
 
             val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
+            val mapCopy = HashMap(lastMovesMap)
 
-            ga.move_(move, fou, blo, null)
-            algorithm(blo, fou, leafValues, depth-1)
+            ga.move_(move, fou, blo, mapCopy)
+            algorithm(blo, fou, leafValues, mapCopy, depth-1)
 
 
         }

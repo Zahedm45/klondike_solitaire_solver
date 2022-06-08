@@ -5,10 +5,14 @@ import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Solver {
 
+    companion object{
+        val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
+    }
+
     var waste = null
     private var foundations: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
-    private val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
+
 
 
 

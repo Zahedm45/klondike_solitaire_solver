@@ -119,7 +119,7 @@ class Game {
 
         if (hasCardMoved) {
 
-            // Adds the card's position to the hashmap
+            // Adds the card's position to the hashmap.
             addCardPosition(lastMoves, sourceBlock, move, i)
 
 
@@ -171,8 +171,9 @@ class Game {
     ) {
         if (lastMoves !== null) {
             val cardKey = "${move.card.value}${move.card.suit}"
+
             val prevCardsKey = if (i == 0) {
-                "b${move.indexOfBlock}"
+                "${move.indexOfBlock}b"
 
             } else {
                 val itsPreC = sourceBlock[i-1]
@@ -184,20 +185,43 @@ class Game {
             if (outterHash != null) {
 
                 if(outterHash.containsKey(prevCardsKey)) {
-                     println("It contains the key: ${cardKey} ${prevCardsKey}")
-                } else {
                     outterHash.put(prevCardsKey, true)
+                    println("It contains the key: ${cardKey} ${prevCardsKey}")
+                } else {
+                    outterHash.put(prevCardsKey, false)
                 }
 
 
             } else {
                 val newInnerH: HashMap<String, Boolean> = HashMap()
 
-                newInnerH.put(prevCardsKey, true)
+                newInnerH.put(prevCardsKey, false)
                 lastMoves.put(cardKey, newInnerH)
             }
         }
     }
+
+
+    fun isStateKnown(
+        sourceCard: Card,
+        destCard: Card,
+        lastMovesMap: HashMap<String, HashMap<String, Boolean>>
+    ): Boolean {
+
+        val sourceCardKey = "${sourceCard.value}${sourceCard.suit}"
+        val destCardKey = "${destCard.value}${destCard.suit}"
+
+        if (lastMovesMap.containsKey(sourceCardKey)){
+
+            // returns null if the destination card does not exist
+            if (lastMovesMap.get(sourceCardKey)?.get(destCardKey) == true) {
+                return true
+
+            }
+        }
+        return false
+    }
+
 }
 
 
