@@ -123,8 +123,6 @@ class UnitTestCheckBlock {
     }
 
 
-
-
     @Test
     fun possibleMovesFromBlockToBlock2() {
 
@@ -320,7 +318,7 @@ class UnitTestCheckBlock {
     }
 
     @Test
-    fun movesDifferentBlocksToSeperateBlocks() {
+    fun movesDifferentBlocksToSeparateBlocks() {
 
         for (i in 0..6) {
             blocks.add(ArrayList())
