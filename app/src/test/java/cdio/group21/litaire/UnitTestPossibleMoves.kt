@@ -62,7 +62,7 @@ class UnitTestPossibleMoves {
     }
 
 
-    @Test
+/*    @Test
     fun possibleMovesFromBlockToBlock2() {
 
         for (i in 0..6) {
@@ -167,7 +167,7 @@ class UnitTestPossibleMoves {
 
         assertEquals(returnVal.size, 3)
 
-    }
+    }*/
 
 
 
