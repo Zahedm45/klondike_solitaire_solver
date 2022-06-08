@@ -156,8 +156,11 @@ class GameLogic {
                         val destCard = blocks[k].last()
                         if (evalBlockToBlock(destCard, sourceCard)) {
 
-                            val newMove = Move(false, sourceCard, indexBlock.toByte(), k.toByte())
-                            possibleMoves.add(newMove)
+                            if (!isStateKnown(sourceCard, destCard, lastMovesMap)) {
+                                val newMove = Move(false, sourceCard, indexBlock.toByte(), k.toByte())
+                                possibleMoves.add(newMove)
+
+                            }
 
                         }
 
@@ -211,5 +214,32 @@ class GameLogic {
             return false
         }
 
+
+
+        fun isStateKnown(
+            sourceCard: Card,
+            destCard: Card,
+            lastMovesMap: HashMap<String, HashMap<String, Boolean>>
+        ): Boolean {
+
+            val sourceCardKey = "${sourceCard.value}${sourceCard.suit}"
+            val destCardKey = "${destCard.value}${destCard.suit}"
+
+            if (lastMovesMap.containsKey(sourceCardKey)){
+
+                // returns null if the destination card does not exist
+                val value = lastMovesMap.get(sourceCardKey)?.get(destCardKey)
+
+                if (value == true) {
+                    return true
+                    // Added once
+                }
+
+/*                if (value == true) {
+                    // Added for the second time
+                }*/
+            }
+            return false
+        }
     }
 }

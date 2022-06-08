@@ -184,6 +184,8 @@ class Game {
 
             if (outterHash != null) {
 
+
+                // First time false, second time true
                 if(outterHash.containsKey(prevCardsKey)) {
                     outterHash.put(prevCardsKey, true)
                     println("It contains the key: ${cardKey} ${prevCardsKey}")
@@ -202,25 +204,7 @@ class Game {
     }
 
 
-    fun isStateKnown(
-        sourceCard: Card,
-        destCard: Card,
-        lastMovesMap: HashMap<String, HashMap<String, Boolean>>
-    ): Boolean {
 
-        val sourceCardKey = "${sourceCard.value}${sourceCard.suit}"
-        val destCardKey = "${destCard.value}${destCard.suit}"
-
-        if (lastMovesMap.containsKey(sourceCardKey)){
-
-            // returns null if the destination card does not exist
-            if (lastMovesMap.get(sourceCardKey)?.get(destCardKey) == true) {
-                return true
-
-            }
-        }
-        return false
-    }
 
 }
 

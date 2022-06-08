@@ -33,7 +33,7 @@ class Ai {
 
 
             ga.move_(it, foundaitons_copy, blocks_copy, null)
-            algorithm(blocks_copy, foundaitons_copy, leafValue,mapCopy, depth-1)
+            algorithm(blocks_copy, foundaitons_copy, leafValue, mapCopy, depth-1)
 
 
             leafValue.sortBy { gs -> gs.foundations }
