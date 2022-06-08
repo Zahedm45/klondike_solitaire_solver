@@ -10,10 +10,9 @@ import org.junit.Test
 import org.junit.Assert.*
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * Note, these tests test the possibleMove functions
  */
+
 class UnitTestPossibleMoves {
 
     private var foundation: ArrayList<Card> = ArrayList()
@@ -25,12 +24,15 @@ class UnitTestPossibleMoves {
         }
     }
 
+    /*
+    * Tests if given two cards in different blocks
+    *  if possible move of one card to the other
+    * is found
+    * */
     @Test
     fun findMoveCardToAnotherBlock() {
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
+        initializeBlocks()
 
         blocks[0].add(Card(5, 's'))
         blocks[3].add(Card(6, 'h'))
@@ -61,13 +63,13 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Tests if first card in a block is a King
+    * it will be moved to a possible free block
+    * */
     @Test
     fun findMoveKingToEmptyBlock() {
-
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
+        initializeBlocks()
 
         blocks[0].add(Card(5, 's'))
         blocks[0].add(Card(3, 'h'))
@@ -127,6 +129,11 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Tests if different moves are possible
+    * from blocks to the foundation piles
+    * they are all found
+    * */
     @Test
     fun findAllMovesToFoundation() {
 
@@ -134,10 +141,7 @@ class UnitTestPossibleMoves {
         foundation.add(Card(5, 'h'))
         foundation.add(Card(1, 's'))
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
+        initializeBlocks()
 
         //  Adding cards to the blocks
         blocks[0].add(Card(5, 's'))
@@ -178,6 +182,12 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Test if adding a card to foundation
+    * after once finding all possible moves
+    * it will find the new possible move to
+    * foundation
+    * */
     @Test
     fun findAfterAddingCardAllPossibleMovesToFoundation() {
 
@@ -185,10 +195,7 @@ class UnitTestPossibleMoves {
         foundation.add(Card(5, 'h'))
         foundation.add(Card(1, 's'))
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
+        initializeBlocks()
 
         //  Adding cards to the blocks
         blocks[0].add(Card(5, 's'))
@@ -230,6 +237,10 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Tests if no possible move to foundation
+    * is possible the correct value is returned
+    * */
     @Test
     fun makeNotPossibleMoveToFoundation() {
 
@@ -237,10 +248,7 @@ class UnitTestPossibleMoves {
         foundation.add(Card(5, 'h'))
         foundation.add(Card(1, 's'))
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
+        initializeBlocks()
 
         //  Adding cards to the blocks
         blocks[0].add(Card(5, 's'))
@@ -272,6 +280,11 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Checks if a card is moved to foundation
+    * it is moved to the correct foundation pile
+    * and is removed from the block
+    * */
     @Test
     fun checkIfAddedToFoundationAndIfPossibleToMoveFromBlock() {
 
@@ -303,6 +316,11 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Checks if a card is moved to foundation
+    * it is moved to the correct foundation pile
+    * and is removed from the block
+    * */
     @Test
     fun moveFromBlockToFoundation() {
         initializeBlocks()
@@ -337,6 +355,12 @@ class UnitTestPossibleMoves {
         assertEquals(blocks[1].last(), detect4)
     }
 
+    /*
+    * Tests if a possible move between two blocks
+    * is found and if moved it is moved correctly
+    * and the previous block only contains the not-moved
+    * cards
+    * */
     @Test
     fun moveOneCardToBlock() {
         initializeBlocks()
@@ -377,6 +401,11 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Tests if no possible moves are found
+    * between blocks the correct value
+    * is returned
+    * */
     @Test
     fun noPossibleMoveBetweenBlocks() {
         initializeBlocks()
@@ -408,6 +437,10 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Tests if a whole block can be moved
+    * it is done so correctly
+    * */
     @Test
     fun moveAllCardsToAnotherBlock() {
         initializeBlocks()
@@ -440,14 +473,15 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * THIS TEST SHOULD FAIL!
+    * */
     @Test
     fun moveBlockToBlock5() {
         initializeBlocks()
 
         val detect2 = Card(13, 's')
         blocks[6].add(detect2)
-
-
 
         val detect4 = Card(5, 'c')
         val detect3 = Card(6, 'h')
@@ -479,40 +513,34 @@ class UnitTestPossibleMoves {
 
     }
 
+    /*
+    * Tests if no possible moves
+    * the correct value is returned
+    * */
     @Test
-    fun possibleMovesFromBlockToBlock2() {
+    fun noPossibleMovesFromBlockToBlock() {
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
+        initializeBlocks()
 
 
         blocks[0].add(Card(5, 's'))
         blocks[0].add(Card(3, 'h'))
         blocks[0].add(Card(2, 'c'))
 
-
-
         blocks[1].add(Card(4, 'h'))
         blocks[1].add(Card(3, 'd'))
         blocks[1].add(Card(10, 'd'))
 
-
-
         blocks[2].add(Card(11, 'h'))
         blocks[2].add(Card(3, 's'))
-
 
         blocks[3].add(Card(2, 'd'))
         blocks[3].add(Card(2, 's'))
         blocks[3].add(Card(6, 'h'))
 
-
         blocks[4].add(Card(7, 's'))
         blocks[4].add(Card(12, 'c'))
         blocks[4].add(Card(12, 'h'))
-
-
 
         blocks[5].add(Card(3, 'c'))
 
@@ -537,34 +565,29 @@ class UnitTestPossibleMoves {
         }
     }
 
+    /*
+    * Tests if the correct block is added to move function
+    * when a move is possible
+    * */
     @Test
-    fun possibleMovesFromBlockToBlock3() {
+    fun possibleMovesFromBlockToBlock() {
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
+        initializeBlocks()
 
         blocks[0].add(Card(5, 's'))
         blocks[0].add(Card(3, 'h'))
         blocks[0].add(Card(2, 'c'))
 
-
-
         blocks[1].add(Card(4, 'h'))
         blocks[1].add(Card(3, 'd'))
         blocks[1].add(Card(10, 'd'))
 
-
-
         blocks[2].add(Card(11, 'h'))
         blocks[2].add(Card(3, 's'))
-
 
         blocks[3].add(Card(2, 'd'))
         blocks[3].add(Card(2, 's'))
         blocks[3].add(Card(6, 'h'))
-
 
         blocks[4].add(Card(7, 's'))
         blocks[4].add(Card(12, 'c'))
@@ -593,7 +616,6 @@ class UnitTestPossibleMoves {
                 returnVal
             )
 
-
         }
 
         val move1 = Move(false, Card(3, 'h'), 0, 6)
@@ -602,39 +624,33 @@ class UnitTestPossibleMoves {
         Assert.assertEquals(returnVal[0], move1)
     }
 
+    /*
+    * Tests if the correct blocks are added to move function
+    * when multiple moves are possible
+    * */
     @Test
-    fun possibleMovesFromBlockToBlock4() {
+    fun multiplePossibleMovesFromBlockToBlock() {
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
+        initializeBlocks()
 
         blocks[0].add(Card(5, 's'))
         blocks[0].add(Card(3, 'h'))
         blocks[0].add(Card(2, 'c'))
 
-
-
         blocks[1].add(Card(4, 'h'))
         blocks[1].add(Card(3, 'd'))
         blocks[1].add(Card(10, 'd'))
 
-
-
         blocks[2].add(Card(11, 'h'))
         blocks[2].add(Card(3, 's'))
-
 
         blocks[3].add(Card(2, 'd'))
         blocks[3].add(Card(2, 's'))
         blocks[3].add(Card(6, 'h'))
 
-
         blocks[4].add(Card(7, 's'))
         blocks[4].add(Card(12, 'c'))
         blocks[4].add(Card(12, 'h'))
-
 
         blocks[5].add(Card(3, 'c'))
         blocks[5].add(Card(11, 'c'))
@@ -672,41 +688,33 @@ class UnitTestPossibleMoves {
         Assert.assertEquals(returnVal.contains(move3), true)
     }
 
+    /*
+    * Tests is multiple parts of a block
+    * can be moved all are added to the move array */
     @Test
-    fun movesDifferentBlocksToSeparateBlocks() {
+    fun multiplePartsOfBlockCanBeMoved() {
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
+        initializeBlocks()
 
         blocks[0].add(Card(4, 's'))
         blocks[0].add(Card(3, 'h'))
         blocks[0].add(Card(2, 'c'))
 
-
-
         blocks[1].add(Card(4, 'h'))
         blocks[1].add(Card(3, 'd'))
         blocks[1].add(Card(10, 'd'))
-
-
 
         blocks[2].add(Card(11, 'h'))
         blocks[2].add(Card(3, 's'))
         blocks[2].add(Card(4, 'c'))
 
-
-
         blocks[3].add(Card(2, 'd'))
         blocks[3].add(Card(2, 's'))
         blocks[3].add(Card(6, 'h'))
 
-
         blocks[4].add(Card(7, 's'))
         blocks[4].add(Card(12, 'c'))
         blocks[4].add(Card(12, 'h'))
-
 
         blocks[5].add(Card(3, 'c'))
         blocks[5].add(Card(11, 'c'))
@@ -748,39 +756,32 @@ class UnitTestPossibleMoves {
         Assert.assertEquals(returnVal.contains(move5), true)
     }
 
+    /*
+    * Tests if the correct blocks are added to move function
+    * when multiple moves are possible
+    * */
     @Test
-    fun possibleMovesFromBlockToBlock6() {
+    fun multiplePossibleMovesFromBlockToBlock2() {
 
-        for (i in 0..6) {
-            blocks.add(ArrayList())
-        }
-
-
+        initializeBlocks()
         blocks[0].add(Card(4, 'd'))
         blocks[0].add(Card(3, 'h'))
         blocks[0].add(Card(2, 'c'))
-
-
 
         blocks[1].add(Card(4, 'h'))
         blocks[1].add(Card(3, 'd'))
         blocks[1].add(Card(10, 'd'))
 
-
-
         blocks[2].add(Card(11, 'h'))
         blocks[2].add(Card(3, 's'))
-
 
         blocks[3].add(Card(2, 'd'))
         blocks[3].add(Card(2, 's'))
         blocks[3].add(Card(6, 'h'))
 
-
         blocks[4].add(Card(7, 's'))
         blocks[4].add(Card(12, 'c'))
         blocks[4].add(Card(12, 'h'))
-
 
         blocks[5].add(Card(3, 'c'))
         blocks[5].add(Card(11, 'c'))
@@ -805,7 +806,6 @@ class UnitTestPossibleMoves {
                 indexBlock,
                 returnVal
             )
-
 
         }
 

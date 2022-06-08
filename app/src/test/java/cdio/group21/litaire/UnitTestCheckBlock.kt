@@ -6,7 +6,7 @@ import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
 import org.junit.Test
 
-/*
+/**
 * Note, these unitTests test the checkBlock() function
 */
 
