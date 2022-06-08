@@ -121,19 +121,17 @@ class GameLogic {
 
                     if (sourceCard.value == (13).toByte()) {
                         if (hasChecked && emptyBlockIndex >= 0) {
-
-
-
-
+                            // hasChecked returns true if there exists an empty block, so there is no need to check it again
 
                             val newMove = Move(false, sourceCard, indexBlock.toByte(), emptyBlockIndex.toByte())
                             possibleMoves.add(newMove)
 
                         } else if (!hasChecked) {
 
-
+                            // Checks if there is an empty block out of the 7 blocks
                             for (iter in blocks.indices) {
                                 if (blocks[iter].isEmpty()) {
+
                                     val newMove = Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
                                     possibleMoves.add(newMove)
                                     hasChecked = true
