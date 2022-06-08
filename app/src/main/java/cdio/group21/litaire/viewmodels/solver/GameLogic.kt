@@ -88,7 +88,16 @@ class GameLogic {
             possibleMoves: ArrayList<Move>
         ){
 
-            sourceBlock.forEach { sourceCard ->
+
+            val retVal = checkBlock(sourceBlock)
+
+            if(retVal == null)
+            {
+                println("")
+                return
+            }
+
+            retVal.forEach { sourceCard ->
 
                 for (k in blocks.indices) {
 
