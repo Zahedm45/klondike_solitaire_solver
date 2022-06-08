@@ -381,7 +381,7 @@ class UnitTestPossibleMoves {
         val game = Game()
 
         moves.forEach {
-            game.moveFromBlockToBlock(it, blocks)
+            game.moveFromBlockToBlock(it, blocks, null)
         }
 
         assertEquals(blocks[2].last(), detect2)
@@ -433,7 +433,7 @@ class UnitTestPossibleMoves {
         assertEquals(blocks[2].last(), detect3)
 
         moves.forEach {
-            game.moveFromBlockToBlock(it, blocks)
+            game.moveFromBlockToBlock(it, blocks, null)
         }
 
         assertEquals(blocks[2][blocks[2].size - 2], detect2)
@@ -476,7 +476,7 @@ class UnitTestPossibleMoves {
 
         val game = Game()
 
-        game.moveFromBlockToBlock(moves[0], blocks)
+        game.moveFromBlockToBlock(moves[0], blocks, null)
 
         assertEquals(blocks[2].last(), detect2)
         assertEquals(blocks[2].size, 3)
@@ -515,7 +515,7 @@ class UnitTestPossibleMoves {
         val game = Game()
 
 
-        game.moveFromBlockToBlock(moves[0], blocks)
+        game.moveFromBlockToBlock(moves[0], blocks, null)
 
         assertEquals(blocks[2].last(), detect2)
         assertEquals(blocks[2].size, 3)
@@ -557,7 +557,7 @@ class UnitTestPossibleMoves {
 
         assertEquals(blocks[0].size, 0)
 
-        game.moveFromBlockToBlock(moves[0], blocks)
+        game.moveFromBlockToBlock(moves[0], blocks, null)
 
 
         assertEquals(blocks[0].size, 1)

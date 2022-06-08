@@ -8,6 +8,8 @@ class Solver {
     var waste = null
     private var foundations: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    private val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
+
 
 
     fun initt() {
@@ -23,15 +25,19 @@ class Solver {
 
         //val nextMove = ai.findBestMove(foundations, blocks)
 
+        landingPageViewModel.printFoundation2(foundations)
+        landingPageViewModel.printBlock2(blocks)
 
-        for (i in 0..20) {
+
+        for (i in 0..9) {
             val nextMove = ai.findBestMove(foundations, blocks)
 
             if (nextMove != null) {
-                game.move_(nextMove, foundations, blocks)
+
+
+                game.move_(nextMove, foundations, blocks, lastMoves)
 
                 landingPageViewModel.printFoundation2(foundations)
-
                 landingPageViewModel.printBlock2(blocks)
 
             } else {
@@ -39,8 +45,14 @@ class Solver {
                 break
 
             }
-
         }
+
+
+
+        lastMoves.forEach {
+            println("${it.key}:  ${it.value}")
+        }
+
     }
 
 }
