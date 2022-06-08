@@ -96,9 +96,7 @@ class GameLogic {
             possibleMoves: ArrayList<Move>
         ) {
 
-
             val retVal = checkBlock(sourceBlock)
-
             if (retVal == null) {
                 println("")
                 return
@@ -200,26 +198,6 @@ class GameLogic {
                 }
             }
 
-            return false
-        }
-
-        fun evalWasteToFoundation(waste: Card, destination: Card): Boolean {
-            val foundation = evalBlockToFoundation(destination,waste)
-
-            if(foundation)
-            {
-                return true
-            }
-            return false
-        }
-
-        fun evalWasteToBlock(waste: Card, destination: Card): Boolean {
-            val block = evalBlockToBlock(destination,waste)
-
-            if(block)
-            {
-                return true
-            }
             return false
         }
     }
