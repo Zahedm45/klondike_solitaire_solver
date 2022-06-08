@@ -48,6 +48,9 @@ class GameLogic {
 
                 possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves)
 
+
+
+
             }
 
             return possibleMoves

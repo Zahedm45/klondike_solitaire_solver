@@ -39,6 +39,10 @@ class Ai {
 
 
             leafValue.sortBy { gs -> gs.foundations }
+            if(leafValue.isEmpty()){
+                return@forEach
+            }
+
             val newSate = leafValue.last()
 
 

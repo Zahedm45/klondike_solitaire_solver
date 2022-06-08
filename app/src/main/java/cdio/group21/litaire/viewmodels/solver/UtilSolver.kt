@@ -7,7 +7,7 @@ class UtilSolver {
 
         fun simulateRandomCards(
             foundation: ArrayList<Card>,
-            block: ArrayList<ArrayList<Card>>
+            blocks: ArrayList<ArrayList<Card>>
         ) {
 
 /*            foundation.add(Card(9, "d"))
@@ -21,7 +21,7 @@ class UtilSolver {
 
             for (i in 0..6) {
                 //val k = SortedResult(0f, 0f, ArrayList())
-                block.add(ArrayList())
+                blocks.add(ArrayList())
             }
 
 
@@ -32,9 +32,14 @@ class UtilSolver {
                     val randomInt = (0..6).random()
                     val card = Card(value, suit)
 
-                    block[randomInt].add(card)
+                    blocks[randomInt].add(card)
 
                 }
+            }
+
+
+            blocks.forEach {
+                it.shuffle()
             }
 
         }
