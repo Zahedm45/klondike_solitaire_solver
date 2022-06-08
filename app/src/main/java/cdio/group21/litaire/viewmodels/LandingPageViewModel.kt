@@ -53,14 +53,9 @@ class LandingPageViewModel: ViewModel() {
         return detectionList
     }
 
-    //TODO this is just a sample. Needs to work with interface for ML model and solitaire solver.
     fun processImage(context: Context, bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO){
-            println("Before delay: ${Thread.currentThread()}")
-            delay(2000L)
-            println("After delay: ${Thread.currentThread()}")
             detectionList.postValue(ObjectRecognition.processImage(context, bitmap))
-            println("After processIage call: ${Thread.currentThread()}")
         }
     }
 

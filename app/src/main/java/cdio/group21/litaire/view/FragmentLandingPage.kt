@@ -6,6 +6,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -17,12 +18,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 
 class FragmentLandingPage : Fragment() {
@@ -123,23 +130,31 @@ class FragmentLandingPage : Fragment() {
 
 
     private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
-        it?.apply {
-            binding.ivBackground.setImageURI(it)
-            viewModel.setImageBitmap(uriToBitmap(it))
-            sharedViewModel.setImageBitmap(uriToBitmap(it))
-            updateUItoLoading()
+        lifecycleScope.launch {
+            it?.apply {
+                binding.ivBackground.setImageURI(it)
+                viewModel.setImageBitmap(uriToBitmap(it))
+                sharedViewModel.setImageBitmap(uriToBitmap(it))
+
+                updateUItoLoading()
+            }
+
         }
 
     }
 
 
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback{
-        if(it.resultCode == RESULT_OK){
-            binding.ivBackground.setImageURI(tempImageUri)
-            viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
-            sharedViewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
-            updateUItoLoading()
+
+        lifecycleScope.launch{
+            if(it.resultCode == RESULT_OK){
+                binding.ivBackground.setImageURI(tempImageUri)
+                viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+                sharedViewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+                updateUItoLoading()
+            }
         }
+
     })
 
 
@@ -202,9 +217,33 @@ class FragmentLandingPage : Fragment() {
         }
         return outputBitmap
     }
-    private fun uriToBitmap(uri: Uri) : Bitmap{
-        val bitmap = MediaStore.Images.Media.getBitmap(this.requireActivity().contentResolver, uri)
-        return bitmap
+    private suspend fun uriToBitmap(uri: Uri): Bitmap {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+
+            val source =  ImageDecoder.createSource(requireActivity().contentResolver, uri)
+            val bitmap  = ImageDecoder.decodeBitmap(source)
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            val data = baos.toByteArray()
+
+            val file = File(requireContext().cacheDir, "temp.jpg")
+            file.createNewFile()
+
+            val fos = FileOutputStream(file)
+            fos.write(data)
+            fos.flush()
+            fos.close()
+            Log.i("Image Compression", file.readBytes().size.toString() + " bytes")
+            val comp =  Compressor.compress(requireContext(), file)
+            val compBitmap = BitmapFactory.decodeFile(comp.path)
+            Log.i("Image Compression", comp.readBytes().size.toString() + " bytes")
+            file.delete()
+
+            return compBitmap
+
+        } else {
+            TODO("VERSION.SDK_INT < P")
+        }
     }
 
     private fun updateUItoLoading(){
