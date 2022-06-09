@@ -52,7 +52,7 @@ class GameLogic {
 
                 if (waste != null){
                     //check waste pile to block
-                    if(evalBlockToBlock(lastCard,waste)){
+                    if(evalBlockToBlockAndWasteToBlock(lastCard,waste)){
                         val newMove = Move(false, waste, 8, indexBlock.toByte())
                         possibleMoves.add(newMove)
                     }
@@ -110,7 +110,7 @@ class GameLogic {
                 val deCard = block[cur_index]
                 val seCard = tempBlock.last()
 
-                if (evalBlockToBlock(deCard, seCard)) {
+                if (evalBlockToBlockAndWasteToBlock(deCard, seCard)) {
                     tempBlock.add(deCard)
 
                 } else {
@@ -178,7 +178,7 @@ class GameLogic {
                     } else {
 
                         val destCard = blocks[k].last()
-                        if (evalBlockToBlock(destCard, sourceCard)) {
+                        if (evalBlockToBlockAndWasteToBlock(destCard, sourceCard)) {
 
                             val newMove = Move(false, sourceCard, indexBlock.toByte(), k.toByte())
                             possibleMoves.add(newMove)
@@ -208,7 +208,7 @@ class GameLogic {
         }
 
 
-        fun evalBlockToBlock(destination: Card, source: Card): Boolean {
+        fun evalBlockToBlockAndWasteToBlock(destination: Card, source: Card): Boolean {
 
             val suit = destination.suit
             val num = destination.value
