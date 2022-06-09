@@ -14,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
+import cdio.group21.litaire.tflite.DetectionConfig
 import cdio.group21.litaire.tflite.ObjectRecognition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -55,7 +56,7 @@ class LandingPageViewModel: ViewModel() {
 
     fun processImage(context: Context, bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO){
-            detectionList.postValue(ObjectRecognition.processImage(context, bitmap))
+            detectionList.postValue(ObjectRecognition.processImage(context, bitmap, DetectionConfig(2u, 2u, 0.1F)))
         }
     }
 

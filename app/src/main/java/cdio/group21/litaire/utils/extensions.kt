@@ -3,7 +3,9 @@ package cdio.group21.litaire.utils
 import android.graphics.Bitmap
 import kotlin.math.roundToInt
 
-fun Bitmap.split(num_rows: Int, num_columns: Int, overlap_percent: Double = 0.1): Array<Array<Bitmap>> {
+fun Bitmap.split(num_rows: UShort, num_columns: UShort, overlap_percent: Float = 0.1F): Array<Array<Bitmap>> {
+	@Suppress("NAME_SHADOWING") val num_rows = num_rows.toInt()
+	@Suppress("NAME_SHADOWING") val num_columns = num_columns.toInt()
 	val height = (this.height / num_rows)
 	val width = (this.width / num_columns)
 	val overlap = Pair(height * overlap_percent, width * overlap_percent)

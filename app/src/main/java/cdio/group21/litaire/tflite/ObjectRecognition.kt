@@ -18,16 +18,15 @@ import cdio.group21.litaire.utils.split
  * This method was taken from the internet (implemented by tfl) and has been modified by us.
  */
 
-    object ObjectRecognition {
+data class DetectionConfig(val num_rows: UShort, val num_columns: UShort, val overlap_percent: Float)
 
-    suspend fun processImage(context: Context, bitmap: Bitmap): List<DetectionResult> {
+object ObjectRecognition {
+
+    suspend fun processImage(context: Context, bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
         println("Start of processImage: ${Thread.currentThread()}")
-        val num_rows = 5
-        val num_cols = 4
-        val overlap_percent = 0.2
-        val bitmaps: Array<Array<Bitmap>> = bitmap.split(num_rows, num_cols, overlap_percent)
-        val results = bitmaps.map { bitmap -> RoboflowAPI.getPrediction(context, bitmap) }
-        val sizes = bitmaps.map { bitmap -> Pair(bitmap.width, bitmap.height) }
+        val bitmaps: Array<Array<Bitmap>> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
+        @Suppress("NAME_SHADOWING") val results = bitmaps.map { bitmap -> RoboflowAPI.getPrediction(context, bitmap) }
+        @Suppress("NAME_SHADOWING") val sizes = bitmaps.map { bitmap -> Pair(bitmap.width, bitmap.height) }
         // Merge the results
         val predictions = mergeResults(results, sizes)
 
