@@ -9,7 +9,7 @@ class Solver {
         val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
     }
 
-    var waste = null
+    var waste = Card(0, 'k')
     private var foundations: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 
@@ -18,7 +18,7 @@ class Solver {
 
     fun initt() {
 
-        UtilSolver.simulateRandomCards(foundations, blocks)
+        UtilSolver.simulateRandomCards(foundations, blocks, waste)
         val landingPageViewModel = LandingPageViewModel()
 /*        landingPageViewModel.printFoundation2(foundations)
         landingPageViewModel.printBlock2(block)*/
@@ -30,10 +30,11 @@ class Solver {
         //val nextMove = ai.findBestMove(foundations, blocks)
 
         landingPageViewModel.printFoundation2(foundations)
+        landingPageViewModel.printWaste2(waste)
         landingPageViewModel.printBlock2(blocks)
 
 
-        for (i in 0..9) {
+        for (i in 0..40) {
             val nextMove = ai.findBestMove(foundations, blocks)
 
             if (nextMove != null) {
@@ -41,12 +42,23 @@ class Solver {
 
                 game.move_(nextMove, foundations, blocks, lastMoves)
 
+                if (waste.value == (0).toByte()) {
+                    UtilSolver.cardDeck.removeLast()
+                    waste = UtilSolver.cardDeck.last().deepCopy()
+                }
+
                 landingPageViewModel.printFoundation2(foundations)
+                landingPageViewModel.printWaste2(waste)
                 landingPageViewModel.printBlock2(blocks)
 
             } else {
+
+
+                UtilSolver.cardDeck.shuffle()
+                waste = UtilSolver.cardDeck.last().deepCopy()
+
                 println("No more move available!")
-                break
+               // break
 
             }
         }
@@ -58,6 +70,11 @@ class Solver {
         }
 
     }
+
+
+
+
+
 
 }
 

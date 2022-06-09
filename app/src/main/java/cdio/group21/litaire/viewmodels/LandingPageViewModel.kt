@@ -345,6 +345,10 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
+    fun printWaste2(waste: Card) {
+        println("Waste:   ${waste.value.toString()+waste.suit}")
+    }
+
 
     fun printWaste(waste: DetectionResult) {
         Log.i(ContentValues.TAG, "Block: Waste")

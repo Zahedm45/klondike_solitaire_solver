@@ -234,6 +234,11 @@ class Game {
         if (move.isMoveToFoundation) {
             return moveFromBlockToFoundation(move, foundations, blocks)
         }
+
+        if (move.indexOfSourceBlock == (8).toByte()) {
+
+        }
+
         return moveFromBlockToBlock(move,blocks, lastMoves)
     }
 
@@ -263,7 +268,7 @@ class Game {
                 // First time false, second time true
                 if(outterHash.containsKey(prevCardsKey)) {
                     outterHash.put(prevCardsKey, true)
-                    println("It contains the key: ${cardKey} ${prevCardsKey}")
+                    //println("It contains the key: ${cardKey} ${prevCardsKey}")
                 } else {
                     outterHash.put(prevCardsKey, false)
                 }
