@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".view.FragmentLandingPage">
 
+
     <ImageView
         android:id="@+id/iv_background"
         android:layout_width="match_parent"
@@ -16,6 +17,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="90dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+        <ImageView
+            android:id="@+id/iv_camera_button"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="fill|fill_horizontal"
+            android:minWidth="64dp"
+            android:minHeight="64dp"
+            android:src="@drawable/vector_camera_circle"></ImageView>
+
+        <ImageView
+            android:id="@+id/iv_album_button"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="fill|fill_horizontal"
+            android:minWidth="64dp"
+            android:minHeight="64dp"
+            android:src="@drawable/vector_album_circle"></ImageView>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_title"
@@ -27,35 +57,11 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <ImageView
-            android:id="@+id/iv_camera_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/vector_camera_circle"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            >
-        </ImageView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106" />
 
-        <ImageView
-            android:id="@+id/iv_album_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/vector_album_circle"
-            android:layout_gravity="center_horizontal">
-        </ImageView>
-    </LinearLayout>
     <ProgressBar
         android:id="@+id/pb_thinking"
         android:layout_width="wrap_content"
@@ -71,31 +77,30 @@
         app:layout_constraintTop_toTopOf="parent">
     </ProgressBar>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/text_box"
-            android:layout_height="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="@dimen/text_box"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:cardBackgroundColor="#00FFFFFF"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title">
+
+        <TextView
+            android:id="@+id/tv_action"
+            android:layout_width="213dp"
+            android:layout_height="117dp"
             android:layout_gravity="center_horizontal"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.92">
+            android:lineSpacingExtra="8sp"
+            android:text="Take a picture or select from album to continue."
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/tv_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Take a picture or select from album to continue."
-                android:layout_gravity="center_horizontal"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-
-
-
-
-
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

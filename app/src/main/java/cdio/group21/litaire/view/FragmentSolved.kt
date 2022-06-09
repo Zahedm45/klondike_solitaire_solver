@@ -1,5 +1,6 @@
 package cdio.group21.litaire.view
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +21,12 @@ class FragmentSolved : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SharedViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

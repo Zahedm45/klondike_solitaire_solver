@@ -1,9 +1,11 @@
 package cdio.group21.litaire.view
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.*
 import android.net.Uri
 import android.os.Build
@@ -42,8 +44,11 @@ class FragmentLandingPage : Fragment() {
     private val viewModel: LandingPageViewModel by viewModels()
     private var tempImageUri: Uri? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
-
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
