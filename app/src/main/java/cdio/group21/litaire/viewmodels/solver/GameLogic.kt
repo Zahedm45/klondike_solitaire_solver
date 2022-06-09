@@ -25,7 +25,7 @@ class GameLogic {
             for (indexBlock in blocks.indices) {
                 val block = blocks[indexBlock]
 
-                if (block.isNullOrEmpty()) {
+                if (block.isEmpty()) {
                     continue
                 }
 
