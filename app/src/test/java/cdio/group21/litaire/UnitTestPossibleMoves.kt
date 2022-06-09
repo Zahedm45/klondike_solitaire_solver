@@ -100,6 +100,27 @@ class UnitTestPossibleMoves {
         assertEquals(moves.contains(move2), true)
     }
 
+    @Test
+    fun testMoveFromWasteToBlock() {
+        initializeBlocks()
+        val waste: Card = Card(3,'c')
+
+        blocks[0].add(Card(4,'h'))
+
+        val moves = GameLogic.allPossibleMoves(foundation,blocks,waste)
+        val move1 = Move(false, waste, 8,0)
+
+
+        val game = Game()
+        val retVal = game.moveFromWasteToBlock(move1,blocks,waste)
+
+
+        assertEquals(retVal, true)
+
+        assertEquals(blocks[0].last(), Card(3,'c'))
+
+    }
+
     /*
     * Tests if given two cards in different blocks
     *  if possible move of one card to the other
