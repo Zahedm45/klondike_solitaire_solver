@@ -248,7 +248,7 @@ class Game {
         if (lastMoves !== null) {
             val cardKey = "${move.card.value}${move.card.suit}"
             val prevCardsKey = if (i == 0) {
-                "${move.indexOfBlock}b"
+                "${move.indexOfSourceBlock}b"
 
             } else {
                 val itsPreC = sourceBlock[i-1]

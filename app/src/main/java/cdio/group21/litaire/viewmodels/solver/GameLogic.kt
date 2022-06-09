@@ -13,9 +13,8 @@ class GameLogic {
         fun allPossibleMoves(
             foundations: ArrayList<Card>,
             blocks: ArrayList<ArrayList<Card>>,
+            waste: Card?,
             lastMovesMap: HashMap<String, HashMap<String, Boolean>>
-            blocks: ArrayList<ArrayList<Card>>,
-            waste: Card?
         ): ArrayList<Move> {
 
             emptyBlockIndex = -1

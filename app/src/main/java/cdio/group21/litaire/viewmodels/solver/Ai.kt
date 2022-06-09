@@ -16,14 +16,13 @@ class Ai {
         val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
 
 
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, Card(0,'k'))
+
         val mapCopy = HashMap(Solver.lastMoves)
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
         var move: Move? = null
         val leafValue: ArrayList<GameSate> = ArrayList()
 
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, mapCopy)
-
+        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, Card(0,'k'), mapCopy)
 
         availableMoves.forEach {
 
@@ -91,8 +90,7 @@ class Ai {
             return
         }
 
-        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, Card(0,'k'))
-        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, lastMovesMap)
+        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, Card(0,'k'), lastMovesMap)
 
         if(newPossibleMoves.isEmpty()) {
             setGameState(currBlocks, currFoundations, leafValues, depth)

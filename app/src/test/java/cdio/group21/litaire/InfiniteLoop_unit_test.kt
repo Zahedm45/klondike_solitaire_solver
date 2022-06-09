@@ -12,6 +12,7 @@ class InfiniteLoop_unit_test {
 
     private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    private val waste = Card(0, 'k')
 
     // Checks the correctness of the hashMap/tree
     @Test
@@ -73,7 +74,7 @@ class InfiniteLoop_unit_test {
 
 
 
-        var possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, lastMovesHash)
+        var possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
 
@@ -88,7 +89,7 @@ class InfiniteLoop_unit_test {
         assertEquals(lastMovesHash.get(card2Key)?.containsKey(card1Key), true)
         assertEquals(lastMovesHash.get(card2Key)?.get(card1Key), false)
 
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, lastMovesHash)
+        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
 
@@ -101,7 +102,7 @@ class InfiniteLoop_unit_test {
         assertEquals(lastMovesHash.get(card2Key)?.containsKey(card3Key), true)
         assertEquals(lastMovesHash.get(card2Key)?.get(card3Key) == false, true)
 
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, lastMovesHash)
+        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
 
@@ -113,7 +114,7 @@ class InfiniteLoop_unit_test {
         assertEquals(retMove3, true)
         assertEquals(lastMovesHash.get(card2Key)?.get(card1Key), true)
 
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, lastMovesHash)
+        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 0)
 
 
@@ -144,7 +145,7 @@ class InfiniteLoop_unit_test {
 
 
 
-        var possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, lastMovesHash)
+        var possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
         // moves 4c to 5h
