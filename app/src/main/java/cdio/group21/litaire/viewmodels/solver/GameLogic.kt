@@ -37,12 +37,16 @@ class GameLogic {
                     possibleMoves.add(newMove)
 
                 } else {
-                    for (k in foundations.indices) {
-                        val foundation = foundations[k]
-                        if (evalBlockToFoundation(foundation, lastCard)) {
+                    if (block[0].value.toInt() == 13) {
+                        continue
+                    } else {
+                        for (k in foundations.indices) {
+                            val foundation = foundations[k]
+                            if (evalBlockToFoundation(foundation, lastCard)) {
 
-                            val newMove = Move(true, lastCard, indexBlock.toByte(), k.toByte())
-                            possibleMoves.add(newMove)
+                                val newMove = Move(true, lastCard, indexBlock.toByte(), k.toByte())
+                                possibleMoves.add(newMove)
+                            }
                         }
                     }
                 }

@@ -597,25 +597,8 @@ class UnitTestPossibleMoves {
         assertEquals(blocks[6].size, 1)
         assertEquals(blocks[2].size, 2)
 
-
         val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
-        assertEquals(moves.size, 1)
-        assertEquals(moves[0], Move(false, Card(13, 's'), 6, 0))
-
-
-        val game = Game()
-
-
-        assertEquals(blocks[0].size, 0)
-
-        game.moveFromBlockToBlock(moves[0], blocks, null)
-
-
-        assertEquals(blocks[0].size, 1)
-        assertEquals(blocks[0].last(), detect2)
-
-        assertEquals(blocks[6].size, 0)
-
+        assertEquals(moves.size, 0)
     }
 
     /*
