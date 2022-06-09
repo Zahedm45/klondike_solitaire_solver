@@ -49,3 +49,14 @@ inline fun<T, reified R> Array<Array<T>>.map(function: (T) -> R): Array<Array<R>
 	@Suppress("UNCHECKED_CAST")
 	return mapped as Array<Array<R>>
 }
+
+inline fun<T, reified R> Array<Array<T>>.mapIndexed(function: (index: Pair<Int, Int>, T) -> R): Array<Array<R>> {
+	val mapped = Array(this.size){ arrayOfNulls<R>(this[0].size) }
+	this.forEachIndexed { i, array ->
+		array.forEachIndexed { j, value ->
+			mapped[i][j] = function(Pair(i, j), value)
+		}
+	}
+	@Suppress("UNCHECKED_CAST")
+	return mapped as Array<Array<R>>
+}
