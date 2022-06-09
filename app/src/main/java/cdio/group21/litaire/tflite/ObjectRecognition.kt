@@ -19,7 +19,7 @@ import cdio.group21.litaire.data.DetectionResult
 
         suspend fun processImage(context: Context, bitmap: Bitmap): List<DetectionResult> {
             println("Start of processImage: ${Thread.currentThread()}")
-            val results = RoboflowAPI.getPrediction(bitmap)
+            val results = RoboflowAPI.getPrediction(context, bitmap)
 
             // Step 4: Parse the detection result and show it
             val resultToDisplay = results?.predictions?.map {
