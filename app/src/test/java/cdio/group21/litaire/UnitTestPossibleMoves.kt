@@ -55,6 +55,23 @@ class UnitTestPossibleMoves {
     }
 
     @Test
+    fun testMoveOfWasteToFoundation() {
+        initializeBlocks()
+        val waste: Card = Card(2,'c')
+
+        foundation.add(Card(1, 'c'))
+
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+
+        val game = Game()
+        game.moveFromWasteToFoundation(moves[0], foundation, waste)
+
+        assertEquals(foundation[0], Card(2,'c'))
+
+    }
+
+
+    @Test
     fun testWasteToFoundationIfAce() {
         initializeBlocks()
         val waste: Card = Card(1,'c')
