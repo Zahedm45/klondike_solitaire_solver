@@ -41,12 +41,12 @@ import cdio.group21.litaire.utils.split
             val category = it.class_ ?: ""
             val score = it.confidence ?: 0.0
             val text = "${category}${score.times(100).toInt()}%"
-            val width = it.width ?: 0
-            val height = it.height ?: 0
-            val xTop = (it.x ?: 0.0F) as Float
-            val yTop = (it.y ?: 0.0F) as Float
-            val xBottom = ((it.x ?: 0.0F) as Float) + width
-            val yBottom = ((it.y ?: 0.0F) as Float) + height
+            val width = it.width ?: 0.0F
+            val height = it.height ?: 0.0F
+            val xTop = (it.x ?: 0.0F)
+            val yTop = (it.y ?: 0.0F)
+            val xBottom = ((it.x ?: 0.0F)) + width
+            val yBottom = ((it.y ?: 0.0F)) + height
 
             val boundingBox = RectF(xTop, yTop, xBottom, yBottom)
 
