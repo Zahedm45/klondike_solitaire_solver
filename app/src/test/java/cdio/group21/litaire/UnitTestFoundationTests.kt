@@ -6,6 +6,7 @@ import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
 import org.junit.Test
+import java.lang.AssertionError
 
 class UnitTestFoundationTests {
 
@@ -247,4 +248,33 @@ class UnitTestFoundationTests {
         Assert.assertEquals(blocks[1].size, 1)
         Assert.assertEquals(blocks[1].last(), detect4)
     }
+
+    /*Test if evalBlockToFoundation works as intended*/
+    @Test
+    fun testEvalBlockToFoundation(){
+        initializeBlocks()
+
+        foundation.add(Card(1,'s'))
+
+        val testCard = Card(2,'s')
+
+        val result = GameLogic.evalBlockToFoundation(foundation[0], testCard)
+
+        Assert.assertEquals(result, true)
+    }
+
+    /*Test if evalBlockToFoundation fails if card doesn't watch suit*/
+    @Test
+    fun testEvalBlockToFoundationFail(){
+        initializeBlocks()
+
+        foundation.add(Card(1,'s'))
+
+        val testCard = Card(2,'c')
+
+        val result = GameLogic.evalBlockToFoundation(foundation[0], testCard)
+
+        Assert.assertEquals(result, false)
+    }
+
 }
