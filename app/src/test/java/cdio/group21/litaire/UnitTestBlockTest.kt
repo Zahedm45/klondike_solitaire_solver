@@ -599,4 +599,37 @@ class UnitTestBlockTest {
 
         Assert.assertEquals(result, false)
     }
+
+    /*Test possibleMovesFromBlockToBlock if it works as expected*/
+    @Test
+    fun testPossibleMovesFromBlockToBlock(){
+        initializeBlocks()
+        blocks[0].add(Card(4,'h'))
+        blocks[0].add(Card(3,'c'))
+
+        blocks[1].add(Card(6,'d'))
+        blocks[1].add(Card(5,'s'))
+
+        val returnVal: ArrayList<Move> = ArrayList()
+        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal)
+        val moveTest = Move(false,Card(4,'h'),0,1)
+
+        Assert.assertEquals(returnVal.contains(moveTest), true)
+    }
+
+    /*Test possibleMovesFromBlockToBlock if it fails as expected*/
+    @Test
+    fun testPossibleMovesFromBlockToBlockFail(){
+        initializeBlocks()
+        blocks[0].add(Card(4,'h'))
+        blocks[0].add(Card(1,'c'))
+
+        blocks[1].add(Card(6,'d'))
+        blocks[1].add(Card(5,'s'))
+
+        val returnVal: ArrayList<Move> = ArrayList()
+        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal)
+
+        Assert.assertEquals(returnVal.size, 0)
+    }
 }
