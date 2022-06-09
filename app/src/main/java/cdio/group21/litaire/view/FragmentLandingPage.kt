@@ -193,10 +193,10 @@ class FragmentLandingPage : Fragment() {
 
                 // calculate the right font size
                 pen.style = Paint.Style.FILL_AND_STROKE
-                pen.color = Color.RED
-                pen.strokeWidth = 1.5F
+                pen.color = if(it.text.contains("S") || it.text.contains("H")) Color.RED else Color.BLACK
+                pen.strokeWidth = 4F
 
-                pen.textSize = 25F
+                pen.textSize = 50F
                 pen.getTextBounds(it.text, 0, it.text.length, tagSize)
                 val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
 
