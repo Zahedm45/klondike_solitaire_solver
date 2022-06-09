@@ -46,8 +46,6 @@ class FragmentLandingPage : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
