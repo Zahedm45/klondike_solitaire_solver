@@ -5,11 +5,8 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.Log
-import androidx.core.graphics.applyCanvas
-import androidx.core.graphics.get
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -114,71 +111,39 @@ class LandingPageViewModel: ViewModel() {
 
         /**
          * TODO
-         * Needs to check how many cards in the block. The waste and the foundations are correct only if there
+         * Needs to check how many cards in the block. The waste and the foundations are only correct if there
          *  are four foundations and a waste (for now).
          */
 
-        val afterRemoveDuplicate = removeDuplicate(tempFoundationAndWaste)
-/*        waste = afterRemoveDuplicate[0]
-        afterRemoveDuplicate.removeFirst()*/
+        val afterRemoveFoundationAndWasteDuplicate = removeDuplicate(tempFoundationAndWaste)
 
-        if (afterRemoveDuplicate.isNullOrEmpty()) {
+        if (afterRemoveFoundationAndWasteDuplicate.isNullOrEmpty()) {
             return
             // No cards to work with
         }
 
 
 
+        if (afterRemoveFoundationAndWasteDuplicate.size < 2){
+            /**
+             * TODO Needs to determine waste/foundation, when there is only one card
+             */
+            return
+        }
 
-        val last = afterRemoveDuplicate.last().boundingBox
-        val secondLast = afterRemoveDuplicate[afterRemoveDuplicate.size - 2].boundingBox
+        val last = afterRemoveFoundationAndWasteDuplicate.last().boundingBox
+        val secondLast = afterRemoveFoundationAndWasteDuplicate[afterRemoveFoundationAndWasteDuplicate.size - 2].boundingBox
 
         val rightSide = img.width - last.centerX()
         val leftSide = last.centerX() - secondLast.centerX()
 
-        //Log.i(TAG, "right222  ${rightSide}  left ${leftSide} width ${img.width}, ${rightSide + rightSide * 0.25}")
 
         if (leftSide > (rightSide + rightSide * 0.25 )) {
-            waste = afterRemoveDuplicate.last()
-            afterRemoveDuplicate.removeLast()
+            waste = afterRemoveFoundationAndWasteDuplicate.last()
+            afterRemoveFoundationAndWasteDuplicate.removeLast()
 
         }
-        foundation = afterRemoveDuplicate
-
-
-
-/*        if(afterRemoveDuplicate.size > 0) {
-            waste = afterRemoveDuplicate.last()
-            afterRemoveDuplicate.removeLast()
-            foundation = afterRemoveDuplicate
-
-
-        } else if (afterRemoveDuplicate.size == 0) {
-
-*//*
-            val last = afterRemoveDuplicate.last().boundingBox
-            val secondLast = afterRemoveDuplicate[afterRemoveDuplicate.size - 2].boundingBox
-
-            val deltaLastToImgWidth = img.width - last.right
-
-
-
-            val lastLeftSide = (img.width - secondLast.right)
-
-            Log.i(TAG, "left 12 ${lastLeftSide}  right ${deltaLastToImgWidth} width ${img.width}")
-
-*//*
-
-
-
-        }*/
-
-
-
-/*        val first = afterRemoveDuplicate.first().boundingBox
-        Log.i(TAG, "left 11 ${first.left}  right ${first.right} width ${first.width()}")*/
-
-
+        foundation = afterRemoveFoundationAndWasteDuplicate
 
     }
 
