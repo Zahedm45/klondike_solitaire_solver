@@ -103,6 +103,7 @@ class UnitTestPossibleMoves {
     @Test
     fun testMoveFromWasteToBlock() {
         initializeBlocks()
+
         val waste: Card = Card(3,'c')
 
         blocks[0].add(Card(4,'h'))
@@ -118,6 +119,12 @@ class UnitTestPossibleMoves {
         assertEquals(retVal, true)
 
         assertEquals(blocks[0].last(), Card(3,'c'))
+
+    }
+
+    @Test
+    fun testMoveFromWasteBlockandFoundation() {
+
 
     }
 
