@@ -117,6 +117,13 @@ class InfiniteLoop_unit_test {
         assertEquals(retMove3, true)
         assertEquals(lastMovesHash.get(card2Key)?.get(card1Key), true)
 
+
+        assertEquals(blocks[1].size, 1)
+        assertEquals(blocks[5].size, 2)
+        assertEquals(blocks[5][1], card2)
+
+
+
         possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 0)
 
