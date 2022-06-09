@@ -12,7 +12,8 @@ class GameLogic {
 
         fun allPossibleMoves(
             foundations: ArrayList<Card>,
-            blocks: ArrayList<ArrayList<Card>>
+            blocks: ArrayList<ArrayList<Card>>,
+            waste: Card?
         ): ArrayList<Move> {
 
             emptyBlockIndex = -1
@@ -47,6 +48,15 @@ class GameLogic {
                 }
 
                 possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves)
+
+                //check waste pile to block
+                if (waste != null){
+                    if(evalBlockToBlock(lastCard,waste)){
+                        val newMove = Move(false, waste, 8, indexBlock.toByte())
+                        possibleMoves.add(newMove)
+                    }
+
+                }
 
             }
 

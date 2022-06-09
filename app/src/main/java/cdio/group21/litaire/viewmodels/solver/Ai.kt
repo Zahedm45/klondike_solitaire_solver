@@ -14,7 +14,8 @@ class Ai {
     ): Move? {
         val depth = 4
 
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks)
+
+        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, Card(0,'k'))
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
         var move: Move? = null
         val leafValue: ArrayList<GameSate> = ArrayList()
@@ -84,7 +85,7 @@ class Ai {
             return
         }
 
-        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks)
+        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, Card(0,'k'))
 
         if(newPossibleMoves.isEmpty()) {
             setGameState(currBlocks, currFoundations, leafValues, depth)
