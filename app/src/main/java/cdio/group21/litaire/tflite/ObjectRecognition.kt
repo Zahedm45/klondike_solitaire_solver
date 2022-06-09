@@ -29,14 +29,11 @@ import cdio.group21.litaire.utils.split
         val results = bitmaps.map { bitmap -> RoboflowAPI.getPrediction(context, bitmap) }
         val sizes = bitmaps.map { bitmap -> Pair(bitmap.width, bitmap.height) }
         // Merge the results
-        val mergedResults = mergeResults(results, sizes)
-
-
-        val result = RoboflowAPI.getPrediction(context, bitmap)
+        val predictions = mergeResults(results, sizes)
 
         // Step 4: Parse the detection result and show it
 
-        val resultToDisplay = result?.predictions?.map {
+        val resultToDisplay = predictions.map {
             // Get the top-1 category and craft the display text
             val category = it.class_ ?: ""
             val score = it.confidence ?: 0.0
@@ -54,13 +51,13 @@ import cdio.group21.litaire.utils.split
         }
         Log.i(ContentValues.TAG, "result.. $resultToDisplay")
         println("End of processImage: ${Thread.currentThread()}")
-        return resultToDisplay ?: listOf()
+        return resultToDisplay
     }
 
     private fun mergeResults(
         results: Array<Array<RoboflowResult?>>,
         bitmap_sizes: Array<Array<Pair<Int, Int>>>
-    ): RoboflowResult {
+    ): List<Prediction> {
         val bitmap_offset = bitmap_sizes.mapIndexed { indicies, size ->
             var x_offset = 0
             var y_offset = 0
@@ -83,6 +80,6 @@ import cdio.group21.litaire.utils.split
             } ?: listOf()
         }
 
-        return RoboflowResult(offsetPredictions.flatten().flatten())
+        return offsetPredictions.flatten().flatten()
     }
 }
