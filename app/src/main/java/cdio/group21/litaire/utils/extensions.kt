@@ -30,3 +30,22 @@ fun Bitmap.split(num_rows: Int, num_columns: Int, overlap_percent: Double = 0.1)
 }
 
 inline fun<reified T> Pair<Int, Int>.createArray(initialValue:T) = Array(this.first){ Array(this.second){initialValue}}
+
+inline fun<reified T> Array<Array<T>>.mapInPlace(function: (T) -> T) {
+	this.forEachIndexed { i, array ->
+		array.forEachIndexed { j, value ->
+			this[i][j] = function(value)
+		}
+	}
+}
+
+inline fun<T, reified R> Array<Array<T>>.map(function: (T) -> R): Array<Array<R>> {
+	val mapped = Array(this.size){ arrayOfNulls<R>(this[0].size) }
+	this.forEachIndexed { i, array ->
+		array.forEachIndexed { j, value ->
+			mapped[i][j] = function(value)
+		}
+	}
+	@Suppress("UNCHECKED_CAST")
+	return mapped as Array<Array<R>>
+}
