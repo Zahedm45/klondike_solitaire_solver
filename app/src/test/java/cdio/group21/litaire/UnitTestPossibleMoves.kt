@@ -32,12 +32,55 @@ class UnitTestPossibleMoves {
         initializeBlocks()
         val waste: Card = Card(2,'c')
 
-        blocks[0].add(Card(3, 'h'))
+        blocks[0].add(Card(3,'h'))
+
 
         val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
         assertEquals(moves.size, 1)
         assertEquals(moves[0], Move(false, waste, 8, 0))
 
+    }
+
+    @Test
+    fun testWasteToFoundation() {
+        initializeBlocks()
+        val waste: Card = Card(2,'c')
+
+        foundation.add(Card(1, 'c'))
+
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+        assertEquals(moves.size, 1)
+        assertEquals(moves[0], Move(true, waste, 8, 0))
+
+    }
+
+    @Test
+    fun testWasteToFoundationIfAce() {
+        initializeBlocks()
+        val waste: Card = Card(1,'c')
+
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+        assertEquals(moves.size, 1)
+        assertEquals(moves[0], Move(true, waste, 8, -1))
+
+    }
+
+    @Test
+    fun testWasteToFoundationAndBlock() {
+        initializeBlocks()
+        val waste: Card = Card(3,'c')
+
+        foundation.add(Card(2, 'c'))
+        blocks[0].add(Card(4,'h'))
+
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+
+        val move1 = Move(true, waste, 8, 0)
+        val move2 = Move(false, waste, 8,0)
+
+        assertEquals(moves.size, 2)
+        assertEquals(moves.contains(move1), true)
+        assertEquals(moves.contains(move2), true)
     }
 
     /*

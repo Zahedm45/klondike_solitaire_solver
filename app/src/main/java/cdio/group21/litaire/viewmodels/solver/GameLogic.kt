@@ -49,15 +49,37 @@ class GameLogic {
 
                 possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves)
 
-                //check waste pile to block
+
                 if (waste != null){
+                    //check waste pile to block
                     if(evalBlockToBlock(lastCard,waste)){
                         val newMove = Move(false, waste, 8, indexBlock.toByte())
                         possibleMoves.add(newMove)
                     }
 
+
                 }
 
+            }
+            //check waste pile to foundation
+            if (waste != null) {
+
+
+                if (waste.value == (1).toByte() && foundations.size < 4) {
+                    val newMove = Move(true, waste, 8, -1)
+
+                    possibleMoves.add(newMove)
+
+                } else {
+                    for (k in foundations.indices) {
+                        val foundation = foundations[k]
+                        if (evalBlockToFoundation(foundation, waste)) {
+
+                            val newMove = Move(true, waste, 8, k.toByte())
+                            possibleMoves.add(newMove)
+                        }
+                    }
+                }
             }
 
             return possibleMoves
