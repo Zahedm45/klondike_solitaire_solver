@@ -60,7 +60,7 @@ class Game {
     ): Boolean {
 
         //Log.i(TAG, "Move to foundation")
-        val sour = move.indexOfBlock.toInt()
+        val sour = move.indexOfSourceBlock.toInt()
         val dest = move.indexOfDestination.toInt()
         val block = blocks[sour]
 
@@ -93,7 +93,7 @@ class Game {
         lastMoves: HashMap<String, HashMap<String, Boolean>>?
 
     ): Boolean {
-        val sourceIndex = move.indexOfBlock.toInt()
+        val sourceIndex = move.indexOfSourceBlock.toInt()
         val destBlock = blocks[move.indexOfDestination.toInt()]
         val sourceBlock = blocks[sourceIndex]
         var hasCardMoved = false
@@ -111,7 +111,7 @@ class Game {
                     }
                 }
 
-            } else if (GameLogic.evalBlockToBlock(destBlock.last(), move.card)) {
+            } else if (GameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
                 hasCardMoved = true
             }
         }
@@ -155,7 +155,7 @@ class Game {
     ): Boolean {
 
         //Log.i(TAG, "Move to foundation")
-        val sour = move.indexOfBlock.toInt()
+        val sour = move.indexOfSourceBlock.toInt()
         val dest = move.indexOfDestination.toInt()
 
 
@@ -183,6 +183,46 @@ class Game {
 
     }
 
+    fun moveFromWasteToBlock(
+        move: Move,
+        blocks: ArrayList<ArrayList<Card>>,
+        waste: Card//,
+        //lastMoves: HashMap<String, HashMap<String, Boolean>>?
+
+    ): Boolean {
+        val destBlock = blocks[move.indexOfDestination.toInt()]
+        var hasCardMoved = false
+
+
+        val i = move.indexOfSourceBlock.toInt()
+
+        if (i == 8) {
+
+            if (move.card.value == (13).toByte()) {
+                for (j in 0..6) {
+                    if (blocks[j].isEmpty()) {
+                        hasCardMoved = true
+                        break
+                    }
+                }
+
+            } else if (GameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
+                hasCardMoved = true
+            }
+        }
+
+
+        if (hasCardMoved) {
+            // Adds the card(s) to the destination block.
+
+                destBlock.add(waste.deepCopy())
+                waste.value = 0
+                waste.suit = 'k'
+            return true
+        }
+
+        return false
+    }
 
 
     fun move_(
@@ -208,7 +248,7 @@ class Game {
         if (lastMoves !== null) {
             val cardKey = "${move.card.value}${move.card.suit}"
             val prevCardsKey = if (i == 0) {
-                "b${move.indexOfBlock}"
+                "b${move.indexOfSourceBlock}"
 
             } else {
                 val itsPreC = sourceBlock[i-1]
@@ -234,6 +274,9 @@ class Game {
             }
         }
     }
+
+
+
 }
 
 
