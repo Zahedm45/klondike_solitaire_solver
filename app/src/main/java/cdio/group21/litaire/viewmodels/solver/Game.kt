@@ -147,6 +147,42 @@ class Game {
         return false
     }
 
+    fun moveFromWasteToFoundation(
+        move: Move,
+        foundations: ArrayList<Card>,
+        waste: Card
+
+    ): Boolean {
+
+        //Log.i(TAG, "Move to foundation")
+        val sour = move.indexOfBlock.toInt()
+        val dest = move.indexOfDestination.toInt()
+
+
+        if (waste == move.card) {
+            if (dest == -1) {
+                foundations.add(waste.deepCopy())
+                waste.value = 0
+                waste.suit = 'k'
+
+                return true
+
+            } else if (dest in 0..3) {
+                if (GameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
+                    foundations[dest] = waste.deepCopy()
+                    waste.value = 0
+                    waste.suit = 'k'
+                    return true
+                }
+            }
+        }
+        Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
+
+        return false
+
+
+    }
+
 
 
     fun move_(
