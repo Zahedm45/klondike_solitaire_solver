@@ -9,9 +9,8 @@ import cdio.group21.litaire.API.Prediction
 import cdio.group21.litaire.API.RoboflowAPI
 import cdio.group21.litaire.API.RoboflowResult
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.utils.*
 import cdio.group21.litaire.utils.map
-import cdio.group21.litaire.utils.mapIndexed
-import cdio.group21.litaire.utils.split
 
 
 /**
@@ -24,11 +23,13 @@ object ObjectRecognition {
 
     suspend fun processImage(context: Context, bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
         println("Start of processImage: ${Thread.currentThread()}")
-        val bitmaps: Array<Array<Bitmap>> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
-        @Suppress("NAME_SHADOWING") val results = bitmaps.map { bitmap -> RoboflowAPI.getPrediction(context, bitmap) }
-        @Suppress("NAME_SHADOWING") val sizes = bitmaps.map { bitmap -> Pair(bitmap.width, bitmap.height) }
+        val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
+        val results = bitmaps.map { bitmapSlice -> RoboflowAPI.getPrediction(context, bitmapSlice.bitmap) }
+        //@Suppress("NAME_SHADOWING") val sizes = bitmaps.map { bitmapSlice -> Size(bitmapSlice.bitmap.width.toUShort(), bitmapSlice.bitmap.height.toUShort()) }
+
+        val bitmap_offset = bitmaps.map { slice -> slice.position }
         // Merge the results
-        val predictions = mergeResults(results, sizes)
+        val predictions = mergeResults(results, bitmap_offset)
 
         // Step 4: Parse the detection result and show it
 
@@ -54,27 +55,17 @@ object ObjectRecognition {
     }
 
     private fun mergeResults(
-        results: Array<Array<RoboflowResult?>>,
-        bitmap_sizes: Array<Array<Pair<Int, Int>>>
+        results:Array2D<RoboflowResult?>,
+        bitmap_offset: Array2D<Point>
     ): List<Prediction> {
-        val bitmap_offset = bitmap_sizes.mapIndexed { indicies, size ->
-            var x_offset = 0
-            var y_offset = 0
-            for (i in 0 until indicies.first) {
-                x_offset += bitmap_sizes[i][indicies.second].first
-            }
-            for (i in 0 until indicies.second) {
-                y_offset += bitmap_sizes[indicies.first][i].second
-            }
-            Pair(x_offset, y_offset)
-        }
 
-        val offsetPredictions = results.mapIndexed { indicies, result ->
+
+        val offsetPredictions = results.mapIndexed { y, x, result ->
             result?.predictions?.map { prediction ->
                 prediction.x =
-                    prediction.x?.plus(bitmap_offset[indicies.first][indicies.second].first)
+                    prediction.x?.plus(bitmap_offset[y][x].x)
                 prediction.y =
-                    prediction.y?.plus(bitmap_offset[indicies.first][indicies.second].second)
+                    prediction.y?.plus(bitmap_offset[y][x].y)
                 prediction
             } ?: listOf()
         }
