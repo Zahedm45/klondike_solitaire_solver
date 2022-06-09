@@ -10,11 +10,13 @@ class Ai {
     val ga = Game()
     fun findBestMove(
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>,
+        blocks: ArrayList<ArrayList<Card>>
     ): Move? {
         val depth = 15
         val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
 
+
+        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, Card(0,'k'))
         val mapCopy = HashMap(Solver.lastMoves)
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
         var move: Move? = null
@@ -89,6 +91,7 @@ class Ai {
             return
         }
 
+        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, Card(0,'k'))
         val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, lastMovesMap)
 
         if(newPossibleMoves.isEmpty()) {

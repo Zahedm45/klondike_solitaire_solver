@@ -14,6 +14,8 @@ class GameLogic {
             foundations: ArrayList<Card>,
             blocks: ArrayList<ArrayList<Card>>,
             lastMovesMap: HashMap<String, HashMap<String, Boolean>>
+            blocks: ArrayList<ArrayList<Card>>,
+            waste: Card?
         ): ArrayList<Move> {
 
             emptyBlockIndex = -1
@@ -32,17 +34,21 @@ class GameLogic {
 
 
                 if (lastCard.value == (1).toByte() && foundations.size < 4) {
-                    val newMove = Move(true, lastCard,  indexBlock.toByte(), -1)
+                    val newMove = Move(true, lastCard, indexBlock.toByte(), -1)
 
                     possibleMoves.add(newMove)
 
                 } else {
-                    for (k in foundations.indices) {
-                        val foundation = foundations[k]
-                        if (evalBlockToFoundation(foundation, lastCard)) {
+                    if (block[0].value.toInt() == 13) {
+                        continue
+                    } else {
+                        for (k in foundations.indices) {
+                            val foundation = foundations[k]
+                            if (evalBlockToFoundation(foundation, lastCard)) {
 
-                            val newMove = Move(true, lastCard,  indexBlock.toByte(), k.toByte())
-                            possibleMoves.add(newMove)
+                                val newMove = Move(true, lastCard, indexBlock.toByte(), k.toByte())
+                                possibleMoves.add(newMove)
+                            }
                         }
                     }
                 }
@@ -52,6 +58,37 @@ class GameLogic {
 
 
 
+
+                if (waste != null){
+                    //check waste pile to block
+                    if(evalBlockToBlockAndWasteToBlock(lastCard,waste)){
+                        val newMove = Move(false, waste, 8, indexBlock.toByte())
+                        possibleMoves.add(newMove)
+                    }
+
+
+                }
+
+            }
+            //check waste pile to foundation
+            if (waste != null) {
+
+
+                if (waste.value == (1).toByte() && foundations.size < 4) {
+                    val newMove = Move(true, waste, 8, -1)
+
+                    possibleMoves.add(newMove)
+
+                } else {
+                    for (k in foundations.indices) {
+                        val foundation = foundations[k]
+                        if (evalBlockToFoundation(foundation, waste)) {
+
+                            val newMove = Move(true, waste, 8, k.toByte())
+                            possibleMoves.add(newMove)
+                        }
+                    }
+                }
             }
 
             return possibleMoves
@@ -63,14 +100,14 @@ class GameLogic {
         * of possible cards to be moved
         * in a block
         */
-        fun checkBlock(block: ArrayList<Card>):  ArrayList<Card>? {
+        fun checkBlock(block: ArrayList<Card>): ArrayList<Card>? {
             // check if block is empty
-            if(block.isEmpty()) {
+            if (block.isEmpty()) {
                 return null
             }
 
             //should start from the back of the array (first visible card in block)
-            var cur_index = block.size-1
+            var cur_index = block.size - 1
             var tempBlock: ArrayList<Card> = ArrayList()
 
             //add the first visible card, as 1 card should always be moved (unless empty)
@@ -78,15 +115,14 @@ class GameLogic {
             cur_index--
 
             //checks if the rest of the block is in an increasing order and adds them if so
-            while (cur_index >= 0){
+            while (cur_index >= 0) {
                 val deCard = block[cur_index]
                 val seCard = tempBlock.last()
 
-                if(evalBlockToBlock(deCard,seCard)){
+                if (evalBlockToBlockAndWasteToBlock(deCard, seCard)) {
                     tempBlock.add(deCard)
 
-                }
-                else {
+                } else {
                     break
                 }
                 cur_index--
@@ -102,11 +138,8 @@ class GameLogic {
             lastMovesMap: HashMap<String, HashMap<String, Boolean>>
         ){
 
-
             val retVal = checkBlock(sourceBlock)
-
-            if(retVal == null)
-            {
+            if (retVal == null) {
                 println("")
                 return
             }
@@ -122,8 +155,12 @@ class GameLogic {
                     if (sourceCard.value == (13).toByte()) {
                         if (hasChecked && emptyBlockIndex >= 0) {
                             // hasChecked returns true if there exists an empty block, so there is no need to check it again
-
-                            val newMove = Move(false, sourceCard, indexBlock.toByte(), emptyBlockIndex.toByte())
+                            val newMove = Move(
+                                false,
+                                sourceCard,
+                                indexBlock.toByte(),
+                                emptyBlockIndex.toByte()
+                            )
                             possibleMoves.add(newMove)
 
                         } else if (!hasChecked) {
@@ -131,8 +168,8 @@ class GameLogic {
                             // Checks if there is an empty block out of the 7 blocks
                             for (iter in blocks.indices) {
                                 if (blocks[iter].isEmpty()) {
-
-                                    val newMove = Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
+                                    val newMove =
+                                        Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
                                     possibleMoves.add(newMove)
                                     hasChecked = true
                                     emptyBlockIndex = iter
@@ -149,10 +186,10 @@ class GameLogic {
                         break
 
 
-                    }  else {
+                    } else {
 
                         val destCard = blocks[k].last()
-                        if (evalBlockToBlock(destCard, sourceCard)) {
+                        if (evalBlockToBlockAndWasteToBlock(destCard, sourceCard)) {
 
                             if (!isStateKnown(sourceCard, destCard, lastMovesMap)) {
                                 val newMove = Move(false, sourceCard, indexBlock.toByte(), k.toByte())
@@ -177,7 +214,7 @@ class GameLogic {
             val num2 = foundation.value
 
             if (suit == suit2) {
-                if(num2-num == -1){
+                if (num2 - num == -1) {
                     return true
                 }
             }
@@ -185,7 +222,7 @@ class GameLogic {
         }
 
 
-        fun evalBlockToBlock(destination: Card, source: Card): Boolean{
+        fun evalBlockToBlockAndWasteToBlock(destination: Card, source: Card): Boolean {
 
             val suit = destination.suit
             val num = destination.value
@@ -193,17 +230,15 @@ class GameLogic {
             val suit2 = source.suit
             val num2 = source.value
 
-            if(suit == 's' || suit == 'c'){
-                if (suit2 == 'h' || suit2 == 'd'){
-                    if(num-num2 == 1) {
+            if (suit == 's' || suit == 'c') {
+                if (suit2 == 'h' || suit2 == 'd') {
+                    if (num - num2 == 1) {
                         return true
                     }
                 }
-            }
-
-            else{
-                if (suit2 == 's' || suit2 == 'c'){
-                    if(num-num2 == 1) {
+            } else {
+                if (suit2 == 's' || suit2 == 'c') {
+                    if (num - num2 == 1) {
                         return true
                     }
                 }

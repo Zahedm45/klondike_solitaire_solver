@@ -1,8 +1,8 @@
 package cdio.group21.litaire.data
 
 data class Card(
-    val value : Byte,
-    val suit : Char
+    var value : Byte,
+    var suit : Char
 ) {
     fun deepCopy(
         value: Byte = this.value,
