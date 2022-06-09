@@ -573,4 +573,30 @@ class UnitTestBlockTest {
 
     }
 
+
+    /*Test if evalBlockToBlockAndWasteToBlock works as intended*/
+    @Test
+    fun testEvalBlockToBlockAndWasteToBlock(){
+        initializeBlocks()
+
+        val testBlockLastCard = Card(5,'s')
+        val testCard = Card(6,'h')
+
+        val result = GameLogic.evalBlockToBlockAndWasteToBlock(testCard,testBlockLastCard)
+
+        Assert.assertEquals(result, true)
+    }
+
+    /* Tests if evalBlockToBlockAndWasteToBlock works as intended if meant to fail*/
+    @Test
+    fun testEvalBlockToBlockAndWasteToBlockFail(){
+        initializeBlocks()
+
+        val testBlockLastCard = Card(13,'s')
+        val testCard = Card(6,'h')
+
+        val result = GameLogic.evalBlockToBlockAndWasteToBlock(testCard,testBlockLastCard)
+
+        Assert.assertEquals(result, false)
+    }
 }
