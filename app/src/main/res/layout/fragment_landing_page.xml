@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="@string/Klondike"
         android:textColor="?android:textColorPrimary"
-        android:textSize="96sp"
+        android:textSize="72sp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,17 +64,18 @@
 
     <ProgressBar
         android:id="@+id/pb_thinking"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:indeterminate="true"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ProgressBar>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="5"></ProgressBar>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
