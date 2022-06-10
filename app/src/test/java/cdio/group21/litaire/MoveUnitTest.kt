@@ -11,7 +11,7 @@ import org.junit.Test
 class Simulate_unitTest {
     private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
-    var waste = DUMMY_CARD
+    var waste = DUMMY_CARD.deepCopy()
     val lastMovesHash: HashMap<String, HashMap<String, Boolean>> = HashMap()
 
 
