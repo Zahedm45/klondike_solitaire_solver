@@ -62,7 +62,7 @@ class FragmentLandingPage : Fragment() {
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
             Log.i(TAG, "image width 2 ${it.width}")
             binding.ivBackground.setImageBitmap(it)
-            viewModel.processImage(this.requireContext(), it)
+            viewModel.processImage(this.requireContext(), it.copy(Bitmap.Config.RGB_565, false))
             //findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
         }
 
@@ -179,43 +179,36 @@ class FragmentLandingPage : Fragment() {
         val pen = Paint()
         pen.textAlign = Paint.Align.LEFT
 
-        val val1 = true
-
         detectionResults.forEach {
-            if (val1 == true){
-
-                // draw bounding box
-                pen.color = Color.RED
-                pen.strokeWidth = 0.7F
-                pen.style = Paint.Style.STROKE
-                val box = it.boundingBox
-                canvas.drawRect(box, pen)
+            // draw bounding box
+            pen.color = Color.RED
+            pen.strokeWidth = 0.7F
+            pen.style = Paint.Style.STROKE
+            val box = it.boundingBox
+            canvas.drawRect(box, pen)
 
 
-                val tagSize = Rect(0, 0, 0, 0)
+            val tagSize = Rect(0, 0, 0, 0)
 
-                // calculate the right font size
-                pen.style = Paint.Style.FILL_AND_STROKE
-                pen.color = if(it.text.contains("S") || it.text.contains("H")) Color.RED else Color.BLACK
-                pen.strokeWidth = 4F
+            // calculate the right font size
+            pen.style = Paint.Style.FILL_AND_STROKE
+            pen.color = if(it.text.contains("S") || it.text.contains("H")) Color.RED else Color.BLACK
+            pen.strokeWidth = 4F
 
-                pen.textSize = 50F
-                pen.getTextBounds(it.text, 0, it.text.length, tagSize)
-                val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
+            pen.textSize = 50F
+            pen.getTextBounds(it.text, 0, it.text.length, tagSize)
+            val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
 
-                // adjust the font size so texts are inside the bounding box
-                if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
+            // adjust the font size so texts are inside the bounding box
+            if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
 
-                val margin = (box.width() - tagSize.width()) / 2.0F
-                //if (margin < 0F) margin = 0F
+            val margin = (box.width() - tagSize.width()) / 2.0F
+            //if (margin < 0F) margin = 0F
 
-                canvas.drawText(
-                    it.text, box.left + margin,
-                    box.top + tagSize.height().times(1F), pen
-                )
-
-
-            }
+            canvas.drawText(
+                it.text, box.left + margin,
+                box.top + tagSize.height().times(1F), pen
+            )
 
         }
         return outputBitmap
