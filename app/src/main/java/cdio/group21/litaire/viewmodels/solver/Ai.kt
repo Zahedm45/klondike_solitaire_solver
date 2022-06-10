@@ -10,7 +10,7 @@ class Ai {
         blocks: ArrayList<ArrayList<Card>>,
         waste: Card
     ): Move? {
-        val depth = 30
+        val depth = 40
         val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
 
 
@@ -18,7 +18,6 @@ class Ai {
         val mapCopy = HashMap(Solver.lastMoves)
         var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
         var move: Move? = null
-        val leafValue: ArrayList<GameSate> = ArrayList()
 
         val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, waste, mapCopy)
 
@@ -31,6 +30,7 @@ class Ai {
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
             val wasteCopy = waste.copy()
 
+            val leafValue: ArrayList<GameSate> = ArrayList()
 
             ga.move_(it, foundaitons_copy, blocks_copy, wasteCopy, mapCopy)
             algorithm(blocks_copy, foundaitons_copy, wasteCopy, leafValue, mapCopy, depth-1)

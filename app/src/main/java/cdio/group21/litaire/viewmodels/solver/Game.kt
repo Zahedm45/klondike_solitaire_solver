@@ -101,7 +101,7 @@ class Game {
 
         val i = sourceBlock.indexOf(move.card)
 
-        if (i != -1) {
+        if (i != DESTINATION_UNKNOWN.toInt()) {
 
             if (move.card.value == (13).toByte()) {
                 for (j in 0..6) {
@@ -177,7 +177,7 @@ class Game {
 
 
         if (waste == move.card) {
-            if (dest == -1) {
+            if (dest == DESTINATION_UNKNOWN.toInt()) {
                 foundations.add(waste.deepCopy())
                 waste.value = DUMMY_CARD.value
                 waste.suit = DUMMY_CARD.suit
