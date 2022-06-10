@@ -279,4 +279,127 @@ class UnitTestFoundationTests {
         Assert.assertEquals(result, false)
     }
 
+    /*Test if evalBlockToFoundation works as intended*/
+    @Test
+    fun testEvalFoundationToBlock(){
+        initializeBlocks()
+
+        foundation.add(Card(3,'s'))
+
+        blocks[0].add(Card(4,'h'))
+
+        val result = GameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].last(),foundation[0])
+        val move = Move(false,foundation[0],0.toByte(),0.toByte())
+
+        Assert.assertEquals(result, true)
+
+        val game = Game()
+        val result2 = game.moveFromFoundationToBlock(move,blocks,foundation,lastMovesMap)
+
+        Assert.assertEquals(result2, true)
+    }
+
+    /*Test if evalBlockToFoundation works as intended*/
+    @Test
+    fun testEvalFoundationToBlockFail(){
+        initializeBlocks()
+
+        foundation.add(Card(2,'s'))
+
+        blocks[0].add(Card(4,'h'))
+
+        val result = GameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].last(),foundation[0])
+        val move = Move(false,foundation[0],0.toByte(),0.toByte())
+
+        Assert.assertEquals(result, false)
+
+        val game = Game()
+        val result2 = game.moveFromFoundationToBlock(move,blocks,foundation,lastMovesMap)
+
+        Assert.assertEquals(result2, false)
+    }
+
+    /*Test if evalBlockToFoundation works as intended*/
+    @Test
+    fun testPossibleMoveFoundationToBlock(){
+        initializeBlocks()
+
+        foundation.add(Card(3,'s'))
+
+        blocks[0].add(Card(4,'h'))
+
+        val result = GameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
+        val move = Move(false, Card(3,'s'),0.toByte(),0.toByte())
+
+        Assert.assertEquals(result.contains(move), true)
+    }
+
+    /*Test if evalBlockToFoundation works as intended*/
+    @Test
+    fun testPossibleMoveFoundationToBlockMoreCards(){
+        initializeBlocks()
+
+        foundation.add(Card(3,'s'))
+        foundation.add(Card(5,'h'))
+
+        blocks[0].add(Card(5,'c'))
+        blocks[0].add(Card(4,'h'))
+
+        blocks[1].add(Card(5,'s'))
+
+        blocks[2].add(Card(6,'h'))
+
+        val result = GameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
+        val move = Move(false, Card(3,'s'),0.toByte(),0.toByte())
+
+        Assert.assertEquals(result.contains(move), true)
+    }
+
+    @Test
+    fun winScenario() {
+        initializeBlocks()
+        foundation.add(Card(11,'s'))
+        foundation.add(Card(12,'c'))
+        foundation.add(Card(12,'h'))
+        foundation.add(Card(12,'d'))
+
+        blocks[0].add(Card(13,'d'))
+
+        blocks[1].add(Card(13,'h'))
+        blocks[1].add(Card(12,'s'))
+
+        blocks[2].add(Card(13,'c'))
+
+        blocks[3].add(Card(13,'s'))
+
+        val result = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val move1 = Move(true, Card(13,'d'),0.toByte(),3.toByte())
+        val move2 = Move(true, Card(12,'s'),1.toByte(),0.toByte())
+        val move3 = Move(true, Card(13,'c'),2.toByte(),1.toByte())
+
+        Assert.assertEquals(result.contains(move1),true)
+        Assert.assertEquals(result.contains(move2),true)
+        Assert.assertEquals(result.contains(move3),true)
+
+        val game = Game()
+        game.moveFromBlockToFoundation(move1,foundation,blocks)
+        game.moveFromBlockToFoundation(move2,foundation,blocks)
+        game.moveFromBlockToFoundation(move3,foundation,blocks)
+
+        val result2 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val move4 = Move(true, Card(13,'h'),1.toByte(),2.toByte())
+        val move5 = Move(true, Card(13,'s'),3.toByte(),0.toByte())
+
+        Assert.assertEquals(result2.contains(move4),true)
+        Assert.assertEquals(result2.contains(move5),true)
+
+        game.moveFromBlockToFoundation(move4,foundation,blocks)
+        game.moveFromBlockToFoundation(move5,foundation,blocks)
+
+        Assert.assertEquals(foundation[0],Card(13,'s'))
+        Assert.assertEquals(foundation[1],Card(13,'c'))
+        Assert.assertEquals(foundation[2],Card(13,'h'))
+        Assert.assertEquals(foundation[3],Card(13,'d'))
+    }
+
 }
