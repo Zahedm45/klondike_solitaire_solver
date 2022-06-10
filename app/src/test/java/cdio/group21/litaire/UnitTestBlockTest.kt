@@ -5,6 +5,7 @@ import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class UnitTestBlockTest {
@@ -12,7 +13,7 @@ class UnitTestBlockTest {
     private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
     val waste = Card(0, 'k')
-
+    val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 
 
     fun initializeBlocks() {
@@ -47,7 +48,8 @@ class UnitTestBlockTest {
                 item,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
 
@@ -87,7 +89,7 @@ class UnitTestBlockTest {
         Assert.assertEquals(blocks[0].size, 2)
 
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 1)
         Assert.assertEquals(moves[0], Move(false, Card(5, 's'), 0, 2))
 
@@ -137,7 +139,7 @@ class UnitTestBlockTest {
 
 
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 0)
 
     }
@@ -163,7 +165,7 @@ class UnitTestBlockTest {
         Assert.assertEquals(blocks[2].size, 2)
 
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 1)
         Assert.assertEquals(moves[0], Move(false, Card(5, 's'), 0, 2))
 
@@ -197,7 +199,7 @@ class UnitTestBlockTest {
         Assert.assertEquals(blocks[6].size, 1)
         Assert.assertEquals(blocks[2].size, 2)
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste)
+        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 0)
     }
 
@@ -246,7 +248,8 @@ class UnitTestBlockTest {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
             Assert.assertEquals(returnVal.size, 0)
@@ -301,7 +304,8 @@ class UnitTestBlockTest {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
         }
@@ -360,7 +364,8 @@ class UnitTestBlockTest {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
 
@@ -424,7 +429,8 @@ class UnitTestBlockTest {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
 
@@ -492,7 +498,8 @@ class UnitTestBlockTest {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
         }
@@ -559,13 +566,14 @@ class UnitTestBlockTest {
                 itemBlock,
                 blocks,
                 indexBlock,
-                returnVal
+                returnVal,
+                lastMovesMap
             )
 
         }
 
 
-        Assert.assertEquals(returnVal.size, 1)
+        assertEquals(returnVal.size, 1)
 
 
         val expMove1 = Move(false, Card(13, 'h'), 4, 6)
@@ -611,7 +619,7 @@ class UnitTestBlockTest {
         blocks[1].add(Card(5,'s'))
 
         val returnVal: ArrayList<Move> = ArrayList()
-        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal)
+        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
         val moveTest = Move(false,Card(4,'h'),0,1)
 
         Assert.assertEquals(returnVal.contains(moveTest), true)
@@ -628,7 +636,7 @@ class UnitTestBlockTest {
         blocks[1].add(Card(5,'s'))
 
         val returnVal: ArrayList<Move> = ArrayList()
-        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal)
+        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
 
         Assert.assertEquals(returnVal.size, 0)
     }

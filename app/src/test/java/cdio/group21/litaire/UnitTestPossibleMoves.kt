@@ -61,8 +61,8 @@ class UnitTestPossibleMoves {
 
         blocks[6].add(Card(5,'h'))
 
-        val moves = GameLogic.allPossibleMoves(foundation,blocks,waste)
-        Assert.assertEquals(moves.size, 7)
+        val moves = GameLogic.allPossibleMoves(foundation,blocks, waste, lastMovesMap)
+        assertEquals(moves.size, 7)
 
     }
 
@@ -98,8 +98,8 @@ class UnitTestPossibleMoves {
 
         blocks[6].add(Card(5,'h'))
 
-        val moves = GameLogic.allPossibleMoves(foundation,blocks,waste)
-        Assert.assertEquals(moves.size, 9)
+        val moves = GameLogic.allPossibleMoves(foundation,blocks, waste, lastMovesMap)
+        assertEquals(moves.size, 9)
 
     }
 }
