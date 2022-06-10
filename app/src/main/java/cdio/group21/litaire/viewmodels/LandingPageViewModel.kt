@@ -61,6 +61,15 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
+
+
+    /**
+     * This function determines the foundations and the waste from the detected results.
+     * @param results: a list of the detected results
+     * @param img: the image from which the detection result were detected
+     * @author Zahed(s186517)
+     */
+
     fun detectFoundationAndWaste(results: List<DetectionResult>, img: Bitmap) {
         val centerYBlock: ArrayList<SortedResult> = ArrayList()
 
@@ -145,6 +154,12 @@ class LandingPageViewModel: ViewModel() {
 
 
 
+
+    /**
+     * This method determines the blocks from the detected results
+     * @param results: a list of detected results provided by the tensorflow model.
+     * @author Zahed(s186517)
+     */
     fun detectTableaus(
         results: List<DetectionResult>
     ) {

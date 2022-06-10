@@ -18,6 +18,7 @@ import cdio.group21.litaire.utils.extensions.split
 
 /**
  * This method was taken from the internet (implemented by tfl) and has been modified by us.
+ * @author Zahed(s186517)
  */
 
 data class DetectionConfig(val num_rows: UInt, val num_columns: UInt, val overlap_percent: Float)
@@ -57,6 +58,7 @@ object ObjectRecognition {
         println("End of processImage: ${Thread.currentThread()}")
         return resultToDisplay
     }
+
 
     private suspend fun mergeResults(
         results:Array2D<RoboflowResult?>,
