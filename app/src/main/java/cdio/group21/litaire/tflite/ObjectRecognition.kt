@@ -25,7 +25,7 @@ object ObjectRecognition {
     suspend fun processImage(context: Context, bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
         //println("Start of processImage: ${Thread.currentThread()}")
         val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
-        val results = bitmaps.pmap2D { bitmapSlice -> RoboflowAPI.getPrediction(context, bitmapSlice.bitmap) }
+        val results = bitmaps.pmap2D { bitmapSlice -> RoboflowAPI.getPrediction(bitmapSlice.bitmap) }
         //@Suppress("NAME_SHADOWING") val sizes = bitmaps.map { bitmapSlice -> Size(bitmapSlice.bitmap.width.toUShort(), bitmapSlice.bitmap.height.toUShort()) }
 
         //val bitmap_offset = bitmaps.map2D { slice -> slice.position }
