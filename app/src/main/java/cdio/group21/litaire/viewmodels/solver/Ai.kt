@@ -81,7 +81,7 @@ class Ai {
     private fun algorithm(
         currBlocks: ArrayList<ArrayList<Card>>,
         currFoundations: ArrayList<Card>,
-        waste: Card,
+        currWaste: Card,
         leafValues: ArrayList<GameSate>,
         lastMovesMap: HashMap<String, HashMap<String, Boolean>>,
         depth: Int
@@ -92,7 +92,7 @@ class Ai {
             return
         }
 
-        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, Card(0,'k'), lastMovesMap)
+        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, currWaste, lastMovesMap)
 
         if(newPossibleMoves.isEmpty()) {
             setGameState(currBlocks, currFoundations, leafValues, depth)
@@ -101,15 +101,16 @@ class Ai {
 
         newPossibleMoves.forEach { move ->
 
-            val blo = ArrayList(currBlocks.map { k ->
+            val blocksCopy = ArrayList(currBlocks.map { k ->
                 ArrayList(k.map { c -> c.deepCopy() })
             })
 
-            val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
+            val wasteCopy = currWaste.deepCopy()
+            val foundationCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
             val mapCopy = HashMap(lastMovesMap)
 
-            ga.move_(move, fou, blo, waste,  mapCopy)
-            algorithm(blo, fou, waste, leafValues, mapCopy, depth-1)
+            ga.move_(move, foundationCopy, blocksCopy, wasteCopy,  mapCopy)
+            algorithm(blocksCopy, foundationCopy, wasteCopy, leafValues, mapCopy, depth-1)
 
 
         }
