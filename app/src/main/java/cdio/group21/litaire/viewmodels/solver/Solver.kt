@@ -31,7 +31,7 @@ class Solver {
 
 
         var counter = UtilSolver.cardDeck.size-1
-        for (i in 0..150) {
+        for (i in 0..400) {
             landingPageViewModel.printFoundation2(foundations)
             landingPageViewModel.printWaste2(waste)
             landingPageViewModel.printBlock2(blocks)

@@ -65,7 +65,7 @@ class Game {
         val block = blocks[sour]
 
         if (block.last() == move.card) {
-            if (dest == -1) {
+            if (dest.toByte() == DESTINATION_UNKNOWN) {
                 foundations.add(block.last())
                 block.removeLast()
                 return true

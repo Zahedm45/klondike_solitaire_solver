@@ -3,6 +3,7 @@ package cdio.group21.litaire.viewmodels.solver
 import cdio.group21.litaire.data.Card
 val DUMMY_CARD = Card(-2, 'k')
 val INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION: Byte = 8
+val DESTINATION_UNKNOWN: Byte = -1
 
 class UtilSolver {
     companion object {

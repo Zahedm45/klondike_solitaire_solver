@@ -33,7 +33,7 @@ class GameLogic {
 
 
                 if (lastCard.value == (1).toByte() && foundations.size < 4) {
-                    val newMove = Move(true, lastCard, indexBlock.toByte(), -1)
+                    val newMove = Move(true, lastCard, indexBlock.toByte(), DESTINATION_UNKNOWN)
 
                     possibleMoves.add(newMove)
 
@@ -74,7 +74,7 @@ class GameLogic {
 
 
                 if (waste.value == (1).toByte() && foundations.size < 4) {
-                    val newMove = Move(true, waste, 8, -1)
+                    val newMove = Move(true, waste, 8, DESTINATION_UNKNOWN)
 
                     possibleMoves.add(newMove)
 
