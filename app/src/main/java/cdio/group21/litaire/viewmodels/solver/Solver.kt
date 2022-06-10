@@ -19,8 +19,11 @@ class Solver {
 
     fun initt() {
 
-        UtilSolver.simulateRandomCards(foundations, blocks, waste)
+        //UtilSolver.simulateRandomCards(foundations, blocks, waste)
+        UtilSolver.solvableCardDeck(foundations, blocks, waste)
         val landingPageViewModel = LandingPageViewModel()
+        //landingPageViewModel.printBlock2(blocks)
+
 
 
         val ai = Ai()
@@ -28,7 +31,7 @@ class Solver {
 
 
         var counter = UtilSolver.cardDeck.size-1
-        for (i in 0..200) {
+        for (i in 0..60) {
             landingPageViewModel.printFoundation2(foundations)
             landingPageViewModel.printWaste2(waste)
             landingPageViewModel.printBlock2(blocks)
