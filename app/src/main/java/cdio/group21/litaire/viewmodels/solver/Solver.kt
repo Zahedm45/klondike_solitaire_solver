@@ -44,7 +44,7 @@ class Solver {
 
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)
 
-                if (waste.value == (0).toByte()) {
+                if (waste == DUMMY_CARD) {
                     UtilSolver.cardDeck.removeLast()
                     waste = UtilSolver.cardDeck.last().deepCopy()
                 }
