@@ -179,16 +179,16 @@ class Game {
         if (waste == move.card) {
             if (dest == -1) {
                 foundations.add(waste.deepCopy())
-                waste.value = 0
-                waste.suit = 'k'
+                waste.value = DUMMY_CARD.value
+                waste.suit = DUMMY_CARD.suit
 
                 return true
 
             } else if (dest in 0..3) {
                 if (GameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = waste.deepCopy()
-                    waste.value = 0
-                    waste.suit = 'k'
+                    waste.value = DUMMY_CARD.value
+                    waste.suit = DUMMY_CARD.suit
                     return true
                 }
             }
@@ -233,8 +233,10 @@ class Game {
             // Adds the card(s) to the destination block.
 
                 destBlock.add(waste.deepCopy())
-                waste.value = 0
-                waste.suit = 'k'
+            waste.value = DUMMY_CARD.value
+            waste.suit = DUMMY_CARD.suit
+/*                waste.value = 0
+                waste.suit = 'k'*/
             return true
         }
 

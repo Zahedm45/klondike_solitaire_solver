@@ -1,7 +1,7 @@
 package cdio.group21.litaire.viewmodels.solver
 
 import cdio.group21.litaire.data.Card
-val DUMMY_CARD = Card(0, 'k')
+val DUMMY_CARD = Card(-2, 'k')
 
 class UtilSolver {
     companion object {
