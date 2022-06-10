@@ -253,9 +253,9 @@ class Game {
             return moveFromBlockToFoundation(move, foundations, blocks)
         }
 
-/*        if (move.indexOfSourceBlock == (8).toByte()) {
-            moveWasteToFoundationAndBlock(move, foundations, )
-        }*/
+        if (move.indexOfSourceBlock == (8).toByte()) {
+            moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
+        }
 
         return moveFromBlockToBlock(move,blocks, lastMoves)
     }

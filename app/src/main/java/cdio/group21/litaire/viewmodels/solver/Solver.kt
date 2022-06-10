@@ -53,9 +53,12 @@ class Solver {
 
             } else {
 
+                //landingPageViewModel.printWaste2(waste)
 
                 UtilSolver.cardDeck.shuffle()
                 waste = UtilSolver.cardDeck.last().deepCopy()
+                //landingPageViewModel.printWaste2(waste)
+
 
                 println("No more move available!")
                // break
