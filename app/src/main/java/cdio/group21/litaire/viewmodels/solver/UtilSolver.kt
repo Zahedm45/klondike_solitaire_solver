@@ -139,7 +139,8 @@ class UtilSolver {
                 }
             }
 
-
+            cardDeck.shuffle()
+            cardDeck.shuffle()
             waste.value = cardDeck.last().value
             waste.suit = cardDeck.last().suit
             /*cardDeck.removeAt(30)
