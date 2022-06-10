@@ -23,7 +23,7 @@ class Ai {
         var move: Move? = null
         val leafValue: ArrayList<GameSate> = ArrayList()
 
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, Card(0,'k'), mapCopy)
+        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, waste, mapCopy)
 
         availableMoves.forEach {
 

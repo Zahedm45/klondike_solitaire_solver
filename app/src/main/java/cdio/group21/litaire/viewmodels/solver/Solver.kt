@@ -9,7 +9,11 @@ class Solver {
         val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
     }
 
-    var waste = Card(0, 'k')
+    //var waste = Card(0, 'k')
+    //private var waste = Card(0, 'k')
+
+    private var waste = DUMMY_CARD.deepCopy()
+
     private var foundations: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 

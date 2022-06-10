@@ -2,6 +2,7 @@ package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
+import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
@@ -17,7 +18,7 @@ class UnitTestPossibleMoves {
 
     private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
-    val waste = Card(0, 'k')
+    val waste = DUMMY_CARD.deepCopy()
 
     val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 
