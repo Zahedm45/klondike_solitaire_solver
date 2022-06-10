@@ -252,7 +252,7 @@ class Game {
         lastMoves: HashMap<String, HashMap<String, Boolean>>?
     ): Boolean {
 
-        if (move.indexOfSourceBlock == (8).toByte()) {
+        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION.toByte()) {
             return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
         }
 

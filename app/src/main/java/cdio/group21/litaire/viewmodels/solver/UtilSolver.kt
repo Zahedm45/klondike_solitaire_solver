@@ -2,6 +2,7 @@ package cdio.group21.litaire.viewmodels.solver
 
 import cdio.group21.litaire.data.Card
 val DUMMY_CARD = Card(-2, 'k')
+val INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION: Byte = 8
 
 class UtilSolver {
     companion object {
@@ -62,6 +63,22 @@ class UtilSolver {
 
         }
 
+
+        fun easySolution(
+            foundation: ArrayList<Card>,
+            blocks: ArrayList<ArrayList<Card>>,
+            waste: Card
+        ) {
+
+            for (i in 0..6) {
+                blocks.add(ArrayList())
+            }
+
+
+
+
+
+        }
 
 
 
