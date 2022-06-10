@@ -220,6 +220,18 @@ class GameLogic {
             return false
         }
 
+        fun findPreviousFoundationValue(foundations: ArrayList<Card>, indexFoundation: Byte): Card {
+            var index = indexFoundation.toInt()
+            var oldCard = foundations[index]
+
+            if (oldCard.value.toInt() == 1) {
+                return oldCard
+            }
+            var newValue = (oldCard.value.toInt() - 1).toByte()
+            var newCard = Card(newValue, oldCard.suit)
+
+            return newCard
+        }
 
         fun evalBlockToBlockAndWasteToBlock(destination: Card, source: Card): Boolean {
 
