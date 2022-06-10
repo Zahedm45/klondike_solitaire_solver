@@ -9,6 +9,9 @@ class UtilSolver {
 
 
         val cardDeck : ArrayList<Card> = ArrayList()
+        val suits: Array<Char> = arrayOf('s', 'h', 'd', 'c')
+        val values: Array<Byte> = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+
 
 
         fun simulateRandomCards(
@@ -22,8 +25,7 @@ class UtilSolver {
             foundation.add(Card(1, "s"))
             foundation.add(Card(4, "c"))*/
 
-            val suits: Array<Char> = arrayOf('s', 'h', 'd', 'c')
-            val values: Array<Byte> = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+
 
 
 
@@ -64,7 +66,7 @@ class UtilSolver {
         }
 
 
-        fun easySolution(
+        fun solvableCardDeck(
             foundation: ArrayList<Card>,
             blocks: ArrayList<ArrayList<Card>>,
             waste: Card
@@ -74,7 +76,22 @@ class UtilSolver {
                 blocks.add(ArrayList())
             }
 
-           // val card1 = Card()
+
+            for (suit in suits) {
+
+                for (value in values) {
+                    val card = Card(value, suit)
+                    cardDeck.add(card)
+                }
+            }
+
+            val i = 0
+            cardDeck.forEach {
+                println("$i: ${it.value}${it.suit}")
+            }
+
+
+
 
 
 
