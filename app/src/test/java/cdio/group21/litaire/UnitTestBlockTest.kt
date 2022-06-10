@@ -181,7 +181,7 @@ class UnitTestBlockTest {
     }
 
     /*
-    * THIS TEST SHOULD FAIL!
+    * Tester at man ikke flytter kongen til en ny tom block
     * */
     @Test
     fun moveBlockToBlock5() {
@@ -579,6 +579,71 @@ class UnitTestBlockTest {
         val expMove1 = Move(false, Card(13, 'h'), 4, 6)
         Assert.assertEquals(returnVal[0], expMove1)
 
+    }
+
+    /*
+    * Tests if multiple first cards in a block is a King
+    * it will be moved to a possible free block
+    * */
+    @Test
+    fun findMoveMultipleKingsToEmptyBlock() {
+        initializeBlocks()
+
+        blocks[0].add(Card(5, 's'))
+        blocks[0].add(Card(3, 'h'))
+        blocks[0].add(Card(13, 'c'))
+
+
+
+        blocks[1].add(Card(4, 'h'))
+        blocks[1].add(Card(3, 'd'))
+        blocks[1].add(Card(10, 'd'))
+
+
+
+        blocks[2].add(Card(11, 'h'))
+        blocks[2].add(Card(3, 's'))
+
+
+        blocks[3].add(Card(2, 'd'))
+        blocks[3].add(Card(2, 's'))
+        blocks[3].add(Card(6, 'h'))
+
+
+        blocks[4].add(Card(7, 's'))
+        blocks[4].add(Card(12, 'c'))
+        blocks[4].add(Card(13, 'h'))
+
+
+
+        var returnVal: ArrayList<Move> = ArrayList()
+
+        for (indexBlock in blocks.indices) {
+            val itemBlock = blocks[indexBlock]
+
+            if (itemBlock.isNullOrEmpty()) {
+                continue
+            }
+            GameLogic.hasChecked = false
+
+            GameLogic.possibleMovesFromBlockToBlock(
+                itemBlock,
+                blocks,
+                indexBlock,
+                returnVal,
+                lastMovesMap
+            )
+
+        }
+
+
+        assertEquals(returnVal.size, 2)
+
+
+        val expMove1 = Move(false, Card(13, 'c'), 0, 5)
+        val expMove2 = Move(false, Card(13, 'h'), 4, 5)
+        Assert.assertEquals(returnVal.contains(expMove1), true)
+        Assert.assertEquals(returnVal.contains(expMove2), true)
     }
 
 
