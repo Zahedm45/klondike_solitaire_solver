@@ -4,7 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.RectF
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import cdio.group21.litaire.API.Prediction
 import cdio.group21.litaire.API.RoboflowAPI
 import cdio.group21.litaire.API.RoboflowResult
@@ -22,6 +24,7 @@ data class DetectionConfig(val num_rows: UInt, val num_columns: UInt, val overla
 
 object ObjectRecognition {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun processImage(context: Context, bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
         //println("Start of processImage: ${Thread.currentThread()}")
         val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)

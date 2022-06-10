@@ -179,6 +179,9 @@ class FragmentLandingPage : Fragment() {
         val pen = Paint()
         pen.textAlign = Paint.Align.LEFT
 
+       val detectionResults = detectionResults.distinctBy { it.text.subSequence(0, 2) }
+
+
         detectionResults.forEach {
             // draw bounding box
             pen.color = Color.RED
@@ -192,12 +195,12 @@ class FragmentLandingPage : Fragment() {
 
             // calculate the right font size
             pen.style = Paint.Style.FILL_AND_STROKE
-            pen.color = if(it.text.contains("S") || it.text.contains("H")) Color.RED else Color.BLACK
-            pen.strokeWidth = 4F
+            pen.color = if(it.text.contains("D") || it.text.contains("H")) Color.RED else Color.BLACK
+            pen.strokeWidth = 2.5F
 
-            pen.textSize = 50F
+            pen.textSize = 60F
             pen.getTextBounds(it.text, 0, it.text.length, tagSize)
-            val fontSize: Float = (pen.textSize * box.width())/ tagSize.width()
+            val fontSize: Float = (pen.textSize )// tagSize.width()
 
             // adjust the font size so texts are inside the bounding box
             if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
