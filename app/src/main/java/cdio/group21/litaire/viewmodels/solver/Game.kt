@@ -247,7 +247,7 @@ class Game {
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>,
         waste: Card,
-        lastMoves: HashMap<String, HashMap<String, Boolean>>?
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Boolean {
 
         if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {

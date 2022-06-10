@@ -55,16 +55,12 @@ class GameLogic {
                 possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves, lastMovesMap)
 
 
-
-
-
                 if (waste != null){
                     //check waste pile to block
                     if(evalBlockToBlockAndWasteToBlock(lastCard,waste)){
                         val newMove = Move(false, waste, 8, indexBlock.toByte())
                         possibleMoves.add(newMove)
                     }
-
 
                 }
 

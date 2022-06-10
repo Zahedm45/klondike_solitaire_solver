@@ -159,10 +159,8 @@ class InfiniteLoop_unit_test {
         blocks[5].add(card3)
 
 
-/*
-        var possibleMoves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
-        assertEquals(possibleMoves.size, 3)
-*/
+/*        var possibleMoves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        assertEquals(possibleMoves.size, 3)*/
 
     }
 

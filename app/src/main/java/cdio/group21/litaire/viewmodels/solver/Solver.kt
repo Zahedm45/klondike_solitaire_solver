@@ -31,7 +31,7 @@ class Solver {
 
 
         var counter = UtilSolver.cardDeck.size-1
-        for (i in 0..400) {
+        for (i in 0..100) {
             landingPageViewModel.printFoundation2(foundations)
             landingPageViewModel.printWaste2(waste)
             landingPageViewModel.printBlock2(blocks)
@@ -51,6 +51,9 @@ class Solver {
                     waste = UtilSolver.cardDeck[counter].deepCopy()
 
 
+                }
+                if (nextMove.isMoveToFoundation != true) {
+                    println()
                 }
 
 

@@ -32,7 +32,7 @@ class Ai {
             val wasteCopy = waste.copy()
 
 
-            ga.move_(it, foundaitons_copy, blocks_copy, wasteCopy,null)
+            ga.move_(it, foundaitons_copy, blocks_copy, wasteCopy, mapCopy)
             algorithm(blocks_copy, foundaitons_copy, wasteCopy, leafValue, mapCopy, depth-1)
 
 
