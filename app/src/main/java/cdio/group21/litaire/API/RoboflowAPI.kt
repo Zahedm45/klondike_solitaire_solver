@@ -1,6 +1,11 @@
 package cdio.group21.litaire.API
 
 import android.graphics.Bitmap
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import retrofit2.*
 import retrofit2.http.*
 import java.io.*
@@ -12,8 +17,10 @@ import java.util.*
 class RoboflowAPI {
     companion object {
 
+        @RequiresApi(Build.VERSION_CODES.O)
+        @OptIn(ExperimentalStdlibApi::class)
         fun getPrediction(image: Bitmap): RoboflowResult? {
-
+            var jsonString = "";
             val bytes = ByteArrayOutputStream()
             image.compress(Bitmap.CompressFormat.JPEG, 10, bytes)
             val base64 = String(Base64.getEncoder().encode(bytes.toByteArray()), StandardCharsets.US_ASCII)
@@ -23,6 +30,10 @@ class RoboflowAPI {
 
             // Construct the URL
             val uploadURL ="https://detect.roboflow.com/" + MODEL_ENDPOINT + "?api_key=" + API_KEY;
+
+            val moshi = Moshi.Builder().build()
+            val adapter: JsonAdapter<RoboflowResult> = moshi.adapter<RoboflowResult>()
+
 
             // Http Request
             var connection: HttpURLConnection? = null
@@ -49,13 +60,19 @@ class RoboflowAPI {
                 val stream = connection.inputStream
                 val reader = BufferedReader(InputStreamReader(stream))
                 var line: String?
+
                 while (reader.readLine().also { line = it } != null) {
-                    println(line)
+                    jsonString += line
                 }
                 reader.close()
+
+
             } catch (e: Exception) {
                 e.printStackTrace()
+                return null;
             } finally {
+                val res = adapter.fromJson(jsonString)
+                return res
                 connection?.disconnect()
             }
             return null;
