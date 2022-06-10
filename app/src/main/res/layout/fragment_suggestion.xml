@@ -26,93 +26,88 @@
         android:src="@drawable/vector_backarrow_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023">
 
     </ImageView>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/text_box"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/button_empty"
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_empty"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
             android:layout_gravity="center_horizontal"
-            app:cardElevation="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.92">
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/left_move_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:src="@drawable/vector_hearts"></ImageView>
+
+            <TextView
+                android:id="@+id/left_move_text"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="NaN"
+                android:textColor="@color/black"
+                android:textSize="24sp"></TextView>
 
-                <ImageView
-                    android:id="@+id/iv_info_1"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/vector_hearts"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    >
-                </ImageView>
+            <ImageView
+                android:id="@+id/iv_info_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:src="@drawable/vector_arrow"></ImageView>
 
-                <TextView
-                    android:id="@+id/tv_info_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_gravity="center_vertical"
-                    android:text="4"
-                    android:textColor="@color/black"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp">
-                </TextView>
+            <ImageView
+                android:id="@+id/right_move_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:src="@drawable/vector_spades"></ImageView>
 
-                <ImageView
-                    android:id="@+id/iv_info_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/vector_arrow"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    >
-                </ImageView>
-                <ImageView
-                    android:id="@+id/iv_info_3"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/vector_spades"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    >
-                </ImageView>
-                <TextView
-                    android:id="@+id/tv_info_2"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textColor="@color/black"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp">
-                </TextView>
+            <TextView
+                android:id="@+id/right_move_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="NaN"
+                android:textColor="@color/black"
+                android:textSize="24sp"></TextView>
 
 
-            </LinearLayout>
+        </LinearLayout>
 
 
-
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
