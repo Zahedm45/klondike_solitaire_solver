@@ -38,21 +38,20 @@ class GameLogic {
                     possibleMoves.add(newMove)
 
                 } else {
-                    if (block[0].value.toInt() == 13) {
-                        continue
-                    } else {
-                        for (k in foundations.indices) {
-                            val foundation = foundations[k]
-                            if (evalBlockToFoundation(foundation, lastCard)) {
+                    for (k in foundations.indices) {
+                        val foundation = foundations[k]
+                        if (evalBlockToFoundation(foundation, lastCard)) {
 
-                                val newMove = Move(true, lastCard, indexBlock.toByte(), k.toByte())
-                                possibleMoves.add(newMove)
-                            }
+                            val newMove = Move(true, lastCard, indexBlock.toByte(), k.toByte())
+                            possibleMoves.add(newMove)
                         }
                     }
                 }
 
-                possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves, lastMovesMap)
+                if (block[0].value.toInt() != 13) {
+                    possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves, lastMovesMap)
+                }
+
 
 
 
@@ -67,6 +66,16 @@ class GameLogic {
 
 
                 }
+
+                //add foundation to block
+                for(j in foundations.indices) {
+                    val foundation = foundations[j]
+                    if(evalBlockToBlockAndWasteToBlock(lastCard,foundation)){
+                        val newMove = Move(false, foundation,j.toByte(),indexBlock.toByte())
+                        possibleMoves.add(newMove)
+                    }
+                }
+
 
             }
             //check waste pile to foundation
