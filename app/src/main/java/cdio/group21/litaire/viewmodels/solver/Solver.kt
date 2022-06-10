@@ -35,12 +35,12 @@ class Solver {
 
 
         for (i in 0..40) {
-            val nextMove = ai.findBestMove(foundations, blocks)
+            val nextMove = ai.findBestMove(foundations, blocks, waste)
 
             if (nextMove != null) {
 
 
-                game.move_(nextMove, foundations, blocks, lastMoves)
+                game.move_(nextMove, foundations, blocks, waste, lastMoves)
 
                 if (waste.value == (0).toByte()) {
                     UtilSolver.cardDeck.removeLast()

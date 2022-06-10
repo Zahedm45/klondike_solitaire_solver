@@ -10,7 +10,8 @@ class Ai {
     val ga = Game()
     fun findBestMove(
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<ArrayList<Card>>,
+        waste: Card
     ): Move? {
         val depth = 15
         val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
@@ -33,8 +34,8 @@ class Ai {
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
 
 
-            ga.move_(it, foundaitons_copy, blocks_copy, null)
-            algorithm(blocks_copy, foundaitons_copy, leafValue, mapCopy, depth-1)
+            ga.move_(it, foundaitons_copy, blocks_copy, waste,null)
+            algorithm(blocks_copy, foundaitons_copy, waste, leafValue, mapCopy, depth-1)
 
 
             leafValue.sortBy { gs -> gs.foundations }
@@ -80,6 +81,7 @@ class Ai {
     private fun algorithm(
         currBlocks: ArrayList<ArrayList<Card>>,
         currFoundations: ArrayList<Card>,
+        waste: Card,
         leafValues: ArrayList<GameSate>,
         lastMovesMap: HashMap<String, HashMap<String, Boolean>>,
         depth: Int
@@ -106,8 +108,8 @@ class Ai {
             val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
             val mapCopy = HashMap(lastMovesMap)
 
-            ga.move_(move, fou, blo, mapCopy)
-            algorithm(blo, fou, leafValues, mapCopy, depth-1)
+            ga.move_(move, fou, blo, waste,  mapCopy)
+            algorithm(blo, fou, waste, leafValues, mapCopy, depth-1)
 
 
         }

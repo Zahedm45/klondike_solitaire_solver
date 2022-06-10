@@ -147,6 +147,23 @@ class Game {
         return false
     }
 
+
+    fun moveWasteToFoundationAndBlock(
+        move: Move,
+        foundations: ArrayList<Card>,
+        waste: Card,
+        blocks: ArrayList<ArrayList<Card>>
+    ): Boolean {
+        if (move.isMoveToFoundation) {
+            return moveFromWasteToFoundation(move,foundations, waste)
+        } else {
+            return moveFromWasteToBlock(move, blocks, waste)
+        }
+    }
+
+
+
+
     fun moveFromWasteToFoundation(
         move: Move,
         foundations: ArrayList<Card>,
@@ -229,15 +246,16 @@ class Game {
         move: Move,
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>,
+        waste: Card,
         lastMoves: HashMap<String, HashMap<String, Boolean>>?
     ): Boolean {
         if (move.isMoveToFoundation) {
             return moveFromBlockToFoundation(move, foundations, blocks)
         }
 
-        if (move.indexOfSourceBlock == (8).toByte()) {
-
-        }
+/*        if (move.indexOfSourceBlock == (8).toByte()) {
+            moveWasteToFoundationAndBlock(move, foundations, )
+        }*/
 
         return moveFromBlockToBlock(move,blocks, lastMoves)
     }
