@@ -28,17 +28,22 @@ class Solver {
 
 
         //val nextMove = ai.findBestMove(foundations, blocks)
-
+/*
         landingPageViewModel.printFoundation2(foundations)
         landingPageViewModel.printWaste2(waste)
-        landingPageViewModel.printBlock2(blocks)
+        landingPageViewModel.printBlock2(blocks)*/
 
 
-        for (i in 0..40) {
+        for (i in 0..50) {
+            landingPageViewModel.printFoundation2(foundations)
+            landingPageViewModel.printWaste2(waste)
+            landingPageViewModel.printBlock2(blocks)
+
+
             val nextMove = ai.findBestMove(foundations, blocks, waste)
 
             if (nextMove != null) {
-                if (nextMove.indexOfSourceBlock == (8).toByte()) {
+                if (nextMove.indexOfSourceBlock.toInt() == 8) {
                     println()
                 }
 
@@ -49,15 +54,16 @@ class Solver {
                     waste = UtilSolver.cardDeck.last().deepCopy()
                 }
 
-                landingPageViewModel.printFoundation2(foundations)
-                landingPageViewModel.printWaste2(waste)
-                landingPageViewModel.printBlock2(blocks)
+
 
             } else {
 
                 //landingPageViewModel.printWaste2(waste)
 
                 UtilSolver.cardDeck.shuffle()
+
+
+
                 waste = UtilSolver.cardDeck.last().deepCopy()
                 landingPageViewModel.printWaste2(waste)
 
