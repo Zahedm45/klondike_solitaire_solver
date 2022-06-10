@@ -78,7 +78,7 @@ class Game {
                 }
             }
         }
-        Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
+       // Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
 
         return false
 
@@ -235,8 +235,6 @@ class Game {
                 destBlock.add(waste.deepCopy())
             waste.value = DUMMY_CARD.value
             waste.suit = DUMMY_CARD.suit
-/*                waste.value = 0
-                waste.suit = 'k'*/
             return true
         }
 
@@ -252,7 +250,7 @@ class Game {
         lastMoves: HashMap<String, HashMap<String, Boolean>>?
     ): Boolean {
 
-        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION.toByte()) {
+        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
             return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
         }
 

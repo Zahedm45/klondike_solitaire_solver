@@ -44,15 +44,18 @@ class Solver {
             val nextMove = ai.findBestMove(foundations, blocks, waste)
 
             if (nextMove != null) {
-                if (nextMove.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
+/*                if (nextMove.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
                     println()
-                }
+                }*/
 
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)
 
                 if (waste == DUMMY_CARD) {
                     UtilSolver.cardDeck.removeAt(counter)
                     counter--
+                    if (counter < 0) {
+                        counter = UtilSolver.cardDeck.size-1
+                    }
                     waste = UtilSolver.cardDeck[counter].deepCopy()
 
 
@@ -69,10 +72,13 @@ class Solver {
                 //UtilSolver.cardDeck.shuffle()
 
 
+                counter--
+                if (counter < 0) {
+                    counter = UtilSolver.cardDeck.size-1
+                }
 
                 waste = UtilSolver.cardDeck[counter].deepCopy()
                 landingPageViewModel.printWaste2(waste)
-
 
                 println("No more move available!")
                // break

@@ -74,7 +74,7 @@ class UtilSolver {
                 blocks.add(ArrayList())
             }
 
-
+           // val card1 = Card()
 
 
 
