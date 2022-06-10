@@ -38,7 +38,7 @@ class Solver {
         landingPageViewModel.printBlock2(blocks)*/
 
 
-        for (i in 0..50) {
+        for (i in 0..200) {
             landingPageViewModel.printFoundation2(foundations)
             landingPageViewModel.printWaste2(waste)
             landingPageViewModel.printBlock2(blocks)
@@ -79,10 +79,15 @@ class Solver {
         }
 
 
-
-        lastMoves.forEach {
-            println("${it.key}:  ${it.value}")
+        println("Cards left in the deck, deck size is: ${UtilSolver.cardDeck.size}")
+        UtilSolver.cardDeck.forEach {
+            print(" ${it.value}${it.suit}")
         }
+        println()
+
+/*        lastMoves.forEach {
+            println("${it.key}:  ${it.value}")
+        }*/
 
     }
 

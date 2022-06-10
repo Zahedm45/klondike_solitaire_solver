@@ -13,7 +13,7 @@ class Ai {
         blocks: ArrayList<ArrayList<Card>>,
         waste: Card
     ): Move? {
-        val depth = 15
+        val depth = 50
         val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
 
 
