@@ -249,13 +249,15 @@ class Game {
         waste: Card,
         lastMoves: HashMap<String, HashMap<String, Boolean>>?
     ): Boolean {
+
+        if (move.indexOfSourceBlock == (8).toByte()) {
+            return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
+        }
+
         if (move.isMoveToFoundation) {
             return moveFromBlockToFoundation(move, foundations, blocks)
         }
 
-        if (move.indexOfSourceBlock == (8).toByte()) {
-            moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
-        }
 
         return moveFromBlockToBlock(move,blocks, lastMoves)
     }

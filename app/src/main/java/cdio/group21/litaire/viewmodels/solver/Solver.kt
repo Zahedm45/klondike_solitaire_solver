@@ -38,7 +38,9 @@ class Solver {
             val nextMove = ai.findBestMove(foundations, blocks, waste)
 
             if (nextMove != null) {
-
+                if (nextMove.indexOfSourceBlock == (8).toByte()) {
+                    println()
+                }
 
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)
 
@@ -57,7 +59,7 @@ class Solver {
 
                 UtilSolver.cardDeck.shuffle()
                 waste = UtilSolver.cardDeck.last().deepCopy()
-                //landingPageViewModel.printWaste2(waste)
+                landingPageViewModel.printWaste2(waste)
 
 
                 println("No more move available!")
