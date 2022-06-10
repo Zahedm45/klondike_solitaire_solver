@@ -19,6 +19,8 @@ import kotlinx.coroutines.Dispatchers.IO
 class SharedViewModel : ViewModel() {
     private val cardNumber = MutableLiveData<Int>()
     private val cardType = MutableLiveData<Enum<Card>>()
+    private val suggestion = MutableLiveData<Pair<Card, Card>>()
+
     private val imageBitmap = MutableLiveData<Bitmap>()
     private val detectionList = MutableLiveData<List<DetectionResult>>()
 
@@ -36,5 +38,9 @@ class SharedViewModel : ViewModel() {
 
     fun getDetectionList() : LiveData<List<DetectionResult>>{
         return detectionList
+    }
+
+    fun getSuggestion() : LiveData<Pair<Card, Card>>{
+        return suggestion
     }
 }
