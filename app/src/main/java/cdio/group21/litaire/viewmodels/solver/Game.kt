@@ -193,7 +193,7 @@ class Game {
                 }
             }
         }
-        Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
+        //Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
 
         return false
 

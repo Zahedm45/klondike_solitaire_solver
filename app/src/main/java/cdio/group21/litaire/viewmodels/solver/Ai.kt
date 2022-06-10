@@ -32,10 +32,11 @@ class Ai {
                 ArrayList(k.map { c -> c.deepCopy() })
             })
             val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
+            val wasteCopy = waste.copy()
 
 
-            ga.move_(it, foundaitons_copy, blocks_copy, waste,null)
-            algorithm(blocks_copy, foundaitons_copy, waste, leafValue, mapCopy, depth-1)
+            ga.move_(it, foundaitons_copy, blocks_copy, wasteCopy,null)
+            algorithm(blocks_copy, foundaitons_copy, wasteCopy, leafValue, mapCopy, depth-1)
 
 
             leafValue.sortBy { gs -> gs.foundations }
