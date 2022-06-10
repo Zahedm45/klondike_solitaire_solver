@@ -4,9 +4,6 @@ import cdio.group21.litaire.data.*
 
 class Ai {
 
-
-    //private val lastMoves: ArrayList<Move> = ArrayList()
-
     val ga = Game()
     fun findBestMove(
         foundations: ArrayList<Card>,

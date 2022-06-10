@@ -60,26 +60,6 @@ class UtilSolver {
             waste.value = cardDeck.last().value
             waste.suit = cardDeck.last().suit
 
-
-
-
-/*            for (suit in suits) {
-
-                for (value in values) {
-
-                    val randomInt = (0..6).random()
-                    val card = Card(value, suit)
-
-                    blocks[randomInt].add(card)
-
-                }
-            }*/
-
-
-/*            blocks.forEach {
-                it.shuffle()
-            }*/
-
         }
 
 

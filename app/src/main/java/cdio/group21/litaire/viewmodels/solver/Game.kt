@@ -203,7 +203,7 @@ class Game {
     fun moveFromWasteToBlock(
         move: Move,
         blocks: ArrayList<ArrayList<Card>>,
-        waste: Card//,
+        waste: Card
         //lastMoves: HashMap<String, HashMap<String, Boolean>>?
 
     ): Boolean {
@@ -306,39 +306,5 @@ class Game {
     }
 
 
-
-
-
-
-
 }
 
-
-
-
-
-
-
-
-/*        while (i < sourceBlock.size) {
-
-            val sourceCard = sourceBlock[i]
-            if (move.card == sourceCard) {
-
-                if (move.card.value == (13).toByte()) {
-                    for (j in 0..6) {
-                        if (blocks[j].isEmpty()) {
-                            hasCardMoved = true
-                            break
-                        }
-                    }
-
-                } else if (GameLogic.evalBlockToBlock(destBlock.last(), sourceCard)) {
-                    hasCardMoved = true
-
-                }
-
-                break
-            }
-            i += 1
-        }*/
