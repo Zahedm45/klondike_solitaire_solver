@@ -1,30 +1,29 @@
 package cdio.group21.litaire.utils.extensions
 
 import android.graphics.Bitmap
-import cdio.group21.litaire.utils.Array2D
-import cdio.group21.litaire.utils.Point
-import cdio.group21.litaire.utils.Size
-import cdio.group21.litaire.utils.createArray
+import cdio.group21.litaire.utils.*
 
 data class BitmapSlice(val bitmap: Bitmap, val position: Point)
 
 fun Bitmap.createBitmap(bitmap: Bitmap, point: Point, size: Size): Bitmap {
-	return Bitmap.createBitmap(bitmap, point.x.toInt(), point.y.toInt(), size.width.toInt(), size.height.toInt())
+	return Bitmap.createBitmap(bitmap, point.x, point.y, size.width.toInt(), size.height.toInt())
 }
 
 @Suppress("UNCHECKED_CAST")
-fun Bitmap.split(num_rows: UShort, num_columns: UShort, overlap_percent: Float = 0.1F): Array2D<BitmapSlice> {
-	val size = Size((this.width / num_columns).toUShort(), (this.height / num_rows).toUShort())
-	val overlap = Size((size.width * overlap_percent).toUShort(), (size.height * overlap_percent).toUShort())
+fun Bitmap.split(num_rows: UInt, num_columns: UInt, overlap_percent: Float = 0.1F): Array2D<BitmapSlice> {
+	val size = Size(this.width.toUInt() / num_columns, this.height.toUInt() / num_rows)
+	val overlap = Size((size.width * overlap_percent).toUInt(), (size.height * overlap_percent).toUInt())
+	val minPos = Point(0, 0)
+	val maxPos = Point(this.width, this.height)
+
 
 	val bitmaps = Pair(num_rows, num_columns).createArray() { row, column ->
-		val position = (Point(
-			(column * size.width).toUShort(),
-			(row * size.height).toUShort()) - overlap.toPoint())
-			.clamp(0u, 0u, this.width.toUShort(), this.height.toUShort())
-		val end = position + size.toPoint() + overlap.toPoint() * 2u
+		val position = Point((column * size.width).toInt(), (row * size.height).toInt())
+		val offsetPosition = (position - overlap.toPoint()).clamp(minPos, maxPos)
+		val end = (position + size.toPoint() + overlap.toPoint()).clamp(minPos, maxPos)
 
-		BitmapSlice(createBitmap(this, position, (position - end).toSize()), position)
+		BitmapSlice(createBitmap(this, offsetPosition, (end - offsetPosition).toSize()), offsetPosition)
 	}
+
 	return bitmaps
 }

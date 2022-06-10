@@ -10,30 +10,31 @@ import cdio.group21.litaire.API.RoboflowAPI
 import cdio.group21.litaire.API.RoboflowResult
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.utils.*
-import cdio.group21.litaire.utils.map
-
+import cdio.group21.litaire.utils.extensions.BitmapSlice
+import cdio.group21.litaire.utils.extensions.pmap
+import cdio.group21.litaire.utils.extensions.split
 
 /**
  * This method was taken from the internet (implemented by tfl) and has been modified by us.
  */
 
-data class DetectionConfig(val num_rows: UShort, val num_columns: UShort, val overlap_percent: Float)
+data class DetectionConfig(val num_rows: UInt, val num_columns: UInt, val overlap_percent: Float)
 
 object ObjectRecognition {
 
     suspend fun processImage(context: Context, bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
-        println("Start of processImage: ${Thread.currentThread()}")
+        //println("Start of processImage: ${Thread.currentThread()}")
         val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
-        val results = bitmaps.map { bitmapSlice -> RoboflowAPI.getPrediction(context, bitmapSlice.bitmap) }
+        val results = bitmaps.pmap2D { bitmapSlice -> RoboflowAPI.getPrediction(context, bitmapSlice.bitmap) }
         //@Suppress("NAME_SHADOWING") val sizes = bitmaps.map { bitmapSlice -> Size(bitmapSlice.bitmap.width.toUShort(), bitmapSlice.bitmap.height.toUShort()) }
 
-        val bitmap_offset = bitmaps.map { slice -> slice.position }
+        //val bitmap_offset = bitmaps.map2D { slice -> slice.position }
         // Merge the results
-        val predictions = mergeResults(results, bitmap_offset)
+        val predictions = mergeResults(results, bitmaps)
 
         // Step 4: Parse the detection result and show it
 
-        val resultToDisplay = predictions.map {
+        val resultToDisplay = predictions.pmap {
             // Get the top-1 category and craft the display text
             val category = it.class_ ?: ""
             val score = it.confidence ?: 0.0
@@ -54,20 +55,21 @@ object ObjectRecognition {
         return resultToDisplay
     }
 
-    private fun mergeResults(
+    private suspend fun mergeResults(
         results:Array2D<RoboflowResult?>,
-        bitmap_offset: Array2D<Point>
+        bitmapSlices: Array2D<BitmapSlice>
     ): List<Prediction> {
 
+        fun offsetPrediction(offset: Point, prediction: Prediction): Prediction {
+            prediction.x = prediction.x?.plus(offset.x)
+            prediction.y = prediction.y?.plus(offset.y)
+            return prediction
+        }
 
-        val offsetPredictions = results.mapIndexed { y, x, result ->
-            result?.predictions?.map { prediction ->
-                prediction.x =
-                    prediction.x?.plus(bitmap_offset[y][x].x)
-                prediction.y =
-                    prediction.y?.plus(bitmap_offset[y][x].y)
-                prediction
-            } ?: listOf()
+        val offsetPredictions = results.mapIndexed2D { y, x, result ->
+            result?.predictions?.map() { prediction ->
+                offsetPrediction(bitmapSlices[y][x].position, prediction)
+            } ?: emptyList()
         }
 
         return offsetPredictions.flatten().flatten()

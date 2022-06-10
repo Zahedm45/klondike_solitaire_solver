@@ -21,3 +21,4 @@ suspend inline fun <T, reified R> Array<T>.pmapIndexed(
 		}.awaitAll().toTypedArray()
 	}
 }
+

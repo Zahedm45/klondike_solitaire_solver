@@ -5,18 +5,18 @@ import cdio.group21.litaire.utils.extensions.*
 
 typealias Array2D<T> = Array<Array<T>>
 
-inline fun<reified T> Pair<UShort, UShort>.createArray(function: (UShort, UShort) -> T): Array2D<T> {
+inline fun<reified T> Pair<UInt, UInt>.createArray(function: (UInt, UInt) -> T): Array2D<T> {
 	return Array(this.first.toInt()) { i ->
 		Array(this.second.toInt()) { j ->
-			function(i.toUShort(), j.toUShort())
+			function(i.toUInt(), j.toUInt())
 		}
 	}
 }
 
-inline fun<reified T> Array2D<T>.mapInPlaceIndexed(function: (UShort, UShort, T) -> T) {
+inline fun<reified T> Array2D<T>.mapInPlaceIndexed(function: (UInt, UInt, T) -> T) {
 	this.forEachIndexed { i, array ->
 		array.forEachIndexed { j, value ->
-			this[i][j] = function(i.toUShort(), j.toUShort(), value)
+			this[i][j] = function(i.toUInt(), j.toUInt(), value)
 		}
 	}
 }
@@ -60,3 +60,11 @@ suspend inline fun<T, reified R> Array2D<T>.pmapIndexed2D(
 	}
 }
 
+
+fun <T> Array2D<T>.forEachIndexed2D(function: (Int, Int, T) -> Unit) {
+	this.forEachIndexed { row, array ->
+		array.forEachIndexed { column, value ->
+			function(row, column, value)
+		}
+	}
+}
