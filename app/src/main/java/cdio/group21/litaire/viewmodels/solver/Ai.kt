@@ -8,7 +8,8 @@ class Ai {
     fun findBestMove(
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>,
-        waste: Card
+        waste: Card,
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Move? {
         val depth = 10
         val initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
@@ -16,27 +17,23 @@ class Ai {
         var bestState = GameSate(ga.evalFoundation(foundations), 0, 0)
         var bestMove: Move? = null
 
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, waste, Solver.lastMoves)
+        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
 
         availableMoves.forEach {currMove ->
 
-            val blocks_copy = ArrayList(blocks.map { k ->
-
-                ArrayList(k.map { c -> c.deepCopy() })
-            })
-            val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
+            val blocksCopy = ArrayList(blocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+            val foundationsCopy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
             val wasteCopy = waste.copy()
-
             val leafValue: ArrayList<GameSate> = ArrayList()
-            val mapCopy = HashMap(Solver.lastMoves)
+            val mapCopy = HashMap(lastMoves)
 
 
-            val retVal = ga.move_(currMove, foundaitons_copy, blocks_copy, wasteCopy, mapCopy)
+            val retVal = ga.move_(currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
             if (!retVal) {
                 return@forEach
             }
 
-            algorithm(blocks_copy, foundaitons_copy, wasteCopy, leafValue, mapCopy, depth-1)
+            algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValue, mapCopy, depth-1)
 
 
             leafValue.sortBy { gs -> gs.foundations }

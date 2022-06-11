@@ -264,7 +264,7 @@ class Game {
 
 
 
-    fun addCardPosition(
+    private fun addCardPosition(
         lastMoves: HashMap<String, HashMap<String, Boolean>>,
         sourceBlock: java.util.ArrayList<Card>,
         move: Move,

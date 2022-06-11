@@ -4,11 +4,7 @@ import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Solver {
-
-    companion object{
-        val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
-    }
-
+    private val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
     private var waste = DUMMY_CARD.deepCopy()
 
     private var foundations: ArrayList<Card> = ArrayList()
@@ -34,7 +30,7 @@ class Solver {
         var counter = UtilSolver.cardDeck.size-1
         for (i in 0..60) {
 
-            val nextMove = ai.findBestMove(foundations, blocks, waste)
+            val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
 
             if (nextMove != null) {
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)
