@@ -215,9 +215,9 @@ class Game {
         var hasCardMoved = false
 
         val gameLogic = GameLogic()
-        val i = move.indexOfSourceBlock.toInt()
+        val i = move.indexOfSourceBlock
 
-        if (i == 8) {
+        if (i == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
 
             if (move.card.value == (13).toByte()) {
                 for (j in 0..6) {
