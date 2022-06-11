@@ -10,18 +10,15 @@ class Ai {
         blocks: ArrayList<ArrayList<Card>>,
         waste: Card
     ): Move? {
-        val depth = 40
-        val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
+        val depth = 10
+        val initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
 
+        var bestState = GameSate(ga.evalFoundation(foundations), 0, 0)
+        var bestMove: Move? = null
 
+        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, waste, Solver.lastMoves)
 
-        val mapCopy = HashMap(Solver.lastMoves)
-        var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
-        var move: Move? = null
-
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, waste, mapCopy)
-
-        availableMoves.forEach {
+        availableMoves.forEach {currMove ->
 
             val blocks_copy = ArrayList(blocks.map { k ->
 
@@ -31,8 +28,14 @@ class Ai {
             val wasteCopy = waste.copy()
 
             val leafValue: ArrayList<GameSate> = ArrayList()
+            val mapCopy = HashMap(Solver.lastMoves)
 
-            ga.move_(it, foundaitons_copy, blocks_copy, wasteCopy, mapCopy)
+
+            val retVal = ga.move_(currMove, foundaitons_copy, blocks_copy, wasteCopy, mapCopy)
+            if (!retVal) {
+                return@forEach
+            }
+
             algorithm(blocks_copy, foundaitons_copy, wasteCopy, leafValue, mapCopy, depth-1)
 
 
@@ -45,19 +48,16 @@ class Ai {
 
 
 
+            if (newSate.foundations > bestState.foundations) {
+                bestMove = currMove
+                bestState = newSate
 
+            } else if (newSate.foundations == bestState.foundations /*&& newSate.foundations != initialState.foundations*/) {
 
+                if ( currMove.isMoveToFoundation || newSate.length < bestState.length) {
 
-            if (newSate.foundations > initialState.foundations) {
-                move = it
-                initialState = newSate
-
-            } else if (newSate.foundations == initialState.foundations && newSate.foundations != oldState.foundations) {
-
-                if ( it.isMoveToFoundation || newSate.length > initialState.length) {
-
-                    move = it
-                    initialState = newSate
+                    bestMove = currMove
+                    bestState = newSate
 
                     // newSate.emptyBlock > initialState.emptyBlock ||
                 }
@@ -66,14 +66,14 @@ class Ai {
         }
 
 
-        initialState.foundations = initialState.foundations - oldState.foundations
-        initialState.emptyBlock = initialState.emptyBlock - oldState.emptyBlock
+        bestState.foundations = bestState.foundations - initialState.foundations
+        bestState.emptyBlock = bestState.emptyBlock - initialState.emptyBlock
 
 
 
-        println( "The next move is: $move, $initialState")
+        println( "The next move is: $bestMove, $bestState")
 
-        return move
+        return bestMove
     }
 
 
@@ -126,11 +126,14 @@ class Ai {
     ) {
         val evalF = ga.evalFoundation(currFoundations)
         val evalB = ga.emptyBlock(currBlocks)
+        val sate = GameSate(evalF, evalB, length)
+        leafValues.add(sate)
+        //println("leaf values: length $length")
 
-        if (evalF != 0 || evalB != 0) {
+/*        if (evalF != 0 || evalB != 0) {
             val sate = GameSate(evalF, evalB, length)
             leafValues.add(sate)
-        }
+        }*/
     }
 
 

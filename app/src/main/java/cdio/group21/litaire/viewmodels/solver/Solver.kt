@@ -22,8 +22,9 @@ class Solver {
         UtilSolver.simulateRandomCards(foundations, blocks, waste)
        // UtilSolver.solvableCardDeck(foundations, blocks, waste)
         val landingPageViewModel = LandingPageViewModel()
-        //landingPageViewModel.printBlock2(blocks)
-
+        landingPageViewModel.printFoundation2(foundations)
+        landingPageViewModel.printWaste2(waste)
+        landingPageViewModel.printBlock2(blocks)
 
 
         val ai = Ai()
@@ -31,11 +32,7 @@ class Solver {
 
 
         var counter = UtilSolver.cardDeck.size-1
-        for (i in 0..10) {
-            landingPageViewModel.printFoundation2(foundations)
-            landingPageViewModel.printWaste2(waste)
-            landingPageViewModel.printBlock2(blocks)
-
+        for (i in 0..60) {
 
             val nextMove = ai.findBestMove(foundations, blocks, waste)
 
@@ -67,10 +64,14 @@ class Solver {
                 }
 
                 waste = UtilSolver.cardDeck[counter].deepCopy()
-                landingPageViewModel.printWaste2(waste)
+                //landingPageViewModel.printWaste2(waste)
                 println("No more move available!")
 
             }
+
+            landingPageViewModel.printFoundation2(foundations)
+            landingPageViewModel.printWaste2(waste)
+            landingPageViewModel.printBlock2(blocks)
         }
 
 

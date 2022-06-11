@@ -232,7 +232,7 @@ class Game {
         if (hasCardMoved) {
             // Adds the card(s) to the destination block.
 
-                destBlock.add(waste.deepCopy())
+            destBlock.add(waste.deepCopy())
             waste.value = DUMMY_CARD.value
             waste.suit = DUMMY_CARD.suit
             return true
