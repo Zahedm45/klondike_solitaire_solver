@@ -627,9 +627,9 @@ class UnitTestBlockTest {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.hasChecked = false
+            gameLogic.hasChecked = false
 
-            GameLogic.possibleMovesFromBlockToBlock(
+            gameLogic.possibleMovesFromBlockToBlock(
                 itemBlock,
                 blocks,
                 indexBlock,
