@@ -287,13 +287,14 @@ class Game {
             // First time false, second time true
             if(outterHash.containsKey(prevCardsKey)) {
 
+                outterHash.put(prevCardsKey, true)
 
-                if (outterHash.get(prevCardsKey) == true) {
+/*                if (outterHash.get(prevCardsKey) == true) {
                     outterHash.put(prevCardsKey+(0..10).random(), true)
 
                 } else {
                     outterHash.put(prevCardsKey, true)
-                }
+                }*/
 
                 //println("It contains the key: ${cardKey} ${prevCardsKey}")
             } else {

@@ -28,8 +28,8 @@ class Ai {
             val mapCopy = HashMap(lastMoves)
 
 
-            val retVal = ga.move_(currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
-            if (!retVal) {
+            val newMoves = ga.move_(currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
+            if (!newMoves) {
                 return@forEach
             }
 
@@ -37,13 +37,8 @@ class Ai {
 
 
             leafValue.sortBy { gs -> gs.foundations }
-            if(leafValue.isEmpty()){
-                return@forEach
-            }
-
+            if(leafValue.isEmpty()){ return@forEach }
             val newSate = leafValue.last()
-
-
 
             if (newSate.foundations > bestState.foundations) {
                 bestMove = currMove
@@ -97,17 +92,18 @@ class Ai {
 
         newPossibleMoves.forEach { move ->
 
-            val blocksCopy = ArrayList(currBlocks.map { k ->
-                ArrayList(k.map { c -> c.deepCopy() })
-            })
-
+/*            val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
             val wasteCopy = currWaste.deepCopy()
             val foundationCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
+            val mapCopy = HashMap(lastMovesMap)*/
+
+            val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+            val foundationsCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
+            val wasteCopy = currWaste.copy()
             val mapCopy = HashMap(lastMovesMap)
 
-            ga.move_(move, foundationCopy, blocksCopy, wasteCopy,  mapCopy)
-            algorithm(blocksCopy, foundationCopy, wasteCopy, leafValues, mapCopy, depth-1)
-
+            ga.move_(move, foundationsCopy, blocksCopy, wasteCopy,  mapCopy)
+            algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValues, mapCopy, depth-1)
 
         }
 
