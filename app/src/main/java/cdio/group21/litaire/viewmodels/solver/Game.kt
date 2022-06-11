@@ -293,7 +293,7 @@ class Game {
 
                 //outterHash.put(prevCardsKey, true)
 
-                if (outterHash[prevCardsKey] == true) {
+                if (outterHash[prevCardsKey] == true) {     // This should never be true
                     outterHash.put(prevCardsKey+(0..10).random(), true)
 
                 } else {
