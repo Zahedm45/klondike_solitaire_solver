@@ -90,7 +90,7 @@ class Game {
     fun moveFromBlockToBlock(
         move: Move,
         blocks: ArrayList<ArrayList<Card>>,
-        lastMoves: HashMap<String, HashMap<String, Boolean>>?
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
 
     ): Boolean {
         val sourceIndex = move.indexOfSourceBlock.toInt()
@@ -265,41 +265,47 @@ class Game {
 
 
     fun addCardPosition(
-        lastMoves: HashMap<String, HashMap<String, Boolean>>?,
+        lastMoves: HashMap<String, HashMap<String, Boolean>>,
         sourceBlock: java.util.ArrayList<Card>,
         move: Move,
         i: Int
     ) {
-        if (lastMoves !== null) {
-            val cardKey = "${move.card.value}${move.card.suit}"
-            val prevCardsKey = if (i == 0) {
-                "${move.indexOfSourceBlock}b"
+        val cardKey = "${move.card.value}${move.card.suit}"
+        val prevCardsKey = if (i == 0) {
+            "${move.indexOfSourceBlock}b"
 
-            } else {
-                val itsPreC = sourceBlock[i-1]
-                "${itsPreC.value}${itsPreC.suit}"
-            }
+        } else {
+            val itsPreC = sourceBlock[i-1]
+            "${itsPreC.value}${itsPreC.suit}"
+        }
 
-            val outterHash = lastMoves.get(cardKey)
+        val outterHash = lastMoves.get(cardKey)
 
-            if (outterHash != null) {
+        if (outterHash != null) {
 
 
-                // First time false, second time true
-                if(outterHash.containsKey(prevCardsKey)) {
-                    outterHash.put(prevCardsKey, true)
-                    //println("It contains the key: ${cardKey} ${prevCardsKey}")
+            // First time false, second time true
+            if(outterHash.containsKey(prevCardsKey)) {
+
+
+                if (outterHash.get(prevCardsKey) == true) {
+                    outterHash.put(prevCardsKey+(0..10).random(), true)
+
                 } else {
-                    outterHash.put(prevCardsKey, false)
+                    outterHash.put(prevCardsKey, true)
                 }
 
-
+                //println("It contains the key: ${cardKey} ${prevCardsKey}")
             } else {
-                val newInnerH: HashMap<String, Boolean> = HashMap()
-
-                newInnerH.put(prevCardsKey, false)
-                lastMoves.put(cardKey, newInnerH)
+                outterHash.put(prevCardsKey, false)
             }
+
+
+        } else {
+            val newInnerH: HashMap<String, Boolean> = HashMap()
+
+            newInnerH.put(prevCardsKey, false)
+            lastMoves.put(cardKey, newInnerH)
         }
     }
 

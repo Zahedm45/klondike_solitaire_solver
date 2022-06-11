@@ -46,12 +46,11 @@ class Solver {
                         counter = UtilSolver.cardDeck.size-1
                     }
                     waste = UtilSolver.cardDeck[counter].deepCopy()
-
-
                 }
-                if (nextMove.isMoveToFoundation != true) {
+
+/*                if (nextMove.isMoveToFoundation != true) {
                     println()
-                }
+                }*/
 
 
 
@@ -81,9 +80,9 @@ class Solver {
         }
         println()
 
-/*        lastMoves.forEach {
+        lastMoves.forEach {
             println("${it.key}:  ${it.value}")
-        }*/
+        }
 
     }
 
