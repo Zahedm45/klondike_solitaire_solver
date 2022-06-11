@@ -4,12 +4,9 @@ import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Solver {
+    private val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
+    private var waste = DUMMY_CARD.deepCopy()
 
-    companion object{
-        val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
-    }
-
-    var waste = Card(0, 'k')
     private var foundations: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 
@@ -19,62 +16,71 @@ class Solver {
     fun initt() {
 
         UtilSolver.simulateRandomCards(foundations, blocks, waste)
+       // UtilSolver.solvableCardDeck(foundations, blocks, waste)
         val landingPageViewModel = LandingPageViewModel()
-/*        landingPageViewModel.printFoundation2(foundations)
-        landingPageViewModel.printBlock2(block)*/
-
-        val ai = Ai()
-        val game = Game()
-
-
-        //val nextMove = ai.findBestMove(foundations, blocks)
-
         landingPageViewModel.printFoundation2(foundations)
         landingPageViewModel.printWaste2(waste)
         landingPageViewModel.printBlock2(blocks)
 
 
-        for (i in 0..40) {
-            val nextMove = ai.findBestMove(foundations, blocks, waste)
+        val ai = Ai()
+        val game = Game()
+
+
+        var counter = UtilSolver.cardDeck.size-1
+        for (i in 0..200) {
+
+            val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
 
             if (nextMove != null) {
-
-
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)
 
-                if (waste.value == (0).toByte()) {
-                    UtilSolver.cardDeck.removeLast()
-                    waste = UtilSolver.cardDeck.last().deepCopy()
+                if (waste == DUMMY_CARD) {
+                    UtilSolver.cardDeck.removeAt(counter)
+                    counter--
+                    if (counter < 0) {
+                        counter = UtilSolver.cardDeck.size-1
+                    }
+                    waste = UtilSolver.cardDeck[counter].deepCopy()
                 }
 
-                landingPageViewModel.printFoundation2(foundations)
-                landingPageViewModel.printWaste2(waste)
-                landingPageViewModel.printBlock2(blocks)
+/*                if (nextMove.isMoveToFoundation != true) {
+                    println()
+                }*/
+
+
 
             } else {
 
+
+                counter--
+                if (counter < 0) {
+                    counter = UtilSolver.cardDeck.size-1
+                }
+
+                waste = UtilSolver.cardDeck[counter].deepCopy()
                 //landingPageViewModel.printWaste2(waste)
-
-                UtilSolver.cardDeck.shuffle()
-                waste = UtilSolver.cardDeck.last().deepCopy()
-                //landingPageViewModel.printWaste2(waste)
-
-
                 println("No more move available!")
-               // break
 
             }
+
+            landingPageViewModel.printFoundation2(foundations)
+            landingPageViewModel.printWaste2(waste)
+            landingPageViewModel.printBlock2(blocks)
         }
 
 
+        println("Cards left in the deck, deck size is: ${UtilSolver.cardDeck.size}")
+        UtilSolver.cardDeck.forEach {
+            print(" ${it.value}${it.suit}")
+        }
+        println()
 
         lastMoves.forEach {
             println("${it.key}:  ${it.value}")
         }
 
     }
-
-
 
 
 

@@ -2,9 +2,11 @@ package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
+import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import cdio.group21.litaire.viewmodels.solver.Solver
+import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -12,7 +14,11 @@ class InfiniteLoop_unit_test {
 
     private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
-    private val waste = Card(0, 'k')
+    //private val waste = Card(0, 'k')
+    private val waste = DUMMY_CARD.deepCopy()
+    val gameLogic = GameLogic()
+
+
 
     // Checks the correctness of the hashMap/tree
     @Test
@@ -37,8 +43,8 @@ class InfiniteLoop_unit_test {
         lastMovesHash.put(card2Key, innerHash)
 
 
-        assertEquals(GameLogic.isStateKnown(card2, card1, lastMovesHash), false)
-        assertEquals(GameLogic.isStateKnown(card2, card3, lastMovesHash), true)
+        assertEquals(gameLogic.isStateKnown(card2, card1, lastMovesHash), false)
+        assertEquals(gameLogic.isStateKnown(card2, card3, lastMovesHash), true)
 
 
     }
@@ -74,7 +80,7 @@ class InfiniteLoop_unit_test {
 
 
 
-        var possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        var possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
 
@@ -91,13 +97,15 @@ class InfiniteLoop_unit_test {
 
 
 
+
         // moves 4c back to 5d
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
         val move2 = Move(false, card2, 5, 1)
         assertEquals(possibleMoves1[0], move2)
-        val retMove2 = game.moveFromBlockToBlock(move2, blocks, lastMovesHash)
+        //val retMove2 = game.moveFromBlockToBlock(move2, blocks, lastMovesHash)
+        val retMove2 = game.move_(move2,foundation, blocks, waste, lastMovesHash)
         assertEquals(retMove2, true)
         assertEquals(lastMovesHash.get(card2Key)?.size, 2)
         assertEquals(lastMovesHash.get(card2Key)?.containsKey(card3Key), true)
@@ -105,17 +113,24 @@ class InfiniteLoop_unit_test {
 
 
 
+        val mapCopy = mapDeepCopy(lastMovesHash)
+
 
         // moves 4c back to 5h again
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, mapCopy)
         assertEquals(possibleMoves1.size, 1)
+
+
+
 
         val move3 = Move(false, card2, 1, 5)
         assertEquals(possibleMoves1[0], move3)
 
-        val retMove3 = game.moveFromBlockToBlock(move3, blocks, lastMovesHash)
+        val retMove3 = game.move_(move3,foundation, blocks, waste, mapCopy)
+
+        assertEquals(mapCopy == lastMovesHash, false)
         assertEquals(retMove3, true)
-        assertEquals(lastMovesHash.get(card2Key)?.get(card1Key), true)
+        assertEquals(mapCopy.get(card2Key)?.get(card1Key), true)
 
 
         assertEquals(blocks[1].size, 1)
@@ -124,11 +139,15 @@ class InfiniteLoop_unit_test {
 
 
 
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, mapCopy)
         assertEquals(possibleMoves1.size, 0)
 
 
+
+
+
     }
+
 
 
 
@@ -156,10 +175,8 @@ class InfiniteLoop_unit_test {
         blocks[5].add(card3)
 
 
-/*
-        var possibleMoves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
-        assertEquals(possibleMoves.size, 3)
-*/
+/*        var possibleMoves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        assertEquals(possibleMoves.size, 3)*/
 
     }
 

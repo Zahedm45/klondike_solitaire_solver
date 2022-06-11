@@ -1,64 +1,58 @@
 package cdio.group21.litaire.viewmodels.solver
 
 import cdio.group21.litaire.data.*
+import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
 class Ai {
 
-
-    //private val lastMoves: ArrayList<Move> = ArrayList()
-
     val ga = Game()
+    val gameLogic = GameLogic()
     fun findBestMove(
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>,
-        waste: Card
+        waste: Card,
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Move? {
-        val depth = 15
-        val oldState = GameSate(ga.evalFoundation(foundations), 0, 0)
+        val depth = 10
+        val initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
+
+        var bestState = GameSate(ga.evalFoundation(foundations), 0, 0)
+        var bestMove: Move? = null
+
+        val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
+
+        availableMoves.forEach {currMove ->
+
+            val blocksCopy = ArrayList(blocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+            val foundationsCopy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
+            val wasteCopy = waste.copy()
+            val leafValue: ArrayList<GameSate> = ArrayList()
+            //val mapCopy = HashMap(lastMoves)
+            val mapCopy = mapDeepCopy(lastMoves)
 
 
-
-        val mapCopy = HashMap(Solver.lastMoves)
-        var initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
-        var move: Move? = null
-        val leafValue: ArrayList<GameSate> = ArrayList()
-
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, Card(0,'k'), mapCopy)
-
-        availableMoves.forEach {
-
-            val blocks_copy = ArrayList(blocks.map { k ->
-
-                ArrayList(k.map { c -> c.deepCopy() })
-            })
-            val foundaitons_copy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
-
-
-            ga.move_(it, foundaitons_copy, blocks_copy, waste,null)
-            algorithm(blocks_copy, foundaitons_copy, waste, leafValue, mapCopy, depth-1)
-
-
-            leafValue.sortBy { gs -> gs.foundations }
-            if(leafValue.isEmpty()){
+            val newMoves = ga.move_(currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
+            if (!newMoves) {
                 return@forEach
             }
 
+            algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValue, mapCopy, depth-1)
+
+
+            leafValue.sortBy { gs -> gs.foundations }
+            if(leafValue.isEmpty()){ return@forEach }
             val newSate = leafValue.last()
 
+            if (newSate.foundations > bestState.foundations) {
+                bestMove = currMove
+                bestState = newSate
 
+            } else if (newSate.foundations == bestState.foundations /*&& newSate.foundations != initialState.foundations*/) {
 
+                if ( currMove.isMoveToFoundation || newSate.length < bestState.length) {
 
-
-
-            if (newSate.foundations > initialState.foundations) {
-                move = it
-                initialState = newSate
-
-            } else if (newSate.foundations == initialState.foundations) {
-
-                if ( it.isMoveToFoundation || newSate.length > initialState.length) {
-                    move = it
-                    initialState = newSate
+                    bestMove = currMove
+                    bestState = newSate
 
                     // newSate.emptyBlock > initialState.emptyBlock ||
                 }
@@ -67,21 +61,21 @@ class Ai {
         }
 
 
-        initialState.foundations = initialState.foundations - oldState.foundations
-        initialState.emptyBlock = initialState.emptyBlock - oldState.emptyBlock
+        bestState.foundations = bestState.foundations - initialState.foundations
+        bestState.emptyBlock = bestState.emptyBlock - initialState.emptyBlock
 
 
 
-        println( "The next move is: $move, $initialState")
+        println( "The next move is: $bestMove, $bestState")
 
-        return move
+        return bestMove
     }
 
 
     private fun algorithm(
         currBlocks: ArrayList<ArrayList<Card>>,
         currFoundations: ArrayList<Card>,
-        waste: Card,
+        currWaste: Card,
         leafValues: ArrayList<GameSate>,
         lastMovesMap: HashMap<String, HashMap<String, Boolean>>,
         depth: Int
@@ -92,7 +86,7 @@ class Ai {
             return
         }
 
-        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, Card(0,'k'), lastMovesMap)
+        val newPossibleMoves = gameLogic.allPossibleMoves(currFoundations, currBlocks, currWaste, lastMovesMap)
 
         if(newPossibleMoves.isEmpty()) {
             setGameState(currBlocks, currFoundations, leafValues, depth)
@@ -101,16 +95,19 @@ class Ai {
 
         newPossibleMoves.forEach { move ->
 
-            val blo = ArrayList(currBlocks.map { k ->
-                ArrayList(k.map { c -> c.deepCopy() })
-            })
+/*            val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+            val wasteCopy = currWaste.deepCopy()
+            val foundationCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
+            val mapCopy = HashMap(lastMovesMap)*/
 
-            val fou = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
-            val mapCopy = HashMap(lastMovesMap)
+            val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+            val foundationsCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
+            val wasteCopy = currWaste.copy()
+            //val mapCopy = HashMap(lastMovesMap)
+            val mapCopy = mapDeepCopy(lastMovesMap)
 
-            ga.move_(move, fou, blo, waste,  mapCopy)
-            algorithm(blo, fou, waste, leafValues, mapCopy, depth-1)
-
+            ga.move_(move, foundationsCopy, blocksCopy, wasteCopy,  mapCopy)
+            algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValues, mapCopy, depth-1)
 
         }
 
@@ -126,11 +123,14 @@ class Ai {
     ) {
         val evalF = ga.evalFoundation(currFoundations)
         val evalB = ga.emptyBlock(currBlocks)
+        val sate = GameSate(evalF, evalB, length)
+        leafValues.add(sate)
+        //println("leaf values: length $length")
 
-        if (evalF != 0 || evalB != 0) {
+/*        if (evalF != 0 || evalB != 0) {
             val sate = GameSate(evalF, evalB, length)
             leafValues.add(sate)
-        }
+        }*/
     }
 
 

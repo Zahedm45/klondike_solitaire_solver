@@ -58,6 +58,7 @@ class Game {
         blocks: ArrayList<ArrayList<Card>>
 
     ): Boolean {
+        val gameLogic = GameLogic()
 
         //Log.i(TAG, "Move to foundation")
         val sour = move.indexOfSourceBlock.toInt()
@@ -65,20 +66,20 @@ class Game {
         val block = blocks[sour]
 
         if (block.last() == move.card) {
-            if (dest == -1) {
+            if (dest.toByte() == DESTINATION_UNKNOWN) {
                 foundations.add(block.last())
                 block.removeLast()
                 return true
 
             } else if (dest in 0..3) {
-                if (GameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
+                if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = block.last()
                     block.removeLast()
                     return true
                 }
             }
         }
-        Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
+       // Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
 
         return false
 
@@ -90,18 +91,19 @@ class Game {
     fun moveFromBlockToBlock(
         move: Move,
         blocks: ArrayList<ArrayList<Card>>,
-        lastMoves: HashMap<String, HashMap<String, Boolean>>?
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
 
     ): Boolean {
         val sourceIndex = move.indexOfSourceBlock.toInt()
         val destBlock = blocks[move.indexOfDestination.toInt()]
         val sourceBlock = blocks[sourceIndex]
         var hasCardMoved = false
+        val gameLogic = GameLogic()
 
 
         val i = sourceBlock.indexOf(move.card)
 
-        if (i != -1) {
+        if (i != DESTINATION_UNKNOWN.toInt()) {
 
             if (move.card.value == (13).toByte()) {
                 for (j in 0..6) {
@@ -111,7 +113,7 @@ class Game {
                     }
                 }
 
-            } else if (GameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
+            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
                 hasCardMoved = true
             }
         }
@@ -174,26 +176,28 @@ class Game {
         //Log.i(TAG, "Move to foundation")
         val sour = move.indexOfSourceBlock.toInt()
         val dest = move.indexOfDestination.toInt()
+        val gameLogic = GameLogic()
+
 
 
         if (waste == move.card) {
-            if (dest == -1) {
+            if (dest == DESTINATION_UNKNOWN.toInt()) {
                 foundations.add(waste.deepCopy())
-                waste.value = 0
-                waste.suit = 'k'
+                waste.value = DUMMY_CARD.value
+                waste.suit = DUMMY_CARD.suit
 
                 return true
 
             } else if (dest in 0..3) {
-                if (GameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
+                if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = waste.deepCopy()
-                    waste.value = 0
-                    waste.suit = 'k'
+                    waste.value = DUMMY_CARD.value
+                    waste.suit = DUMMY_CARD.suit
                     return true
                 }
             }
         }
-        Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
+        //Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
 
         return false
 
@@ -203,14 +207,14 @@ class Game {
     fun moveFromWasteToBlock(
         move: Move,
         blocks: ArrayList<ArrayList<Card>>,
-        waste: Card//,
+        waste: Card
         //lastMoves: HashMap<String, HashMap<String, Boolean>>?
 
     ): Boolean {
         val destBlock = blocks[move.indexOfDestination.toInt()]
         var hasCardMoved = false
 
-
+        val gameLogic = GameLogic()
         val i = move.indexOfSourceBlock.toInt()
 
         if (i == 8) {
@@ -223,7 +227,7 @@ class Game {
                     }
                 }
 
-            } else if (GameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
+            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
                 hasCardMoved = true
             }
         }
@@ -232,9 +236,9 @@ class Game {
         if (hasCardMoved) {
             // Adds the card(s) to the destination block.
 
-                destBlock.add(waste.deepCopy())
-                waste.value = 0
-                waste.suit = 'k'
+            destBlock.add(waste.deepCopy())
+            waste.value = DUMMY_CARD.value
+            waste.suit = DUMMY_CARD.suit
             return true
         }
 
@@ -247,94 +251,69 @@ class Game {
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>,
         waste: Card,
-        lastMoves: HashMap<String, HashMap<String, Boolean>>?
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Boolean {
+
+        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
+            return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
+        }
+
         if (move.isMoveToFoundation) {
             return moveFromBlockToFoundation(move, foundations, blocks)
         }
 
-        if (move.indexOfSourceBlock == (8).toByte()) {
-            moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
-        }
 
         return moveFromBlockToBlock(move,blocks, lastMoves)
     }
 
 
 
-    fun addCardPosition(
-        lastMoves: HashMap<String, HashMap<String, Boolean>>?,
+    private fun addCardPosition(
+        lastMoves: HashMap<String, HashMap<String, Boolean>>,
         sourceBlock: java.util.ArrayList<Card>,
         move: Move,
         i: Int
     ) {
-        if (lastMoves !== null) {
-            val cardKey = "${move.card.value}${move.card.suit}"
-            val prevCardsKey = if (i == 0) {
-                "${move.indexOfSourceBlock}b"
+        val cardKey = "${move.card.value}${move.card.suit}"
+        val prevCardsKey = if (i == 0) {
+            "${move.indexOfSourceBlock}b"
 
-            } else {
-                val itsPreC = sourceBlock[i-1]
-                "${itsPreC.value}${itsPreC.suit}"
-            }
+        } else {
+            val itsPreC = sourceBlock[i-1]
+            "${itsPreC.value}${itsPreC.suit}"
+        }
 
-            val outterHash = lastMoves.get(cardKey)
+        val outterHash = lastMoves.get(cardKey)
 
-            if (outterHash != null) {
+        if (outterHash != null) {
 
 
-                // First time false, second time true
-                if(outterHash.containsKey(prevCardsKey)) {
-                    outterHash.put(prevCardsKey, true)
-                    //println("It contains the key: ${cardKey} ${prevCardsKey}")
+            // First time false, second time true
+            if(outterHash.containsKey(prevCardsKey)) {
+
+                //outterHash.put(prevCardsKey, true)
+
+                if (outterHash[prevCardsKey] == true) {     // This should never be true
+                    outterHash.put(prevCardsKey+(0..10).random(), true)
+
                 } else {
-                    outterHash.put(prevCardsKey, false)
+                    outterHash.put(prevCardsKey, true)
                 }
 
-
+                //println("It contains the key: ${cardKey} ${prevCardsKey}")
             } else {
-                val newInnerH: HashMap<String, Boolean> = HashMap()
-
-                newInnerH.put(prevCardsKey, false)
-                lastMoves.put(cardKey, newInnerH)
+                outterHash.put(prevCardsKey, false)
             }
+
+
+        } else {
+            val newInnerH: HashMap<String, Boolean> = HashMap()
+
+            newInnerH.put(prevCardsKey, false)
+            lastMoves.put(cardKey, newInnerH)
         }
     }
 
 
-
-
-
-
-
 }
 
-
-
-
-
-
-
-
-/*        while (i < sourceBlock.size) {
-
-            val sourceCard = sourceBlock[i]
-            if (move.card == sourceCard) {
-
-                if (move.card.value == (13).toByte()) {
-                    for (j in 0..6) {
-                        if (blocks[j].isEmpty()) {
-                            hasCardMoved = true
-                            break
-                        }
-                    }
-
-                } else if (GameLogic.evalBlockToBlock(destBlock.last(), sourceCard)) {
-                    hasCardMoved = true
-
-                }
-
-                break
-            }
-            i += 1
-        }*/

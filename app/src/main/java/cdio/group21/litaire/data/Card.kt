@@ -1,6 +1,6 @@
 package cdio.group21.litaire.data
 
-data class Card(
+data class Card(                // Card(0, 'k') dummy card
     var value : Byte,
     var suit : Char
 ) {

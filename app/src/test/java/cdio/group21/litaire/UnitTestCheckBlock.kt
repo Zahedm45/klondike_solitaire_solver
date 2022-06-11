@@ -14,6 +14,7 @@ import org.junit.Test
 class UnitTestCheckBlock {
 
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    val gameLogic = GameLogic()
 
     /*
     * Tests if a block of 3 cards, where 2 are in order
@@ -32,7 +33,7 @@ class UnitTestCheckBlock {
         blocks[0].add(Card(5, 's'))
 
 
-        var returnVal = GameLogic.checkBlock(blocks[0])
+        var returnVal = gameLogic.checkBlock(blocks[0])
 
         if (returnVal != null) {
             Assert.assertEquals(returnVal.size, 2)
@@ -62,7 +63,7 @@ class UnitTestCheckBlock {
         blocks[0].add(Card(5, 's'))
 
 
-        var returnVal = GameLogic.checkBlock(blocks[0])
+        var returnVal = gameLogic.checkBlock(blocks[0])
 
         if (returnVal != null) {
             Assert.assertEquals(returnVal.size, 1)
@@ -91,7 +92,7 @@ class UnitTestCheckBlock {
         blocks[0].add(Card(5, 's'))
 
 
-        var returnVal = GameLogic.checkBlock(blocks[0])
+        var returnVal = gameLogic.checkBlock(blocks[0])
 
         if (returnVal != null) {
             Assert.assertEquals(returnVal.size, 3)
@@ -115,7 +116,7 @@ class UnitTestCheckBlock {
         }
 
 
-        var returnVal = GameLogic.checkBlock(blocks[0])
+        var returnVal = gameLogic.checkBlock(blocks[0])
 
         if (returnVal != null) {
             Assert.assertEquals(returnVal.size, 3)

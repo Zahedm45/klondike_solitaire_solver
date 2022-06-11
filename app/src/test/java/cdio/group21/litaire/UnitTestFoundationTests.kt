@@ -2,6 +2,7 @@ package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
+import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
@@ -12,8 +13,9 @@ class UnitTestFoundationTests {
 
     private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
-    val waste = Card(0, 'k')
+    private var waste = DUMMY_CARD.deepCopy()
     val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+    val gameLogic = GameLogic()
 
 
 
@@ -68,7 +70,7 @@ class UnitTestFoundationTests {
 
 
 
-        var result = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        var result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
         Assert.assertEquals(result.size, 3)
 
@@ -115,11 +117,11 @@ class UnitTestFoundationTests {
         blocks[4].add(Card(1, 'c'))
 
 
-        var result = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        var result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(result.size, 3)
 
         foundation.add(Card(4, 'c'))
-        result = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
         val move1 = Move(true, Card(10, 'd'), 1, 0)
         val move2 = Move(true, Card(2, 's'), 3, 2)
@@ -168,7 +170,7 @@ class UnitTestFoundationTests {
         blocks[4].add(Card(1, 'c'))
 
 
-        var result = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        var result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
         // Initializing an unexpected move
         val move = Move(true, Card(3, 'c'), 2, 3)
@@ -200,7 +202,7 @@ class UnitTestFoundationTests {
 
 
 
-        var moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        var moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         val game = Game()
 
         moves.forEach {
@@ -237,7 +239,7 @@ class UnitTestFoundationTests {
 
         Assert.assertEquals(blocks[1].last() == detect3, true)
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         val game = Game()
 
         Assert.assertEquals(moves.size, 1)
@@ -260,7 +262,7 @@ class UnitTestFoundationTests {
 
         val testCard = Card(2,'s')
 
-        val result = GameLogic.evalBlockToFoundation(foundation[0], testCard)
+        val result = gameLogic.evalBlockToFoundation(foundation[0], testCard)
 
         Assert.assertEquals(result, true)
     }
@@ -274,7 +276,7 @@ class UnitTestFoundationTests {
 
         val testCard = Card(2,'c')
 
-        val result = GameLogic.evalBlockToFoundation(foundation[0], testCard)
+        val result = gameLogic.evalBlockToFoundation(foundation[0], testCard)
 
         Assert.assertEquals(result, false)
     }
