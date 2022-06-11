@@ -28,7 +28,7 @@ class Solver {
 
 
         var counter = UtilSolver.cardDeck.size-1
-        for (i in 0..20) {
+        for (i in 0..100) {
 
             val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
 

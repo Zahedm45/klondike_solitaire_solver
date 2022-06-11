@@ -1,6 +1,7 @@
 package cdio.group21.litaire.viewmodels.solver
 
 import cdio.group21.litaire.data.*
+import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
 class Ai {
 
@@ -26,7 +27,8 @@ class Ai {
             val foundationsCopy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
             val wasteCopy = waste.copy()
             val leafValue: ArrayList<GameSate> = ArrayList()
-            val mapCopy = HashMap(lastMoves)
+            //val mapCopy = HashMap(lastMoves)
+            val mapCopy = mapDeepCopy(lastMoves)
 
 
             val newMoves = ga.move_(currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
@@ -101,7 +103,8 @@ class Ai {
             val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
             val foundationsCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
             val wasteCopy = currWaste.copy()
-            val mapCopy = HashMap(lastMovesMap)
+            //val mapCopy = HashMap(lastMovesMap)
+            val mapCopy = mapDeepCopy(lastMovesMap)
 
             ga.move_(move, foundationsCopy, blocksCopy, wasteCopy,  mapCopy)
             algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValues, mapCopy, depth-1)
