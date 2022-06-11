@@ -5,6 +5,7 @@ import cdio.group21.litaire.data.*
 class Ai {
 
     val ga = Game()
+    val gameLogic = GameLogic()
     fun findBestMove(
         foundations: ArrayList<Card>,
         blocks: ArrayList<ArrayList<Card>>,
@@ -17,7 +18,7 @@ class Ai {
         var bestState = GameSate(ga.evalFoundation(foundations), 0, 0)
         var bestMove: Move? = null
 
-        val availableMoves = GameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
+        val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
 
         availableMoves.forEach {currMove ->
 
@@ -83,7 +84,7 @@ class Ai {
             return
         }
 
-        val newPossibleMoves = GameLogic.allPossibleMoves(currFoundations, currBlocks, currWaste, lastMovesMap)
+        val newPossibleMoves = gameLogic.allPossibleMoves(currFoundations, currBlocks, currWaste, lastMovesMap)
 
         if(newPossibleMoves.isEmpty()) {
             setGameState(currBlocks, currFoundations, leafValues, depth)

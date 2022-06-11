@@ -21,6 +21,7 @@ class UnitTestPossibleMoves {
     val waste = DUMMY_CARD.deepCopy()
 
     val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+    val gameLogic = GameLogic()
 
 
 
@@ -62,7 +63,7 @@ class UnitTestPossibleMoves {
 
         blocks[6].add(Card(5,'h'))
 
-        val moves = GameLogic.allPossibleMoves(foundation,blocks, waste, lastMovesMap)
+        val moves = gameLogic.allPossibleMoves(foundation,blocks, waste, lastMovesMap)
         assertEquals(moves.size, 7)
 
     }
@@ -99,7 +100,7 @@ class UnitTestPossibleMoves {
 
         blocks[6].add(Card(5,'h'))
 
-        val moves = GameLogic.allPossibleMoves(foundation,blocks, waste, lastMovesMap)
+        val moves = gameLogic.allPossibleMoves(foundation,blocks, waste, lastMovesMap)
         assertEquals(moves.size, 9)
 
     }

@@ -58,6 +58,7 @@ class Game {
         blocks: ArrayList<ArrayList<Card>>
 
     ): Boolean {
+        val gameLogic = GameLogic()
 
         //Log.i(TAG, "Move to foundation")
         val sour = move.indexOfSourceBlock.toInt()
@@ -71,7 +72,7 @@ class Game {
                 return true
 
             } else if (dest in 0..3) {
-                if (GameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
+                if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = block.last()
                     block.removeLast()
                     return true
@@ -97,6 +98,7 @@ class Game {
         val destBlock = blocks[move.indexOfDestination.toInt()]
         val sourceBlock = blocks[sourceIndex]
         var hasCardMoved = false
+        val gameLogic = GameLogic()
 
 
         val i = sourceBlock.indexOf(move.card)
@@ -111,7 +113,7 @@ class Game {
                     }
                 }
 
-            } else if (GameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
+            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
                 hasCardMoved = true
             }
         }
@@ -174,6 +176,8 @@ class Game {
         //Log.i(TAG, "Move to foundation")
         val sour = move.indexOfSourceBlock.toInt()
         val dest = move.indexOfDestination.toInt()
+        val gameLogic = GameLogic()
+
 
 
         if (waste == move.card) {
@@ -185,7 +189,7 @@ class Game {
                 return true
 
             } else if (dest in 0..3) {
-                if (GameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
+                if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = waste.deepCopy()
                     waste.value = DUMMY_CARD.value
                     waste.suit = DUMMY_CARD.suit
@@ -210,7 +214,7 @@ class Game {
         val destBlock = blocks[move.indexOfDestination.toInt()]
         var hasCardMoved = false
 
-
+        val gameLogic = GameLogic()
         val i = move.indexOfSourceBlock.toInt()
 
         if (i == 8) {
@@ -223,7 +227,7 @@ class Game {
                     }
                 }
 
-            } else if (GameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
+            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
                 hasCardMoved = true
             }
         }
@@ -287,14 +291,14 @@ class Game {
             // First time false, second time true
             if(outterHash.containsKey(prevCardsKey)) {
 
-                outterHash.put(prevCardsKey, true)
+                //outterHash.put(prevCardsKey, true)
 
-/*                if (outterHash.get(prevCardsKey) == true) {
+                if (outterHash[prevCardsKey] == true) {
                     outterHash.put(prevCardsKey+(0..10).random(), true)
 
                 } else {
                     outterHash.put(prevCardsKey, true)
-                }*/
+                }
 
                 //println("It contains the key: ${cardKey} ${prevCardsKey}")
             } else {

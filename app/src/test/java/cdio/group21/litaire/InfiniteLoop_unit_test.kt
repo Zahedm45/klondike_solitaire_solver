@@ -15,6 +15,8 @@ class InfiniteLoop_unit_test {
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
     //private val waste = Card(0, 'k')
     private val waste = DUMMY_CARD.deepCopy()
+    val gameLogic = GameLogic()
+
 
 
     // Checks the correctness of the hashMap/tree
@@ -40,8 +42,8 @@ class InfiniteLoop_unit_test {
         lastMovesHash.put(card2Key, innerHash)
 
 
-        assertEquals(GameLogic.isStateKnown(card2, card1, lastMovesHash), false)
-        assertEquals(GameLogic.isStateKnown(card2, card3, lastMovesHash), true)
+        assertEquals(gameLogic.isStateKnown(card2, card1, lastMovesHash), false)
+        assertEquals(gameLogic.isStateKnown(card2, card3, lastMovesHash), true)
 
 
     }
@@ -77,7 +79,7 @@ class InfiniteLoop_unit_test {
 
 
 
-        var possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        var possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
 
@@ -95,7 +97,7 @@ class InfiniteLoop_unit_test {
 
 
         // moves 4c back to 5d
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
         val move2 = Move(false, card2, 5, 1)
@@ -110,7 +112,7 @@ class InfiniteLoop_unit_test {
 
 
         // moves 4c back to 5h again
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 1)
 
         val move3 = Move(false, card2, 1, 5)
@@ -127,7 +129,7 @@ class InfiniteLoop_unit_test {
 
 
 
-        possibleMoves1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        possibleMoves1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(possibleMoves1.size, 0)
 
 

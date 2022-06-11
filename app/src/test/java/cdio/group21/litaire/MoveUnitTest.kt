@@ -13,6 +13,7 @@ class Simulate_unitTest {
     private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
     var waste = DUMMY_CARD.deepCopy()
     val lastMovesHash: HashMap<String, HashMap<String, Boolean>> = HashMap()
+    val gameLogic = GameLogic()
 
 
     fun initializeBlocks() {
@@ -36,7 +37,7 @@ class Simulate_unitTest {
         val game = Game()
 
 
-        val retValMove = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        val retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 2)
         retValMove.forEach {
             if (it.isMoveToFoundation) {
@@ -64,7 +65,7 @@ class Simulate_unitTest {
         val game = Game()
 
 
-        val retValMove = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        val retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 2)
         retValMove.forEach {
             if (!it.isMoveToFoundation) {
@@ -92,14 +93,14 @@ class Simulate_unitTest {
         val game = Game()
 
 
-        val retValMove = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        val retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 0)
         retValMove.forEach {
             game.move_(it, foundation, blocks, waste, lastMovesHash)
         }
 
         waste = Card(4, 's')
-        val retValMove1 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        val retValMove1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove1.size, 1)
 
     }
@@ -121,7 +122,7 @@ class Simulate_unitTest {
         val game = Game()
 
 
-        var retValMove = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        var retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 1)
         retValMove.forEach {
             if (!it.isMoveToFoundation) {
@@ -132,12 +133,12 @@ class Simulate_unitTest {
         }
 
 
-        retValMove = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 0)
 
         waste = Card(11, 'c')
 
-        retValMove = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+        retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 1)
 
 

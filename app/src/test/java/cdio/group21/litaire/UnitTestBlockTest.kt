@@ -16,6 +16,7 @@ class UnitTestBlockTest {
     private var waste = DUMMY_CARD.deepCopy()
 
     val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+    val gameLogic = GameLogic()
 
 
     fun initializeBlocks() {
@@ -46,7 +47,7 @@ class UnitTestBlockTest {
             if (item.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.possibleMovesFromBlockToBlock(
+            gameLogic.possibleMovesFromBlockToBlock(
                 item,
                 blocks,
                 indexBlock,
@@ -91,7 +92,7 @@ class UnitTestBlockTest {
         Assert.assertEquals(blocks[0].size, 2)
 
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 1)
         Assert.assertEquals(moves[0], Move(false, Card(5, 's'), 0, 2))
 
@@ -141,7 +142,7 @@ class UnitTestBlockTest {
 
 
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 0)
 
     }
@@ -167,7 +168,7 @@ class UnitTestBlockTest {
         Assert.assertEquals(blocks[2].size, 2)
 
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 1)
         Assert.assertEquals(moves[0], Move(false, Card(5, 's'), 0, 2))
 
@@ -201,7 +202,7 @@ class UnitTestBlockTest {
         Assert.assertEquals(blocks[6].size, 1)
         Assert.assertEquals(blocks[2].size, 2)
 
-        val moves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 0)
     }
 
@@ -244,9 +245,9 @@ class UnitTestBlockTest {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.hasChecked = false
+            gameLogic.hasChecked = false
 
-            GameLogic.possibleMovesFromBlockToBlock(
+            gameLogic.possibleMovesFromBlockToBlock(
                 itemBlock,
                 blocks,
                 indexBlock,
@@ -300,9 +301,9 @@ class UnitTestBlockTest {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.hasChecked = false
+            gameLogic.hasChecked = false
 
-            val result = GameLogic.possibleMovesFromBlockToBlock(
+            val result = gameLogic.possibleMovesFromBlockToBlock(
                 itemBlock,
                 blocks,
                 indexBlock,
@@ -360,9 +361,9 @@ class UnitTestBlockTest {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.hasChecked = false
+            gameLogic.hasChecked = false
 
-            val result = GameLogic.possibleMovesFromBlockToBlock(
+            val result = gameLogic.possibleMovesFromBlockToBlock(
                 itemBlock,
                 blocks,
                 indexBlock,
@@ -425,9 +426,9 @@ class UnitTestBlockTest {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.hasChecked = false
+            gameLogic.hasChecked = false
 
-            val result = GameLogic.possibleMovesFromBlockToBlock(
+            val result = gameLogic.possibleMovesFromBlockToBlock(
                 itemBlock,
                 blocks,
                 indexBlock,
@@ -494,9 +495,9 @@ class UnitTestBlockTest {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.hasChecked = false
+            gameLogic.hasChecked = false
 
-            val result = GameLogic.possibleMovesFromBlockToBlock(
+            val result = gameLogic.possibleMovesFromBlockToBlock(
                 itemBlock,
                 blocks,
                 indexBlock,
@@ -562,9 +563,9 @@ class UnitTestBlockTest {
             if (itemBlock.isNullOrEmpty()) {
                 continue
             }
-            GameLogic.hasChecked = false
+            gameLogic.hasChecked = false
 
-            GameLogic.possibleMovesFromBlockToBlock(
+            gameLogic.possibleMovesFromBlockToBlock(
                 itemBlock,
                 blocks,
                 indexBlock,
@@ -592,7 +593,7 @@ class UnitTestBlockTest {
         val testBlockLastCard = Card(5,'s')
         val testCard = Card(6,'h')
 
-        val result = GameLogic.evalBlockToBlockAndWasteToBlock(testCard,testBlockLastCard)
+        val result = gameLogic.evalBlockToBlockAndWasteToBlock(testCard,testBlockLastCard)
 
         Assert.assertEquals(result, true)
     }
@@ -605,7 +606,7 @@ class UnitTestBlockTest {
         val testBlockLastCard = Card(13,'s')
         val testCard = Card(6,'h')
 
-        val result = GameLogic.evalBlockToBlockAndWasteToBlock(testCard,testBlockLastCard)
+        val result = gameLogic.evalBlockToBlockAndWasteToBlock(testCard,testBlockLastCard)
 
         Assert.assertEquals(result, false)
     }
@@ -621,7 +622,7 @@ class UnitTestBlockTest {
         blocks[1].add(Card(5,'s'))
 
         val returnVal: ArrayList<Move> = ArrayList()
-        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
+        gameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
         val moveTest = Move(false,Card(4,'h'),0,1)
 
         Assert.assertEquals(returnVal.contains(moveTest), true)
@@ -638,7 +639,7 @@ class UnitTestBlockTest {
         blocks[1].add(Card(5,'s'))
 
         val returnVal: ArrayList<Move> = ArrayList()
-        GameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
+        gameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
 
         Assert.assertEquals(returnVal.size, 0)
     }
