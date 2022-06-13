@@ -21,3 +21,11 @@ suspend inline fun <T, reified R> Iterable<T>.pmapIndexed(
 		}.awaitAll()
 	}
 }
+
+fun <T> Iterable<Iterable<T>>.forEachIndexed2D(function: (Int, Int, T) -> Unit) {
+	this.forEachIndexed { row, iterable ->
+		iterable.forEachIndexed { column, value ->
+			function(row, column, value)
+		}
+	}
+}
