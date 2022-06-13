@@ -65,7 +65,8 @@ object ObjectRecognition {
             val x = it.boundingBox.left
             val y = it.boundingBox.top
         }
-    }*/
+    }
+ */
 /*
     fun collectPositions(results: List<DetectionResult>, solitaire: Solitaire): Solitaire {
 

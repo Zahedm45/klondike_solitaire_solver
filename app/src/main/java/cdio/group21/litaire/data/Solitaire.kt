@@ -6,7 +6,8 @@ enum class Suit {
 	HEART,
 	DIAMOND,
 	SPADE,
-	CLUB;
+	CLUB,
+	UNKNOWN;
 
 	override fun toString(): String {
 		return when (this) {
@@ -14,6 +15,7 @@ enum class Suit {
 			DIAMOND -> "♦"
 			SPADE -> "♠"
 			CLUB -> "♣"
+			UNKNOWN -> "?"
 		}
 	}
 
@@ -24,6 +26,7 @@ enum class Suit {
 				'D' -> DIAMOND
 				'S' -> SPADE
 				'C' -> CLUB
+				'?' -> UNKNOWN
 				else -> throw IllegalArgumentException("Invalid suit: $i")
 			}
 		}
@@ -43,7 +46,8 @@ enum class Rank {
 	TEN,
 	JACK,
 	QUEEN,
-	KING;
+	KING,
+	UNKNOWN;
 
 	override fun toString(): String {
 		return when (this) {
@@ -60,6 +64,7 @@ enum class Rank {
 			JACK -> "J"
 			QUEEN -> "Q"
 			KING -> "K"
+			UNKNOWN -> "?"
 		}
 	}
 
@@ -79,6 +84,7 @@ enum class Rank {
 				'3' -> THREE
 				'2' -> TWO
 				'A' -> ACE
+				'?' -> UNKNOWN
 				else -> throw IllegalArgumentException("Invalid rank: $i")
 			}
 		}
@@ -94,17 +100,6 @@ data class Card2(val suit: Suit, val rank: Rank) {
 }
 
 data class Solitaire(val columns: List<List<Card2>>, val foundations: List<List<Card2>>) {
-	//    fn initialize_cards(known_cards: [Card; 7]) -> [Card; 52] {
-	//        let mut cards = [Card{ suit: Suit::Unknown, rank: Rank::Unknown }; 52];
-	//        let mut column_last_card_offset = 0;
-	//        cards[0] = known_cards[0];
-	//        // 0, 0+2, 0+2+3, 0+2+3+4, 0+2+3+4+5, 0+2+3+4+5+6, 0+2+3+4+5+6+7
-	//        for i in 1..7 {
-	//            column_last_card_offset += i + 1;
-	//            cards[column_last_card_offset] = known_cards[i];
-	//        }
-	//        cards
-	//    }
 	companion object {
 		fun fromInitialCards(knownCards: List<Card2>): Solitaire {
 			if (knownCards.size != 7) {
@@ -113,8 +108,8 @@ data class Solitaire(val columns: List<List<Card2>>, val foundations: List<List<
 
 			val columns = List(7) { mutableListOf<Card2>() }
 			for (i in 0..6) {
-				for (j in 0..i) {
-					columns[i].add(knownCards[j])
+				for (j in 0 until i) {
+					columns[i].add(Card2(Suit.UNKNOWN, Rank.UNKNOWN))
 				}
 				columns[i].add(knownCards[i])
 			}
