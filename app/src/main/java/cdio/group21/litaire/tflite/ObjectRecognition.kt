@@ -54,13 +54,10 @@ object ObjectRecognition {
 
             DetectionResult(boundingBox, card, it.confidence ?: 0.0)
         }
-        Log.i(ContentValues.TAG, "result.. $resultToDisplay")
-        println("End of processImage: ${Thread.currentThread()}")
-        return resultToDisplay
+        return collectPositions(resultToDisplay)
     }
 
-    fun initGame(results: List<DetectionResult>): Solitaire {
-        val cards = collectPositions(results)
+    fun initGame(cards: List<DetectionResult>): Solitaire {
         val sortedResult = cards.sortedBy { it.boundingBox.left }
         val solitaire = Solitaire.fromInitialCards(sortedResult.map { it.card })
         return solitaire

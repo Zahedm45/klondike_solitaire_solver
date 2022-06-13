@@ -54,13 +54,6 @@ class LandingPageViewModel: ViewModel() {
         return detectionList
     }
 
-    fun processImage(context: Context, bitmap: Bitmap) {
-        viewModelScope.launch(Dispatchers.IO){
-            detectionList.postValue(ObjectRecognition.processImage(bitmap, DetectionConfig(5u, 4u, 0.15F)))
-        }
-    }
-
-
 
 
     /**

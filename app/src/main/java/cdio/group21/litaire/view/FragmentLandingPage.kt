@@ -17,15 +17,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
+import cdio.group21.litaire.data.Card2
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.Solitaire
 import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
+import cdio.group21.litaire.utils.extensions.forEachIndexed2D
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
 import id.zelory.compressor.Compressor
@@ -57,44 +61,35 @@ class FragmentLandingPage : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
             Log.i(TAG, "image width 2 ${it.width}")
             binding.ivBackground.setImageBitmap(it)
-            viewModel.processImage(this.requireContext(), it.copy(Bitmap.Config.RGB_565, false))
+            sharedViewModel.processImage(this.requireContext(), it.copy(Bitmap.Config.RGB_565, false))
+            Log.e("ImageBitmap: ", "has been observed")
             //findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
         }
 
-        viewModel.getDetectionList().observe(viewLifecycleOwner){
+        sharedViewModel.getDetectionList().observe(viewLifecycleOwner){
+            detectionList ->
+            sharedViewModel.updateGame(detectionList)
+        }
+
+        sharedViewModel.getGameState().observe(viewLifecycleOwner){
+            game ->
 
             val img = viewModel.getImageBitmap().value
 
-            if (img != null) {
-
-                var imgResult = drawDetectionResult(img, it)
-
-
-                if (it.isNotEmpty()) {
-                    viewModel.detectFoundationAndWaste(it, viewModel.getImageBitmap().value!!)
-                    viewModel.detectTableaus(viewModel.resultAfterFoundationWaste)
-                    viewModel.setNewResults()
-
-
-                    if (viewModel.waste != null) {
-                        viewModel.printWaste(viewModel.waste!!)
-                    }
-
-                    viewModel.printFoundation(viewModel.foundation)
-                    viewModel.printTableaus(viewModel.tableaus)
-
-                    imgResult = drawDetectionResult(img, viewModel.newResult)
-                }
-
-
-                sharedViewModel.setImageBitmap(imgResult)
+            if (img != null && game != null) {
+                var imgResult = drawSolitaireGame(img, game)
+                sharedViewModel.setPreviewBitmap(imgResult)
+                binding.ivBackground.setImageBitmap(imgResult)
                 findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+                Log.e("Gamestate: ", "has been observed")
 
             }
 
@@ -162,8 +157,39 @@ class FragmentLandingPage : Fragment() {
     })
 
 
+    /**
+     * Draw solitaire game in a bitmap
+     */
+    private fun drawSolitaireGame(
+        bitmap: Bitmap,
+        gameState: Solitaire
+    ) : Bitmap{
+        val outputBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val canvas = Canvas(outputBitmap)
+        val pen = Paint()
+        pen.textAlign = Paint.Align.LEFT
 
 
+        val columns = gameState.tableau
+        val startX = 0
+        val xOffset = 10
+        val startY = 0
+        val yOffset = 10
+        val width = 25
+        val height = 25
+
+        columns.forEachIndexed2D {
+            i, j, card ->
+                val xPos = startX + xOffset * j
+                val yPos = startY + yOffset * i
+                pen.color = Color.RED
+                pen.strokeWidth = 0.7F
+                pen.style = Paint.Style.FILL_AND_STROKE
+                val box = Rect(xPos, yPos, xPos + width, yPos + height)
+                canvas.drawRect(box, pen)
+        }
+        return outputBitmap
+    }
 
 
     /**
@@ -180,7 +206,7 @@ class FragmentLandingPage : Fragment() {
         val pen = Paint()
         pen.textAlign = Paint.Align.LEFT
 
-       val detectionResults = detectionResults.distinctBy { it.card }
+       val detectionResults = detectionResults.distinctBy { it.card.toString() }
 
 
         detectionResults.forEach {
