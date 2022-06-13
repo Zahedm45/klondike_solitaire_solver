@@ -217,7 +217,7 @@ class Game {
         val gameLogic = GameLogic()
         val i = move.indexOfSourceBlock
 
-        if (i == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
+        if (i == DESTINATION_UNKNOWN) {
 
             if (move.card.value == (13).toByte()) {
                 for (j in 0..6) {
