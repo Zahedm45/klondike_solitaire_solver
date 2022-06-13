@@ -6,8 +6,6 @@ import androidx.annotation.RequiresApi
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
-import retrofit2.*
-import retrofit2.http.*
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -20,16 +18,16 @@ class RoboflowAPI {
         @RequiresApi(Build.VERSION_CODES.O)
         @OptIn(ExperimentalStdlibApi::class)
         fun getPrediction(image: Bitmap): RoboflowResult? {
-            var jsonString = "";
+            var jsonString = ""
             val bytes = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.JPEG, 10, bytes)
+            image.compress(Bitmap.CompressFormat.JPEG, 20, bytes)
             val base64 = String(Base64.getEncoder().encode(bytes.toByteArray()), StandardCharsets.US_ASCII)
 
             val API_KEY = "UeJ5YANadgDkeozKB2F4" // Your API Key
             val MODEL_ENDPOINT = "playing-cards-ow27d/1" // Set model endpoint (Found in Dataset URL)
 
             // Construct the URL
-            val uploadURL ="https://detect.roboflow.com/" + MODEL_ENDPOINT + "?api_key=" + API_KEY + "&confidence=75";
+            val uploadURL ="https://detect.roboflow.com/" + MODEL_ENDPOINT + "?api_key=" + API_KEY + "&confidence=75"
 
             val moshi = Moshi.Builder().build()
             val adapter: JsonAdapter<RoboflowResult> = moshi.adapter<RoboflowResult>()
@@ -69,13 +67,10 @@ class RoboflowAPI {
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                return null;
             } finally {
-                val res = adapter.fromJson(jsonString)
-                return res
                 connection?.disconnect()
             }
-            return null;
+            return adapter.fromJson(jsonString)
         }
     }
 
