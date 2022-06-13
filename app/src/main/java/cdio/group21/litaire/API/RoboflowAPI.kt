@@ -6,8 +6,7 @@ import androidx.annotation.RequiresApi
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
-import retrofit2.*
-import retrofit2.http.*
+
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
