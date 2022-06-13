@@ -34,8 +34,8 @@
             android:layout_height="64dp"
             android:layout_weight="1"
             android:backgroundTint="#FF8A00"
-            android:contentDescription="Take a picture"
-            android:src="@drawable/vector_camera" />
+            android:contentDescription="Select from album"
+            android:src="@drawable/vector_album" />
 
         <ImageButton
             android:id="@+id/iv_camera_button"
@@ -44,8 +44,7 @@
             android:layout_weight="1"
             android:backgroundTint="#00DEC5"
             android:contentDescription="Take a picture"
-            android:src="@drawable/vector_camera"
-            tools:src="@drawable/vector_album" />
+            android:src="@drawable/vector_camera" />
 
     </LinearLayout>
 
