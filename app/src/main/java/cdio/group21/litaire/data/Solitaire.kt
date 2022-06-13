@@ -121,6 +121,14 @@ data class Solitaire(val tableau: List<MutableList<Card2>>, val foundations: Lis
 			val talon = mutableListOf<Card2>()
 			return Solitaire(tableau, foundations, stock, talon)
 		}
+
+		fun emptyGame(): Solitaire {
+			val tableau = List(7) { mutableListOf<Card2>() }
+			val foundations = List(4) { mutableListOf<Card2>() }
+			val stock = mutableListOf<Card2>()
+			val talon = mutableListOf<Card2>()
+			return Solitaire(tableau, foundations, stock, talon)
+		}
 	}
 
 }
