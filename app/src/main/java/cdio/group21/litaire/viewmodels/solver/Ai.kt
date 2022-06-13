@@ -13,7 +13,7 @@ class Ai {
         waste: Card,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Move? {
-        val depth = 10
+        val depth = 5
         val initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
 
         var bestState = GameSate(ga.evalFoundation(foundations), 0, 0)

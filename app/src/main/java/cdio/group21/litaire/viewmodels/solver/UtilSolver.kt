@@ -15,6 +15,105 @@ class UtilSolver {
 
 
 
+
+        fun lastFewSteps(
+            foundation: ArrayList<Card>,
+            blocks: ArrayList<ArrayList<Card>>,
+            waste: Card
+
+
+        ) {
+            for (i in 0..6) {
+                blocks.add(ArrayList())
+            }
+
+
+            for (suit in suits) {
+
+                for (value in values) {
+                    val card = Card(value, suit)
+                    cardDeck.add(card)
+                }
+            }
+
+            val lastI = cardDeck.size-1
+
+            blocks[0].add(cardDeck[lastI])
+            blocks[0].add(cardDeck[lastI-14])
+            blocks[0].add(cardDeck[lastI-2])
+            blocks[0].add(cardDeck[lastI-16])
+            blocks[0].add(cardDeck[lastI-4])
+            blocks[0].add(cardDeck[lastI-18])
+            blocks[0].add(cardDeck[lastI-6])
+            blocks[0].add(cardDeck[lastI-20])
+            blocks[0].add(cardDeck[lastI-8])
+            blocks[0].add(cardDeck[lastI-22])
+            blocks[0].add(cardDeck[lastI-10])
+            blocks[0].add(cardDeck[lastI-24])
+            blocks[0].add(cardDeck[lastI-12])
+
+
+
+
+            blocks[1].add(cardDeck[lastI-13])
+            blocks[1].add(cardDeck[lastI-1])
+            blocks[1].add(cardDeck[lastI-15])
+            blocks[1].add(cardDeck[lastI-3])
+            blocks[1].add(cardDeck[lastI-17])
+            blocks[1].add(cardDeck[lastI-5])
+            blocks[1].add(cardDeck[lastI-19])
+            blocks[1].add(cardDeck[lastI-7])
+            blocks[1].add(cardDeck[lastI-21])
+            blocks[1].add(cardDeck[lastI-9])
+            blocks[1].add(cardDeck[lastI-23])
+            blocks[1].add(cardDeck[lastI-11])
+            blocks[1].add(cardDeck[lastI-25])
+
+            blocks[2].add(cardDeck[12])
+            blocks[2].add(cardDeck[24])
+            blocks[2].add(cardDeck[10])
+            blocks[2].add(cardDeck[22])
+            blocks[2].add(cardDeck[8])
+            blocks[2].add(cardDeck[20])
+            blocks[2].add(cardDeck[6])
+            blocks[2].add(cardDeck[18])
+            blocks[2].add(cardDeck[4])
+            blocks[2].add(cardDeck[16])
+            blocks[2].add(cardDeck[2])
+            blocks[2].add(cardDeck[14])
+            blocks[2].add(cardDeck[0])
+
+
+            blocks[3].add(cardDeck[25])
+            blocks[3].add(cardDeck[11])
+            blocks[3].add(cardDeck[23])
+            blocks[3].add(cardDeck[9])
+            blocks[3].add(cardDeck[21])
+            blocks[3].add(cardDeck[7])
+            blocks[3].add(cardDeck[19])
+            blocks[3].add(cardDeck[5])
+            blocks[3].add(cardDeck[17])
+            blocks[3].add(cardDeck[3])
+            blocks[3].add(cardDeck[15])
+            blocks[3].add(cardDeck[1])
+            blocks[3].add(cardDeck[13])
+
+
+
+
+
+/*            var i = 0
+            cardDeck.forEach {
+                println("$i: ${it.value}${it.suit}")
+                i++
+            }*/
+
+
+        }
+
+
+
+
         fun simulateRandomCards(
             foundation: ArrayList<Card>,
             blocks: ArrayList<ArrayList<Card>>,
@@ -183,6 +282,9 @@ class UtilSolver {
 
 
         }
+
+
+
 
 
 
