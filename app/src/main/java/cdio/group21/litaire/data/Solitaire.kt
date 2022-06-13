@@ -99,24 +99,27 @@ data class Card2(val suit: Suit, val rank: Rank) {
 	}
 }
 
-data class Solitaire(val columns: List<List<Card2>>, val foundations: List<List<Card2>>) {
+data class Solitaire(val tableau: List<MutableList<Card2>>, val foundations: List<MutableList<Card2>>, val stock: MutableList<Card2>, val talon: MutableList<Card2>) {
 	companion object {
 		fun fromInitialCards(knownCards: List<Card2>): Solitaire {
 			if (knownCards.size != 7) {
 				throw IllegalArgumentException("Error: Expected 7 cards!")
 			}
 
-			val columns = List(7) { mutableListOf<Card2>() }
+			val tableau = List(7) { mutableListOf<Card2>() }
 			for (i in 0..6) {
 				for (j in 0 until i) {
-					columns[i].add(Card2(Suit.UNKNOWN, Rank.UNKNOWN))
+					tableau[i].add(Card2(Suit.UNKNOWN, Rank.UNKNOWN))
 				}
-				columns[i].add(knownCards[i])
+				tableau[i].add(knownCards[i])
 			}
-
-
-			val cards = mutableListOf<Card2>()
-			return Solitaire(columns, emptyList())
+			val foundations = List(4) { mutableListOf<Card2>() }
+			val stock = mutableListOf<Card2>()
+			for (i in 0..24) {
+				stock.add(Card2(Suit.UNKNOWN, Rank.UNKNOWN))
+			}
+			val talon = mutableListOf<Card2>()
+			return Solitaire(tableau, foundations, stock, talon)
 		}
 	}
 

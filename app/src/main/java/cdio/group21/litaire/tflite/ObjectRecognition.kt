@@ -58,20 +58,18 @@ object ObjectRecognition {
         println("End of processImage: ${Thread.currentThread()}")
         return resultToDisplay
     }
-/*
-    fun initGame(results: List<DetectionResult>): Solitaire {
-        val solitaire = Solitaire.fromInitialCards(results.map { it.card })
-        results.forEach {
-            val x = it.boundingBox.left
-            val y = it.boundingBox.top
-        }
-    }
- */
-/*
-    fun collectPositions(results: List<DetectionResult>, solitaire: Solitaire): Solitaire {
 
+    fun initGame(results: List<DetectionResult>): Solitaire {
+        val cards = collectPositions(results)
+        val sortedResult = cards.sortedBy { it.boundingBox.left }
+        val solitaire = Solitaire.fromInitialCards(sortedResult.map { it.card })
+        return solitaire
     }
-*/
+
+
+    fun collectPositions(results: List<DetectionResult>): List<DetectionResult> {
+        return results.distinctBy { it.card }
+    }
 
     private fun mergeResults(
         results:Array2D<RoboflowResult?>,
