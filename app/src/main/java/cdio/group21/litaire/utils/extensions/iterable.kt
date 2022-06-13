@@ -22,6 +22,14 @@ suspend inline fun <T, reified R> Iterable<T>.pmapIndexed(
 	}
 }
 
+fun <T> Iterable<Iterable<T>>.forEach2D(function: (T) -> Unit) {
+	this.forEach { iterable ->
+		iterable.forEach { value ->
+			function(value)
+		}
+	}
+}
+
 fun <T> Iterable<Iterable<T>>.forEachIndexed2D(function: (Int, Int, T) -> Unit) {
 	this.forEachIndexed { row, iterable ->
 		iterable.forEachIndexed { column, value ->
