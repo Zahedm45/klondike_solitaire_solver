@@ -56,7 +56,7 @@ class LandingPageViewModel: ViewModel() {
 
     fun processImage(context: Context, bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO){
-            detectionList.postValue(ObjectRecognition.processImage(context, bitmap, DetectionConfig(5u, 4u, 0.15F)))
+            detectionList.postValue(ObjectRecognition.processImage(bitmap, DetectionConfig(5u, 4u, 0.15F)))
         }
     }
 
@@ -228,8 +228,8 @@ class LandingPageViewModel: ViewModel() {
         val toBeRemoved: ArrayList<DetectionResult> = ArrayList()
 
         while (i < results.size) {
-            val crrText = results[i].text[0] +""+ results[i].text[1]
-            val newText = results[i-1].text[0] +""+ results[i-1].text[1]
+            val crrText = results[i].card
+            val newText = results[i-1].card
             if (crrText == newText){
                 toBeRemoved.add(results[i])
             }
@@ -260,8 +260,8 @@ class LandingPageViewModel: ViewModel() {
         var i = 1
 
         while (i < results.size) {
-            val prev = results[i-1].block[0].text[0] + "" + results[i-1].block[0].text[1]
-            val curr = results[i].block[0].text[0] + "" + results[i].block[0].text[1]
+            val prev = results[i-1].block[0].card
+            val curr = results[i].block[0].card
 
             if (prev == curr) {
                 results[i].centerY = 0.0f

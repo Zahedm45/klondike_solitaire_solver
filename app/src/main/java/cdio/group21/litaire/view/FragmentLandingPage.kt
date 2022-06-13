@@ -24,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
@@ -179,7 +180,7 @@ class FragmentLandingPage : Fragment() {
         val pen = Paint()
         pen.textAlign = Paint.Align.LEFT
 
-       val detectionResults = detectionResults.distinctBy { it.text.subSequence(0, 2) }
+       val detectionResults = detectionResults.distinctBy { it.card }
 
 
         detectionResults.forEach {
@@ -195,11 +196,12 @@ class FragmentLandingPage : Fragment() {
 
             // calculate the right font size
             pen.style = Paint.Style.FILL_AND_STROKE
-            pen.color = if(it.text.contains("D") || it.text.contains("H")) Color.RED else Color.BLACK
+            pen.color = if(it.card.suit == Suit.DIAMOND || it.card.suit == Suit.HEART) Color.RED else Color.BLACK
             pen.strokeWidth = 2.5F
 
             pen.textSize = 60F
-            pen.getTextBounds(it.text, 0, it.text.length, tagSize)
+            val text = it.card.toString() + " " + (it.confidence * 100).toString() + "%"
+            pen.getTextBounds(text, 0, text.length, tagSize)
             val fontSize: Float = (pen.textSize )// tagSize.width()
 
             // adjust the font size so texts are inside the bounding box
@@ -209,7 +211,7 @@ class FragmentLandingPage : Fragment() {
             //if (margin < 0F) margin = 0F
 
             canvas.drawText(
-                it.text, box.left + margin,
+                text, box.left + margin,
                 box.top + tagSize.height().times(1F), pen
             )
 

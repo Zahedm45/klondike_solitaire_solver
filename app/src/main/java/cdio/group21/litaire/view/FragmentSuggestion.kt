@@ -9,9 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
+import cdio.group21.litaire.data.Card2
+import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.databinding.FragmentSuggestionBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
 
+
+typealias IconID = Int
 
 class FragmentSuggestion : Fragment() {
 
@@ -39,7 +43,7 @@ class FragmentSuggestion : Fragment() {
             binding.ivBackground.setImageBitmap(it)
         })
         viewModel.getSuggestion().observe(viewLifecycleOwner) {
-            setSuggestionUI(it.first.name, it.second.name)
+            setSuggestionUI(it.first, it.second)
         }
         binding.ivBackbutton.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
@@ -48,11 +52,11 @@ class FragmentSuggestion : Fragment() {
 
     }
 
-    private fun setSuggestionUI(from: String, to: String){
-        val fromNum = from[0]
-        val fromIcon = charToCardIconID(from[1])
-        val toNum = to[0]
-        val toIcon = charToCardIconID(to[1])
+    private fun setSuggestionUI(from: Card2, to: Card2){
+        val fromNum = from.rank.toString()
+        val fromIcon = suitToIconID(from.suit)
+        val toNum = to.rank.toString()
+        val toIcon = suitToIconID(to.suit)
 
         binding.leftMoveIcon.setImageResource(fromIcon)
         binding.leftMoveText.text = fromNum.toString()
@@ -61,12 +65,12 @@ class FragmentSuggestion : Fragment() {
         binding.rightMoveText.text = toNum.toString()
     }
 
-    private fun charToCardIconID(char: Char): Int {
-        when(char){
-            'H' -> return R.drawable.vector_hearts
-            'S' -> return R.drawable.vector_spades
-            'D' -> return R.drawable.vector_diamonds
-            'C' -> return R.drawable.vector_clubs
+    private fun suitToIconID(suit: Suit): IconID {
+        when(suit){
+            Suit.HEART -> return R.drawable.vector_hearts
+            Suit.SPADE -> return R.drawable.vector_spades
+            Suit.DIAMOND -> return R.drawable.vector_diamonds
+            Suit.CLUB -> return R.drawable.vector_clubs
             else -> return R.drawable.vector_circle
         }
     }

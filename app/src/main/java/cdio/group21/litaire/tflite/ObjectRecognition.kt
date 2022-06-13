@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import cdio.group21.litaire.API.Prediction
 import cdio.group21.litaire.API.RoboflowAPI
 import cdio.group21.litaire.API.RoboflowResult
-import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.*
 import cdio.group21.litaire.utils.*
 import cdio.group21.litaire.utils.extensions.BitmapSlice
 import cdio.group21.litaire.utils.extensions.pmap
@@ -26,13 +26,11 @@ data class DetectionConfig(val num_rows: UInt, val num_columns: UInt, val overla
 object ObjectRecognition {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun processImage(context: Context, bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
-        //println("Start of processImage: ${Thread.currentThread()}")
+    suspend fun processImage(bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
+
         val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
         val results = bitmaps.pmap2D { bitmapSlice -> RoboflowAPI.getPrediction(bitmapSlice.bitmap) }
-        //@Suppress("NAME_SHADOWING") val sizes = bitmaps.map { bitmapSlice -> Size(bitmapSlice.bitmap.width.toUShort(), bitmapSlice.bitmap.height.toUShort()) }
 
-        //val bitmap_offset = bitmaps.map2D { slice -> slice.position }
         // Merge the results
         val predictions = mergeResults(results, bitmaps)
 
@@ -41,8 +39,10 @@ object ObjectRecognition {
         val resultToDisplay = predictions.pmap {
             // Get the top-1 category and craft the display text
             val category = it.class_ ?: ""
-            val score = it.confidence ?: 0.0
-            val text = "${category}${score.times(100).toInt()}%"
+            val suit = Suit.fromChar(category.last())
+            val rank = Rank.fromChar(category.replace("10", "T")[0])
+            val card = Card2(suit, rank)
+
             val width = it.width ?: 0.0F
             val height = it.height ?: 0.0F
             val xTop = (it.x ?: 0.0F)
@@ -52,15 +52,27 @@ object ObjectRecognition {
 
             val boundingBox = RectF(xTop, yTop, xBottom, yBottom)
 
-            DetectionResult(boundingBox, text)
+            DetectionResult(boundingBox, card, it.confidence ?: 0.0)
         }
         Log.i(ContentValues.TAG, "result.. $resultToDisplay")
         println("End of processImage: ${Thread.currentThread()}")
         return resultToDisplay
     }
+/*
+    fun initGame(results: List<DetectionResult>): Solitaire {
+        val solitaire = Solitaire.fromInitialCards(results.map { it.card })
+        results.forEach {
+            val x = it.boundingBox.left
+            val y = it.boundingBox.top
+        }
+    }*/
+/*
+    fun collectPositions(results: List<DetectionResult>, solitaire: Solitaire): Solitaire {
 
+    }
+*/
 
-    private suspend fun mergeResults(
+    private fun mergeResults(
         results:Array2D<RoboflowResult?>,
         bitmapSlices: Array2D<BitmapSlice>
     ): List<Prediction> {
