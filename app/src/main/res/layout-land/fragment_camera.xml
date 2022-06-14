@@ -24,23 +24,26 @@
 
         <ImageButton
             android:id="@+id/bt_image_capture"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/vector_circle_empty"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@drawable/vector_circle_empty"
+            android:src="@drawable/vector_circle_empty"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.99"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.98"></ImageButton>
+            app:layout_constraintTop_toTopOf="parent"></ImageButton>
 
         <ImageView
-            android:layout_width="720dp"
-            android:layout_height="360dp"
-            android:layout_marginBottom="32dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/vector_dotted_rectangle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bt_image_capture"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"></ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>

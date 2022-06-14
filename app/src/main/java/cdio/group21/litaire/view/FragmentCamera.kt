@@ -2,6 +2,7 @@ package cdio.group21.litaire.view
 
 import android.os.Bundle
 import android.content.ContentValues
+import android.content.pm.ActivityInfo
 import android.os.Build
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -45,7 +46,9 @@ class FragmentCamera : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        this@FragmentCamera.requireActivity().setRequestedOrientation(
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        this@FragmentCamera.requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
 
     override fun onCreateView(
@@ -79,6 +82,9 @@ class FragmentCamera : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
+        this@FragmentCamera.requireActivity().setRequestedOrientation(
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
     }
 
     private fun takePhoto() {
