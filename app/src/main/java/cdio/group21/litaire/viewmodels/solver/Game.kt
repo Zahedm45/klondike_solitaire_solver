@@ -245,6 +245,54 @@ class Game {
         return false
     }
 
+    fun moveFromFoundationToBlock(
+        move: Move,
+        blocks: ArrayList<ArrayList<Card>>,
+        foundations: ArrayList<Card>,
+        lastMoves: HashMap<String, HashMap<String, Boolean>>?
+
+    ): Boolean {
+        val sour = move.indexOfSourceBlock.toInt()
+        val dest = move.indexOfDestination.toInt()
+        val block = blocks[dest]
+        val foundationCard = foundations[sour]
+        var hasCardMoved = false
+
+
+        if (foundationCard.value == (13).toByte()) {
+            for (j in 0..6) {
+                if (block.isEmpty()) {
+                    hasCardMoved = true
+                    break
+                }
+            }
+
+        } else if (GameLogic.evalBlockToBlockAndWasteToBlock(block.last(), foundationCard)) {
+            hasCardMoved = true
+        }
+
+
+        if (hasCardMoved) {
+
+            // Adds the card's position to the hashmap.
+            addCardPosition(lastMoves, foundations, move, move.indexOfSourceBlock.toInt())
+
+
+            //gets new foundation card
+            var newCard = GameLogic.findPreviousFoundationValue(foundations,sour.toByte())
+
+            // Adds the card to the destination block.
+            block.add(foundationCard)
+
+            // Removes the card from the source foundation.
+            foundations[sour] = newCard
+
+            return true
+        }
+
+        return false
+    }
+
 
     fun move_(
         move: Move,

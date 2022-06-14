@@ -120,7 +120,7 @@ class UtilSolver {
             waste: Card
         ) {
 
-/*            foundation.add(Card(9, "d"))
+/*          foundation.add(Card(9, "d"))
             foundation.add(Card(5, "h"))
             foundation.add(Card(1, "s"))
             foundation.add(Card(4, "c"))*/
