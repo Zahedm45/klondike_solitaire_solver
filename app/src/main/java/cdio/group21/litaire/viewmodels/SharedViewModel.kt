@@ -30,7 +30,7 @@ class SharedViewModel : ViewModel() {
 
     private val detectionList = MutableLiveData<List<DetectionResult>>(emptyList())
 
-    private val gameState = MutableLiveData(Solitaire.emptyGame())
+    private val gameState = MutableLiveData(Solitaire.EMPTY_GAME)
 
     fun setImageBitmap(bitmap: Bitmap){
         imageBitmap.value = bitmap
@@ -77,7 +77,10 @@ class SharedViewModel : ViewModel() {
     fun updateGame(list : List<DetectionResult>){
         Log.i("SharedViewModel", "Update Game: " + list.toString())
         Log.i("SharedViewModel", "Update Game: List size: " + list.size)
-        if(list.size == 7) gameState.postValue(ObjectRecognition.initGame(list))
+        if(list.size == 7) return gameState.postValue(ObjectRecognition.initGame(list))
+        if(list.size == 1 && gameState.value != null && gameState.value != Solitaire.EMPTY_GAME) return //TODO: Update game!
+        // error
+        Log.e("SharedViewModel", "Update Game: Error: Inappropriate number of cards!")
     }
 
 }
