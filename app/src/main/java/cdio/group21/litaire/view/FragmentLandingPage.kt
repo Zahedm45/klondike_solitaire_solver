@@ -1,11 +1,9 @@
 package cdio.group21.litaire.view
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.graphics.*
 import android.net.Uri
 import android.os.Build
@@ -18,13 +16,13 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
-import cdio.group21.litaire.data.Card2
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Solitaire
 import cdio.group21.litaire.data.Suit
@@ -32,11 +30,8 @@ import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.utils.extensions.forEachIndexed2D
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
-import id.zelory.compressor.Compressor
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 
 
 class FragmentLandingPage : Fragment() {
@@ -288,28 +283,22 @@ class FragmentLandingPage : Fragment() {
 
     private suspend fun uriToBitmap(uri: Uri): Bitmap {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-
             val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
             val bitmap = ImageDecoder.decodeBitmap(source)
+
+            val desiredWidth = 2048
+            val scalingFactor = desiredWidth.toDouble() / bitmap.width.toDouble()
+            val scaledBitmap = Bitmap.createScaledBitmap(
+                bitmap,
+                (bitmap.width * scalingFactor).toInt(),
+                (bitmap.height * scalingFactor).toInt(), true
+            )
+
             val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
             val data = baos.toByteArray()
 
-            val file = File(requireContext().cacheDir, "temp.jpg")
-            file.createNewFile()
-
-            val fos = FileOutputStream(file)
-            fos.write(data)
-            fos.flush()
-            fos.close()
-            Log.i("Image Compression", file.readBytes().size.toString() + " bytes")
-            val comp = Compressor.compress(requireContext(), file)
-            val compBitmap = BitmapFactory.decodeFile(comp.path)
-            Log.i("Image Compression", comp.readBytes().size.toString() + " bytes")
-            file.delete()
-
-            return compBitmap
-
+            return BitmapFactory.decodeByteArray(data, 0, data.size)
         } else {
             TODO("VERSION.SDK_INT < P")
         }
