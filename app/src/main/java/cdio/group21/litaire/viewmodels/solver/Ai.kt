@@ -9,7 +9,7 @@ class Ai {
     val gameLogic = GameLogic()
     fun findBestMove(
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>,
+        blocks: ArrayList<Block>,
         waste: Card,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Move? {
@@ -23,8 +23,11 @@ class Ai {
 
         availableMoves.forEach {currMove ->
 
-            val blocksCopy = ArrayList(blocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+            //val blocksCopy = ArrayList(blocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
             val foundationsCopy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
+
+            val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
+
             val wasteCopy = waste.copy()
             val leafValue: ArrayList<GameSate> = ArrayList()
             //val mapCopy = HashMap(lastMoves)
@@ -73,7 +76,7 @@ class Ai {
 
 
     private fun algorithm(
-        currBlocks: ArrayList<ArrayList<Card>>,
+        currBlocks: ArrayList<Block>,
         currFoundations: ArrayList<Card>,
         currWaste: Card,
         leafValues: ArrayList<GameSate>,
@@ -100,7 +103,9 @@ class Ai {
             val foundationCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
             val mapCopy = HashMap(lastMovesMap)*/
 
-            val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+            //val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
+
+            val blocksCopy = ArrayList(currBlocks.map { b -> b.deepCopy() })
             val foundationsCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
             val wasteCopy = currWaste.copy()
             //val mapCopy = HashMap(lastMovesMap)
@@ -116,7 +121,7 @@ class Ai {
 
 
     private fun setGameState(
-        currBlocks: ArrayList<ArrayList<Card>>,
+        currBlocks: ArrayList<Block>,
         currFoundations: ArrayList<Card>,
         leafValues: ArrayList<GameSate>,
         length: Int

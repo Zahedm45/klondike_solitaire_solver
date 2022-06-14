@@ -2,6 +2,7 @@ package cdio.group21.litaire.viewmodels.solver
 
 import android.content.ContentValues
 import android.util.Log
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
@@ -40,7 +41,7 @@ class Game {
     /**
      * Returns the amount of the empty blocks
      */
-    fun emptyBlock(blocks: ArrayList<ArrayList<Card>>): Int {
+    fun emptyBlock(blocks: ArrayList<Block>): Int {
         var counter = 0
         blocks.forEach {
 
@@ -297,7 +298,7 @@ class Game {
     fun move_(
         move: Move,
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>,
+        blocks: ArrayList<Block>,
         waste: Card,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Boolean {
