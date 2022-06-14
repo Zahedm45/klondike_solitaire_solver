@@ -134,9 +134,15 @@ class Game {
                 dropItems--
             }
 
-            if (blocks[sourceIndex].cards.size == blocks[sourceIndex].hiddenCards) {
-                blocks[sourceIndex].hiddenCards--
+
+            val sBlock = blocks[sourceIndex]
+            if (sBlock.cards.size == 0) {
+                sBlock.hiddenCards = 0
+            }else if (sBlock.cards.size <= sBlock.hiddenCards) {
+                sBlock.hiddenCards = sBlock.cards.size-1
             }
+
+
 
             // Adds the card(s) to the destination block.
             for (k in newList.indices) {
