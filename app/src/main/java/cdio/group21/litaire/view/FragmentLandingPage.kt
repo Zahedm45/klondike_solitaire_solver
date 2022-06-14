@@ -83,7 +83,6 @@ class FragmentLandingPage : Fragment() {
         }
 
         sharedViewModel.getGameState().observe(viewLifecycleOwner) { game ->
-
             val img = viewModel.getImageBitmap().value
             Log.e("Gamestate: ", "has been observed")
             if (img != null && game != null) {
@@ -180,7 +179,15 @@ class FragmentLandingPage : Fragment() {
         val width = 100
         val height = 125
 
+
+        // Draw background
+        val backgroundBox = Rect(0, 0 , canvas.width, canvas.height)
+        pen.color = Color.GREEN
+        pen.style = Paint.Style.FILL
+        // Draw each card
         columns.forEachIndexed2D { row, column, card ->
+
+
             val xPos = startX + xOffset * row // This draws it vertically
             val yPos = startY + yOffset * column
             // Draw card with white background and black border

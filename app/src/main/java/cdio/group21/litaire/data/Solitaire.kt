@@ -100,6 +100,20 @@ data class Card2(val suit: Suit, val rank: Rank) {
 }
 
 data class Solitaire(val tableau: List<MutableList<Card2>>, val foundations: List<MutableList<Card2>>, val stock: MutableList<Card2>, val talon: MutableList<Card2>) {
+
+	fun replaceCardObject(cardObjectToReveal: Card2, value :Card2) {
+		val talonIndex = talon.indexOf(cardObjectToReveal)
+		if(talonIndex != -1 ) talon[talonIndex] = value
+
+		tableau.forEach {
+			cards ->
+			val index = cards.indexOf(cardObjectToReveal)
+			if (index == -1) return@forEach
+			cards[index] = value
+			return
+		}
+	}
+
 	companion object {
 		fun fromInitialCards(knownCards: List<Card2>): Solitaire {
 			if (knownCards.size != 7) {

@@ -32,55 +32,77 @@ class SharedViewModel : ViewModel() {
 
     private val gameState = MutableLiveData(Solitaire.EMPTY_GAME)
 
-    fun setImageBitmap(bitmap: Bitmap){
+    private var cardObjectToReveal: Card2? = null
+
+    fun setImageBitmap(bitmap: Bitmap) {
         imageBitmap.value = bitmap
     }
 
-    fun setPreviewBitmap(bitmap: Bitmap){
+    fun setPreviewBitmap(bitmap: Bitmap) {
         previewBitmap.value = bitmap
     }
 
 
-    fun getImageBitmap() : LiveData<Bitmap>{
+    fun getImageBitmap(): LiveData<Bitmap> {
         return imageBitmap
     }
 
-    fun getPreviewBitmap() : LiveData<Bitmap>{
+    fun getPreviewBitmap(): LiveData<Bitmap> {
         return previewBitmap
     }
 
-    fun getDetectionList() : LiveData<List<DetectionResult>>{
+    fun getDetectionList(): LiveData<List<DetectionResult>> {
         return detectionList
     }
 
-    fun setGameState(value : Solitaire){
+    fun setGameState(value: Solitaire) {
         gameState.value = value
     }
 
-    fun getGameState() : MutableLiveData<Solitaire>{
+    fun getGameState(): MutableLiveData<Solitaire> {
         return gameState
     }
 
-    fun getSuggestion() : LiveData<Pair<Card2, Card2>>{
+    fun getSuggestion(): LiveData<Pair<Card2, Card2>> {
         return suggestion
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun processImage(context: Context, bitmap: Bitmap) {
-        viewModelScope.launch(IO){
+        viewModelScope.launch(IO) {
             Log.i("SharedViewModel", "Process Image")
-            detectionList.postValue(ObjectRecognition.processImage(bitmap, DetectionConfig(2u, 2u, 0.15F)))
+            detectionList.postValue(
+                ObjectRecognition.processImage(
+                    bitmap,
+                    DetectionConfig(2u, 2u, 0.15F)
+                )
+            )
 
         }
     }
 
-    fun updateGame(list : List<DetectionResult>){
+
+    fun updateGame(list: List<DetectionResult>) {
         Log.i("SharedViewModel", "Update Game: " + list.toString())
         Log.i("SharedViewModel", "Update Game: List size: " + list.size)
-        if(list.size == 7) return gameState.postValue(ObjectRecognition.initGame(list))
-        if(list.size == 1 && gameState.value != null && gameState.value != Solitaire.EMPTY_GAME) return //TODO: Update game!
-        // error
+        if (list.size == 7) return gameState.postValue(ObjectRecognition.initGame(list))
+        if (list.size == 1 && gameState.value != null && gameState.value != Solitaire.EMPTY_GAME) {
+            setCardObjectToReveal(gameState.value!!.tableau[1].first())
+
+            if (cardObjectToReveal == null) {
+                Log.e("SharedViewModel", "Update Game: Error: cardObjectToReveal not set!")
+                return
+            }
+            gameState.value?.replaceCardObject(cardObjectToReveal!!, list[0].card)
+            cardObjectToReveal = null
+            gameState.postValue(gameState.value)
+            return
+        }
         Log.e("SharedViewModel", "Update Game: Error: Inappropriate number of cards!")
+    }
+
+    fun setCardObjectToReveal(cardObject: Card2) {
+        cardObjectToReveal = cardObject
     }
 
 }
