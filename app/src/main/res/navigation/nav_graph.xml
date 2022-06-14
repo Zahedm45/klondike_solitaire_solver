@@ -21,6 +21,11 @@
         <action
             android:id="@+id/action_LandingPage_to_fragmentSolved"
             app:destination="@id/fragmentSolved" />
+        <action
+            android:id="@+id/action_LandingPage_to_fragmentCamera"
+            app:destination="@id/fragmentCamera"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSuggestion"
@@ -47,6 +52,15 @@
         tools:layout="@layout/fragment_solved" >
         <action
             android:id="@+id/action_fragmentSolved_to_LandingPage"
+            app:destination="@id/LandingPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCamera"
+        android:name="cdio.group21.litaire.view.FragmentCamera"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_fragmentCamera_to_LandingPage"
             app:destination="@id/LandingPage" />
     </fragment>
 </navigation>

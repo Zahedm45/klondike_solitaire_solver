@@ -103,7 +103,8 @@ class FragmentLandingPage : Fragment() {
 
 
         binding.ivCameraButton.setOnClickListener() {
-            takePicture()
+            //takePicture()
+            findNavController().navigate(R.id.action_LandingPage_to_fragmentCamera)
         }
         binding.ivAlbumButton.setOnClickListener(){
             selectPictureLauncher.launch("image/*")

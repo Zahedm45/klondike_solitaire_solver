@@ -10,11 +10,9 @@ import android.view.ViewGroup
 import java.util.concurrent.Executors
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.*
-import androidx.camera.video.VideoCapture
+
 import cdio.group21.litaire.R
-import java.util.jar.Manifest
-import java.nio.ByteBuffer
+
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -22,7 +20,8 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import android.content.Context
+import cdio.group21.litaire.databinding.FragmentCameraBinding
+import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 
 
 /**
@@ -31,7 +30,10 @@ import android.content.Context
  */
 class FragmentCamera : Fragment() {
 
-    private lateinit var binding: cdio.group21.litaire.databinding.FragmentCameraBinding
+    private var _binding: FragmentCameraBinding? = null
+    private val binding get() = _binding!!
+
+
 
     private var imageCapture: ImageCapture? = null
 
@@ -41,17 +43,23 @@ class FragmentCamera : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startCamera()
-        //binding.btImageCapture.setOnClickListener { takePhoto() }
-        cameraExecutor = Executors.newSingleThreadExecutor()
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentCameraBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_camera, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        startCamera()
+        //binding.btImageCapture.setOnClickListener { takePhoto() }
+        cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
     override fun onDestroy() {
