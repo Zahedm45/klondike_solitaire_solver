@@ -151,7 +151,7 @@ class UtilSolver {
 
 
             for (i in 0..6) {
-
+                blocks[i].hiddenCards = i
                 var k = i +1
                 while (k > 0) {
                     blocks[i].cards.add(cardDeck.last())
@@ -170,12 +170,12 @@ class UtilSolver {
 
         fun solvableCardDeck(
             foundation: ArrayList<Card>,
-            blocks: ArrayList<ArrayList<Card>>,
+            blocks: ArrayList<Block>,
             waste: Card
         ) {
 
             for (i in 0..6) {
-                blocks.add(ArrayList())
+                blocks.add(Block())
             }
 
 
@@ -188,6 +188,10 @@ class UtilSolver {
             }
 
 
+            for (i in 0..6) {
+                blocks[i].hiddenCards = i
+            }
+
 /*            var i = 0
             cardDeck.forEach {
                 println("$i: ${it.value}${it.suit}")
@@ -195,46 +199,46 @@ class UtilSolver {
             }*/
 
 
-            blocks[0].add(cardDeck[30].deepCopy())
+            blocks[0].cards.add(cardDeck[44].deepCopy())
 
-            blocks[1].add(cardDeck[26].deepCopy())
-            blocks[1].add(cardDeck[40].deepCopy())
+            blocks[1].cards.add(cardDeck[39].deepCopy())
+            blocks[1].cards.add(cardDeck[6].deepCopy())
 
-            blocks[2].add(cardDeck[0].deepCopy())
-            blocks[2].add(cardDeck[24].deepCopy())
-            blocks[2].add(cardDeck[46].deepCopy())
+            blocks[2].cards.add(cardDeck[2].deepCopy())
+            blocks[2].cards.add(cardDeck[50].deepCopy())
+            blocks[2].cards.add(cardDeck[21].deepCopy())
 
-            blocks[3].add(cardDeck[47].deepCopy())
-            blocks[3].add(cardDeck[13].deepCopy())
-            blocks[3].add(cardDeck[37].deepCopy())
-            blocks[3].add(cardDeck[4].deepCopy())
+            blocks[3].cards.add(cardDeck[34].deepCopy())
+            blocks[3].cards.add(cardDeck[48].deepCopy())
+            blocks[3].cards.add(cardDeck[51].deepCopy())
+            blocks[3].cards.add(cardDeck[14].deepCopy())
 
-            blocks[4].add(cardDeck[5].deepCopy())
-            blocks[4].add(cardDeck[8].deepCopy())
-            blocks[4].add(cardDeck[31].deepCopy())
-            blocks[4].add(cardDeck[21].deepCopy())
-            blocks[4].add(cardDeck[15].deepCopy())
+            blocks[4].cards.add(cardDeck[29].deepCopy())
+            blocks[4].cards.add(cardDeck[18].deepCopy())
+            blocks[4].cards.add(cardDeck[3].deepCopy())
+            blocks[4].cards.add(cardDeck[11].deepCopy())
+            blocks[4].cards.add(cardDeck[10].deepCopy())
 
-            blocks[5].add(cardDeck[32].deepCopy())
-            blocks[5].add(cardDeck[9].deepCopy())
-            blocks[5].add(cardDeck[12].deepCopy())
-            blocks[5].add(cardDeck[10].deepCopy())
-            blocks[5].add(cardDeck[14].deepCopy())
-            blocks[5].add(cardDeck[33].deepCopy())
+            blocks[5].cards.add(cardDeck[41].deepCopy())
+            blocks[5].cards.add(cardDeck[40].deepCopy())
+            blocks[5].cards.add(cardDeck[37].deepCopy())
+            blocks[5].cards.add(cardDeck[19].deepCopy())
+            blocks[5].cards.add(cardDeck[20].deepCopy())
+            blocks[5].cards.add(cardDeck[31].deepCopy())
 
-            blocks[6].add(cardDeck[41].deepCopy())
-            blocks[6].add(cardDeck[22].deepCopy())
-            blocks[6].add(cardDeck[25].deepCopy())
-            blocks[6].add(cardDeck[23].deepCopy())
-            blocks[6].add(cardDeck[6].deepCopy())
-            blocks[6].add(cardDeck[48].deepCopy())
-            blocks[6].add(cardDeck[36].deepCopy())
+            blocks[6].cards.add(cardDeck[42].deepCopy())
+            blocks[6].cards.add(cardDeck[23].deepCopy())
+            blocks[6].cards.add(cardDeck[35].deepCopy())
+            blocks[6].cards.add(cardDeck[7].deepCopy())
+            blocks[6].cards.add(cardDeck[30].deepCopy())
+            blocks[6].cards.add(cardDeck[25].deepCopy())
+            blocks[6].cards.add(cardDeck[26].deepCopy())
 
             val temp: ArrayList<Card> = ArrayList()
 
 
             blocks.forEach {
-                it.forEach{
+                it.cards.forEach{
                     if (cardDeck.contains(it)) {
                         cardDeck.remove(it)
                     }

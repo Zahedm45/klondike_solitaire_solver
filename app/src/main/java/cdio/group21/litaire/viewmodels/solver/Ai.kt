@@ -69,7 +69,9 @@ class Ai {
         bestState.evalValue = bestState.evalValue - initialState.evalValue
 
 
-
+/*        if (bestMove == null) {
+            println( "The next move is: $, $bestState")
+        }*/
         println( "The next move is: $bestMove, $bestState")
 
         return bestMove

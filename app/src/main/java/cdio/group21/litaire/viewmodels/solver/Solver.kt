@@ -22,7 +22,8 @@ class Solver {
 
     fun initt() {
 
-        UtilSolver.simulateRandomCards(foundations, blocks, waste)
+        //UtilSolver.simulateRandomCards(foundations, blocks, waste)
+        UtilSolver.solvableCardDeck(foundations, blocks, waste)
         val landingPageViewModel = LandingPageViewModel()
         landingPageViewModel.printFoundation2(foundations)
         landingPageViewModel.printWaste2(waste)
@@ -31,7 +32,7 @@ class Solver {
         val ai = Ai()
         val game = Game()
         var counter = UtilSolver.cardDeck.size-1
-        for (i in 0..150) {
+        for (i in 0..140) {
             val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
             if (nextMove != null) {
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)

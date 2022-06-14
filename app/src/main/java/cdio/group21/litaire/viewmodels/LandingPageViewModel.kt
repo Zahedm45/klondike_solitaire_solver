@@ -316,11 +316,11 @@ class LandingPageViewModel: ViewModel() {
 
 
     fun printBlock2(blocks: ArrayList<Block>){
-        Log.i(ContentValues.TAG, "Block2")
+       // Log.i(ContentValues.TAG, "Block2")
         var i = 0
 
         blocks.forEach { block ->
-            print("         Block: $i ->")
+            print("         Block: $i, unknown cards: ${block.hiddenCards} ->")
             block.cards.forEach {
                 print("   ${it.value.toString() + it.suit}")
             }
