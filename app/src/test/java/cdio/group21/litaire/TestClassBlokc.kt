@@ -62,6 +62,47 @@ class TestClassBlock {
 
     }
 
+
+    @Test
+    fun deepCopyTest() {
+        initialize()
+        blocks[5].hiddenCards = 1
+        val card1 = Card(7,'c')
+        val card2 = Card(6,'h')
+        val card3 = Card(5,'c')
+
+        blocks[0].hiddenCards = 1
+
+        blocks[5].cards.add(card1)
+        blocks[5].cards.add(card2)
+        blocks[5].cards.add(card3)
+
+        blocks[2].cards.add(Card(6,'d'))
+
+
+        val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
+
+        assertEquals(blocks == blocksCopy, true)
+
+        assertEquals(blocks[5].hiddenCards, 1)
+        val k = Game().move_(Move(false, card3, 5, 2), foundation,blocks, waste, lastMovesMap)
+        assertEquals(k, true)
+        assertEquals(blocks[5].hiddenCards, 1)
+        assertEquals(blocks[0].hiddenCards, 1)
+        assertEquals(blocks[2].hiddenCards, 0)
+        assertEquals(blocks[6].hiddenCards, 0)
+
+        assertEquals(blocks == blocksCopy, false)
+        assertEquals(blocks[5].cards.size, 2)
+        assertEquals(blocksCopy[5].cards.size, 3)
+
+
+
+
+    }
+
+
+
     private fun initialize() {
         for (i in 0..6) {
             blocks.add(Block())

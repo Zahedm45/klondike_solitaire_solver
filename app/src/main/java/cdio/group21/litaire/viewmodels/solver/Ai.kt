@@ -23,14 +23,12 @@ class Ai {
 
         availableMoves.forEach {currMove ->
 
-            //val blocksCopy = ArrayList(blocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
             val foundationsCopy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
 
             val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
 
             val wasteCopy = waste.copy()
             val leafValue: ArrayList<GameSate> = ArrayList()
-            //val mapCopy = HashMap(lastMoves)
             val mapCopy = mapDeepCopy(lastMoves)
 
 
@@ -57,7 +55,6 @@ class Ai {
                     bestMove = currMove
                     bestState = newSate
 
-                    // newSate.emptyBlock > initialState.emptyBlock ||
                 }
             }
 
@@ -97,14 +94,6 @@ class Ai {
         }
 
         newPossibleMoves.forEach { move ->
-
-/*            val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
-            val wasteCopy = currWaste.deepCopy()
-            val foundationCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
-            val mapCopy = HashMap(lastMovesMap)*/
-
-            //val blocksCopy = ArrayList(currBlocks.map { k -> ArrayList(k.map { c -> c.deepCopy() }) })
-
             val blocksCopy = ArrayList(currBlocks.map { b -> b.deepCopy() })
             val foundationsCopy = ArrayList( currFoundations.map { detectR -> detectR.deepCopy()})
             val wasteCopy = currWaste.copy()
