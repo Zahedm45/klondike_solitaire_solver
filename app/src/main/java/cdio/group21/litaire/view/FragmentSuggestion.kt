@@ -39,9 +39,9 @@ class FragmentSuggestion : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getImageBitmap().observe(viewLifecycleOwner, {
+        viewModel.getPreviewBitmap().observe(viewLifecycleOwner) {
             binding.ivBackground.setImageBitmap(it)
-        })
+        }
         viewModel.getSuggestion().observe(viewLifecycleOwner) {
             setSuggestionUI(it.first, it.second)
         }

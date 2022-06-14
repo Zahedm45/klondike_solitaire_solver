@@ -27,7 +27,7 @@ class RoboflowAPI {
             val MODEL_ENDPOINT = "playing-cards-ow27d/1" // Set model endpoint (Found in Dataset URL)
 
             // Construct the URL
-            val uploadURL ="https://detect.roboflow.com/" + MODEL_ENDPOINT + "?api_key=" + API_KEY + "&confidence=75"
+            val uploadURL ="https://detect.roboflow.com/" + MODEL_ENDPOINT + "?api_key=" + API_KEY + "&confidence=45"
 
             val moshi = Moshi.Builder().build()
             val adapter: JsonAdapter<RoboflowResult> = moshi.adapter<RoboflowResult>()
