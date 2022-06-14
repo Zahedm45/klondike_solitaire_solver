@@ -1,5 +1,6 @@
 package cdio.group21.litaire
 
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
@@ -12,7 +13,7 @@ import org.junit.Test
 class UnitTestBlockTest {
 
     private var foundation: ArrayList<Card> = ArrayList()
-    private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    private val blocks: ArrayList<Block> = ArrayList()
     private var waste = DUMMY_CARD.deepCopy()
 
     val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
@@ -21,7 +22,7 @@ class UnitTestBlockTest {
 
     fun initializeBlocks() {
         for (i in 0..6) {
-            blocks.add(ArrayList())
+            blocks.add(Block())
         }
     }
 
@@ -35,8 +36,8 @@ class UnitTestBlockTest {
 
         initializeBlocks()
 
-        blocks[0].add(Card(5, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[0].cards.add(Card(5, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
 
         val returnVal: ArrayList<Move> = ArrayList()
@@ -44,7 +45,7 @@ class UnitTestBlockTest {
         for (indexBlock in blocks.indices) {
             val item = blocks[indexBlock]
 
-            if (item.isNullOrEmpty()) {
+            if (item.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.possibleMovesFromBlockToBlock(

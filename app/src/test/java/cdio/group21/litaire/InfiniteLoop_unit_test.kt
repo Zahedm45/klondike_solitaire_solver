@@ -1,5 +1,6 @@
 package cdio.group21.litaire
 
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
@@ -12,7 +13,7 @@ import org.junit.Test
 class InfiniteLoop_unit_test {
 
     private var foundation: ArrayList<Card> = ArrayList()
-    private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    private val blocks: ArrayList<Block> = ArrayList()
     //private val waste = Card(0, 'k')
     private val waste = DUMMY_CARD.deepCopy()
     val gameLogic = GameLogic()
@@ -51,7 +52,7 @@ class InfiniteLoop_unit_test {
 
     fun initializeBlocks() {
         for (i in 0..6) {
-            blocks.add(ArrayList())
+            blocks.add(Block())
         }
     }
 
@@ -72,10 +73,10 @@ class InfiniteLoop_unit_test {
 
 
         initializeBlocks()
-        blocks[1].add(card1)
-        blocks[1].add(card2)
+        blocks[1].cards.add(card1)
+        blocks[1].cards.add(card2)
 
-        blocks[5].add(card3)
+        blocks[5].cards.add(card3)
 
 
 
@@ -132,9 +133,9 @@ class InfiniteLoop_unit_test {
         assertEquals(mapCopy.get(card2Key)?.get(card1Key), true)
 
 
-        assertEquals(blocks[1].size, 1)
-        assertEquals(blocks[5].size, 2)
-        assertEquals(blocks[5][1], card2)
+        assertEquals(blocks[1].cards.size, 1)
+        assertEquals(blocks[5].cards.size, 2)
+        assertEquals(blocks[5].cards[1], card2)
 
 
 
@@ -168,10 +169,10 @@ class InfiniteLoop_unit_test {
 
 
         initializeBlocks()
-        blocks[1].add(card1)
-        blocks[2].add(card2)
+        blocks[1].cards.add(card1)
+        blocks[2].cards.add(card2)
 
-        blocks[5].add(card3)
+        blocks[5].cards.add(card3)
 
 
 /*        var possibleMoves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)

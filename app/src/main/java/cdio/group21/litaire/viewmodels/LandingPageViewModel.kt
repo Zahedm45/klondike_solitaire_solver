@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
@@ -314,13 +315,13 @@ class LandingPageViewModel: ViewModel() {
 
 
 
-    fun printBlock2(blocks: ArrayList<ArrayList<Card>>){
+    fun printBlock2(blocks: ArrayList<Block>){
         Log.i(ContentValues.TAG, "Block2")
         var i = 0
 
         blocks.forEach { block ->
             print("         Block: $i ->")
-            block.forEach {
+            block.cards.forEach {
                 print("   ${it.value.toString() + it.suit}")
             }
             println("\n")

@@ -1,5 +1,6 @@
 package cdio.group21.litaire
 
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
@@ -9,7 +10,7 @@ import org.junit.Test
 
 class Simulate_unitTest {
     private var foundation: ArrayList<Card> = ArrayList()
-    private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    private val blocks: ArrayList<Block> = ArrayList()
     var waste = DUMMY_CARD.deepCopy()
     val lastMovesHash: HashMap<String, HashMap<String, Boolean>> = HashMap()
     val gameLogic = GameLogic()
@@ -17,7 +18,7 @@ class Simulate_unitTest {
 
     fun initializeBlocks() {
         for (i in 0..6) {
-            blocks.add(ArrayList())
+            blocks.add(Block())
         }
     }
 
@@ -29,7 +30,7 @@ class Simulate_unitTest {
         val card3 = Card(3, 'c')
 
 
-        blocks[0].add(card1)
+        blocks[0].cards.add(card1)
         foundation.add(card3)
         waste = card2.deepCopy()
 
@@ -57,7 +58,7 @@ class Simulate_unitTest {
         val card3 = Card(3, 'c')
 
 
-        blocks[0].add(card1)
+        blocks[0].cards.add(card1)
         foundation.add(card3)
         waste = card2.deepCopy()
 
@@ -70,7 +71,7 @@ class Simulate_unitTest {
             if (!it.isMoveToFoundation) {
                 assertEquals(game.move_(it, foundation, blocks, waste, lastMovesHash), true)
                 assertEquals(waste, DUMMY_CARD)
-                assertEquals(blocks[0][1], card2)
+                assertEquals(blocks[0].cards[1], card2)
             }
         }
 
@@ -85,7 +86,7 @@ class Simulate_unitTest {
         val card3 = Card(3, 'c')
 
 
-        blocks[0].add(card1)
+        blocks[0].cards.add(card1)
         foundation.add(card3)
         waste = card2.deepCopy()
 
@@ -114,7 +115,7 @@ class Simulate_unitTest {
         val card3 = Card(10, 'c')
 
 
-        blocks[0].add(card1)
+        blocks[0].cards.add(card1)
         foundation.add(card3)
         waste = card2.deepCopy()
 
@@ -127,7 +128,7 @@ class Simulate_unitTest {
             if (!it.isMoveToFoundation) {
                 assertEquals(game.move_(it, foundation, blocks, waste, lastMovesHash), true)
                 assertEquals(waste, DUMMY_CARD)
-                assertEquals(blocks[0][1], card2)
+                assertEquals(blocks[0].cards[1], card2)
             }
         }
 
