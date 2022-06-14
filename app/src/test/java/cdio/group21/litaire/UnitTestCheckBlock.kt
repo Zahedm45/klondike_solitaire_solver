@@ -1,5 +1,6 @@
 package cdio.group21.litaire
 
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
@@ -12,7 +13,7 @@ import org.junit.Test
 
 class UnitTestCheckBlock {
 
-    private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    private val blocks: ArrayList<Block> = ArrayList()
     val gameLogic = GameLogic()
 
     /*
@@ -23,13 +24,13 @@ class UnitTestCheckBlock {
     fun checkBlock2Cards(){
 
         for (i in 0..6) {
-            blocks.add(ArrayList())
+            blocks.add(Block())
         }
 
 
-        blocks[0].add(Card(1, 's'))
-        blocks[0].add(Card(6, 'h'))
-        blocks[0].add(Card(5, 's'))
+        blocks[0].cards.add(Card(1, 's'))
+        blocks[0].cards.add(Card(6, 'h'))
+        blocks[0].cards.add(Card(5, 's'))
 
 
         var returnVal = gameLogic.checkBlock(blocks[0])
@@ -52,14 +53,14 @@ class UnitTestCheckBlock {
     fun checkBlock1Card(){
 
         for (i in 0..6) {
-            blocks.add(ArrayList())
+            blocks.add(Block())
         }
 
 
-        blocks[0].add(Card(1, 's'))
-        blocks[0].add(Card(13, 's'))
-        blocks[0].add(Card(7, 'h'))
-        blocks[0].add(Card(5, 's'))
+        blocks[0].cards.add(Card(1, 's'))
+        blocks[0].cards.add(Card(13, 's'))
+        blocks[0].cards.add(Card(7, 'h'))
+        blocks[0].cards.add(Card(5, 's'))
 
 
         var returnVal = gameLogic.checkBlock(blocks[0])
@@ -82,13 +83,13 @@ class UnitTestCheckBlock {
     fun checkBlockAllCards(){
 
         for (i in 0..6) {
-            blocks.add(ArrayList())
+            blocks.add(Block())
         }
 
 
-        blocks[0].add(Card(7, 'c'))
-        blocks[0].add(Card(6, 'h'))
-        blocks[0].add(Card(5, 's'))
+        blocks[0].cards.add(Card(7, 'c'))
+        blocks[0].cards.add(Card(6, 'h'))
+        blocks[0].cards.add(Card(5, 's'))
 
 
         var returnVal = gameLogic.checkBlock(blocks[0])
@@ -111,7 +112,7 @@ class UnitTestCheckBlock {
     fun checkBlockEmptyBlock(){
 
         for (i in 0..6) {
-            blocks.add(ArrayList())
+            blocks.add(Block())
         }
 
 

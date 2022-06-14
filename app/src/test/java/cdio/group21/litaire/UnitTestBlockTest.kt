@@ -79,18 +79,18 @@ class UnitTestBlockTest {
         val detect1 = Card(12, 'd')
         val detect2 = Card(5, 's')
 
-        blocks[0].add(detect1)
-        blocks[0].add(detect2)
+        blocks[0].cards.add(detect1)
+        blocks[0].cards.add(detect2)
 
 
         val detect4 = Card(5, 'c')
         val detect3 = Card(6, 'h')
 
-        blocks[2].add(detect4)
-        blocks[2].add(detect3)
+        blocks[2].cards.add(detect4)
+        blocks[2].cards.add(detect3)
 
-        Assert.assertEquals(blocks[2].size, 2)
-        Assert.assertEquals(blocks[0].size, 2)
+        Assert.assertEquals(blocks[2].cards.size, 2)
+        Assert.assertEquals(blocks[0].cards.size, 2)
 
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
@@ -104,11 +104,11 @@ class UnitTestBlockTest {
             game.moveFromBlockToBlock(it, blocks, lastMovesMap)
         }
 
-        Assert.assertEquals(blocks[2].last(), detect2)
-        Assert.assertEquals(blocks[2].size, 3)
+        Assert.assertEquals(blocks[2].cards.last(), detect2)
+        Assert.assertEquals(blocks[2].cards.size, 3)
 
-        Assert.assertEquals(blocks[0].size, 1)
-        Assert.assertEquals(blocks[0].last(), detect1)
+        Assert.assertEquals(blocks[0].cards.size, 1)
+        Assert.assertEquals(blocks[0].cards.last(), detect1)
 
     }
 
@@ -126,20 +126,20 @@ class UnitTestBlockTest {
         val detect5 = Card(10, 's')
 
 
-        blocks[0].add(detect1)
-        blocks[0].add(detect2)
-        blocks[0].add(detect5)
+        blocks[0].cards.add(detect1)
+        blocks[0].cards.add(detect2)
+        blocks[0].cards.add(detect5)
 
 
         val detect4 = Card(5, 'c')
         val detect3 = Card(6, 'h')
 
-        blocks[2].add(detect4)
-        blocks[2].add(detect3)
+        blocks[2].cards.add(detect4)
+        blocks[2].cards.add(detect3)
 
 
-        Assert.assertEquals(blocks[0].size, 3)
-        Assert.assertEquals(blocks[2].size, 2)
+        Assert.assertEquals(blocks[0].cards.size, 3)
+        Assert.assertEquals(blocks[2].cards.size, 2)
 
 
 
@@ -157,16 +157,16 @@ class UnitTestBlockTest {
         initializeBlocks()
 
         val detect2 = Card(5, 's')
-        blocks[0].add(detect2)
+        blocks[0].cards.add(detect2)
 
         val detect4 = Card(5, 'c')
         val detect3 = Card(6, 'h')
 
-        blocks[2].add(detect4)
-        blocks[2].add(detect3)
+        blocks[2].cards.add(detect4)
+        blocks[2].cards.add(detect3)
 
-        Assert.assertEquals(blocks[0].size, 1)
-        Assert.assertEquals(blocks[2].size, 2)
+        Assert.assertEquals(blocks[0].cards.size, 1)
+        Assert.assertEquals(blocks[2].cards.size, 2)
 
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
@@ -178,9 +178,9 @@ class UnitTestBlockTest {
 
         game.moveFromBlockToBlock(moves[0], blocks, lastMovesMap)
 
-        Assert.assertEquals(blocks[2].last(), detect2)
-        Assert.assertEquals(blocks[2].size, 3)
-        Assert.assertEquals(blocks[0].size, 0)
+        Assert.assertEquals(blocks[2].cards.last(), detect2)
+        Assert.assertEquals(blocks[2].cards.size, 3)
+        Assert.assertEquals(blocks[0].cards.size, 0)
 
     }
 
@@ -192,16 +192,16 @@ class UnitTestBlockTest {
         initializeBlocks()
 
         val detect2 = Card(13, 's')
-        blocks[6].add(detect2)
+        blocks[6].cards.add(detect2)
 
         val detect4 = Card(5, 'c')
         val detect3 = Card(6, 'h')
 
-        blocks[2].add(detect4)
-        blocks[2].add(detect3)
+        blocks[2].cards.add(detect4)
+        blocks[2].cards.add(detect3)
 
-        Assert.assertEquals(blocks[6].size, 1)
-        Assert.assertEquals(blocks[2].size, 2)
+        Assert.assertEquals(blocks[6].cards.size, 1)
+        Assert.assertEquals(blocks[2].cards.size, 2)
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 0)
@@ -217,33 +217,33 @@ class UnitTestBlockTest {
         initializeBlocks()
 
 
-        blocks[0].add(Card(5, 's'))
-        blocks[0].add(Card(3, 'h'))
-        blocks[0].add(Card(2, 'c'))
+        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(3, 'h'))
+        blocks[0].cards.add(Card(2, 'c'))
 
-        blocks[1].add(Card(4, 'h'))
-        blocks[1].add(Card(3, 'd'))
-        blocks[1].add(Card(10, 'd'))
+        blocks[1].cards.add(Card(4, 'h'))
+        blocks[1].cards.add(Card(3, 'd'))
+        blocks[1].cards.add(Card(10, 'd'))
 
-        blocks[2].add(Card(11, 'h'))
-        blocks[2].add(Card(3, 's'))
+        blocks[2].cards.add(Card(11, 'h'))
+        blocks[2].cards.add(Card(3, 's'))
 
-        blocks[3].add(Card(2, 'd'))
-        blocks[3].add(Card(2, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[3].cards.add(Card(2, 'd'))
+        blocks[3].cards.add(Card(2, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
-        blocks[4].add(Card(7, 's'))
-        blocks[4].add(Card(12, 'c'))
-        blocks[4].add(Card(12, 'h'))
+        blocks[4].cards.add(Card(7, 's'))
+        blocks[4].cards.add(Card(12, 'c'))
+        blocks[4].cards.add(Card(12, 'h'))
 
-        blocks[5].add(Card(3, 'c'))
+        blocks[5].cards.add(Card(3, 'c'))
 
         var returnVal: ArrayList<Move> = ArrayList()
 
         for (indexBlock in blocks.indices) {
             val itemBlock = blocks[indexBlock]
 
-            if (itemBlock.isNullOrEmpty()) {
+            if (itemBlock.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.hasChecked = false
@@ -269,37 +269,37 @@ class UnitTestBlockTest {
 
         initializeBlocks()
 
-        blocks[0].add(Card(5, 's'))
-        blocks[0].add(Card(3, 'h'))
-        blocks[0].add(Card(2, 'c'))
+        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(3, 'h'))
+        blocks[0].cards.add(Card(2, 'c'))
 
-        blocks[1].add(Card(4, 'h'))
-        blocks[1].add(Card(3, 'd'))
-        blocks[1].add(Card(10, 'd'))
+        blocks[1].cards.add(Card(4, 'h'))
+        blocks[1].cards.add(Card(3, 'd'))
+        blocks[1].cards.add(Card(10, 'd'))
 
-        blocks[2].add(Card(11, 'h'))
-        blocks[2].add(Card(3, 's'))
+        blocks[2].cards.add(Card(11, 'h'))
+        blocks[2].cards.add(Card(3, 's'))
 
-        blocks[3].add(Card(2, 'd'))
-        blocks[3].add(Card(2, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[3].cards.add(Card(2, 'd'))
+        blocks[3].cards.add(Card(2, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
-        blocks[4].add(Card(7, 's'))
-        blocks[4].add(Card(12, 'c'))
-        blocks[4].add(Card(12, 'h'))
+        blocks[4].cards.add(Card(7, 's'))
+        blocks[4].cards.add(Card(12, 'c'))
+        blocks[4].cards.add(Card(12, 'h'))
 
 
-        blocks[5].add(Card(3, 'c'))
+        blocks[5].cards.add(Card(3, 'c'))
 
-        blocks[6].add(Card(5,'c'))
-        blocks[6].add(Card(4,'s'))
+        blocks[6].cards.add(Card(5,'c'))
+        blocks[6].cards.add(Card(4,'s'))
 
         var returnVal: ArrayList<Move> = ArrayList()
 
         for (indexBlock in blocks.indices) {
             val itemBlock = blocks[indexBlock]
 
-            if (itemBlock.isNullOrEmpty()) {
+            if (itemBlock.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.hasChecked = false
@@ -329,37 +329,37 @@ class UnitTestBlockTest {
 
         initializeBlocks()
 
-        blocks[0].add(Card(5, 's'))
-        blocks[0].add(Card(3, 'h'))
-        blocks[0].add(Card(2, 'c'))
+        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(3, 'h'))
+        blocks[0].cards.add(Card(2, 'c'))
 
-        blocks[1].add(Card(4, 'h'))
-        blocks[1].add(Card(3, 'd'))
-        blocks[1].add(Card(10, 'd'))
+        blocks[1].cards.add(Card(4, 'h'))
+        blocks[1].cards.add(Card(3, 'd'))
+        blocks[1].cards.add(Card(10, 'd'))
 
-        blocks[2].add(Card(11, 'h'))
-        blocks[2].add(Card(3, 's'))
+        blocks[2].cards.add(Card(11, 'h'))
+        blocks[2].cards.add(Card(3, 's'))
 
-        blocks[3].add(Card(2, 'd'))
-        blocks[3].add(Card(2, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[3].cards.add(Card(2, 'd'))
+        blocks[3].cards.add(Card(2, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
-        blocks[4].add(Card(7, 's'))
-        blocks[4].add(Card(12, 'c'))
-        blocks[4].add(Card(12, 'h'))
+        blocks[4].cards.add(Card(7, 's'))
+        blocks[4].cards.add(Card(12, 'c'))
+        blocks[4].cards.add(Card(12, 'h'))
 
-        blocks[5].add(Card(3, 'c'))
-        blocks[5].add(Card(11, 'c'))
+        blocks[5].cards.add(Card(3, 'c'))
+        blocks[5].cards.add(Card(11, 'c'))
 
-        blocks[6].add(Card(5,'c'))
-        blocks[6].add(Card(4,'s'))
+        blocks[6].cards.add(Card(5,'c'))
+        blocks[6].cards.add(Card(4,'s'))
 
         var returnVal: ArrayList<Move> = ArrayList()
 
         for (indexBlock in blocks.indices) {
             val itemBlock = blocks[indexBlock]
 
-            if (itemBlock.isNullOrEmpty()) {
+            if (itemBlock.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.hasChecked = false
@@ -393,30 +393,30 @@ class UnitTestBlockTest {
 
         initializeBlocks()
 
-        blocks[0].add(Card(4, 's'))
-        blocks[0].add(Card(3, 'h'))
-        blocks[0].add(Card(2, 'c'))
+        blocks[0].cards.add(Card(4, 's'))
+        blocks[0].cards.add(Card(3, 'h'))
+        blocks[0].cards.add(Card(2, 'c'))
 
-        blocks[1].add(Card(4, 'h'))
-        blocks[1].add(Card(3, 'd'))
-        blocks[1].add(Card(10, 'd'))
+        blocks[1].cards.add(Card(4, 'h'))
+        blocks[1].cards.add(Card(3, 'd'))
+        blocks[1].cards.add(Card(10, 'd'))
 
-        blocks[2].add(Card(11, 'h'))
-        blocks[2].add(Card(3, 's'))
-        blocks[2].add(Card(4, 'c'))
+        blocks[2].cards.add(Card(11, 'h'))
+        blocks[2].cards.add(Card(3, 's'))
+        blocks[2].cards.add(Card(4, 'c'))
 
-        blocks[3].add(Card(2, 'd'))
-        blocks[3].add(Card(2, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[3].cards.add(Card(2, 'd'))
+        blocks[3].cards.add(Card(2, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
-        blocks[4].add(Card(7, 's'))
-        blocks[4].add(Card(12, 'c'))
-        blocks[4].add(Card(12, 'h'))
+        blocks[4].cards.add(Card(7, 's'))
+        blocks[4].cards.add(Card(12, 'c'))
+        blocks[4].cards.add(Card(12, 'h'))
 
-        blocks[5].add(Card(3, 'c'))
-        blocks[5].add(Card(11, 'c'))
+        blocks[5].cards.add(Card(3, 'c'))
+        blocks[5].cards.add(Card(11, 'c'))
 
-        blocks[6].add(Card(5,'d'))
+        blocks[6].cards.add(Card(5,'d'))
 
 
         var returnVal: ArrayList<Move> = ArrayList()
@@ -424,7 +424,7 @@ class UnitTestBlockTest {
         for (indexBlock in blocks.indices) {
             val itemBlock = blocks[indexBlock]
 
-            if (itemBlock.isNullOrEmpty()) {
+            if (itemBlock.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.hasChecked = false
@@ -462,30 +462,30 @@ class UnitTestBlockTest {
     fun multiplePossibleMovesFromBlockToBlock2() {
 
         initializeBlocks()
-        blocks[0].add(Card(4, 'd'))
-        blocks[0].add(Card(3, 'h'))
-        blocks[0].add(Card(2, 'c'))
+        blocks[0].cards.add(Card(4, 'd'))
+        blocks[0].cards.add(Card(3, 'h'))
+        blocks[0].cards.add(Card(2, 'c'))
 
-        blocks[1].add(Card(4, 'h'))
-        blocks[1].add(Card(3, 'd'))
-        blocks[1].add(Card(10, 'd'))
+        blocks[1].cards.add(Card(4, 'h'))
+        blocks[1].cards.add(Card(3, 'd'))
+        blocks[1].cards.add(Card(10, 'd'))
 
-        blocks[2].add(Card(11, 'h'))
-        blocks[2].add(Card(3, 's'))
+        blocks[2].cards.add(Card(11, 'h'))
+        blocks[2].cards.add(Card(3, 's'))
 
-        blocks[3].add(Card(2, 'd'))
-        blocks[3].add(Card(2, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[3].cards.add(Card(2, 'd'))
+        blocks[3].cards.add(Card(2, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
-        blocks[4].add(Card(7, 's'))
-        blocks[4].add(Card(12, 'c'))
-        blocks[4].add(Card(12, 'h'))
+        blocks[4].cards.add(Card(7, 's'))
+        blocks[4].cards.add(Card(12, 'c'))
+        blocks[4].cards.add(Card(12, 'h'))
 
-        blocks[5].add(Card(3, 'c'))
-        blocks[5].add(Card(11, 'c'))
+        blocks[5].cards.add(Card(3, 'c'))
+        blocks[5].cards.add(Card(11, 'c'))
 
-        blocks[6].add(Card(5,'d'))
-        blocks[6].add(Card(4,'s'))
+        blocks[6].cards.add(Card(5,'d'))
+        blocks[6].cards.add(Card(4,'s'))
 
 
         var returnVal: ArrayList<Move> = ArrayList()
@@ -493,7 +493,7 @@ class UnitTestBlockTest {
         for (indexBlock in blocks.indices) {
             val itemBlock = blocks[indexBlock]
 
-            if (itemBlock.isNullOrEmpty()) {
+            if (itemBlock.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.hasChecked = false
@@ -526,34 +526,34 @@ class UnitTestBlockTest {
     fun findMoveKingToEmptyBlock() {
         initializeBlocks()
 
-        blocks[0].add(Card(5, 's'))
-        blocks[0].add(Card(3, 'h'))
-        blocks[0].add(Card(2, 'c'))
+        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(3, 'h'))
+        blocks[0].cards.add(Card(2, 'c'))
 
 
 
-        blocks[1].add(Card(4, 'h'))
-        blocks[1].add(Card(3, 'd'))
-        blocks[1].add(Card(10, 'd'))
+        blocks[1].cards.add(Card(4, 'h'))
+        blocks[1].cards.add(Card(3, 'd'))
+        blocks[1].cards.add(Card(10, 'd'))
 
 
 
-        blocks[2].add(Card(11, 'h'))
-        blocks[2].add(Card(3, 's'))
+        blocks[2].cards.add(Card(11, 'h'))
+        blocks[2].cards.add(Card(3, 's'))
 
 
-        blocks[3].add(Card(2, 'd'))
-        blocks[3].add(Card(2, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[3].cards.add(Card(2, 'd'))
+        blocks[3].cards.add(Card(2, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
 
-        blocks[4].add(Card(7, 's'))
-        blocks[4].add(Card(12, 'c'))
-        blocks[4].add(Card(13, 'h'))
+        blocks[4].cards.add(Card(7, 's'))
+        blocks[4].cards.add(Card(12, 'c'))
+        blocks[4].cards.add(Card(13, 'h'))
 
 
 
-        blocks[5].add(Card(3, 'c'))
+        blocks[5].cards.add(Card(3, 'c'))
 
 
         var returnVal: ArrayList<Move> = ArrayList()
@@ -561,7 +561,7 @@ class UnitTestBlockTest {
         for (indexBlock in blocks.indices) {
             val itemBlock = blocks[indexBlock]
 
-            if (itemBlock.isNullOrEmpty()) {
+            if (itemBlock.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.hasChecked = false
@@ -593,30 +593,30 @@ class UnitTestBlockTest {
     fun findMoveMultipleKingsToEmptyBlock() {
         initializeBlocks()
 
-        blocks[0].add(Card(5, 's'))
-        blocks[0].add(Card(3, 'h'))
-        blocks[0].add(Card(13, 'c'))
+        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(3, 'h'))
+        blocks[0].cards.add(Card(13, 'c'))
 
 
 
-        blocks[1].add(Card(4, 'h'))
-        blocks[1].add(Card(3, 'd'))
-        blocks[1].add(Card(10, 'd'))
+        blocks[1].cards.add(Card(4, 'h'))
+        blocks[1].cards.add(Card(3, 'd'))
+        blocks[1].cards.add(Card(10, 'd'))
 
 
 
-        blocks[2].add(Card(11, 'h'))
-        blocks[2].add(Card(3, 's'))
+        blocks[2].cards.add(Card(11, 'h'))
+        blocks[2].cards.add(Card(3, 's'))
 
 
-        blocks[3].add(Card(2, 'd'))
-        blocks[3].add(Card(2, 's'))
-        blocks[3].add(Card(6, 'h'))
+        blocks[3].cards.add(Card(2, 'd'))
+        blocks[3].cards.add(Card(2, 's'))
+        blocks[3].cards.add(Card(6, 'h'))
 
 
-        blocks[4].add(Card(7, 's'))
-        blocks[4].add(Card(12, 'c'))
-        blocks[4].add(Card(13, 'h'))
+        blocks[4].cards.add(Card(7, 's'))
+        blocks[4].cards.add(Card(12, 'c'))
+        blocks[4].cards.add(Card(13, 'h'))
 
 
 
@@ -625,7 +625,7 @@ class UnitTestBlockTest {
         for (indexBlock in blocks.indices) {
             val itemBlock = blocks[indexBlock]
 
-            if (itemBlock.isNullOrEmpty()) {
+            if (itemBlock.cards.isNullOrEmpty()) {
                 continue
             }
             gameLogic.hasChecked = false
@@ -681,11 +681,11 @@ class UnitTestBlockTest {
     @Test
     fun testPossibleMovesFromBlockToBlock(){
         initializeBlocks()
-        blocks[0].add(Card(4,'h'))
-        blocks[0].add(Card(3,'c'))
+        blocks[0].cards.add(Card(4,'h'))
+        blocks[0].cards.add(Card(3,'c'))
 
-        blocks[1].add(Card(6,'d'))
-        blocks[1].add(Card(5,'s'))
+        blocks[1].cards.add(Card(6,'d'))
+        blocks[1].cards.add(Card(5,'s'))
 
         val returnVal: ArrayList<Move> = ArrayList()
         gameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
@@ -698,11 +698,11 @@ class UnitTestBlockTest {
     @Test
     fun testPossibleMovesFromBlockToBlockFail(){
         initializeBlocks()
-        blocks[0].add(Card(4,'h'))
-        blocks[0].add(Card(1,'c'))
+        blocks[0].cards.add(Card(4,'h'))
+        blocks[0].cards.add(Card(1,'c'))
 
-        blocks[1].add(Card(6,'d'))
-        blocks[1].add(Card(5,'s'))
+        blocks[1].cards.add(Card(6,'d'))
+        blocks[1].cards.add(Card(5,'s'))
 
         val returnVal: ArrayList<Move> = ArrayList()
         gameLogic.possibleMovesFromBlockToBlock(blocks[0],blocks,0, returnVal, lastMovesMap)
