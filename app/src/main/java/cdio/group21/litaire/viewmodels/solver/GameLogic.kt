@@ -26,6 +26,8 @@ class GameLogic {
             val block = blocks[indexBlock]
 
             if (block.cards.isEmpty()) {
+                hasChecked = true
+                emptyBlockIndex = indexBlock
                 continue
             }
 
@@ -33,7 +35,7 @@ class GameLogic {
 
 
             if (lastCard.value == (1).toByte() && foundations.size < 4) {
-                val newMove = Move(true, lastCard, indexBlock.toByte(), -1)
+                val newMove = Move(true, lastCard, indexBlock.toByte(), DESTINATION_UNKNOWN)
 
                 possibleMoves.add(newMove)
 
@@ -60,11 +62,10 @@ class GameLogic {
             if (waste != null){
                 //check waste pile to block
                 if(evalBlockToBlockAndWasteToBlock(lastCard,waste)){
-                    val newMove = Move(false, waste, 8, indexBlock.toByte())
+                    val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION, indexBlock.toByte())
                     possibleMoves.add(newMove)
+
                 }
-
-
             }
 
             //add foundation to block
@@ -75,12 +76,22 @@ class GameLogic {
                     possibleMoves.add(newMove)
                 }
             }
-
-
         }
+
+
+
+        if (waste?.value == (13).toByte()) {
+
+            if (hasChecked && emptyBlockIndex != -1) {
+                val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION, emptyBlockIndex.toByte())
+                possibleMoves.add(newMove)
+            }
+        }
+
+
+
         //check waste pile to foundation
         if (waste != null) {
-
 
             if (waste.value == (1).toByte() && foundations.size < 4) {
                 val newMove = Move(true, waste, 8, -1)

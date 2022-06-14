@@ -21,12 +21,18 @@ class Ai {
 /*        val initialState = GameSate(ga.evalFoundation(foundations), 0)
         var bestState = GameSate(ga.evalFoundation(foundations), 0)*/
 
-
-        val initialState = GameSate( -500, 0)
-        var bestState = GameSate(-500, 0)
+        val heu1 = heuristicOne(blocks, foundations)
+        val heu2 = heuristicTwo(blocks, foundations, waste)
+        val initialState = GameSate( heu1, heu2, 0)
+        var bestState = GameSate(heu1, heu2, 0)
         var bestMove: Move? = null
-
         val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
+
+        var isGameInLastEnd = false
+        if (heuristicFaceDown(blocks) <= 6* FACE_DOWN_CARD_VALUE) {
+            isGameInLastEnd = true
+        }
+
 
         availableMoves.forEach {currMove ->
 
@@ -43,35 +49,35 @@ class Ai {
             }
 
             algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValue, mapCopy, depth-1)
-
-
-            leafValue.sortBy { gs -> gs.evalValue }
             if(leafValue.isEmpty()){ return@forEach }
-            val newSate = leafValue.last()
 
-            if (newSate.evalValue > bestState.evalValue) {
-                bestMove = currMove
-                bestState = newSate
+            if (isGameInLastEnd) {
+                leafValue.sortBy { gs -> gs.heuristicTwoVal }
 
-            }/* else if (newSate.foundations == bestState.foundations *//*&& newSate.foundations != initialState.foundations*//*) {
-
-                if ( currMove.isMoveToFoundation || newSate.length < bestState.length) {
-
+                val newSate = leafValue.last()
+                if (newSate.heuristicTwoVal > bestState.heuristicTwoVal) {
                     bestMove = currMove
                     bestState = newSate
-
                 }
-            }*/
+
+
+            } else {
+                leafValue.sortBy { gs -> gs.heuristicOneVal }
+                val newSate = leafValue.last()
+                if (newSate.heuristicOneVal > bestState.heuristicOneVal) {
+                    bestMove = currMove
+                    bestState = newSate
+                }
+            }
+
+
 
         }
 
+        bestState.heuristicOneVal = bestState.heuristicOneVal - initialState.heuristicOneVal
+        bestState.heuristicTwoVal = bestState.heuristicTwoVal - initialState.heuristicTwoVal
 
-        bestState.evalValue = bestState.evalValue - initialState.evalValue
-
-
-/*        if (bestMove == null) {
-            println( "The next move is: $, $bestState")
-        }*/
+        bestState.length = depth - bestState.length
         println( "The next move is: $bestMove, $bestState")
 
         return bestMove
@@ -88,14 +94,14 @@ class Ai {
     ) {
 
         if(depth < 1) {
-            setGameState(currBlocks, currFoundations, leafValues, depth)
+            setGameState(currBlocks, currFoundations, currWaste, leafValues, depth)
             return
         }
 
         val newPossibleMoves = gameLogic.allPossibleMoves(currFoundations, currBlocks, currWaste, lastMovesMap)
 
         if(newPossibleMoves.isEmpty()) {
-            setGameState(currBlocks, currFoundations, leafValues, depth)
+            setGameState(currBlocks, currFoundations, currWaste, leafValues, depth)
             return
         }
 
@@ -118,11 +124,12 @@ class Ai {
     private fun setGameState(
         blocks: ArrayList<Block>,
         foundations: ArrayList<Card>,
+        waste: Card,
         leafValues: ArrayList<GameSate>,
         length: Int
     ) {
 
-        val gameSate = GameSate(heuristicOne(blocks, foundations), length)
+        val gameSate = GameSate(heuristicOne(blocks, foundations), heuristicTwo(blocks, foundations, waste), length)
         leafValues.add(gameSate)
 
     }
@@ -134,7 +141,7 @@ class Ai {
     ): Int {
         return heuristicFaceDown(blocks) +
                 heuristicFoundations(foundations) +
-                heuristicCardsNotInBuild(blocks)
+                heuristicCardsNotInBuild(blocks, CARDS_NOT_IN_TABLEAU_BUILD)
     }
 
 
@@ -155,7 +162,7 @@ class Ai {
     }
 
     fun heuristicFaceDown(
-        blocks: ArrayList<Block>
+        blocks: ArrayList<Block>,
     ): Int {
 
         /**
@@ -171,17 +178,18 @@ class Ai {
 
 
     fun heuristicCardsNotInBuild(
-        blocks: ArrayList<Block>
+        blocks: ArrayList<Block>,
+        value: Int
     ): Int {
         var total = 0
         blocks.forEach {
             if (it.cards.isNotEmpty()) {
                 val cards = GameLogic().checkBlock(it)
                 if (cards == null) {
-                    total += it.cards.size * CARDS_NOT_IN_TABLEAU_BUILD
+                    total += it.cards.size * value
                 } else {
                     val k = cards.size - cards.size
-                    total += k * CARDS_NOT_IN_TABLEAU_BUILD
+                    total += k * value
                 }
             }
         }
@@ -192,6 +200,18 @@ class Ai {
 
 
 
+
+    fun heuristicTwo(
+        blocks: ArrayList<Block>,
+        foundations: ArrayList<Card>,
+        waste: Card
+    ): Int {
+
+        return heuristicFaceDown(blocks) +
+         heuristicFoundationsTwo(foundations) +
+                isWasteAbleToMove(blocks, foundations, waste) +
+                heuristicCardsNotInBuild(blocks,-2)
+    }
 
 
 
@@ -226,6 +246,7 @@ class Ai {
         }
         return total
     }
+
 
 }
 

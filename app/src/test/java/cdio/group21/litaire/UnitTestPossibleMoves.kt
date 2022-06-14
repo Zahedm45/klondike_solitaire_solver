@@ -102,4 +102,15 @@ class UnitTestPossibleMoves {
         assertEquals(moves.size, 9)
 
     }
+
+
+
+    @Test
+    fun moveWasteToBlock() {
+        initializeBlocks()
+        val waste = Card(13,'c')
+        val moves = GameLogic().allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        assertEquals(moves.size, 1)
+
+    }
 }
