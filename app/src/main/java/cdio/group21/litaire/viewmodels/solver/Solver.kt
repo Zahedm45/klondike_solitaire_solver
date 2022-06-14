@@ -14,6 +14,9 @@ class Solver {
     private val blocks: ArrayList<Block> = ArrayList()
 
 
+    companion object {
+        val allWaste: ArrayList<Card> = ArrayList()
+    }
 
 
 

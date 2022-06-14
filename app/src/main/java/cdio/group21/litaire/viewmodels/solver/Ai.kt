@@ -3,6 +3,9 @@ package cdio.group21.litaire.viewmodels.solver
 import cdio.group21.litaire.data.*
 import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
+val FACE_DOWN_CARD_VALUE = 7
+
+
 class Ai {
 
     val ga = Game()
@@ -137,6 +140,17 @@ class Ai {
                total += 5 - (lastCardVal - 1)
                 lastCardVal--
             }
+        }
+        return total
+    }
+
+    fun heuristicFaceDown(
+        blocks: ArrayList<Block>
+    ): Int {
+
+        var total = 0
+        blocks.forEach {
+            total += it.hiddenCards * FACE_DOWN_CARD_VALUE
         }
         return total
     }
