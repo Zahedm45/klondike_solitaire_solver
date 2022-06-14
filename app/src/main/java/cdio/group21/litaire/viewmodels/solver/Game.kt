@@ -8,7 +8,7 @@ import cdio.group21.litaire.data.SortedResult
 
 class Game {
 
-
+    val gameLogic = GameLogic()
 
     /* This function evaluates the foundation piles and calculates the sum to figure out
     * the game's state */
@@ -249,7 +249,7 @@ class Game {
         move: Move,
         blocks: ArrayList<ArrayList<Card>>,
         foundations: ArrayList<Card>,
-        lastMoves: HashMap<String, HashMap<String, Boolean>>?
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
 
     ): Boolean {
         val sour = move.indexOfSourceBlock.toInt()
@@ -267,7 +267,7 @@ class Game {
                 }
             }
 
-        } else if (GameLogic.evalBlockToBlockAndWasteToBlock(block.last(), foundationCard)) {
+        } else if (gameLogic.evalBlockToBlockAndWasteToBlock(block.last(), foundationCard)) {
             hasCardMoved = true
         }
 
@@ -279,7 +279,7 @@ class Game {
 
 
             //gets new foundation card
-            var newCard = GameLogic.findPreviousFoundationValue(foundations,sour.toByte())
+            var newCard = gameLogic.findPreviousFoundationValue(foundations,sour.toByte())
 
             // Adds the card to the destination block.
             block.add(foundationCard)

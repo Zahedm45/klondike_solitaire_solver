@@ -290,7 +290,7 @@ class UnitTestFoundationTests {
 
         blocks[0].add(Card(4,'h'))
 
-        val result = GameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].last(),foundation[0])
+        val result = gameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].last(),foundation[0])
         val move = Move(false,foundation[0],0.toByte(),0.toByte())
 
         Assert.assertEquals(result, true)
@@ -310,7 +310,7 @@ class UnitTestFoundationTests {
 
         blocks[0].add(Card(4,'h'))
 
-        val result = GameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].last(),foundation[0])
+        val result = gameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].last(),foundation[0])
         val move = Move(false,foundation[0],0.toByte(),0.toByte())
 
         Assert.assertEquals(result, false)
@@ -330,7 +330,7 @@ class UnitTestFoundationTests {
 
         blocks[0].add(Card(4,'h'))
 
-        val result = GameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
+        val result = gameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
         val move = Move(false, Card(3,'s'),0.toByte(),0.toByte())
 
         Assert.assertEquals(result.contains(move), true)
@@ -351,7 +351,7 @@ class UnitTestFoundationTests {
 
         blocks[2].add(Card(6,'h'))
 
-        val result = GameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
+        val result = gameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
         val move = Move(false, Card(3,'s'),0.toByte(),0.toByte())
 
         Assert.assertEquals(result.contains(move), true)
@@ -374,7 +374,7 @@ class UnitTestFoundationTests {
 
         blocks[3].add(Card(13,'s'))
 
-        val result = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         val move1 = Move(true, Card(13,'d'),0.toByte(),3.toByte())
         val move2 = Move(true, Card(12,'s'),1.toByte(),0.toByte())
         val move3 = Move(true, Card(13,'c'),2.toByte(),1.toByte())
@@ -388,7 +388,7 @@ class UnitTestFoundationTests {
         game.moveFromBlockToFoundation(move2,foundation,blocks)
         game.moveFromBlockToFoundation(move3,foundation,blocks)
 
-        val result2 = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+        val result2 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         val move4 = Move(true, Card(13,'h'),1.toByte(),2.toByte())
         val move5 = Move(true, Card(13,'s'),3.toByte(),0.toByte())
 
