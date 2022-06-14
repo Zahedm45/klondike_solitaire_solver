@@ -3,7 +3,8 @@ package cdio.group21.litaire.viewmodels.solver
 import cdio.group21.litaire.data.*
 import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
-val FACE_DOWN_CARD_VALUE = -7
+val FACE_DOWN_CARD_VALUE = -8
+val CARDS_NOT_IN_TABLEAU_BUILD = - 5
 
 
 class Ai {
@@ -156,6 +157,23 @@ class Ai {
     }
 
 
+    fun heuristicCardsNotInBuild(
+        blocks: ArrayList<Block>
+    ): Int {
+        var total = 0
+        blocks.forEach {
+            if (it.cards.isNotEmpty()) {
+                val cards = GameLogic().checkBlock(it)
+                if (cards == null) {
+                    total += it.cards.size * CARDS_NOT_IN_TABLEAU_BUILD
+                } else {
+                    val k = cards.size - cards.size
+                    total += k * CARDS_NOT_IN_TABLEAU_BUILD
+                }
+            }
+        }
+        return total
+    }
 
 
 
@@ -163,7 +181,9 @@ class Ai {
         blocks: ArrayList<Block>,
         foundations: ArrayList<Card>
     ): Int {
-        return heuristicFaceDown(blocks) + heuristicFoundations(foundations)
+        return heuristicFaceDown(blocks) +
+                heuristicFoundations(foundations) +
+                heuristicCardsNotInBuild(blocks)
     }
 
 }
