@@ -1,5 +1,6 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
@@ -8,7 +9,10 @@ class Solver {
     private var waste = DUMMY_CARD.deepCopy()
 
     private var foundations: ArrayList<Card> = ArrayList()
-    private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+    //private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
+
+    private val blocks: ArrayList<Block> = ArrayList()
+
 
 
 

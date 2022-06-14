@@ -5,7 +5,6 @@ import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
-import cdio.group21.litaire.viewmodels.solver.Solver
 import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 import org.junit.Assert.assertEquals
 import org.junit.Test

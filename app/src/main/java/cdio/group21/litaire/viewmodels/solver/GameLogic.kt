@@ -1,5 +1,6 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
 
@@ -11,7 +12,7 @@ class GameLogic {
 
     fun allPossibleMoves(
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>,
+        blocks: ArrayList<Block>,
         waste: Card?,
         lastMovesMap: HashMap<String, HashMap<String, Boolean>>
     ): ArrayList<Move> {
@@ -24,11 +25,11 @@ class GameLogic {
         for (indexBlock in blocks.indices) {
             val block = blocks[indexBlock]
 
-            if (block.isEmpty()) {
+            if (block.cards.isEmpty()) {
                 continue
             }
 
-            val lastCard = block.last()
+            val lastCard = block.cards.last()
 
 
             if (lastCard.value == (1).toByte() && foundations.size < 4) {
@@ -47,7 +48,7 @@ class GameLogic {
                 }
             }
 
-            if (block[0].value.toInt() != 13) {
+            if (block.cards[0].value.toInt() != 13) {
                 possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves, lastMovesMap)
             }
 
@@ -107,23 +108,23 @@ class GameLogic {
     * of possible cards to be moved
     * in a block
     */
-    fun checkBlock(block: ArrayList<Card>): ArrayList<Card>? {
+    fun checkBlock(block: Block): ArrayList<Card>? {
         // check if block is empty
-        if (block.isEmpty()) {
+        if (block.cards.isEmpty()) {
             return null
         }
 
         //should start from the back of the array (first visible card in block)
-        var cur_index = block.size - 1
+        var cur_index = block.cards.size - 1
         var tempBlock: ArrayList<Card> = ArrayList()
 
         //add the first visible card, as 1 card should always be moved (unless empty)
-        tempBlock.add(block[cur_index])
+        tempBlock.add(block.cards[cur_index])
         cur_index--
 
         //checks if the rest of the block is in an increasing order and adds them if so
         while (cur_index >= 0) {
-            val deCard = block[cur_index]
+            val deCard = block.cards[cur_index]
             val seCard = tempBlock.last()
 
             if (evalBlockToBlockAndWasteToBlock(deCard, seCard)) {
@@ -138,8 +139,8 @@ class GameLogic {
     }
 
     fun possibleMovesFromBlockToBlock(
-        sourceBlock: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>,
+        sourceBlock: Block,
+        blocks: ArrayList<Block>,
         indexBlock: Int,
         possibleMoves: ArrayList<Move>,
         lastMovesMap: HashMap<String, HashMap<String, Boolean>>
@@ -155,7 +156,7 @@ class GameLogic {
 
             for (k in blocks.indices) {
 
-                if (k == indexBlock || blocks[k].isEmpty()) {
+                if (k == indexBlock || blocks[k].cards.isEmpty()) {
                     continue
                 }
 
@@ -174,7 +175,7 @@ class GameLogic {
 
                         // Checks if there is an empty block out of the 7 blocks
                         for (iter in blocks.indices) {
-                            if (blocks[iter].isEmpty()) {
+                            if (blocks[iter].cards.isEmpty()) {
                                 val newMove =
                                     Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
                                 possibleMoves.add(newMove)
@@ -195,7 +196,7 @@ class GameLogic {
 
                 } else {
 
-                    val destCard = blocks[k].last()
+                    val destCard = blocks[k].cards.last()
                     if (evalBlockToBlockAndWasteToBlock(destCard, sourceCard)) {
 
                         if (!isStateKnown(sourceCard, destCard, lastMovesMap)) {

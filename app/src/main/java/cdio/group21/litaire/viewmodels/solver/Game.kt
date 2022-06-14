@@ -1,7 +1,5 @@
 package cdio.group21.litaire.viewmodels.solver
 
-import android.content.ContentValues
-import android.util.Log
 import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
@@ -45,7 +43,7 @@ class Game {
         var counter = 0
         blocks.forEach {
 
-            if (it.size < 1) {
+            if (it.cards.size < 1) {
                 counter++
             }
         }
@@ -56,7 +54,7 @@ class Game {
     fun moveFromBlockToFoundation(
         move: Move,
         foundations: ArrayList<Card>,
-        blocks: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<Block>
 
     ): Boolean {
         val gameLogic = GameLogic()
@@ -66,16 +64,16 @@ class Game {
         val dest = move.indexOfDestination.toInt()
         val block = blocks[sour]
 
-        if (block.last() == move.card) {
+        if (block.cards.last() == move.card) {
             if (dest.toByte() == DESTINATION_UNKNOWN) {
-                foundations.add(block.last())
-                block.removeLast()
+                foundations.add(block.cards.last())
+                block.cards.removeLast()
                 return true
 
             } else if (dest in 0..3) {
                 if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
-                    foundations[dest] = block.last()
-                    block.removeLast()
+                    foundations[dest] = block.cards.last()
+                    block.cards.removeLast()
                     return true
                 }
             }
@@ -91,7 +89,7 @@ class Game {
 
     fun moveFromBlockToBlock(
         move: Move,
-        blocks: ArrayList<ArrayList<Card>>,
+        blocks: ArrayList<Block>,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
 
     ): Boolean {
@@ -102,19 +100,19 @@ class Game {
         val gameLogic = GameLogic()
 
 
-        val i = sourceBlock.indexOf(move.card)
+        val i = sourceBlock.cards.indexOf(move.card)
 
         if (i != DESTINATION_UNKNOWN.toInt()) {
 
             if (move.card.value == (13).toByte()) {
                 for (j in 0..6) {
-                    if (blocks[j].isEmpty()) {
+                    if (blocks[j].cards.isEmpty()) {
                         hasCardMoved = true
                         break
                     }
                 }
 
-            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
+            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.cards.last(), move.card)) {
                 hasCardMoved = true
             }
         }
@@ -123,23 +121,23 @@ class Game {
         if (hasCardMoved) {
 
             // Adds the card's position to the hashmap.
-            addCardPosition(lastMoves, sourceBlock, move, i)
+            addCardPosition(lastMoves, sourceBlock.cards, move, i)
 
 
             // Removes the card(s) from the source block.
-            var dropItems = sourceBlock.size - i
+            var dropItems = sourceBlock.cards.size - i
             val newList: ArrayList<Card> = ArrayList()
 
             while (dropItems > 0) {
-                newList.add(blocks[sourceIndex].last())
-                blocks[sourceIndex].removeLast()
+                newList.add(blocks[sourceIndex].cards.last())
+                blocks[sourceIndex].cards.removeLast()
                 dropItems--
             }
 
 
             // Adds the card(s) to the destination block.
             for (k in newList.indices) {
-                destBlock.add(newList.last())
+                destBlock.cards.add(newList.last())
                 newList.removeLast()
             }
 
@@ -155,7 +153,7 @@ class Game {
         move: Move,
         foundations: ArrayList<Card>,
         waste: Card,
-        blocks: ArrayList<ArrayList<Card>>
+        blocks: ArrayList<Block>
     ): Boolean {
         if (move.isMoveToFoundation) {
             return moveFromWasteToFoundation(move,foundations, waste)
@@ -207,7 +205,7 @@ class Game {
 
     fun moveFromWasteToBlock(
         move: Move,
-        blocks: ArrayList<ArrayList<Card>>,
+        blocks: ArrayList<Block>,
         waste: Card
         //lastMoves: HashMap<String, HashMap<String, Boolean>>?
 
@@ -222,13 +220,13 @@ class Game {
 
             if (move.card.value == (13).toByte()) {
                 for (j in 0..6) {
-                    if (blocks[j].isEmpty()) {
+                    if (blocks[j].cards.isEmpty()) {
                         hasCardMoved = true
                         break
                     }
                 }
 
-            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.last(), move.card)) {
+            } else if (gameLogic.evalBlockToBlockAndWasteToBlock(destBlock.cards.last(), move.card)) {
                 hasCardMoved = true
             }
         }
@@ -237,7 +235,7 @@ class Game {
         if (hasCardMoved) {
             // Adds the card(s) to the destination block.
 
-            destBlock.add(waste.deepCopy())
+            destBlock.cards.add(waste.deepCopy())
             waste.value = DUMMY_CARD.value
             waste.suit = DUMMY_CARD.suit
             return true
@@ -248,7 +246,7 @@ class Game {
 
     fun moveFromFoundationToBlock(
         move: Move,
-        blocks: ArrayList<ArrayList<Card>>,
+        blocks: ArrayList<Block>,
         foundations: ArrayList<Card>,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
 
@@ -262,13 +260,13 @@ class Game {
 
         if (foundationCard.value == (13).toByte()) {
             for (j in 0..6) {
-                if (block.isEmpty()) {
+                if (block.cards.isEmpty()) {
                     hasCardMoved = true
                     break
                 }
             }
 
-        } else if (gameLogic.evalBlockToBlockAndWasteToBlock(block.last(), foundationCard)) {
+        } else if (gameLogic.evalBlockToBlockAndWasteToBlock(block.cards.last(), foundationCard)) {
             hasCardMoved = true
         }
 
@@ -283,7 +281,7 @@ class Game {
             var newCard = gameLogic.findPreviousFoundationValue(foundations,sour.toByte())
 
             // Adds the card to the destination block.
-            block.add(foundationCard)
+            block.cards.add(foundationCard)
 
             // Removes the card from the source foundation.
             foundations[sour] = newCard
@@ -319,7 +317,7 @@ class Game {
 
     private fun addCardPosition(
         lastMoves: HashMap<String, HashMap<String, Boolean>>,
-        sourceBlock: java.util.ArrayList<Card>,
+        sourceBlock: ArrayList<Card>,
         move: Move,
         i: Int
     ) {

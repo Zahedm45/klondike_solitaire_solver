@@ -4,7 +4,6 @@ import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
