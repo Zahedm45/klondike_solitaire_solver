@@ -61,9 +61,9 @@ object ObjectRecognition {
         }
 
 
-        val offsetPredictions = results.mapIndexed2D { y, x, result ->
+        val offsetPredictions = results.mapIndexed2D { row, column, result ->
             result?.predictions?.map() { prediction ->
-                offsetPrediction(bitmapSlices[y][x].position, prediction)
+                offsetPrediction(bitmapSlices[row][column].position, prediction)
             } ?: emptyList()
         }.flatten().flatten()
 

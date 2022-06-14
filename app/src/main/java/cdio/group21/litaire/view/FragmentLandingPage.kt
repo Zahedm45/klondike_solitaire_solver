@@ -43,7 +43,7 @@ class FragmentLandingPage : Fragment() {
 
     private var _binding: FragmentLandingPageBinding? = null
 
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: LandingPageViewModel by viewModels()
@@ -59,7 +59,7 @@ class FragmentLandingPage : Fragment() {
     ): View {
         _binding = FragmentLandingPageBinding.inflate(inflater, container, false)
 
-        return binding.root
+        return binding!!.root
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -69,7 +69,7 @@ class FragmentLandingPage : Fragment() {
 
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
             Log.i(TAG, "image width 2 ${it.width}")
-            binding.ivBackground.setImageBitmap(it)
+            binding?.ivBackground?.setImageBitmap(it)
             sharedViewModel.processImage(
                 this.requireContext(),
                 it.copy(Bitmap.Config.RGB_565, false)
@@ -86,9 +86,9 @@ class FragmentLandingPage : Fragment() {
             val img = viewModel.getImageBitmap().value
             Log.e("Gamestate: ", "has been observed")
             if (img != null && game != null) {
-                var imgResult = drawSolitaireGame(img, game)
+                val imgResult = drawSolitaireGame(img, game)
                 sharedViewModel.setPreviewBitmap(imgResult)
-                binding.ivBackground.setImageBitmap(imgResult)
+                binding?.ivBackground?.setImageBitmap(imgResult)
                 findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
             }
 
@@ -96,10 +96,10 @@ class FragmentLandingPage : Fragment() {
 
 
 
-        binding.ivCameraButton.setOnClickListener() {
+        binding?.ivCameraButton?.setOnClickListener() {
             takePicture()
         }
-        binding.ivAlbumButton.setOnClickListener() {
+        binding?.ivAlbumButton?.setOnClickListener() {
             selectPictureLauncher.launch("image/*")
         }
 
@@ -121,7 +121,7 @@ class FragmentLandingPage : Fragment() {
         )!!
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
-        cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        //cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         cameraLauncher.launch(cameraIntent)
     }
 
@@ -130,7 +130,7 @@ class FragmentLandingPage : Fragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             lifecycleScope.launch {
                 it?.apply {
-                    binding.ivBackground.setImageURI(it)
+                    binding?.ivBackground?.setImageURI(it)
                     viewModel.setImageBitmap(uriToBitmap(it))
                     sharedViewModel.setImageBitmap(uriToBitmap(it))
 
@@ -148,7 +148,7 @@ class FragmentLandingPage : Fragment() {
 
             lifecycleScope.launch {
                 if (it.resultCode == RESULT_OK) {
-                    binding.ivBackground.setImageURI(tempImageUri)
+                    binding?.ivBackground?.setImageURI(tempImageUri)
                     viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
                     sharedViewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
                     updateUItoLoading()
@@ -313,12 +313,12 @@ class FragmentLandingPage : Fragment() {
         }
     }
 
-    private fun updateUItoLoading() {
-        binding.ivAlbumButton.visibility = View.GONE
-        binding.ivCameraButton.visibility = View.GONE
-        binding.tvTitle.visibility = View.GONE
-        binding.tvAction.text = "Loading..."
-        binding.pbThinking.visibility = View.VISIBLE
+    private inline fun updateUItoLoading() {
+        binding?.ivAlbumButton?.visibility = View.GONE
+        binding?.ivCameraButton?.visibility = View.GONE
+        binding?.tvTitle?.visibility = View.GONE
+        binding?.tvAction?.text = "Loading..."
+        binding?.pbThinking?.visibility = View.VISIBLE
     }
 
 
