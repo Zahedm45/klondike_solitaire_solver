@@ -134,6 +134,9 @@ class Game {
                 dropItems--
             }
 
+            if (blocks[sourceIndex].cards.size == blocks[sourceIndex].hiddenCards) {
+                blocks[sourceIndex].hiddenCards--
+            }
 
             // Adds the card(s) to the destination block.
             for (k in newList.indices) {
