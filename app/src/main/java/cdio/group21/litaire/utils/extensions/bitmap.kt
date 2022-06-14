@@ -22,7 +22,8 @@ fun Bitmap.split(num_rows: UInt, num_columns: UInt, overlap_percent: Float = 0.1
 		val offsetPosition = (position - overlap.toPoint()).clamp(minPos, maxPos)
 		val end = (position + size.toPoint() + overlap.toPoint()).clamp(minPos, maxPos)
 
-		BitmapSlice(createBitmap(this, offsetPosition, (end - offsetPosition).toSize()), offsetPosition)
+		val bitmap = createBitmap(this, offsetPosition, (end - offsetPosition).toSize())
+		BitmapSlice(bitmap, offsetPosition)
 	}
 
 	return bitmaps
