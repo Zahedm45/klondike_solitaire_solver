@@ -121,6 +121,7 @@ class FragmentLandingPage : Fragment() {
         )!!
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
+        cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         cameraLauncher.launch(cameraIntent)
     }
 
