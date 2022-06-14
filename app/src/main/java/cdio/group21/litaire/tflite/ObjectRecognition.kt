@@ -24,10 +24,8 @@ object ObjectRecognition {
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun processImage(bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
 
-        //val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
-        //val results = bitmaps.pmap2D { bitmapSlice -> RoboflowAPI.getPrediction(bitmapSlice.bitmap) }
-        val results = Array(1){Array(1) {RoboflowAPI.getPrediction(bitmap)} }
-        val bitmaps = Array(1){Array(1) {BitmapSlice(bitmap, Point(0, 0)) } }
+        val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
+        val results = bitmaps.pmap2D { bitmapSlice -> RoboflowAPI.getPrediction(bitmapSlice.bitmap) }
 
         // Merge the results
         val predictions = mergeResults(results, bitmaps)
@@ -42,7 +40,7 @@ object ObjectRecognition {
     }
 
     fun collectPositions(results: List<DetectionResult>): List<DetectionResult> {
-        return results.filter { it.confidence > 0.75 }.distinctBy { it.card }
+        return results.filter { it.confidence > 0.7 }.distinctBy { it.card }
     }
 
     private suspend fun mergeResults(

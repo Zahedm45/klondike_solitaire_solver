@@ -69,7 +69,7 @@ class SharedViewModel : ViewModel() {
     fun processImage(context: Context, bitmap: Bitmap) {
         viewModelScope.launch(IO){
             Log.i("SharedViewModel", "Process Image")
-            detectionList.postValue(ObjectRecognition.processImage(bitmap, DetectionConfig(5u, 4u, 0.15F)))
+            detectionList.postValue(ObjectRecognition.processImage(bitmap, DetectionConfig(2u, 2u, 0.15F)))
 
         }
     }
