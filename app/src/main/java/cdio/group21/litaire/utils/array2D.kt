@@ -6,9 +6,9 @@ import cdio.group21.litaire.utils.extensions.*
 typealias Array2D<T> = Array<Array<T>>
 
 inline fun<reified T> Pair<UInt, UInt>.createArray(function: (UInt, UInt) -> T): Array2D<T> {
-	return Array(this.first.toInt()) { i ->
-		Array(this.second.toInt()) { j ->
-			function(i.toUInt(), j.toUInt())
+	return Array(this.first.toInt()) { row ->
+		Array(this.second.toInt()) { column ->
+			function(row.toUInt(), column.toUInt())
 		}
 	}
 }
