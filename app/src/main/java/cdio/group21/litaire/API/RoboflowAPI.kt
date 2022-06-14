@@ -20,7 +20,7 @@ class RoboflowAPI {
         fun getPrediction(image: Bitmap): RoboflowResult? {
             var jsonString = ""
             val bytes = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.JPEG, 20, bytes)
+            image.compress(Bitmap.CompressFormat.JPEG, 30, bytes)
             val base64 = String(Base64.getEncoder().encode(bytes.toByteArray()), StandardCharsets.US_ASCII)
 
             val API_KEY = "UeJ5YANadgDkeozKB2F4" // Your API Key

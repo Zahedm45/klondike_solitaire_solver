@@ -40,7 +40,7 @@ object ObjectRecognition {
     }
 
     fun collectPositions(results: List<DetectionResult>): List<DetectionResult> {
-        return results.filter { it.confidence > 0.8 }.distinctBy { it.card }
+        return results.filter { it.confidence > 0.75 }.distinctBy { it.card }
     }
 
     private suspend fun mergeResults(
@@ -49,8 +49,8 @@ object ObjectRecognition {
     ): List<DetectionResult> {
 
         fun offsetPrediction(offset: Point, prediction: Prediction): Prediction {
-            prediction.x = prediction.x?.plus(offset.x)
-            prediction.y = prediction.y?.plus(offset.y)
+            prediction.x += offset.x
+            prediction.y += offset.y
             return prediction
         }
 

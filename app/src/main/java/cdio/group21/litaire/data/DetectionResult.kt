@@ -6,21 +6,21 @@ import cdio.group21.litaire.API.Prediction
 data class DetectionResult(val boundingBox: RectF, val card: Card2, val confidence: Double) {
 	companion object {
 		fun fromPrediction(prediction: Prediction): DetectionResult {
-			val category = prediction.class_ ?: ""
+			val category = prediction.class_
 			val suit = Suit.fromChar(category.last())
 			val rank = Rank.fromChar(category.replace("10", "T")[0])
 			val card = Card2(suit, rank)
 
-			val width = prediction.width ?: 0.0F
-			val height = prediction.height ?: 0.0F
-			val xTop = prediction.x ?: 0.0F
-			val yTop = prediction.y ?: 0.0F
-			val xBottom = (prediction.x ?: 0.0F) + width
-			val yBottom = (prediction.y ?: 0.0F) + height
+			val width = prediction.width
+			val height = prediction.height
+			val xTop = prediction.x
+			val yTop = prediction.y
+			val xBottom = prediction.x + width
+			val yBottom = prediction.y + height
 
 			val boundingBox = RectF(xTop, yTop, xBottom, yBottom)
 
-			return DetectionResult(boundingBox, card, prediction.confidence ?: 0.0)
+			return DetectionResult(boundingBox, card, prediction.confidence)
 		}
 	}
 }

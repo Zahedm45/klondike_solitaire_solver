@@ -15,7 +15,8 @@ data class ImageBody(
 )
 
 @JsonClass(generateAdapter = true)
-class Prediction {
+class Prediction(var x: Float, var y: Float, var width: Float, var height: Float, @com.squareup.moshi.Json(name = "class") var class_: String, var confidence: Double) {
+    /*
     var x: Float? = null
 
     var y: Float? = null
@@ -28,4 +29,5 @@ class Prediction {
     var class_: String? = null
 
     var confidence: Double? = null
+     */
 }
