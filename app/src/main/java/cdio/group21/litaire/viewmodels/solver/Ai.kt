@@ -24,9 +24,7 @@ class Ai {
         availableMoves.forEach {currMove ->
 
             val foundationsCopy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
-
             val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
-
             val wasteCopy = waste.copy()
             val leafValue: ArrayList<GameSate> = ArrayList()
             val mapCopy = mapDeepCopy(lastMoves)
@@ -125,6 +123,22 @@ class Ai {
             val sate = GameSate(evalF, evalB, length)
             leafValues.add(sate)
         }*/
+    }
+
+
+     fun heuristicFoundations(
+        foundations: ArrayList<Card>
+    ): Int {
+
+        var total = 0
+        foundations.forEach { f ->
+            var lastCardVal = f.value
+            while (lastCardVal > 0) {
+               total += 5 - (lastCardVal - 1)
+                lastCardVal--
+            }
+        }
+        return total
     }
 
 
