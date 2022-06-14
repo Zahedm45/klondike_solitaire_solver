@@ -3,7 +3,7 @@ package cdio.group21.litaire.viewmodels.solver
 import cdio.group21.litaire.data.*
 import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
-val FACE_DOWN_CARD_VALUE = 7
+val FACE_DOWN_CARD_VALUE = -7
 
 
 class Ai {
@@ -16,10 +16,13 @@ class Ai {
         waste: Card,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Move? {
-        val depth = 5
-        val initialState = GameSate(ga.evalFoundation(foundations), 0, 0)
+        val depth = 8
+/*        val initialState = GameSate(ga.evalFoundation(foundations), 0)
+        var bestState = GameSate(ga.evalFoundation(foundations), 0)*/
 
-        var bestState = GameSate(ga.evalFoundation(foundations), 0, 0)
+
+        val initialState = GameSate( -500, 0)
+        var bestState = GameSate(-500, 0)
         var bestMove: Move? = null
 
         val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
@@ -41,15 +44,15 @@ class Ai {
             algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValue, mapCopy, depth-1)
 
 
-            leafValue.sortBy { gs -> gs.foundations }
+            leafValue.sortBy { gs -> gs.evalValue }
             if(leafValue.isEmpty()){ return@forEach }
             val newSate = leafValue.last()
 
-            if (newSate.foundations > bestState.foundations) {
+            if (newSate.evalValue > bestState.evalValue) {
                 bestMove = currMove
                 bestState = newSate
 
-            } else if (newSate.foundations == bestState.foundations /*&& newSate.foundations != initialState.foundations*/) {
+            }/* else if (newSate.foundations == bestState.foundations *//*&& newSate.foundations != initialState.foundations*//*) {
 
                 if ( currMove.isMoveToFoundation || newSate.length < bestState.length) {
 
@@ -57,13 +60,12 @@ class Ai {
                     bestState = newSate
 
                 }
-            }
+            }*/
 
         }
 
 
-        bestState.foundations = bestState.foundations - initialState.foundations
-        bestState.emptyBlock = bestState.emptyBlock - initialState.emptyBlock
+        bestState.evalValue = bestState.evalValue - initialState.evalValue
 
 
 
@@ -111,21 +113,15 @@ class Ai {
 
 
     private fun setGameState(
-        currBlocks: ArrayList<Block>,
-        currFoundations: ArrayList<Card>,
+        blocks: ArrayList<Block>,
+        foundations: ArrayList<Card>,
         leafValues: ArrayList<GameSate>,
         length: Int
     ) {
-        val evalF = ga.evalFoundation(currFoundations)
-        val evalB = ga.emptyBlock(currBlocks)
-        val sate = GameSate(evalF, evalB, length)
-        leafValues.add(sate)
-        //println("leaf values: length $length")
 
-/*        if (evalF != 0 || evalB != 0) {
-            val sate = GameSate(evalF, evalB, length)
-            leafValues.add(sate)
-        }*/
+        val gameSate = GameSate(combinationOfTheHeuristicFunctions(blocks, foundations), length)
+        leafValues.add(gameSate)
+
     }
 
 
@@ -148,6 +144,10 @@ class Ai {
         blocks: ArrayList<Block>
     ): Int {
 
+        /**
+         * TODO
+         */
+
         var total = 0
         blocks.forEach {
             total += it.hiddenCards * FACE_DOWN_CARD_VALUE
@@ -155,6 +155,16 @@ class Ai {
         return total
     }
 
+
+
+
+
+    fun combinationOfTheHeuristicFunctions(
+        blocks: ArrayList<Block>,
+        foundations: ArrayList<Card>
+    ): Int {
+        return heuristicFaceDown(blocks) + heuristicFoundations(foundations)
+    }
 
 }
 
