@@ -7,7 +7,6 @@ import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
 import org.junit.Test
-import java.lang.AssertionError
 
 class UnitTestFoundationTests {
 

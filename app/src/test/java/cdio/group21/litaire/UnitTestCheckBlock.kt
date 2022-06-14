@@ -1,7 +1,6 @@
 package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Card
-import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
 import org.junit.Test
