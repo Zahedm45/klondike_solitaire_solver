@@ -122,10 +122,21 @@ class Ai {
         length: Int
     ) {
 
-        val gameSate = GameSate(combinationOfTheHeuristicFunctions(blocks, foundations), length)
+        val gameSate = GameSate(heuristicOne(blocks, foundations), length)
         leafValues.add(gameSate)
 
     }
+
+
+    fun heuristicOne(
+        blocks: ArrayList<Block>,
+        foundations: ArrayList<Card>
+    ): Int {
+        return heuristicFaceDown(blocks) +
+                heuristicFoundations(foundations) +
+                heuristicCardsNotInBuild(blocks)
+    }
+
 
 
      fun heuristicFoundations(
@@ -179,13 +190,41 @@ class Ai {
 
 
 
-    fun combinationOfTheHeuristicFunctions(
-        blocks: ArrayList<Block>,
+
+
+
+
+
+
+
+    fun heuristicFoundationsTwo(
         foundations: ArrayList<Card>
     ): Int {
-        return heuristicFaceDown(blocks) +
-                heuristicFoundations(foundations) +
-                heuristicCardsNotInBuild(blocks)
+        var total = 0
+        foundations.forEach { f ->
+            total += 5*f.value
+        }
+        return total
+    }
+
+
+    fun isWasteAbleToMove(
+        blocks: ArrayList<Block>,
+        foundations: ArrayList<Card>,
+        waste: Card
+    ): Int {
+        var total = waste.value.toInt()
+
+        blocks.forEach { b ->
+            b.cards.forEach{ c ->
+                total++
+            }
+        }
+
+        foundations.forEach {
+            total += it.value
+        }
+        return total
     }
 
 }
