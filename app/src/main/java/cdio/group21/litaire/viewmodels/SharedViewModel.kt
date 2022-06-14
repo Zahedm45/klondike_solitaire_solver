@@ -15,18 +15,27 @@ import cdio.group21.litaire.tflite.ObjectRecognition
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
+import java.net.URI
 
 
 class SharedViewModel : ViewModel() {
     private val suggestion = MutableLiveData<Pair<Card2, Card2>>()
 
     private val imageBitmap = MutableLiveData<Bitmap>()
+    private val imageURI = MutableLiveData<Uri>()
     private val detectionList = MutableLiveData<List<DetectionResult>>()
 
     fun setImageBitmap(bitmap: Bitmap){
         imageBitmap.value = bitmap
     }
 
+    fun setURI(uri: Uri){
+        imageURI.value = uri
+    }
+
+    fun getImageURI() : LiveData<Uri>{
+        return imageURI
+    }
     fun getImageBitmap() : LiveData<Bitmap>{
         return imageBitmap
     }

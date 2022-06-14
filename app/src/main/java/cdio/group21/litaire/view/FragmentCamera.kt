@@ -20,8 +20,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import cdio.group21.litaire.databinding.FragmentCameraBinding
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
+import cdio.group21.litaire.viewmodels.SharedViewModel
 
 
 /**
@@ -33,7 +35,7 @@ class FragmentCamera : Fragment() {
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
 
-
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private var imageCapture: ImageCapture? = null
 
@@ -52,6 +54,11 @@ class FragmentCamera : Fragment() {
     ): View? {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
+        binding.btImageCapture.setOnClickListener(){
+            takePhoto()
+            Log.e(TAG, "Photo capture failed")
+
+        }
         return binding.root
     }
 
@@ -60,6 +67,13 @@ class FragmentCamera : Fragment() {
         startCamera()
         //binding.btImageCapture.setOnClickListener { takePhoto() }
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        sharedViewModel.getImageURI().observe(viewLifecycleOwner){
+            Log.d("Call:", "set image background")
+
+            binding.ivBackground.setImageURI(it)
+
+        }
     }
 
     override fun onDestroy() {
@@ -101,6 +115,8 @@ class FragmentCamera : Fragment() {
 
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults){
+                    sharedViewModel.setImageBitmap(MediaStore.Images.Media.getBitmap(this@FragmentCamera.requireContext().contentResolver, output.savedUri))
+                    output.savedUri?.let { sharedViewModel.setURI(it) }
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(this@FragmentCamera.requireContext(), msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
@@ -112,7 +128,7 @@ class FragmentCamera : Fragment() {
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
 
-        cameraProviderFuture.addListener({
+        cameraProviderFuture.addListener(Runnable{
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
@@ -122,6 +138,7 @@ class FragmentCamera : Fragment() {
                 .also {
                     it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
                 }
+            imageCapture = ImageCapture.Builder().build()
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -132,7 +149,7 @@ class FragmentCamera : Fragment() {
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview)
+                    this, cameraSelector, preview, imageCapture)
 
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
