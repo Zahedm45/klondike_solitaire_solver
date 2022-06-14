@@ -22,6 +22,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.databinding.FragmentCameraBinding
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.viewmodels.SharedViewModel
@@ -61,6 +62,10 @@ class FragmentCamera : Fragment() {
             takePhoto()
             Log.e(TAG, "Photo capture failed")
 
+        }
+
+        binding.btReturn?.setOnClickListener(){
+            findNavController().navigate(R.id.action_fragmentCamera_to_LandingPage)
         }
         return binding.root
     }

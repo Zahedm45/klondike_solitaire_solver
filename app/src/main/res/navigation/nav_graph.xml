@@ -23,9 +23,7 @@
             app:destination="@id/fragmentSolved" />
         <action
             android:id="@+id/action_LandingPage_to_fragmentCamera"
-            app:destination="@id/fragmentCamera"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:destination="@id/fragmentCamera" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSuggestion"
