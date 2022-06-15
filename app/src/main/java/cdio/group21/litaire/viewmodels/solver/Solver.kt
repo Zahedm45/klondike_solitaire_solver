@@ -33,12 +33,13 @@ class Solver {
         val game = Game()
         var counter = UtilSolver.cardDeck.size-1
         for (i in 0..125) {
-            val moves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
+            println("Iteration: $i")
+            //val moves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
             val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
 
-            if (nextMove == null && moves.isNotEmpty()) {
+/*            if (nextMove == null && moves.isNotEmpty()) {
                 val bestM = ai.findBestMove(foundations, blocks, waste, lastMoves)
-            }
+            }*/
 
             if (nextMove != null) {
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)

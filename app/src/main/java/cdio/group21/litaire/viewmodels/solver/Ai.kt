@@ -60,6 +60,12 @@ class Ai {
                 if (newSate.heuristicTwoVal > bestState.heuristicTwoVal) {
                     bestMove = currMove
                     bestState = newSate
+
+                } else if (newSate.heuristicTwoVal == bestState.heuristicTwoVal) {
+                    if (newSate.length > bestState.length) {
+                        bestMove = currMove
+                        bestState = newSate
+                    }
                 }
 
 
