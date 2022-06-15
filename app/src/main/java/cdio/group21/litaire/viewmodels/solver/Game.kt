@@ -68,14 +68,14 @@ class Game {
             if (dest.toByte() == DESTINATION_UNKNOWN) {
                 foundations.add(block.cards.last())
                 block.cards.removeLast()
-                //updateUnknownCards(block)
+                updateUnknownCards(block)
                 return true
 
             } else if (dest in 0..3) {
                 if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = block.cards.last()
                     block.cards.removeLast()
-                    //updateUnknownCards(block)
+                    updateUnknownCards(block)
                     return true
                 }
             }

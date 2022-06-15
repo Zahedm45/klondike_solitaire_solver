@@ -5,6 +5,7 @@ import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
 val FACE_DOWN_CARD_VALUE = -8
 val CARDS_NOT_IN_TABLEAU_BUILD = - 5
+val CARDS_TO_FOUNDATION = 5
 
 
 class Ai {
@@ -161,6 +162,7 @@ class Ai {
         return total
     }
 
+
     fun heuristicFaceDown(
         blocks: ArrayList<Block>,
     ): Int {
@@ -198,7 +200,7 @@ class Ai {
 
 
 
-
+//////////////////////////////
 
 
     fun heuristicTwo(
@@ -209,7 +211,7 @@ class Ai {
 
         return heuristicFaceDown(blocks) +
          heuristicFoundationsTwo(foundations) +
-                isWasteAbleToMove(blocks, foundations, waste) +
+                //isWasteAbleToMove(blocks, foundations, waste) +
                 heuristicCardsNotInBuild(blocks,-2)
     }
 
@@ -222,13 +224,13 @@ class Ai {
     ): Int {
         var total = 0
         foundations.forEach { f ->
-            total += 5*f.value
+            total += 5 * f.value
         }
         return total
     }
 
 
-    fun isWasteAbleToMove(
+/*    fun isWasteAbleToMove(
         blocks: ArrayList<Block>,
         foundations: ArrayList<Card>,
         waste: Card
@@ -245,7 +247,7 @@ class Ai {
             total += it.value
         }
         return total
-    }
+    }*/
 
 
 }

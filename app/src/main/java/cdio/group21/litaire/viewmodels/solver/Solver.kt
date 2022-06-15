@@ -12,7 +12,7 @@ class Solver {
     //private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
 
     private val blocks: ArrayList<Block> = ArrayList()
-
+    val gameLogic = GameLogic()
 
     companion object {
         val allWaste: ArrayList<Card> = ArrayList()
@@ -33,6 +33,7 @@ class Solver {
         val game = Game()
         var counter = UtilSolver.cardDeck.size-1
         for (i in 0..140) {
+            val moves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
             val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
             if (nextMove != null) {
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)

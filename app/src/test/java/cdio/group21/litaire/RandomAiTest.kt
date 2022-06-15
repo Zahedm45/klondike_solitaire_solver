@@ -64,6 +64,44 @@ class RandomAiTest {
 
 
 
+    @Test
+    fun heuristicFoundation2() {
+        foundation.add(Card(1,'h'))
+        assertEquals(Ai().heuristicFoundationsTwo(foundation), CARDS_TO_FOUNDATION)
+        foundation[0] = Card(2,'h')
+        assertEquals(Ai().heuristicFoundationsTwo(foundation), 2*CARDS_TO_FOUNDATION)
+        foundation.add(Card(10,'c'))
+
+        assertEquals(Ai().heuristicFoundationsTwo(foundation), 12* CARDS_TO_FOUNDATION)
+
+
+    }
+
+
+
+
+
+
+    @Test
+    fun unknownCardMoveToFoundation() {
+        initialize()
+        blocks[2].cards.add(Card(4,'c'))
+        blocks[2].cards.add(Card(3,'h'))
+        blocks[2].cards.add(Card(2,'c'))
+        blocks[2].cards.add(Card(1,'h'))
+
+        blocks[2].hiddenCards = 3
+
+        val moves = GameLogic().allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+
+        val ret = Game().move_(moves[0], foundation, blocks, waste, lastMovesMap)
+        assertEquals(ret, true)
+        assertEquals(blocks[2].hiddenCards, 2)
+
+
+    }
+
+
     private fun initialize() {
         for (i in 0..6) {
             blocks.add(Block())
