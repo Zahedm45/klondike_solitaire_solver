@@ -153,30 +153,37 @@ class UnitTestPossibleMoves {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
+        blocks[5].hiddenCards = 4
         blocks[5].cards.add(Card(8,'h').deepCopy())
 
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
+        blocks[1].hiddenCards = 0
         blocks[1].cards.add(Card(1,'c').deepCopy())
 
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
+        blocks[6].hiddenCards = 5
         blocks[6].cards.add(Card(13,'h').deepCopy())
 
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -185,14 +192,17 @@ class UnitTestPossibleMoves {
 
         waste = Card(3,'h').deepCopy()
 
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
+        blocks[3].hiddenCards = 2
         blocks[3].cards.add(Card(13,'c').deepCopy())
 
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -201,10 +211,14 @@ class UnitTestPossibleMoves {
 
         waste = Card(13,'s').deepCopy()
 
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
+
+        waste = Card(13,'s').deepCopy()
     }
+
 }
