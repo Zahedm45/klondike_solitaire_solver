@@ -65,10 +65,7 @@ class FragmentLandingPage : Fragment() {
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
             Log.i(TAG, "image width 2 ${it.width}")
             binding?.ivBackground?.setImageBitmap(it)
-            sharedViewModel.processImage(
-                this.requireContext(),
-                it.copy(Bitmap.Config.RGB_565, false)
-            )
+            sharedViewModel.processImage(it.copy(Bitmap.Config.RGB_565, false))
             Log.e("ImageBitmap: ", "has been observed")
             //findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
         }

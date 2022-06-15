@@ -68,7 +68,7 @@ class SharedViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun processImage(context: Context, bitmap: Bitmap) {
+    fun processImage(bitmap: Bitmap) {
         viewModelScope.launch(IO) {
             Log.i("SharedViewModel", "Process Image")
             detectionList.postValue(
