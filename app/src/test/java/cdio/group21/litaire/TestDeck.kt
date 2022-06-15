@@ -731,10 +731,11 @@ class TestDeck {
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
-
+        var result1 = game.gameLogic.isGameWon(foundation)
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
+
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -742,14 +743,9 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
+        
+        var result2 = game.gameLogic.isGameWon(foundation)
+        Assert.assertEquals(result2, true)
         Assert.assertEquals(foundation[0].value.toInt(), 13)
         Assert.assertEquals(foundation[1].value.toInt(), 13)
         Assert.assertEquals(foundation[2].value.toInt(), 13)
