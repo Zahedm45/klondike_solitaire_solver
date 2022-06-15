@@ -25,7 +25,6 @@ import kotlinx.coroutines.Dispatchers.IO
 class SharedViewModel : ViewModel() {
     private val suggestion = MutableLiveData<Pair<Card2, Card2>>()
 
-    private val imageBitmap = MutableLiveData<Bitmap>()
     private val previewBitmap = MutableLiveData<Bitmap>()
 
     private val detectionList = MutableLiveData<List<DetectionResult>>(emptyList())
@@ -34,17 +33,8 @@ class SharedViewModel : ViewModel() {
 
     private var cardObjectToReveal: Card2? = null
 
-    fun setImageBitmap(bitmap: Bitmap) {
-        imageBitmap.value = bitmap
-    }
-
     fun setPreviewBitmap(bitmap: Bitmap) {
         previewBitmap.value = bitmap
-    }
-
-
-    fun getImageBitmap(): LiveData<Bitmap> {
-        return imageBitmap
     }
 
     fun getPreviewBitmap(): LiveData<Bitmap> {

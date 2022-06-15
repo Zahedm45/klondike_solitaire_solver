@@ -123,11 +123,9 @@ class FragmentLandingPage : Fragment() {
             lifecycleScope.launch {
                 it?.apply {
                     binding?.ivBackground?.setImageURI(it)
-                    val bitmap = uriToBitmap(it)
-                    viewModel.setImageBitmap(bitmap)
-                    sharedViewModel.setImageBitmap(bitmap)
-
                     updateUItoLoading()
+                    val bitmap = async { return@async uriToBitmap(it) }.await()
+                    viewModel.setImageBitmap(bitmap)
                 }
 
             }
@@ -142,10 +140,9 @@ class FragmentLandingPage : Fragment() {
             lifecycleScope.launch {
                 if (it.resultCode == RESULT_OK) {
                     binding?.ivBackground?.setImageURI(tempImageUri)
-                    val bitmap = uriToBitmap(tempImageUri!!)
-                    viewModel.setImageBitmap(bitmap)
-                    sharedViewModel.setImageBitmap(bitmap)
                     updateUItoLoading()
+                    val bitmap = async { return@async uriToBitmap(tempImageUri!!) }.await()
+                    viewModel.setImageBitmap(bitmap)
                 }
             }
 
