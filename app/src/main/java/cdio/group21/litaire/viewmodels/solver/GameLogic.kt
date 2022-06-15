@@ -50,7 +50,7 @@ class GameLogic {
                 }
             }
 
-            if (block.cards[0].value.toInt() != 13) {
+            if (block.cards[0].value.toInt() != 13 || (block.cards[0].value.toInt() == 13 && block.hiddenCards > 0)) {
                 possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves, lastMovesMap)
             }
 
