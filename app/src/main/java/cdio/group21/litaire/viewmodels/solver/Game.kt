@@ -9,46 +9,24 @@ class Game {
 
     val gameLogic = GameLogic()
 
-    /* This function evaluates the foundation piles and calculates the sum to figure out
-    * the game's state */
-    fun evalFoundation(foundations: ArrayList<Card>): Int{
-        var sum = 0
 
-        foundations.forEach {
-            sum += it.value
+    fun move_(
+        move: Move,
+        foundations: ArrayList<Card>,
+        blocks: ArrayList<Block>,
+        waste: Card,
+        lastMoves: HashMap<String, HashMap<String, Boolean>>
+    ): Boolean {
+        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
+            return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
         }
-        return sum
-    }
-
-    /* This function evaluates the blocks and finds the largest column*/
-    fun evalBlock(blocks: ArrayList<SortedResult>):Int {
-
-        var size = 0
-
-        blocks.forEach {
-
-            if (it.block.size > size) {
-                size = it.block.size
-            }
-
+        if (move.isMoveToFoundation) {
+            return moveFromBlockToFoundation(move, foundations, blocks)
         }
-        return size
+        return moveFromBlockToBlock(move,blocks, lastMoves)
     }
 
 
-    /**
-     * Returns the amount of the empty blocks
-     */
-    fun emptyBlock(blocks: ArrayList<Block>): Int {
-        var counter = 0
-        blocks.forEach {
-
-            if (it.cards.size < 1) {
-                counter++
-            }
-        }
-        return counter
-    }
 
 
     fun moveFromBlockToFoundation(
@@ -58,8 +36,6 @@ class Game {
 
     ): Boolean {
         val gameLogic = GameLogic()
-
-        //Log.i(TAG, "Move to foundation")
         val sour = move.indexOfSourceBlock.toInt()
         val dest = move.indexOfDestination.toInt()
         val block = blocks[sour]
@@ -80,11 +56,7 @@ class Game {
                 }
             }
         }
-       // Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
-
         return false
-
-
     }
 
 
@@ -93,15 +65,12 @@ class Game {
         move: Move,
         blocks: ArrayList<Block>,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
-
     ): Boolean {
         val sourceIndex = move.indexOfSourceBlock.toInt()
         val destBlock = blocks[move.indexOfDestination.toInt()]
         val sourceBlock = blocks[sourceIndex]
         var hasCardMoved = false
         val gameLogic = GameLogic()
-
-
         val i = sourceBlock.cards.indexOf(move.card)
 
         if (i != DESTINATION_UNKNOWN.toInt()) {
@@ -168,28 +137,21 @@ class Game {
     }
 
 
-
-
     fun moveFromWasteToFoundation(
         move: Move,
         foundations: ArrayList<Card>,
         waste: Card
 
     ): Boolean {
-
-        //Log.i(TAG, "Move to foundation")
         val sour = move.indexOfSourceBlock.toInt()
         val dest = move.indexOfDestination.toInt()
         val gameLogic = GameLogic()
-
-
 
         if (waste == move.card) {
             if (dest == DESTINATION_UNKNOWN.toInt()) {
                 foundations.add(waste.deepCopy())
                 waste.value = DUMMY_CARD.value
                 waste.suit = DUMMY_CARD.suit
-
                 return true
 
             } else if (dest in 0..3) {
@@ -201,23 +163,19 @@ class Game {
                 }
             }
         }
-        //Log.i(ContentValues.TAG, "${move.card.value.toString() + move.card.suit}: move is not possible!")
-
         return false
-
-
     }
+
+
 
     fun moveFromWasteToBlock(
         move: Move,
         blocks: ArrayList<Block>,
         waste: Card
-        //lastMoves: HashMap<String, HashMap<String, Boolean>>?
-
     ): Boolean {
+
         val destBlock = blocks[move.indexOfDestination.toInt()]
         var hasCardMoved = false
-
         val gameLogic = GameLogic()
         val i = move.indexOfSourceBlock
 
@@ -298,25 +256,50 @@ class Game {
     }
 
 
-    fun move_(
-        move: Move,
-        foundations: ArrayList<Card>,
-        blocks: ArrayList<Block>,
-        waste: Card,
-        lastMoves: HashMap<String, HashMap<String, Boolean>>
-    ): Boolean {
 
-        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
-            return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
+
+    /* This function evaluates the foundation piles and calculates the sum to figure out
+    * the game's state */
+    fun evalFoundation(foundations: ArrayList<Card>): Int{
+        var sum = 0
+
+        foundations.forEach {
+            sum += it.value
         }
-
-        if (move.isMoveToFoundation) {
-            return moveFromBlockToFoundation(move, foundations, blocks)
-        }
-
-
-        return moveFromBlockToBlock(move,blocks, lastMoves)
+        return sum
     }
+
+    /* This function evaluates the blocks and finds the largest column*/
+    fun evalBlock(blocks: ArrayList<SortedResult>):Int {
+
+        var size = 0
+
+        blocks.forEach {
+
+            if (it.block.size > size) {
+                size = it.block.size
+            }
+
+        }
+        return size
+    }
+
+
+    /**
+     * Returns the amount of the empty blocks
+     */
+    fun emptyBlock(blocks: ArrayList<Block>): Int {
+        var counter = 0
+        blocks.forEach {
+
+            if (it.cards.size < 1) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+
 
 
 

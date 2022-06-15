@@ -102,6 +102,37 @@ class RandomAiTest {
     }
 
 
+
+
+
+    @Test
+    fun test() {
+        initialize()
+        blocks[2].cards.add(Card(4,'c'))
+        blocks[2].cards.add(Card(3,'h'))
+        blocks[2].cards.add(Card(2,'c'))
+        blocks[2].cards.add(Card(1,'h'))
+
+        blocks[2].hiddenCards = 3
+        blocks[6].hiddenCards = 2
+        blocks[0].hiddenCards = 1
+
+
+
+        val retVal1 = Ai().heuristicFaceDown(blocks)
+        var isGameInLastEnd = false
+
+        if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
+            isGameInLastEnd = true
+        }
+
+        assertEquals(isGameInLastEnd, true)
+
+
+
+    }
+
+
     private fun initialize() {
         for (i in 0..6) {
             blocks.add(Block())

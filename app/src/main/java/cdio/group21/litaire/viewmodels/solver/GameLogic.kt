@@ -295,9 +295,6 @@ class GameLogic {
                 // Added once
             }
 
-/*                if (value == true) {
-                    // Added for the second time
-                }*/
         }
         return false
     }
