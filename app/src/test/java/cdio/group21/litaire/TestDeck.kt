@@ -755,5 +755,40 @@ class TestDeck {
         Assert.assertEquals(foundation[2].value.toInt(), 13)
         Assert.assertEquals(foundation[3].value.toInt(), 13)
     }
+    @Test
+    fun solveDeck2(){
+        //Innitialize blocks and insert the cards
+        initializeBlocks()
+
+        for (i in 0..6) {
+            blocks[i].hiddenCards = i
+        }
+
+        blocks[0].cards.add(Card(5,'d').deepCopy())
+
+        blocks[1].cards.add(Card(2,'c').deepCopy())
+
+        blocks[2].cards.add(Card(8,'c').deepCopy())
+
+        blocks[3].cards.add(Card(5,'s').deepCopy())
+
+        blocks[4].cards.add(Card(3,'h').deepCopy())
+
+        blocks[5].cards.add(Card(8,'d').deepCopy())
+
+        blocks[6].cards.add(Card(11,'d').deepCopy())
+
+        waste = Card(1,'c')
+
+        val game = Game()
+        var moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        val ai = Ai()
+
+        var bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+    }
 
 }
