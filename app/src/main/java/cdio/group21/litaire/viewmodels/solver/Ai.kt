@@ -5,6 +5,7 @@ import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
 val FACE_DOWN_CARD_VALUE = -8
 val CARDS_NOT_IN_TABLEAU_BUILD = - 5
+val CARDS_TO_FOUNDATION = 5
 
 
 class Ai {
@@ -29,7 +30,8 @@ class Ai {
         val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
 
         var isGameInLastEnd = false
-        if (heuristicFaceDown(blocks) <= 6* FACE_DOWN_CARD_VALUE) {
+        val retVal1 = heuristicFaceDown(blocks)
+        if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
             isGameInLastEnd = true
         }
 
@@ -161,6 +163,7 @@ class Ai {
         return total
     }
 
+
     fun heuristicFaceDown(
         blocks: ArrayList<Block>,
     ): Int {
@@ -198,10 +201,10 @@ class Ai {
 
 
 
+//////////////////////////////
 
 
-
-    fun heuristicTwo(
+/*    fun heuristicTwo(
         blocks: ArrayList<Block>,
         foundations: ArrayList<Card>,
         waste: Card
@@ -211,9 +214,17 @@ class Ai {
          heuristicFoundationsTwo(foundations) +
                 isWasteAbleToMove(blocks, foundations, waste) +
                 heuristicCardsNotInBuild(blocks,-2)
+    }*/
+
+
+    fun heuristicTwo(
+        blocks: ArrayList<Block>,
+        foundations: ArrayList<Card>,
+        waste: Card
+    ): Int {
+
+        return heuristicFoundationsTwo(foundations)
     }
-
-
 
 
 
@@ -222,7 +233,7 @@ class Ai {
     ): Int {
         var total = 0
         foundations.forEach { f ->
-            total += 5*f.value
+            total += 5 * f.value
         }
         return total
     }
