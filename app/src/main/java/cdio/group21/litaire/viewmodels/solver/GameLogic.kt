@@ -68,20 +68,19 @@ class GameLogic {
                 }
             }
 
-            //add foundation to block
+/*            //add foundation to block
             for(j in foundations.indices) {
                 val foundation = foundations[j]
                 if(evalBlockToBlockAndWasteToBlock(lastCard,foundation)){
                     val newMove = Move(false, foundation,j.toByte(),indexBlock.toByte())
                     possibleMoves.add(newMove)
                 }
-            }
+            }*/
         }
 
 
 
         if (waste?.value == (13).toByte()) {
-
             if (hasChecked && emptyBlockIndex != -1) {
                 val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION, emptyBlockIndex.toByte())
                 possibleMoves.add(newMove)

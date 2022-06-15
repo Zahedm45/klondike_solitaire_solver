@@ -68,12 +68,14 @@ class Game {
             if (dest.toByte() == DESTINATION_UNKNOWN) {
                 foundations.add(block.cards.last())
                 block.cards.removeLast()
+                //updateUnknownCards(block)
                 return true
 
             } else if (dest in 0..3) {
                 if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
                     foundations[dest] = block.cards.last()
                     block.cards.removeLast()
+                    //updateUnknownCards(block)
                     return true
                 }
             }
@@ -134,14 +136,8 @@ class Game {
                 dropItems--
             }
 
-
             val sBlock = blocks[sourceIndex]
-            if (sBlock.cards.size == 0) {
-                sBlock.hiddenCards = 0
-            }else if (sBlock.cards.size <= sBlock.hiddenCards) {
-                sBlock.hiddenCards = sBlock.cards.size-1
-            }
-
+            updateUnknownCards(sBlock)
 
 
             // Adds the card(s) to the destination block.
@@ -370,6 +366,14 @@ class Game {
         }
     }
 
+
+    fun updateUnknownCards(sBlock: Block) {
+        if (sBlock.cards.size == 0) {
+            sBlock.hiddenCards = 0
+        }else if (sBlock.cards.size <= sBlock.hiddenCards) {
+            sBlock.hiddenCards = sBlock.cards.size-1
+        }
+    }
 
 }
 

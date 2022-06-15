@@ -321,7 +321,7 @@ class UnitTestFoundationTests {
         Assert.assertEquals(result2, false)
     }
 
-    /*Test if evalBlockToFoundation works as intended*/
+/*    *//*Test if evalBlockToFoundation works as intended*//*
     @Test
     fun testPossibleMoveFoundationToBlock(){
         initializeBlocks()
@@ -334,9 +334,9 @@ class UnitTestFoundationTests {
         val move = Move(false, Card(3,'s'),0.toByte(),0.toByte())
 
         Assert.assertEquals(result.contains(move), true)
-    }
+    }*/
 
-    /*Test if evalBlockToFoundation works as intended*/
+/*    *//*Test if evalBlockToFoundation works as intended*//*
     @Test
     fun testPossibleMoveFoundationToBlockMoreCards(){
         initializeBlocks()
@@ -355,7 +355,7 @@ class UnitTestFoundationTests {
         val move = Move(false, Card(3,'s'),0.toByte(),0.toByte())
 
         Assert.assertEquals(result.contains(move), true)
-    }
+    }*/
 
     @Test
     fun winScenario() {

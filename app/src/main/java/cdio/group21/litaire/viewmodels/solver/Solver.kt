@@ -5,7 +5,7 @@ import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Solver {
-    private val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
+    private var lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
     private var waste = DUMMY_CARD.deepCopy()
 
     private var foundations: ArrayList<Card> = ArrayList()
@@ -43,11 +43,10 @@ class Solver {
                         counter = UtilSolver.cardDeck.size-1
                     }
                     waste = UtilSolver.cardDeck[counter].deepCopy()
+                    lastMoves = HashMap()
+
                 }
 
-                if (nextMove.isMoveToFoundation != true) {
-                    println()
-                }
 
             } else {
                 counter--
