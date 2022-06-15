@@ -134,19 +134,17 @@ class FragmentLandingPage : Fragment() {
 
 
     private val cameraLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult(),
-        ActivityResultCallback {
-
-            lifecycleScope.launch {
-                if (it.resultCode == RESULT_OK) {
-                    binding?.ivBackground?.setImageURI(tempImageUri)
-                    updateUItoLoading()
-                    val bitmap = async { return@async uriToBitmap(tempImageUri!!) }.await()
-                    viewModel.setImageBitmap(bitmap)
-                }
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        lifecycleScope.launch {
+            if (it.resultCode == RESULT_OK) {
+                binding?.ivBackground?.setImageURI(tempImageUri)
+                updateUItoLoading()
+                val bitmap = async { return@async uriToBitmap(tempImageUri!!) }.await()
+                viewModel.setImageBitmap(bitmap)
             }
-
-        })
+        }
+    }
 
 
     /**
