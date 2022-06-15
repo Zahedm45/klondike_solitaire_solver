@@ -358,6 +358,7 @@ class UnitTestPossibleMoves {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
+
         blocks[5].hiddenCards = 0
         blocks[5].cards.add(Card(3,'c').deepCopy())
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
@@ -373,6 +374,5 @@ class UnitTestPossibleMoves {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-
     }
 }
