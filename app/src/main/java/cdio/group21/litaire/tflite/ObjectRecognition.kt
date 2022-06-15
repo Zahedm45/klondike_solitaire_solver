@@ -23,13 +23,12 @@ object ObjectRecognition {
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun processImage(bitmap: Bitmap, config: DetectionConfig): List<DetectionResult> {
-
-        val bitmaps: Array2D<BitmapSlice> = bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
-        val results = bitmaps.pmap2D { bitmapSlice -> RoboflowAPI.getPrediction(bitmapSlice.bitmap) }
-
-        // Merge the results
+        val bitmaps: Array2D<BitmapSlice> =
+            bitmap.split(config.num_rows, config.num_columns, config.overlap_percent)
+        val results = bitmaps.pmap2D {
+                bitmapSlice -> RoboflowAPI.getPrediction(bitmapSlice.bitmap)
+        }
         val predictions = mergeResults(results, bitmaps)
-
         return collectPositions(predictions)
     }
 
