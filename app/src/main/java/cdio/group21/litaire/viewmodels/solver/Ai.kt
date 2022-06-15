@@ -30,7 +30,8 @@ class Ai {
         val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
 
         var isGameInLastEnd = false
-        if (heuristicFaceDown(blocks) <= 6* FACE_DOWN_CARD_VALUE) {
+        val retVal1 = heuristicFaceDown(blocks)
+        if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
             isGameInLastEnd = true
         }
 
@@ -203,7 +204,7 @@ class Ai {
 //////////////////////////////
 
 
-    fun heuristicTwo(
+/*    fun heuristicTwo(
         blocks: ArrayList<Block>,
         foundations: ArrayList<Card>,
         waste: Card
@@ -211,11 +212,19 @@ class Ai {
 
         return heuristicFaceDown(blocks) +
          heuristicFoundationsTwo(foundations) +
-                //isWasteAbleToMove(blocks, foundations, waste) +
+                isWasteAbleToMove(blocks, foundations, waste) +
                 heuristicCardsNotInBuild(blocks,-2)
+    }*/
+
+
+    fun heuristicTwo(
+        blocks: ArrayList<Block>,
+        foundations: ArrayList<Card>,
+        waste: Card
+    ): Int {
+
+        return heuristicFoundationsTwo(foundations)
     }
-
-
 
 
 
@@ -230,7 +239,7 @@ class Ai {
     }
 
 
-/*    fun isWasteAbleToMove(
+    fun isWasteAbleToMove(
         blocks: ArrayList<Block>,
         foundations: ArrayList<Card>,
         waste: Card
@@ -247,7 +256,7 @@ class Ai {
             total += it.value
         }
         return total
-    }*/
+    }
 
 
 }

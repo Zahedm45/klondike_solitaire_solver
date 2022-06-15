@@ -32,19 +32,30 @@ class Solver {
         val ai = Ai()
         val game = Game()
         var counter = UtilSolver.cardDeck.size-1
-        for (i in 0..140) {
+        for (i in 0..125) {
             val moves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
             val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
+
+            if (nextMove == null && moves.isNotEmpty()) {
+                val bestM = ai.findBestMove(foundations, blocks, waste, lastMoves)
+            }
+
             if (nextMove != null) {
                 game.move_(nextMove, foundations, blocks, waste, lastMoves)
                 if (waste == DUMMY_CARD) {
-                    UtilSolver.cardDeck.removeAt(counter)
-                    counter--
-                    if (counter < 0) {
-                        counter = UtilSolver.cardDeck.size-1
+                    if (counter >= 0) {
+                        UtilSolver.cardDeck.removeAt(counter)
+                        counter--
+                        if (counter < 0) {
+                            counter = UtilSolver.cardDeck.size-1
+                        }
+                        if(UtilSolver.cardDeck.isNotEmpty()) {
+                            waste = UtilSolver.cardDeck[counter].deepCopy()
+                            lastMoves = HashMap()
+                        }
                     }
-                    waste = UtilSolver.cardDeck[counter].deepCopy()
-                    lastMoves = HashMap()
+
+
 
                 }
 
@@ -54,7 +65,11 @@ class Solver {
                 if (counter < 0) {
                     counter = UtilSolver.cardDeck.size-1
                 }
-                waste = UtilSolver.cardDeck[counter].deepCopy()
+
+                if(UtilSolver.cardDeck.isNotEmpty()) {
+                    waste = UtilSolver.cardDeck[counter].deepCopy()
+                    lastMoves = HashMap()
+                }
                 println("No more move available!")
             }
 

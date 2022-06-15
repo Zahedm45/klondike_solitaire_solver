@@ -56,9 +56,6 @@ class GameLogic {
 
 
 
-
-
-
             if (waste != null){
                 //check waste pile to block
                 if(evalBlockToBlockAndWasteToBlock(lastCard,waste)){
