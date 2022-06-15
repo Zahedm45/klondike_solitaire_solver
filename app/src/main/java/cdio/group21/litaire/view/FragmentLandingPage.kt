@@ -30,7 +30,10 @@ import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.utils.extensions.forEachIndexed2D
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
 
@@ -113,7 +116,6 @@ class FragmentLandingPage : Fragment() {
         )!!
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
-        //cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         cameraLauncher.launch(cameraIntent)
     }
 
@@ -121,11 +123,14 @@ class FragmentLandingPage : Fragment() {
     private val selectPictureLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             lifecycleScope.launch {
+                updateUItoLoading()
                 it?.apply {
-                    binding?.ivBackground?.setImageURI(it)
-                    updateUItoLoading()
-                    val bitmap = async { return@async uriToBitmap(it) }.await()
-                    viewModel.setImageBitmap(bitmap)
+                    launch {
+                        binding?.ivBackground?.setImageURI(it)
+                    }
+                    launch {
+                        viewModel.setImageBitmap(uriToBitmap(it))
+                    }
                 }
 
             }
@@ -138,10 +143,13 @@ class FragmentLandingPage : Fragment() {
     ) {
         lifecycleScope.launch {
             if (it.resultCode == RESULT_OK) {
-                binding?.ivBackground?.setImageURI(tempImageUri)
                 updateUItoLoading()
-                val bitmap = async { return@async uriToBitmap(tempImageUri!!) }.await()
-                viewModel.setImageBitmap(bitmap)
+                launch {
+                    binding?.ivBackground?.setImageURI(tempImageUri)
+                }
+                launch {
+                    viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+                }
             }
         }
     }
@@ -276,7 +284,10 @@ class FragmentLandingPage : Fragment() {
     private suspend fun uriToBitmap(uri: Uri): Bitmap {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
-            val bitmap = ImageDecoder.decodeBitmap(source)
+            val bitmap = withContext(Dispatchers.IO) {
+                async { return@async ImageDecoder.decodeBitmap(source) }.await()
+            }
+            //val bitmap = ImageDecoder.decodeBitmap(source)
 
             val desiredWidth = 2048
             val scalingFactor = desiredWidth.toDouble() / bitmap.width.toDouble()
