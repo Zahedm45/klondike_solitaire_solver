@@ -60,8 +60,6 @@ class FragmentCamera : Fragment() {
         // Inflate the layout for this fragment
         binding.btImageCapture.setOnClickListener(){
             takePhoto()
-            Log.e(TAG, "Photo capture failed")
-
         }
 
         binding.btReturn?.setOnClickListener(){
