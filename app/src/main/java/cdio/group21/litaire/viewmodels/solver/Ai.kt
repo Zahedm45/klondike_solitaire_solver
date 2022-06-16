@@ -49,6 +49,12 @@ class Ai {
 
 
         availableMoves.forEach {currMove ->
+            if (currMove.card.rank == Rank.KING) {
+                if (currMove.isMoveToFoundation && foundations.size < 4) {
+                     return currMove
+                }
+            }
+
 
             val foundationsCopy = ArrayList( foundations.map { detectR -> detectR.deepCopy()})
             val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
@@ -61,6 +67,7 @@ class Ai {
             if (!newMoves) {
                 return@forEach
             }
+            val sateAfterFirstMove = GameSate( heuristicOne(blocksCopy, foundationsCopy), heuristicFoundationsTwo(foundationsCopy), depth-1)
 
             algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValue, mapCopy, depth-1)
             if(leafValue.isEmpty()){ return@forEach }
@@ -87,13 +94,26 @@ class Ai {
                 if (newSate.heuristicOneVal > bestState.heuristicOneVal) {
                     bestMove = currMove
                     bestState = newSate
+                    bestState.afterFirstMove = sateAfterFirstMove
 
-                } /*else if (newSate.heuristicOneVal == bestState.heuristicOneVal) {
-                    if (newSate.length < bestState.length){
+
+                } else if (newSate.heuristicOneVal == bestState.heuristicOneVal && initialState.heuristicOneVal != newSate.heuristicOneVal) {
+                    if (newSate.length > bestState.length){
                         bestMove = currMove
-                        bestState = bestState
+                        bestState = newSate
+                        bestState.afterFirstMove = sateAfterFirstMove
+
+                    } else if (newSate.length == bestState.length) {
+
+                        if (bestState.afterFirstMove != null) {
+                            if (bestState.afterFirstMove!!.heuristicOneVal < sateAfterFirstMove.heuristicOneVal) {
+                                bestMove = currMove
+                                bestState = newSate
+                                bestState.afterFirstMove = sateAfterFirstMove
+                            }
+                        }
                     }
-                }*/
+                }
             }
 
 
@@ -114,7 +134,7 @@ class Ai {
             }
         }
 
-        println( "The next move is: $bestMove, $bestState")
+        //println( "The next move is: $bestMove, $bestState")
 
         return bestMove
     }
