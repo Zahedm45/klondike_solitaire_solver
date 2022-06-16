@@ -1,7 +1,7 @@
 package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
+import Card
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.*
 import org.junit.Assert.assertEquals
@@ -16,10 +16,10 @@ class RandomAiTest {
 
     @Test
     fun heuristicFoundationTest() {
-        assertEquals(foundation.add(Card(5,'c')), true)
+        assertEquals(foundation.add(Card(Suit.CLUB, Rank.FIVE)), true)
         var value =  Ai().heuristicFoundations(foundation)
         assertEquals(value, 15)
-        assertEquals(foundation.add(Card(3,'h')), true)
+        assertEquals(foundation.add(Card(Suit.HEART, Rank.THREE)), true)
         value =  Ai().heuristicFoundations(foundation)
         assertEquals(value, 27)
 
@@ -30,29 +30,29 @@ class RandomAiTest {
     fun heuristicFaceDown() {
         initialize()
 
-        val card1 = Card(7,'c')
-        val card2 = Card(6,'h')
-        val card3 = Card(5,'c')
+        val card1 = Card(Suit.CLUB, Rank.SEVEN)
+        val card2 = Card(Suit.HEART, Rank.SIX)
+        val card3 = Card(Suit.CLUB, Rank.FIVE)
         blocks[5].cards.add(card1)
         blocks[5].cards.add(card2)
         blocks[5].cards.add(card3)
         blocks[5].hiddenCards = 2
 
-        blocks[2].cards.add(Card(6,'d'))
+        blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 
         assertEquals(Ai().heuristicFaceDown(blocks), 2* FACE_DOWN_CARD_VALUE)
 
-        blocks[3].cards.add(Card(7,'h'))
-        blocks[3].cards.add(Card(6,'s'))
-        blocks[3].cards.add(Card(5,'d'))
+        blocks[3].cards.add(Card(Suit.HEART, Rank.SEVEN))
+        blocks[3].cards.add(Card(Suit.SPADE, Rank.SIX))
+        blocks[3].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
         blocks[3].hiddenCards = 1
 
-        blocks[1].cards.add(Card(7,'d'))
+        blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
 
         assertEquals(Ai().heuristicFaceDown(blocks), 3* FACE_DOWN_CARD_VALUE)
         val moves = GameLogic().allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-        val move1 = Move(false, Card(6,'s'), 3, 1)
-        val move2 = Move(false, Card(5,'c'), 5, 2)
+        val move1 = Move(false, Card(Suit.SPADE, Rank.SIX), 3, 1)
+        val move2 = Move(false, Card(Suit.CLUB, Rank.FIVE), 5, 2)
         assertEquals(moves.contains(move1), true)
         val index = moves.indexOf(move1)
         assertEquals(blocks[3].hiddenCards, 1)
@@ -65,11 +65,11 @@ class RandomAiTest {
 
     @Test
     fun heuristicFoundation2() {
-        foundation.add(Card(1,'h'))
+        foundation.add(Card(Suit.HEART, Rank.ACE))
         assertEquals(Ai().heuristicFoundationsTwo(foundation), CARDS_TO_FOUNDATION)
-        foundation[0] = Card(2,'h')
+        foundation[0] = Card(Suit.HEART, Rank.TWO)
         assertEquals(Ai().heuristicFoundationsTwo(foundation), 2*CARDS_TO_FOUNDATION)
-        foundation.add(Card(10,'c'))
+        foundation.add(Card(Suit.CLUB, Rank.TEN))
 
         assertEquals(Ai().heuristicFoundationsTwo(foundation), 12* CARDS_TO_FOUNDATION)
 
@@ -84,10 +84,10 @@ class RandomAiTest {
     @Test
     fun unknownCardMoveToFoundation() {
         initialize()
-        blocks[2].cards.add(Card(4,'c'))
-        blocks[2].cards.add(Card(3,'h'))
-        blocks[2].cards.add(Card(2,'c'))
-        blocks[2].cards.add(Card(1,'h'))
+        blocks[2].cards.add(Card(Suit.CLUB, Rank.FOUR))
+        blocks[2].cards.add(Card(Suit.HEART, Rank.THREE))
+        blocks[2].cards.add(Card(Suit.CLUB, Rank.TWO))
+        blocks[2].cards.add(Card(Suit.HEART, Rank.ACE))
 
         blocks[2].hiddenCards = 3
 
@@ -105,10 +105,10 @@ class RandomAiTest {
     @Test
     fun test() {
         initialize()
-        blocks[2].cards.add(Card(4,'c'))
-        blocks[2].cards.add(Card(3,'h'))
-        blocks[2].cards.add(Card(2,'c'))
-        blocks[2].cards.add(Card(1,'h'))
+        blocks[2].cards.add(Card(Suit.CLUB, Rank.FOUR))
+        blocks[2].cards.add(Card(Suit.HEART, Rank.THREE))
+        blocks[2].cards.add(Card(Suit.CLUB, Rank.TWO))
+        blocks[2].cards.add(Card(Suit.HEART, Rank.ACE))
 
         blocks[2].hiddenCards = 3
         blocks[6].hiddenCards = 2

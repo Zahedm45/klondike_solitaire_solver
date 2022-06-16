@@ -1,7 +1,7 @@
 package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
+import Card
 import cdio.group21.litaire.viewmodels.solver.Ai
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
@@ -35,21 +35,21 @@ class TestDeck {
             blocks[i].hiddenCards = i
         }
 
-        blocks[0].cards.add(Card(6,'c').deepCopy())
+        blocks[0].cards.add(Card(Suit.CLUB, Rank.SIX).deepCopy())
 
-        blocks[1].cards.add(Card(7,'s').deepCopy())
+        blocks[1].cards.add(Card(Suit.SPADE, Rank.SEVEN).deepCopy())
 
-        blocks[2].cards.add(Card(9,'h').deepCopy())
+        blocks[2].cards.add(Card(Suit.HEART, Rank.NINE).deepCopy())
 
-        blocks[3].cards.add(Card(2,'h').deepCopy())
+        blocks[3].cards.add(Card(Suit.HEART, Rank.TWO).deepCopy())
 
-        blocks[4].cards.add(Card(11,'s').deepCopy())
+        blocks[4].cards.add(Card(Suit.SPADE, Rank.JACK).deepCopy())
 
-        blocks[5].cards.add(Card(6,'d'))
+        blocks[5].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 
-        blocks[6].cards.add(Card(1,'d'))
+        blocks[6].cards.add(Card(Suit.DIAMOND, Rank.ACE))
 
-        waste = Card(1,'h')
+        waste = Card(Suit.HEART, Rank.ACE)
 
         val game = Game()
         var moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
@@ -61,7 +61,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
-        blocks[5].cards.add(Card(8,'h'))
+        blocks[5].cards.add(Card(Suit.HEART, Rank.EIGHT))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -71,7 +71,7 @@ class TestDeck {
         }
 
 
-        blocks[1].cards.add(Card(1,'c'))
+        blocks[1].cards.add(Card(Suit.CLUB, Rank.ACE))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -87,7 +87,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
-        blocks[6].cards.add(Card(13,'h'))
+        blocks[6].cards.add(Card(Suit.HEART, Rank.KING))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -96,22 +96,14 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
-        waste = Card(3,'h')
+        waste = Card(Suit.HEART, Rank.THREE)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        blocks[3].cards.add(Card(13,'c'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[6].cards.add(Card(5,'d'))
+        blocks[3].cards.add(Card(Suit.CLUB, Rank.KING))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -119,7 +111,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        blocks[6].cards.add(Card(8,'s'))
+        blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -127,7 +119,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        blocks[6].cards.add(Card(10,'d'))
+        blocks[6].cards.add(Card(Suit.SPADE, Rank.EIGHT))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -135,7 +127,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        blocks[6].cards.add(Card(11,'h'))
+        blocks[6].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -143,38 +135,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(13,'s')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        // turn
-
-        waste = Card(2,'d')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        waste = Card(9,'c')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        waste = Card(8,'d')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[5].cards.add(Card(7,'h'))
+        blocks[6].cards.add(Card(Suit.HEART, Rank.JACK))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -182,97 +143,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        blocks[5].cards.add(Card(12,'d'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[5].cards.add(Card(2,'c'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[4].cards.add(Card(12,'s'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[4].cards.add(Card(4,'s'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[4].cards.add(Card(6,'h'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[3].cards.add(Card(10,'c'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[2].cards.add(Card(12,'c'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[6].cards.add(Card(4,'c'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[3].cards.add(Card(9,'d'))
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[4].cards.add(Card(3,'c'))
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
+        waste = Card(Suit.SPADE, Rank.KING)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -281,35 +152,164 @@ class TestDeck {
         }
 
         // turn
-        waste = Card(1,'s')
+
+        waste = Card(Suit.DIAMOND, Rank.TWO)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(4,'h')
+        waste = Card(Suit.CLUB, Rank.NINE)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(5,'h')
+        waste = Card(Suit.DIAMOND, Rank.EIGHT)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(8,'d')
+        blocks[5].cards.add(Card(Suit.HEART, Rank.SEVEN))
+
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        blocks[4].cards.add(Card(4,'d'))
+        blocks[5].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[5].cards.add(Card(Suit.CLUB, Rank.TWO))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[4].cards.add(Card(Suit.SPADE, Rank.QUEEN))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[4].cards.add(Card(Suit.SPADE, Rank.FOUR))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[4].cards.add(Card(Suit.HEART, Rank.SIX))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[3].cards.add(Card(Suit.CLUB, Rank.TEN))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[2].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[6].cards.add(Card(Suit.CLUB, Rank.FOUR))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[3].cards.add(Card(Suit.DIAMOND, Rank.NINE))
+
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[4].cards.add(Card(Suit.CLUB, Rank.THREE))
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+
+        // turn
+        waste = Card(Suit.SPADE, Rank.ACE)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(Suit.HEART, Rank.FOUR)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(Suit.HEART, Rank.FIVE)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(Suit.DIAMOND, Rank.EIGHT)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[4].cards.add(Card(Suit.DIAMOND, Rank.FOUR))
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -317,14 +317,14 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         // turn
-        waste = Card(5,'s')
+        waste = Card(Suit.SPADE, Rank.FIVE)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(5,'c')
+        waste = Card(Suit.CLUB, Rank.FIVE)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -337,15 +337,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(6,'s')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        // turn
-        waste = Card(7,'d')
+        waste = Card(Suit.SPADE, Rank.SIX)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -353,14 +345,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         // turn
-        waste = Card(8,'c')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        waste = Card(10,'s')
+        waste = Card(Suit.DIAMOND, Rank.SEVEN)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -368,91 +353,14 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         // turn
-        waste = Card(2,'s')
+        waste = Card(Suit.CLUB, Rank.EIGHT)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(10,'h')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        // turn
-        waste = Card(3,'d')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        waste = Card(13,'d')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        waste = Card(11,'c')
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        blocks[2].cards.add(Card(3,'s'))
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
+        waste = Card(Suit.SPADE, Rank.TEN)
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -460,13 +368,105 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         // turn
-        waste = Card(6,'s')
+        waste = Card(Suit.SPADE, Rank.TWO)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(8,'d')
+        waste = Card(Suit.HEART, Rank.TEN)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        // turn
+        waste = Card(Suit.DIAMOND, Rank.THREE)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(Suit.DIAMOND, Rank.KING)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(Suit.CLUB, Rank.JACK)
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        // turn
+        waste = Card(Suit.SPADE, Rank.SIX)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(Suit.DIAMOND, Rank.EIGHT)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -482,7 +482,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(13,'s')
+        waste = Card(Suit.SPADE, Rank.KING)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -510,13 +510,13 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         // turn
-        waste = Card(7,'d')
+        waste = Card(Suit.DIAMOND, Rank.SEVEN)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(9,'s')
+        waste = Card(Suit.SPADE, Rank.NINE)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -527,7 +527,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(12,'h')
+        waste = Card(Suit.HEART, Rank.QUEEN)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -539,23 +539,13 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         //turn
-        waste = Card(7,'c')
+        waste = Card(Suit.CLUB, Rank.SEVEN)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(10,'s')
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
+        waste = Card(Suit.SPADE, Rank.TEN)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -576,7 +566,17 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(11,'d')
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(Suit.DIAMOND, Rank.JACK)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -585,13 +585,13 @@ class TestDeck {
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         // turn
-        waste = Card(11,'c')
+        waste = Card(Suit.CLUB, Rank.JACK)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(10,'h')
+        waste = Card(Suit.HEART, Rank.TEN)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -602,7 +602,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(11,'d')
+        waste = Card(Suit.DIAMOND, Rank.JACK)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
         if(bestMove != null) {
@@ -656,11 +656,11 @@ class TestDeck {
 
         var result2 = game.gameLogic.isGameWon(foundation)
         Assert.assertEquals(result2, true)
-        Assert.assertEquals(foundation[0].value.toInt(), 13)
-        Assert.assertEquals(foundation[1].value.toInt(), 13)
-        Assert.assertEquals(foundation[2].value.toInt(), 13)
+        Assert.assertEquals(foundation[0].rank, Rank.KING)
+        Assert.assertEquals(foundation[1].rank, Rank.KING)
+        Assert.assertEquals(foundation[2].rank, Rank.KING)
 
-        Assert.assertEquals(foundation[3].value.toInt(), 13)
+        Assert.assertEquals(foundation[3].rank, Rank.KING)
     }
     @Test
     fun solveDeck2() {
@@ -671,21 +671,21 @@ class TestDeck {
             blocks[i].hiddenCards = i
         }
 
-        blocks[0].cards.add(Card(5, 'd').deepCopy())
+        blocks[0].cards.add(Card(Suit.DIAMOND, Rank.FIVE).deepCopy())
 
-        blocks[1].cards.add(Card(2, 'c').deepCopy())
+        blocks[1].cards.add(Card(Suit.CLUB, Rank.TWO).deepCopy())
 
-        blocks[2].cards.add(Card(8, 'c').deepCopy())
+        blocks[2].cards.add(Card(Suit.CLUB, Rank.EIGHT).deepCopy())
 
-        blocks[3].cards.add(Card(5, 's').deepCopy())
+        blocks[3].cards.add(Card(Suit.SPADE, Rank.FIVE).deepCopy())
 
-        blocks[4].cards.add(Card(3, 'h').deepCopy())
+        blocks[4].cards.add(Card(Suit.HEART, Rank.THREE).deepCopy())
 
-        blocks[5].cards.add(Card(8, 'd').deepCopy())
+        blocks[5].cards.add(Card(Suit.DIAMOND, Rank.EIGHT).deepCopy())
 
-        blocks[6].cards.add(Card(11, 'd').deepCopy())
+        blocks[6].cards.add(Card(Suit.DIAMOND, Rank.JACK).deepCopy())
 
-        waste = Card(1, 'c')
+        waste = Card(Suit.CLUB, Rank.ACE)
 
         val game = Game()
         var moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
@@ -697,7 +697,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
 
-        blocks[1].cards.add(Card(1, 'd'))
+        blocks[1].cards.add(Card(Suit.DIAMOND, Rank.ACE))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -710,7 +710,7 @@ class TestDeck {
         if (bestMove != null) {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
-        waste = Card(12, 's')
+        waste = Card(Suit.SPADE, Rank.QUEEN)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -725,7 +725,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
 
-        waste = Card(7, 'c')
+        waste = Card(Suit.CLUB, Rank.SEVEN)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -733,7 +733,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
 
-        waste = Card(2, 's')
+        waste = Card(Suit.SPADE, Rank.TWO)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -741,21 +741,21 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
 
-        waste = Card(13, 'd')
+        waste = Card(Suit.DIAMOND, Rank.KING)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
         if (bestMove != null) {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
-        waste = Card(12, 's')
+        waste = Card(Suit.SPADE, Rank.QUEEN)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
         if (bestMove != null) {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
-        waste = Card(12, 'c')
+        waste = Card(Suit.CLUB, Rank.QUEEN)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -763,7 +763,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
         blocks[6].hiddenCards = 5
-        blocks[6].cards.add(Card(10,'c'))
+        blocks[6].cards.add(Card(Suit.CLUB, Rank.TEN))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -771,21 +771,21 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
         blocks[6].hiddenCards = 4
-        blocks[6].cards.add(Card(7,'s'))
+        blocks[6].cards.add(Card(Suit.SPADE, Rank.SEVEN))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
         if (bestMove != null) {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
-        waste = Card(4, 'c')
+        waste = Card(Suit.CLUB, Rank.FOUR)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
         if (bestMove != null) {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
-        waste = Card(8, 'h')
+        waste = Card(Suit.HEART, Rank.EIGHT)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -793,7 +793,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
         blocks[4].hiddenCards = 3
-        blocks[4].cards.add(Card(9,'h'))
+        blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -801,7 +801,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
         blocks[2].hiddenCards = 1
-        blocks[2].cards.add(Card(12,'h'))
+        blocks[2].cards.add(Card(Suit.HEART, Rank.QUEEN))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -809,7 +809,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
         blocks[4].hiddenCards = 2
-        blocks[4].cards.add(Card(6,'d'))
+        blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SIX))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -817,7 +817,7 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
         blocks[3].hiddenCards = 2
-        blocks[3].cards.add(Card(12,'d'))
+        blocks[3].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
@@ -825,14 +825,14 @@ class TestDeck {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
         blocks[4].hiddenCards = 1
-        blocks[4].cards.add(Card(9,'s'))
+        blocks[4].cards.add(Card(Suit.SPADE, Rank.NINE))
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
         if (bestMove != null) {
             game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
         }
-        waste = Card(5, 'c')
+        waste = Card(Suit.CLUB, Rank.FIVE)
         moves = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
 
