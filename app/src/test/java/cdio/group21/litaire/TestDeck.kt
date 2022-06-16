@@ -45,9 +45,9 @@ class TestDeck {
 
         blocks[4].cards.add(Card(11,'s').deepCopy())
 
-        blocks[5].cards.add(Card(6,'d').deepCopy())
+        blocks[5].cards.add(Card(6,'d'))
 
-        blocks[6].cards.add(Card(1,'d').deepCopy())
+        blocks[6].cards.add(Card(1,'d'))
 
         waste = Card(1,'h')
 
@@ -62,7 +62,7 @@ class TestDeck {
         }
 
         blocks[5].hiddenCards = 4
-        blocks[5].cards.add(Card(8,'h').deepCopy())
+        blocks[5].cards.add(Card(8,'h'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -72,7 +72,7 @@ class TestDeck {
         }
 
         blocks[1].hiddenCards = 0
-        blocks[1].cards.add(Card(1,'c').deepCopy())
+        blocks[1].cards.add(Card(1,'c'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -88,7 +88,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         blocks[6].hiddenCards = 5
-        blocks[6].cards.add(Card(13,'h').deepCopy())
+        blocks[6].cards.add(Card(13,'h'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -97,7 +97,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         blocks[6].hiddenCards = 4
-        blocks[6].cards.add(Card(5,'d').deepCopy())
+        blocks[6].cards.add(Card(5,'d'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -107,7 +107,7 @@ class TestDeck {
         }
 
         blocks[6].hiddenCards = 3
-        blocks[6].cards.add(Card(8,'s').deepCopy())
+        blocks[6].cards.add(Card(8,'s'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -117,7 +117,7 @@ class TestDeck {
         }
 
         blocks[6].hiddenCards = 2
-        blocks[6].cards.add(Card(10,'d').deepCopy())
+        blocks[6].cards.add(Card(10,'d'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -127,7 +127,7 @@ class TestDeck {
         }
 
         blocks[6].hiddenCards = 1
-        blocks[6].cards.add(Card(11,'h').deepCopy())
+        blocks[6].cards.add(Card(11,'h'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -135,7 +135,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(3,'h').deepCopy()
+        waste = Card(3,'h')
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -144,7 +144,7 @@ class TestDeck {
         }
 
         blocks[3].hiddenCards = 2
-        blocks[3].cards.add(Card(13,'c').deepCopy())
+        blocks[3].cards.add(Card(13,'c'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -152,7 +152,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(13,'s').deepCopy()
+        waste = Card(13,'s')
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -176,7 +176,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
-        waste = Card(8,'d').deepCopy()
+        waste = Card(8,'d')
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -184,7 +184,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         blocks[5].hiddenCards = 3
-        blocks[5].cards.add(Card(7,'h').deepCopy())
+        blocks[5].cards.add(Card(7,'h'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -201,7 +201,7 @@ class TestDeck {
         }
 
         blocks[3].hiddenCards = 1
-        blocks[3].cards.add(Card(10,'c').deepCopy())
+        blocks[3].cards.add(Card(10,'c'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -210,7 +210,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         blocks[2].hiddenCards = 1
-        blocks[2].cards.add(Card(12,'c').deepCopy())
+        blocks[2].cards.add(Card(12,'c'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -219,7 +219,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         blocks[2].hiddenCards = 0
-        blocks[2].cards.add(Card(3,'s').deepCopy())
+        blocks[2].cards.add(Card(3,'s'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -228,7 +228,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         blocks[3].hiddenCards = 0
-        blocks[3].cards.add(Card(9,'d').deepCopy())
+        blocks[3].cards.add(Card(9,'d'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -237,7 +237,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
         blocks[5].hiddenCards = 2
-        blocks[5].cards.add(Card(12,'d').deepCopy())
+        blocks[5].cards.add(Card(12,'d'))
 
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
@@ -306,7 +306,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(4,'h').deepCopy()
+        waste = Card(4,'h')
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -314,32 +314,7 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(5,'h').deepCopy()
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        waste = Card(8,'d').deepCopy()
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        waste = Card(5,'s').deepCopy()
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-        waste = Card(5,'c').deepCopy()
+        waste = Card(5,'h')
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -348,7 +323,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
-        waste = Card(6,'s').deepCopy()
+        waste = Card(8,'d')
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -356,7 +331,32 @@ class TestDeck {
         if(bestMove != null) {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
-        waste = Card(7,'d').deepCopy()
+        waste = Card(5,'s')
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(5,'c')
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+
+        waste = Card(6,'s')
+        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
+        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+
+
+        if(bestMove != null) {
+            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
+        }
+        waste = Card(7,'d')
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
 
@@ -421,7 +421,7 @@ class TestDeck {
             game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
         }
 
-        blocks[6].cards.add(Card(13,'d').deepCopy())
+
         waste = Card(11,'c').deepCopy()
         moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
         bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
