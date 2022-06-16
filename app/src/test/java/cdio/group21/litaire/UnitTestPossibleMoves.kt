@@ -7,6 +7,7 @@ import cdio.group21.litaire.viewmodels.solver.Ai
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
+import org.junit.Assert
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -115,110 +116,6 @@ class UnitTestPossibleMoves {
         val moves = GameLogic().allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         assertEquals(moves.size, 1)
 
-    }
-
-    @Test
-    fun moreTests() {
-
-        //Innitialize blocks and insert the cards
-        initializeBlocks()
-
-        for (i in 0..6) {
-            blocks[i].hiddenCards = i
-        }
-
-        blocks[0].cards.add(Card(6,'c').deepCopy())
-
-        blocks[1].cards.add(Card(7,'s').deepCopy())
-
-        blocks[2].cards.add(Card(9,'h').deepCopy())
-
-        blocks[3].cards.add(Card(2,'h').deepCopy())
-
-        blocks[4].cards.add(Card(11,'s').deepCopy())
-
-        blocks[5].cards.add(Card(6,'d').deepCopy())
-
-        blocks[6].cards.add(Card(1,'d').deepCopy())
-
-        waste = Card(1,'h')
-
-        val game = Game()
-        var moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        val ai = Ai()
-
-        var bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        blocks[5].hiddenCards = 4
-        blocks[5].cards.add(Card(8,'h').deepCopy())
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        blocks[1].hiddenCards = 0
-        blocks[1].cards.add(Card(1,'c').deepCopy())
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        blocks[6].hiddenCards = 5
-        blocks[6].cards.add(Card(13,'h').deepCopy())
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        waste = Card(3,'h').deepCopy()
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        blocks[3].hiddenCards = 2
-        blocks[3].cards.add(Card(13,'c').deepCopy())
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        waste = Card(13,'s').deepCopy()
-
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
-
-        if(bestMove != null) {
-            game.move_(bestMove, foundation,blocks,waste, lastMovesMap)
-        }
-
-        waste = Card(13,'s').deepCopy()
     }
 
 }
