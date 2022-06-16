@@ -31,7 +31,7 @@ class TestClassBlock {
         assertEquals(blocks[5].hiddenCards, 2)
         val k = Game().move_(Move(false, card3, 5, 2), foundation,blocks, waste, lastMovesMap)
         assertEquals(k, true)
-        assertEquals(blocks[5].hiddenCards, 1)
+        assertEquals(blocks[5].hiddenCards, 2)
     }
 
 
