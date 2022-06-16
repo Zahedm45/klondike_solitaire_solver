@@ -74,11 +74,11 @@ class FragmentLandingPage : Fragment() {
         }
 
         sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
-            val error = sharedViewModel.updateGame(detectionList)
+            val result = sharedViewModel.updateGame(detectionList)
             if(detectionList.isEmpty()) return@observe
-            if(error != null){
+            if(result.isFailure){
                 updateUItoLoading(visible = false)
-                setErrorMessage(enabled = true, msg = error)
+                setErrorMessage(enabled = true, msg = result.exceptionOrNull().toString())
             }
         }
 
@@ -236,7 +236,7 @@ class FragmentLandingPage : Fragment() {
             )
 
             val baos = ByteArrayOutputStream()
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
             val data = baos.toByteArray()
 
             return BitmapFactory.decodeByteArray(data, 0, data.size)
