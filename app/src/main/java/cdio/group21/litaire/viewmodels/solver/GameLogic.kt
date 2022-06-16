@@ -8,6 +8,7 @@ class GameLogic {
 
     var emptyBlockIndex = -1
     var hasChecked = false
+    var isGameWon = false
 
 
     fun allPossibleMoves(
@@ -105,7 +106,7 @@ class GameLogic {
                 }
             }
         }
-
+        var win = isGameWon
         return possibleMoves
     }
 
@@ -295,6 +296,19 @@ class GameLogic {
                 // Added once
             }
 
+        }
+        return false
+    }
+
+    fun isGameWon(foundation: ArrayList<Card>): Boolean {
+        var winCount = 0
+        for (i in foundation.indices){
+            if (foundation[i].value.toInt() == 13){
+                winCount++
+            }
+        }
+        if (winCount == 4){
+            return true
         }
         return false
     }
