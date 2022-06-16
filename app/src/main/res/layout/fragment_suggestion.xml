@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:rotation="0"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,13 @@
 
     </ImageView>
 
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="TextEditGame" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="350dp"
         android:layout_height="64dp"
         android:layout_gravity="center_horizontal"
@@ -112,5 +118,31 @@
 
 
     </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/TextEditGame"
+        android:layout_width="246dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:hint="from to"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="@+id/iv_background"
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_backbutton"
+        app:layout_constraintVertical_bias="0.08" />
+
+    <Button
+        android:id="@+id/apply_edits_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.243"
+        app:layout_constraintStart_toEndOf="@+id/TextEditGame"
+        app:layout_constraintTop_toBottomOf="@+id/iv_backbutton"
+        app:layout_constraintVertical_bias="0.067" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,24 +71,32 @@ class SharedViewModel : ViewModel() {
         }
     }
 
+    fun replaceCardInGame(from: Card2, to: Card2){
+        gameState.value?.replaceCardObject(from, to)
+        gameState.postValue(gameState.value)
+    }
 
-    fun updateGame(list: List<DetectionResult>) {
+    fun updateGame(list: List<DetectionResult>) : String?{
         Log.i("SharedViewModel", "Update Game: " + list.toString())
         Log.i("SharedViewModel", "Update Game: List size: " + list.size)
-        if (list.size == 7) return gameState.postValue(ObjectRecognition.initGame(list))
+        if (list.size == 7){
+            gameState.postValue(ObjectRecognition.initGame(list))
+            return null
+        }
         if (list.size == 1 && gameState.value != null && gameState.value != Solitaire.EMPTY_GAME) {
             setCardObjectToReveal(gameState.value!!.tableau[1].first())
 
             if (cardObjectToReveal == null) {
                 Log.e("SharedViewModel", "Update Game: Error: cardObjectToReveal not set!")
-                return
+                return "Update Game: Error: cardObjectToReveal not set!"
             }
             gameState.value?.replaceCardObject(cardObjectToReveal!!, list[0].card)
             cardObjectToReveal = null
             gameState.postValue(gameState.value)
-            return
+            return null
         }
         Log.e("SharedViewModel", "Update Game: Error: Inappropriate number of cards!")
+        return "Error: Inappropriate number of cards: " + list.size
     }
 
     fun setCardObjectToReveal(cardObject: Card2) {

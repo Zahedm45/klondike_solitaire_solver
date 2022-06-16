@@ -2,16 +2,20 @@ package cdio.group21.litaire.view
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.Card2
+import cdio.group21.litaire.data.Rank
 import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.databinding.FragmentSuggestionBinding
+import cdio.group21.litaire.utils.SolitaireDrawUtils
 import cdio.group21.litaire.viewmodels.SharedViewModel
 
 
@@ -48,6 +52,37 @@ class FragmentSuggestion : Fragment() {
         binding.ivBackbutton.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
         }
+
+        viewModel.getGameState().observe(viewLifecycleOwner){ solitaire ->
+            if(solitaire == null) return@observe
+            viewModel.getPreviewBitmap().value?.let { preview ->
+                binding.ivBackground.setImageBitmap(SolitaireDrawUtils.drawSolitaireGame(
+                    preview, solitaire))
+            }
+        }
+
+        binding.applyEditsButton.setOnClickListener {
+            if(binding.TextEditGame.text.length != 5) return@setOnClickListener
+            val text = binding.TextEditGame.text.split(" ")
+            val fromText = text[0]
+            val toText = text[1]
+
+            Log.i("Edit button", "Trying to edit card $fromText to $toText")
+
+            val gameState =  viewModel.getGameState().value
+            if(gameState != null){
+                val fromCard = gameState.findCardFromString(fromText)
+                val changeToCard = Card2(rank = Rank.fromChar(toText[0]), suit = Suit.fromChar(toText[1]))
+                Log.i("Edit button", "replacing $fromCard with $changeToCard")
+                if(fromCard == null) return@setOnClickListener
+                viewModel.replaceCardInGame(fromCard, changeToCard)
+                Log.i("Edit button", "succesfully replaced")
+                binding.TextEditGame.setText("")
+            }
+
+        }
+
+
 
 
     }
