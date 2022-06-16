@@ -104,6 +104,16 @@ class Ai {
         bestState.heuristicTwoVal = bestState.heuristicTwoVal - initialState.heuristicTwoVal
 
         bestState.length = depth - bestState.length
+
+
+        if (bestMove == null) {
+            availableMoves.forEach { m ->
+                if (m.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
+                    return m
+                }
+            }
+        }
+
         println( "The next move is: $bestMove, $bestState")
 
         return bestMove
