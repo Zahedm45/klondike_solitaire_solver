@@ -354,10 +354,8 @@ class Game {
 
 
     fun updateUnknownCards(sBlock: Block) {
-        if (sBlock.cards.size == 0) {
-            if(sBlock.hiddenCards >= 1){
+        if (sBlock.cards.size == 0 && sBlock.hiddenCards >= 1) {
                 sBlock.hiddenCards = sBlock.hiddenCards - 1
-            }
         }
     }
 }
