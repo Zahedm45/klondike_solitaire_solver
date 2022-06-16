@@ -1,7 +1,7 @@
 package cdio.group21.litaire
 
+import Card
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
@@ -14,7 +14,7 @@ class InfiniteLoop_unit_test {
 
     private var foundation: ArrayList<Card> = ArrayList()
     private val blocks: ArrayList<Block> = ArrayList()
-    //private val waste = Card(0, 'k')
+    //private val waste = Card('k', 0)
     private val waste = DUMMY_CARD.deepCopy()
     val gameLogic = GameLogic()
 
@@ -24,18 +24,17 @@ class InfiniteLoop_unit_test {
     @Test
     fun checkHashMap() {
 
-        val card1 = Card(5, 'd')
-        val card2 = Card(4, 'c')
-
-        val card3 = Card(5, 'h')
+        val card1 = Card(Suit.DIAMOND, Rank.FIVE)
+        val card2 = Card(Suit.CLUB, Rank.FOUR)
+        val card3 = Card(Suit.HEART, Rank.FIVE)
 
         val lastMovesHash: HashMap<String, HashMap<String, Boolean>> = HashMap()
         val innerHash: HashMap<String, Boolean> = HashMap()
 
 
-        val card1Key = "${card1.value}${card1.suit}"
-        val card2Key = "${card2.value}${card2.suit}"
-        val card3Key = "${card3.value}${card3.suit}"
+        val card1Key = "${card1.rank}${card1.suit}"
+        val card2Key = "${card2.rank}${card2.suit}"
+        val card3Key = "${card3.rank}${card3.suit}"
 
         innerHash.put(card1Key, false)
         innerHash.put(card3Key, true)
@@ -61,13 +60,13 @@ class InfiniteLoop_unit_test {
     @Test
     fun checkForInfiniteLoop1() {
 
-        val card1 = Card(5, 'd')
-        val card2 = Card(4, 'c')
-        val card3 = Card(5, 'h')
+        val card1 = Card(Suit.DIAMOND, Rank.FIVE)
+        val card2 = Card(Suit.CLUB, Rank.FOUR)
+        val card3 = Card(Suit.HEART, Rank.FIVE)
 
-        val card1Key = "${card1.value}${card1.suit}"
-        val card2Key = "${card2.value}${card2.suit}"
-        val card3Key = "${card3.value}${card3.suit}"
+        val card1Key = "${card1.rank}${card1.suit}"
+        val card2Key = "${card2.rank}${card2.suit}"
+        val card3Key = "${card3.rank}${card3.suit}"
 
         val lastMovesHash: HashMap<String, HashMap<String, Boolean>> = HashMap()
 
@@ -155,15 +154,15 @@ class InfiniteLoop_unit_test {
     @Test
     fun checkForInfiniteLoop2() {
 
-        val card1 = Card(13, 'd')
-        val card2 = Card(13, 'c')
-        val card3 = Card(13, 's')
+        val card1 = Card(Suit.DIAMOND, Rank.KING)
+        val card2 = Card(Suit.CLUB, Rank.KING)
+        val card3 = Card(Suit.SPADE, Rank.KING)
 
 
 
-        val card1Key = "${card1.value}${card1.suit}"
-        val card2Key = "${card2.value}${card2.suit}"
-        val card3Key = "${card3.value}${card3.suit}"
+        val card1Key = "${card1.rank}${card1.suit}"
+        val card2Key = "${card2.rank}${card2.suit}"
+        val card3Key = "${card3.rank}${card3.suit}"
 
         val lastMovesHash: HashMap<String, HashMap<String, Boolean>> = HashMap()
 

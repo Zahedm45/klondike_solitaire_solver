@@ -1,7 +1,7 @@
 package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
+import Card
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert
 import org.junit.Test
@@ -28,9 +28,9 @@ class UnitTestCheckBlock {
         }
 
 
-        blocks[0].cards.add(Card(1, 's'))
-        blocks[0].cards.add(Card(6, 'h'))
-        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(Suit.SPADE, Rank.ACE))
+        blocks[0].cards.add(Card(Suit.HEART, Rank.SIX))
+        blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
 
         var returnVal = gameLogic.checkBlock(blocks[0])
@@ -57,10 +57,10 @@ class UnitTestCheckBlock {
         }
 
 
-        blocks[0].cards.add(Card(1, 's'))
-        blocks[0].cards.add(Card(13, 's'))
-        blocks[0].cards.add(Card(7, 'h'))
-        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(Suit.SPADE, Rank.ACE))
+        blocks[0].cards.add(Card(Suit.SPADE, Rank.KING))
+        blocks[0].cards.add(Card(Suit.HEART, Rank.SEVEN))
+        blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
 
         var returnVal = gameLogic.checkBlock(blocks[0])
@@ -87,9 +87,9 @@ class UnitTestCheckBlock {
         }
 
 
-        blocks[0].cards.add(Card(7, 'c'))
-        blocks[0].cards.add(Card(6, 'h'))
-        blocks[0].cards.add(Card(5, 's'))
+        blocks[0].cards.add(Card(Suit.CLUB, Rank.SEVEN))
+        blocks[0].cards.add(Card(Suit.HEART, Rank.SIX))
+        blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
 
         var returnVal = gameLogic.checkBlock(blocks[0])

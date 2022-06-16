@@ -1,7 +1,7 @@
 package cdio.group21.litaire
 
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
+import Card
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
@@ -30,9 +30,9 @@ class UnitTestWastePileTests {
     @Test
     fun testWasteToBlock() {
         initializeBlocks()
-        val waste: Card = Card(2,'c')
+        val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-        blocks[0].cards.add(Card(3,'h'))
+        blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
 
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
@@ -44,9 +44,9 @@ class UnitTestWastePileTests {
     @Test
     fun testWasteToFoundation() {
         initializeBlocks()
-        val waste: Card = Card(2,'c')
+        val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-        foundation.add(Card(1, 'c'))
+        foundation.add(Card(Suit.CLUB, Rank.ACE))
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 1)
@@ -57,23 +57,23 @@ class UnitTestWastePileTests {
     @Test
     fun testMoveOfWasteToFoundation() {
         initializeBlocks()
-        val waste: Card = Card(2,'c')
+        val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-        foundation.add(Card(1, 'c'))
+        foundation.add(Card(Suit.CLUB, Rank.ACE))
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
         val game = Game()
         game.moveFromWasteToFoundation(moves[0], foundation, waste)
 
-        Assert.assertEquals(foundation[0], Card(2, 'c'))
+        Assert.assertEquals(foundation[0], Card(Suit.CLUB, Rank.TWO))
 
     }
 
     @Test
     fun testWasteToFoundationIfAce() {
         initializeBlocks()
-        val waste: Card = Card(1,'c')
+        val waste: Card = Card(Suit.CLUB, Rank.ACE)
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
         Assert.assertEquals(moves.size, 1)
@@ -84,10 +84,10 @@ class UnitTestWastePileTests {
     @Test
     fun testWasteToFoundationAndBlock() {
         initializeBlocks()
-        val waste: Card = Card(3,'c')
+        val waste: Card = Card(Suit.CLUB, Rank.THREE)
 
-        foundation.add(Card(2, 'c'))
-        blocks[0].cards.add(Card(4,'h'))
+        foundation.add(Card(Suit.CLUB, Rank.TWO))
+        blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
         val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
@@ -103,9 +103,9 @@ class UnitTestWastePileTests {
     fun testMoveFromWasteToBlock() {
         initializeBlocks()
 
-        val waste: Card = Card(3,'c')
+        val waste: Card = Card(Suit.CLUB, Rank.THREE)
 
-        blocks[0].cards.add(Card(4,'h'))
+        blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
         val moves = gameLogic.allPossibleMoves(foundation,blocks,waste, lastMovesMap)
         val move1 = Move(false, waste, 8,0)
@@ -117,7 +117,7 @@ class UnitTestWastePileTests {
 
         Assert.assertEquals(retVal, true)
 
-        Assert.assertEquals(blocks[0].cards.last(), Card(3, 'c'))
+        Assert.assertEquals(blocks[0].cards.last(), Card(Suit.CLUB, Rank.THREE))
 
     }
 

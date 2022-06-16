@@ -1,7 +1,7 @@
 package cdio.group21.litaire
 
+import Card
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
@@ -25,9 +25,9 @@ class Simulate_unitTest {
     @Test
     fun randomTest1() {
         initializeBlocks()
-        val card1 = Card(5,'d')
-        val card2 = Card(4, 'c')
-        val card3 = Card(3, 'c')
+        val card1 = Card(Suit.DIAMOND, Rank.FIVE)
+        val card2 = Card(Suit.CLUB, Rank.FOUR)
+        val card3 = Card(Suit.CLUB, Rank.THREE)
 
 
         blocks[0].cards.add(card1)
@@ -53,9 +53,9 @@ class Simulate_unitTest {
     @Test
     fun randomTest2() {
         initializeBlocks()
-        val card1 = Card(5,'d')
-        val card2 = Card(4, 'c')
-        val card3 = Card(3, 'c')
+        val card1 = Card(Suit.DIAMOND, Rank.FIVE)
+        val card2 = Card(Suit.CLUB, Rank.FOUR)
+        val card3 = Card(Suit.CLUB, Rank.THREE)
 
 
         blocks[0].cards.add(card1)
@@ -81,9 +81,9 @@ class Simulate_unitTest {
     @Test
     fun randomTest3() {
         initializeBlocks()
-        val card1 = Card(5,'d')
-        val card2 = Card(10, 'c')
-        val card3 = Card(3, 'c')
+        val card1 = Card(Suit.DIAMOND, Rank.FIVE)
+        val card2 = Card(Suit.CLUB, Rank.TEN)
+        val card3 = Card(Suit.CLUB, Rank.THREE)
 
 
         blocks[0].cards.add(card1)
@@ -99,7 +99,7 @@ class Simulate_unitTest {
             game.move_(it, foundation, blocks, waste, lastMovesHash)
         }
 
-        waste = Card(4, 's')
+        waste = Card(Suit.SPADE, Rank.FOUR)
         val retValMove1 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove1.size, 1)
 
@@ -110,9 +110,9 @@ class Simulate_unitTest {
     @Test
     fun randomTest4() {
         initializeBlocks()
-        val card1 = Card(5,'d')
-        val card2 = Card(4, 'c')
-        val card3 = Card(10, 'c')
+        val card1 = Card(Suit.DIAMOND, Rank.FIVE)
+        val card2 = Card(Suit.CLUB, Rank.FOUR)
+        val card3 = Card(Suit.CLUB, Rank.TEN)
 
 
         blocks[0].cards.add(card1)
@@ -136,7 +136,7 @@ class Simulate_unitTest {
         retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 0)
 
-        waste = Card(11, 'c')
+        waste = Card(Suit.CLUB, Rank.JACK)
 
         retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
         assertEquals(retValMove.size, 1)
