@@ -23,8 +23,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
-import cdio.group21.litaire.data.Solitaire
-import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.utils.SolitaireDrawUtils.drawSolitaireGame
 import cdio.group21.litaire.utils.extensions.forEachIndexed2D

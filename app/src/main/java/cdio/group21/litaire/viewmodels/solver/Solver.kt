@@ -1,7 +1,7 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import Card
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 
 class Solver {
@@ -86,7 +86,7 @@ class Solver {
 
         println("Cards left in the deck, deck size is: ${UtilSolver.cardDeck.size}")
         UtilSolver.cardDeck.forEach {
-            print(" ${it.value}${it.suit}")
+            print(" ${it.rank}${it.suit}")
         }
         println("\nmap")
 

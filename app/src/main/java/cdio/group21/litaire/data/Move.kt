@@ -1,5 +1,7 @@
 package cdio.group21.litaire.data
 
+import Card
+
 data class Move(
     val isMoveToFoundation: Boolean,
     val card: Card,

@@ -1,8 +1,7 @@
 package cdio.group21.litaire.viewmodels
 
-import android.content.Context
+import Card
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -10,8 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cdio.group21.litaire.data.Card
-import cdio.group21.litaire.data.Card2
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Solitaire
 import cdio.group21.litaire.tflite.DetectionConfig
@@ -23,7 +20,7 @@ import kotlinx.coroutines.Dispatchers.IO
 
 
 class SharedViewModel : ViewModel() {
-    private val suggestion = MutableLiveData<Pair<Card2, Card2>>()
+    private val suggestion = MutableLiveData<Pair<Card, Card>>()
 
     private val previewBitmap = MutableLiveData<Bitmap>()
 
@@ -31,7 +28,7 @@ class SharedViewModel : ViewModel() {
 
     private val gameState = MutableLiveData(Solitaire.EMPTY_GAME)
 
-    private var cardObjectToReveal: Card2? = null
+    private var cardObjectToReveal: Card? = null
 
     fun setPreviewBitmap(bitmap: Bitmap) {
         previewBitmap.value = bitmap
@@ -53,7 +50,7 @@ class SharedViewModel : ViewModel() {
         return gameState
     }
 
-    fun getSuggestion(): LiveData<Pair<Card2, Card2>> {
+    fun getSuggestion(): LiveData<Pair<Card, Card>> {
         return suggestion
     }
 
@@ -71,7 +68,7 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun replaceCardInGame(from: Card2, to: Card2){
+    fun replaceCardInGame(from: Card, to: Card){
         gameState.value?.replaceCardObject(from, to)
         gameState.postValue(gameState.value)
     }
@@ -99,7 +96,7 @@ class SharedViewModel : ViewModel() {
         return "Error: Inappropriate number of cards: " + list.size
     }
 
-    fun setCardObjectToReveal(cardObject: Card2) {
+    fun setCardObjectToReveal(cardObject: Card) {
         cardObjectToReveal = cardObject
     }
 

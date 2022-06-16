@@ -1,7 +1,7 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import Card
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 
@@ -75,7 +75,7 @@ class Game {
 
         if (i != DESTINATION_UNKNOWN.toInt()) {
 
-            if (move.card.value == (13).toByte()) {
+            if (move.card.rank == Rank.KING) {
                 for (j in 0..6) {
                     if (blocks[j].cards.isEmpty()) {
                         hasCardMoved = true
@@ -147,20 +147,23 @@ class Game {
         val dest = move.indexOfDestination.toInt()
         val gameLogic = GameLogic()
 
-        if (waste == move.card) {
-            if (dest == DESTINATION_UNKNOWN.toInt()) {
-                foundations.add(waste.deepCopy())
-                waste.value = DUMMY_CARD.value
+        if (waste != move.card) {
+            return false
+        }
+
+
+        if (dest == DESTINATION_UNKNOWN.toInt()) {
+            foundations.add(waste.deepCopy())
+            waste.rank = DUMMY_CARD.rank
+            waste.suit = DUMMY_CARD.suit
+            return true
+
+        } else if (dest in 0..3) {
+            if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
+                foundations[dest] = waste.deepCopy()
+                waste.rank = DUMMY_CARD.rank
                 waste.suit = DUMMY_CARD.suit
                 return true
-
-            } else if (dest in 0..3) {
-                if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
-                    foundations[dest] = waste.deepCopy()
-                    waste.value = DUMMY_CARD.value
-                    waste.suit = DUMMY_CARD.suit
-                    return true
-                }
             }
         }
         return false
@@ -181,7 +184,7 @@ class Game {
 
         if (i == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
 
-            if (move.card.value == (13).toByte()) {
+            if (move.card.rank == Rank.KING) {
                 for (j in 0..6) {
                     if (blocks[j].cards.isEmpty()) {
                         hasCardMoved = true
@@ -199,7 +202,7 @@ class Game {
             // Adds the card(s) to the destination block.
 
             destBlock.cards.add(waste.deepCopy())
-            waste.value = DUMMY_CARD.value
+            waste.rank = DUMMY_CARD.rank
             waste.suit = DUMMY_CARD.suit
             return true
         }
@@ -221,7 +224,7 @@ class Game {
         var hasCardMoved = false
 
 
-        if (foundationCard.value == (13).toByte()) {
+        if (foundationCard.rank == Rank.KING) {
             for (j in 0..6) {
                 if (block.cards.isEmpty()) {
                     hasCardMoved = true
@@ -264,7 +267,7 @@ class Game {
         var sum = 0
 
         foundations.forEach {
-            sum += it.value
+            sum += it.rank.ordinal
         }
         return sum
     }
@@ -309,13 +312,13 @@ class Game {
         move: Move,
         i: Int
     ) {
-        val cardKey = "${move.card.value}${move.card.suit}"
+        val cardKey = "${move.card.rank}${move.card.suit}"
         val prevCardsKey = if (i == 0) {
             "${move.indexOfSourceBlock}b"
 
         } else {
             val itsPreC = sourceBlock[i-1]
-            "${itsPreC.value}${itsPreC.suit}"
+            "${itsPreC.rank}${itsPreC.suit}"
         }
 
         val outterHash = lastMoves.get(cardKey)

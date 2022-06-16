@@ -1,5 +1,6 @@
 package cdio.group21.litaire.tflite
 
+import Card
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -99,7 +100,7 @@ object ObjectRecognition {
             val rankConfidence = rankVote[rank]!! / intersecting.size
             val confidence = suitConfidence/2 + rankConfidence/2
             intersecting.forEach { unprocessed.remove(it) }
-            processed.add(0, DetectionResult(boundingBox, Card2(suit, rank), confidence))
+            processed.add(0, DetectionResult(boundingBox, Card(suit, rank), confidence))
         }
 
 

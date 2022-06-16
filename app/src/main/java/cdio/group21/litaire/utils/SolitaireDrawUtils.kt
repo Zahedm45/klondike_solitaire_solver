@@ -2,7 +2,6 @@ package cdio.group21.litaire.utils
 
 import android.graphics.*
 import cdio.group21.litaire.data.Solitaire
-import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.utils.extensions.forEachIndexed2D
 
 object SolitaireDrawUtils {

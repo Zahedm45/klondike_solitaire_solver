@@ -1,8 +1,8 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import Card
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
-val DUMMY_CARD = Card(-2, 'k')
+val DUMMY_CARD = Card(Suit.UNKNOWN, Rank.UNKNOWN)
 val INDEX_OF_SOURCE_BLOCK_FROM_WASTE: Byte = 8
 val DESTINATION_UNKNOWN: Byte = -1
 
@@ -12,28 +12,19 @@ class UtilSolver {
 
 
         val cardDeck : ArrayList<Card> = ArrayList()
-        val suits: Array<Char> = arrayOf('s', 'h', 'd', 'c')
-        val values: Array<Byte> = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
-
-
-
 
         fun lastFewSteps(
             foundation: ArrayList<Card>,
             blocks: ArrayList<Block>,
             waste: Card
-
-
         ) {
             for (i in 0..6) {
                 blocks.add(Block())
             }
 
-
-            for (suit in suits) {
-
-                for (value in values) {
-                    val card = Card(value, suit)
+            for (suit in Suit.values()) {
+                for (rank in Rank.values()) {
+                    val card = Card(suit, rank)
                     cardDeck.add(card)
                 }
             }
@@ -136,10 +127,10 @@ class UtilSolver {
             }
 
 
-            for (suit in suits) {
+            for (suit in Suit.values()) {
 
-                for (value in values) {
-                    val card = Card(value, suit)
+                for (rank in Rank.values()) {
+                    val card = Card(suit, rank)
                     cardDeck.add(card)
                 }
             }
@@ -162,7 +153,7 @@ class UtilSolver {
             }
 
 
-            waste.value = cardDeck.last().value
+            waste.rank = cardDeck.last().rank
             waste.suit = cardDeck.last().suit
 
         }
@@ -179,10 +170,10 @@ class UtilSolver {
             }
 
 
-            for (suit in suits) {
+            for (suit in Suit.values()) {
 
-                for (value in values) {
-                    val card = Card(value, suit)
+                for (rank in Rank.values()) {
+                    val card = Card(suit, rank)
                     cardDeck.add(card)
                 }
             }
@@ -247,7 +238,7 @@ class UtilSolver {
 
             cardDeck.shuffle()
             cardDeck.shuffle()
-            waste.value = cardDeck.last().value
+            waste.rank = cardDeck.last().rank
             waste.suit = cardDeck.last().suit
             /*cardDeck.removeAt(30)
             cardDeck.removeAt(26)
@@ -282,7 +273,7 @@ class UtilSolver {
 
             var i = 0
             cardDeck.forEach {
-                println("$i: ${it.value}${it.suit}")
+                println("$i: ${it.rank}${it.suit}")
                 i++
             }
 

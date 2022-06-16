@@ -1,19 +1,16 @@
 package cdio.group21.litaire.view
 
-import android.content.pm.ActivityInfo
+import Card
+import Suit
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.drawToBitmap
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
-import cdio.group21.litaire.data.Card2
-import cdio.group21.litaire.data.Rank
-import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.databinding.FragmentSuggestionBinding
 import cdio.group21.litaire.utils.SolitaireDrawUtils
 import cdio.group21.litaire.viewmodels.SharedViewModel
@@ -72,7 +69,7 @@ class FragmentSuggestion : Fragment() {
             val gameState =  viewModel.getGameState().value
             if(gameState != null){
                 val fromCard = gameState.findCardFromString(fromText)
-                val changeToCard = Card2(rank = Rank.fromChar(toText[0]), suit = Suit.fromChar(toText[1]))
+                val changeToCard = Card(rank = Rank.fromChar(toText[0]), suit = Suit.fromChar(toText[1]))
                 Log.i("Edit button", "replacing $fromCard with $changeToCard")
                 if(fromCard == null) return@setOnClickListener
                 viewModel.replaceCardInGame(fromCard, changeToCard)
@@ -87,7 +84,7 @@ class FragmentSuggestion : Fragment() {
 
     }
 
-    private fun setSuggestionUI(from: Card2, to: Card2){
+    private fun setSuggestionUI(from: Card, to: Card){
         val fromNum = from.rank.toString()
         val fromIcon = suitToIconID(from.suit)
         val toNum = to.rank.toString()

@@ -1,12 +1,12 @@
 package cdio.group21.litaire.viewmodels
 
 
+import Card
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
 
@@ -97,7 +97,7 @@ class LandingPageViewModel: ViewModel() {
         blocks.forEach { block ->
             print("         Block: $i, unknown cards: ${block.hiddenCards} ->")
             block.cards.forEach {
-                print("   ${it.value.toString() + it.suit}")
+                print("   ${it.rank.toString() + it.suit}")
             }
             println("\n")
             i++
@@ -112,7 +112,7 @@ class LandingPageViewModel: ViewModel() {
         print("Foundations -> ")
 
         results.forEach { crr ->
-            print("   ${crr.value.toString()+crr.suit}")
+            print("   ${crr.rank.toString()+crr.suit}")
 
 
            // Log.i(ContentValues.TAG, "                 ${crr.value.toString()+crr.suit}")
@@ -122,7 +122,7 @@ class LandingPageViewModel: ViewModel() {
 
 
     fun printWaste2(waste: Card) {
-        println("Waste:   ${waste.value.toString()+waste.suit}")
+        println("Waste:   ${waste.rank.toString()+waste.suit}")
     }
 
 }

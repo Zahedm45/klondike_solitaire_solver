@@ -1,7 +1,7 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import Card
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.Move
 
 class GameLogic {
@@ -35,7 +35,7 @@ class GameLogic {
             val lastCard = block.cards.last()
 
 
-            if (lastCard.value == (1).toByte() && foundations.size < 4) {
+            if (lastCard.rank == Rank.ACE && foundations.size < 4) {
                 val newMove = Move(true, lastCard, indexBlock.toByte(), DESTINATION_UNKNOWN)
 
                 possibleMoves.add(newMove)
@@ -51,7 +51,7 @@ class GameLogic {
                 }
             }
 
-            if (block.cards[0].value.toInt() != 13 || (block.cards[0].value.toInt() == 13 && block.hiddenCards > 0)) {
+            if (block.cards[0].rank != Rank.KING || (block.cards[0].rank == Rank.KING && block.hiddenCards > 0)) {
                 possibleMovesFromBlockToBlock(block, blocks, indexBlock, possibleMoves, lastMovesMap)
             }
 
@@ -78,7 +78,7 @@ class GameLogic {
 
 
 
-        if (waste?.value == (13).toByte()) {
+        if (waste?.rank == Rank.KING) {
             if (hasChecked && emptyBlockIndex != -1) {
                 val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, emptyBlockIndex.toByte())
                 possibleMoves.add(newMove)
@@ -90,7 +90,7 @@ class GameLogic {
         //check waste pile to foundation
         if (waste != null) {
 
-            if (waste.value == (1).toByte() && foundations.size < 4) {
+            if (waste.rank == Rank.ACE && foundations.size < 4) {
                 val newMove = Move(true, waste, 8, -1)
 
                 possibleMoves.add(newMove)
@@ -168,7 +168,7 @@ class GameLogic {
                     continue
                 }
 
-                if (sourceCard.value == (13).toByte()) {
+                if (sourceCard.rank == Rank.KING) {
                     if (hasChecked && emptyBlockIndex >= 0) {
                         // hasChecked returns true if there exists an empty block, so there is no need to check it again
                         val newMove = Move(
@@ -223,29 +223,22 @@ class GameLogic {
 
 
     fun evalBlockToFoundation(foundation: Card, card: Card): Boolean {
-        val suit = card.suit
-        val num = card.value
+        if (card.suit != foundation.suit)
+            return false;
 
-        val suit2 = foundation.suit
-        val num2 = foundation.value
-
-        if (suit == suit2) {
-            if (num2 - num == -1) {
-                return true
-            }
-        }
-        return false
+        return card.rank.isPrevious(foundation.rank)
     }
 
     fun findPreviousFoundationValue(foundations: ArrayList<Card>, indexFoundation: Byte): Card {
         var index = indexFoundation.toInt()
         var oldCard = foundations[index]
 
-        if (oldCard.value.toInt() == 1) {
+        if (oldCard.rank == Rank.ACE) {
             return oldCard
         }
-        var newValue = (oldCard.value.toInt() - 1).toByte()
-        var newCard = Card(newValue, oldCard.suit)
+
+        var newRank = oldCard.rank.previous()
+        var newCard = Card(oldCard.suit, newRank)
 
         return newCard
     }
@@ -253,20 +246,21 @@ class GameLogic {
     fun evalBlockToBlockAndWasteToBlock(destination: Card, source: Card): Boolean {
 
         val suit = destination.suit
-        val num = destination.value
+        val num = destination.rank
 
         val suit2 = source.suit
-        val num2 = source.value
+        val num2 = source.rank
 
-        if (suit == 's' || suit == 'c') {
-            if (suit2 == 'h' || suit2 == 'd') {
-                if (num - num2 == 1) {
+        if (suit.isBlack()) {
+            if (suit2.isRed()) {
+                if (num.isPrevious(num2)) {
                     return true
                 }
             }
-        } else {
-            if (suit2 == 's' || suit2 == 'c') {
-                if (num - num2 == 1) {
+        }
+        else {
+            if (suit2.isBlack()) {
+                if (num.isPrevious(num2)) {
                     return true
                 }
             }
@@ -283,8 +277,8 @@ class GameLogic {
         lastMovesMap: HashMap<String, HashMap<String, Boolean>>
     ): Boolean {
 
-        val sourceCardKey = "${sourceCard.value}${sourceCard.suit}"
-        val destCardKey = "${destCard.value}${destCard.suit}"
+        val sourceCardKey = "${sourceCard.rank}${sourceCard.suit}"
+        val destCardKey = "${destCard.rank}${destCard.suit}"
 
         if (lastMovesMap.containsKey(sourceCardKey)){
 
@@ -303,7 +297,7 @@ class GameLogic {
     fun isGameWon(foundation: ArrayList<Card>): Boolean {
         var winCount = 0
         for (i in foundation.indices){
-            if (foundation[i].value.toInt() == 13){
+            if (foundation[i].rank == Rank.KING){
                 winCount++
             }
         }

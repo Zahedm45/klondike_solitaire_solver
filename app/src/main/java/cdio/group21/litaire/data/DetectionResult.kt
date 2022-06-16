@@ -1,9 +1,10 @@
 package cdio.group21.litaire.data
 
+import Card
 import android.graphics.RectF
 import cdio.group21.litaire.API.Prediction
 
-data class DetectionResult(val boundingBox: RectF, val card: Card2, val confidence: Double) {
+data class DetectionResult(val boundingBox: RectF, val card: Card, val confidence: Double) {
 	fun toText() : String {
 		return card.toString() + "," + confidence
 	}
@@ -11,7 +12,7 @@ data class DetectionResult(val boundingBox: RectF, val card: Card2, val confiden
 	fun deepCopy(
 		boundingBox: RectF = this.boundingBox,
 		percentage: Double = this.confidence,
-		card: Card2 = this.card
+		card: Card = this.card
 	) = DetectionResult(boundingBox, card, confidence)
 
 	companion object {
@@ -19,7 +20,7 @@ data class DetectionResult(val boundingBox: RectF, val card: Card2, val confiden
 			val category = prediction.class_
 			val suit = Suit.fromChar(category.last())
 			val rank = Rank.fromChar(category.replace("10", "T")[0])
-			val card = Card2(suit, rank)
+			val card = Card(suit, rank)
 
 			val width = prediction.width
 			val height = prediction.height

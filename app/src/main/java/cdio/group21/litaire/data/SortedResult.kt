@@ -1,5 +1,6 @@
 package cdio.group21.litaire.data
 
+import Card
 import cdio.group21.litaire.API.Prediction
 
 data class SortedResult(

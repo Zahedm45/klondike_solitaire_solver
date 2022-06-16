@@ -1,5 +1,6 @@
 package cdio.group21.litaire.viewmodels.solver
 
+import Card
 import cdio.group21.litaire.data.*
 import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
@@ -177,10 +178,10 @@ class Ai {
 
         var total = 0
         foundations.forEach { f ->
-            var lastCardVal = f.value
-            while (lastCardVal > 0) {
-               total += 5 - (lastCardVal - 1)
-                lastCardVal--
+            var lastCardRank = f.rank.ordinal
+            while (lastCardRank > 0) {
+               total += 5 - (lastCardRank - 1)
+                lastCardRank--
             }
         }
         return total
@@ -256,7 +257,7 @@ class Ai {
     ): Int {
         var total = 0
         foundations.forEach { f ->
-            total += 5 * f.value
+            total += 5 * f.rank.ordinal
         }
         return total
     }
@@ -267,7 +268,7 @@ class Ai {
         foundations: ArrayList<Card>,
         waste: Card
     ): Int {
-        var total = waste.value.toInt()
+        var total = waste.rank.ordinal
 
         blocks.forEach { b ->
             b.cards.forEach{ c ->
@@ -276,7 +277,7 @@ class Ai {
         }
 
         foundations.forEach {
-            total += it.value
+            total += it.rank.ordinal
         }
         return total
     }

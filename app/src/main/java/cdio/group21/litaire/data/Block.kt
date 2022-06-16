@@ -1,5 +1,7 @@
 package cdio.group21.litaire.data
 
+import Card
+
 data class Block (
     var cards: ArrayList<Card> = ArrayList(),
     var hiddenCards: Int = 0
