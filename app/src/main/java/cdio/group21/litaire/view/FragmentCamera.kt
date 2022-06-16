@@ -67,6 +67,9 @@ class FragmentCamera : Fragment() {
         binding.btReturn?.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentCamera_to_LandingPage)
         }
+        binding.btCameraReset?.setOnClickListener(){
+            updateUIclean()
+        }
         return binding.root
     }
 
@@ -91,7 +94,13 @@ class FragmentCamera : Fragment() {
         cameraExecutor.shutdown()
         this@FragmentCamera.requireActivity().setRequestedOrientation(
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        updateUIclean()
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        updateUIclean()
     }
 
     private fun takePhoto() {
@@ -172,7 +181,14 @@ class FragmentCamera : Fragment() {
     }
 
     private fun updateUIpreview(){
-        binding.btImageCapture.setImageResource(R.drawable.vector_camera_button)
+        binding.btImageCapture.visibility = View.GONE
+        binding.btCameraReset?.visibility = View.VISIBLE
+    }
+
+    private fun updateUIclean(){
+        binding.btImageCapture.visibility = View.VISIBLE
+        binding.btCameraReset?.visibility = View.GONE
+        binding.btCheckmark?.visibility = View.GONE
     }
 
     companion object {
