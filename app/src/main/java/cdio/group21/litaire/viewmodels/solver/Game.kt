@@ -355,10 +355,7 @@ class Game {
             if(sBlock.hiddenCards >= 1){
                 sBlock.hiddenCards = sBlock.hiddenCards - 1
             }
-        }else if (sBlock.cards.size <= sBlock.hiddenCards) {
-            sBlock.hiddenCards = sBlock.cards.size-1
         }
     }
-
 }
 
