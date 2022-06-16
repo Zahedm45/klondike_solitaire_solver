@@ -4,6 +4,16 @@ import android.graphics.RectF
 import cdio.group21.litaire.API.Prediction
 
 data class DetectionResult(val boundingBox: RectF, val card: Card2, val confidence: Double) {
+	fun toText() : String {
+		return card.value.toString() + card.suit +"," + percentage
+	}
+
+	fun deepCopy(
+		boundingBox: RectF = this.boundingBox,
+		percentage: Int = this.percentage,
+		card: Card = this.card
+	) = DetectionResult(boundingBox, percentage, card)
+
 	companion object {
 		fun fromPrediction(prediction: Prediction): DetectionResult {
 			val category = prediction.class_
@@ -23,4 +33,13 @@ data class DetectionResult(val boundingBox: RectF, val card: Card2, val confiden
 			return DetectionResult(boundingBox, card, prediction.confidence)
 		}
 	}
+}
+
+data class DetectionResult2(
+	var card: Card
+) {
+
+	fun deepCopy(
+		card: Card = this.card
+	) = DetectionResult2(card)
 }
