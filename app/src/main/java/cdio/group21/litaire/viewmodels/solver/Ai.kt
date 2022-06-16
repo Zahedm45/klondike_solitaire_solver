@@ -40,7 +40,7 @@ class Ai {
 
         if (!isGameInLastEnd) {
             if (availableMoves.size == 1) {
-                if (availableMoves[0].indexOfDestination == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
+                if (availableMoves[0].indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
                     return availableMoves[0]
                 }
             }
