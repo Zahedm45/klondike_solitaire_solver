@@ -44,7 +44,6 @@ class RoboflowAPI {
                     "application/x-www-form-urlencoded")
                 connection.setRequestProperty("Content-Length",
                     Integer.toString(base64.toByteArray().size))
-                connection.setRequestProperty("Content-Language", "en-US")
                 connection.useCaches = false
                 connection.doOutput = true
 
