@@ -29,10 +29,21 @@ class Ai {
         var bestMove: Move? = null
         val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
 
+
+
         var isGameInLastEnd = false
         val retVal1 = heuristicFaceDown(blocks)
         if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
             isGameInLastEnd = true
+        }
+
+
+        if (!isGameInLastEnd) {
+            if (availableMoves.size == 1) {
+                if (availableMoves[0].indexOfDestination == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
+                    return availableMoves[0]
+                }
+            }
         }
 
 
@@ -75,6 +86,7 @@ class Ai {
                 if (newSate.heuristicOneVal > bestState.heuristicOneVal) {
                     bestMove = currMove
                     bestState = newSate
+
                 }
             }
 

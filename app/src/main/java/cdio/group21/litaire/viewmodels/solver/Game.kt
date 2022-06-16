@@ -17,7 +17,7 @@ class Game {
         waste: Card,
         lastMoves: HashMap<String, HashMap<String, Boolean>>
     ): Boolean {
-        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
+        if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
             return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
         }
         if (move.isMoveToFoundation) {
@@ -179,7 +179,7 @@ class Game {
         val gameLogic = GameLogic()
         val i = move.indexOfSourceBlock
 
-        if (i == INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION) {
+        if (i == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
 
             if (move.card.value == (13).toByte()) {
                 for (j in 0..6) {
