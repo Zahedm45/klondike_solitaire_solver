@@ -1,24 +1,14 @@
 package cdio.group21.litaire.viewmodels
 
-import android.content.ContentValues
-import android.content.Context
+
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Card
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.SortedResult
-import cdio.group21.litaire.tflite.DetectionConfig
-import cdio.group21.litaire.tflite.ObjectRecognition
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class LandingPageViewModel: ViewModel() {
     private val imageBitmap = MutableLiveData<Bitmap>()
@@ -45,202 +35,6 @@ class LandingPageViewModel: ViewModel() {
         return imageBitmap
     }
 
-/*
-    fun getCardNumber() : LiveData<Enum<Card>>{
-        return cardType
-    }
-*/
-
-    fun getDetectionList() : LiveData<List<DetectionResult>>{
-        return detectionList
-    }
-
-
-
-    /**
-     * This function determines the foundations and the waste from the detected results.
-     * @param results: a list of the detected results
-     * @param img: the image from which the detection result were detected
-     * @author Zahed(s186517)
-     */
-
-    fun detectFoundationAndWaste(results: List<DetectionResult>, img: Bitmap) {
-        val centerYBlock: ArrayList<SortedResult> = ArrayList()
-
-        results.forEach { crr ->
-            var blockFound = false
-            val box = crr.boundingBox
-            var width = 0.0f
-
-            for (it in centerYBlock) {
-                width = it.block.last().boundingBox.height() / 2.0F
-                //width = it.block[0].boundingBox.height()/2.0F
-                val delta = Math.abs(box.centerY() - it.centerY)
-
-                if (delta < width) {
-                    it.block.add(crr)
-                    blockFound = true
-                    break
-                }
-            }
-
-
-            if (!blockFound) {
-                val list : ArrayList<DetectionResult> = ArrayList()
-                list.add(crr)
-                val newToBeAdded = SortedResult(centerX = box.centerX(), centerY = box.centerY(), block = list)
-                centerYBlock.add(newToBeAdded)
-            }
-        }
-
-        centerYBlock.sortBy { it.centerY }
-        val tempFoundationAndWaste: ArrayList<DetectionResult> = ArrayList()
-
-        if (centerYBlock.size != 0) {
-            centerYBlock[0].block.forEach {
-                tempFoundationAndWaste.add(it)
-            }
-        }
-
-        results.forEach {
-            if (!tempFoundationAndWaste.contains(it)) {
-                resultAfterFoundationWaste.add(it)
-            }
-        }
-
-        /**
-         * TODO
-         * Needs to check how many cards in the block. The waste and the foundations are only correct if there
-         *  are four foundations and a waste (for now).
-         */
-
-        val afterRemoveFoundationAndWasteDuplicate = removeDuplicate(tempFoundationAndWaste)
-
-        if (afterRemoveFoundationAndWasteDuplicate.isNullOrEmpty()) {
-            return
-            // No cards to work with
-        }
-
-        val afterRemovingDup = removeDuplicateInFW(tempFoundationAndWaste)
-        waste = afterRemovingDup[0]
-        afterRemovingDup.removeFirst()
-        foundation = afterRemovingDup
-
-
-        if (afterRemoveFoundationAndWasteDuplicate.size < 2){
-            /**
-             * TODO Needs to determine waste/foundation, when there is only one card
-             */
-            return
-        }
-
-        val last = afterRemoveFoundationAndWasteDuplicate.last().boundingBox
-        val secondLast = afterRemoveFoundationAndWasteDuplicate[afterRemoveFoundationAndWasteDuplicate.size - 2].boundingBox
-
-        val rightSide = img.width - last.centerX()
-        val leftSide = last.centerX() - secondLast.centerX()
-
-    fun detectBlock(
-
-        if (leftSide > (rightSide + rightSide * 0.25 )) {
-            waste = afterRemoveFoundationAndWasteDuplicate.last()
-            afterRemoveFoundationAndWasteDuplicate.removeLast()
-
-        }
-        foundation = afterRemoveFoundationAndWasteDuplicate
-
-    }
-
-
-
-
-    /**
-     * This method determines the blocks from the detected results
-     * @param results: a list of detected results provided by the tensorflow model.
-     * @author Zahed(s186517)
-     */
-    fun detectTableaus(
-        results: List<DetectionResult>
-    ) {
-
-        val centerXBlock: ArrayList<SortedResult> = ArrayList()
-        //val alignment = 2.0F
-
-        results.forEach { curr ->
-
-            if (!foundation.contains(curr)) { // double check
-                if (waste != null) {
-                    if (waste == curr) {
-                       return@forEach
-                    }
-                }
-
-                var blockFound = false
-                val box = curr.boundingBox
-                var width = 0.0f
-                for (it in centerXBlock) {
-                    //alignment = Math.abs(box.width() - it.block[0].boundingBox.width())
-                    //width = it.block[0].boundingBox.width()/2.0F
-
-                    width = it.block.last().boundingBox.width() / 2.0F
-                    val delta = Math.abs(box.centerX() - it.centerX)
-
-                    //Log.i(TAG, "Width: ${width}, delta: ${delta}")
-
-                    if (delta < width) {
-                        it.block.add(curr)
-                        blockFound = true
-                        break
-                    }
-                }
-
-
-                if (!blockFound) {
-                    val list : ArrayList<DetectionResult> = ArrayList()
-                    list.add(curr)
-                    val newToBeAdded = SortedResult(centerX = box.centerX(), centerY = box.centerY(), block = list)
-                    centerXBlock.add(newToBeAdded)
-                }
-            }
-        }
-
-        val temp = sortAccordingToXCoordinate(centerXBlock)
-
-        block = removeDuplicateBlock(temp)
-    }
-
-
-
-    /**
-     * Duplicates in Waste and Foundation can be deleted by calling this function.
-     * @param results is a list of detected results.
-     * @return new detected results, where the duplicates do not exist.
-     * @author Zahed(s186517)
-     */
-
-    private fun removeDuplicateInFW(
-        results: ArrayList<DetectionResult>
-    ): ArrayList<DetectionResult> {
-
-        results.sortBy { it.boundingBox.centerX() }
-        var i = 1
-        val toBeRemoved: ArrayList<DetectionResult> = ArrayList()
-
-        while (i < results.size) {
-            val crrText = results[i].card
-            val newText = results[i-1].card
-            if (crrText == newText){
-                toBeRemoved.add(results[i])
-            }
-            i += 2
-        }
-
-        toBeRemoved.forEach {
-            results.remove(it)
-        }
-
-        return results
-    }
 
 
 
@@ -296,61 +90,6 @@ class LandingPageViewModel: ViewModel() {
     }
 
 
-    /**
-     * This method gathers all the detected results from "waste", "foundation" and "tableuas", and sets them to "newResult".
-     * "newResult" contains a list of all the detected results that have been finalised(removed duplicates)
-     * @author Zahed(s186517)
-     */
-
-    fun setNewResults() {
-        val toBeAdded: ArrayList<DetectionResult> = ArrayList()
-        foundation.forEach {
-            toBeAdded.add(it)
-        }
-
-
-        if (waste != null) {
-           toBeAdded.add(waste!!)
-        }
-
-
-        block.forEach { block ->
-            block.block.forEach { toBeAdded.add(it) }
-        }
-
-        newResult = toBeAdded
-        isNewResultInitialized = true
-    }
-
-
-
-     fun printBlock(sortedResult: ArrayList<SortedResult>){
-         Log.i(ContentValues.TAG, "Block: ")
-         var i = 0
-         sortedResult.forEach {
-            //Log.i(ContentValues.TAG, "Block: ${it.centerX}")
-             Log.i(ContentValues.TAG, "Block: ${i}")
-             it.block.forEach { crr ->
-                Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr.toText()}")
-
-            }
-             i++
-         }
-    }
-
-
-
-     fun printFoundation(results: ArrayList<DetectionResult>){
-         Log.i(ContentValues.TAG, "Foundation")
-         results.forEach { crr ->
-             Log.i(ContentValues.TAG, "Block: x: ${crr.boundingBox.centerX()}, y: ${crr.boundingBox.centerY()}, ${crr.toText()}")
-         }
-    }
-
-
-
-
-
     fun printBlock2(blocks: ArrayList<Block>){
        // Log.i(ContentValues.TAG, "Block2")
         var i = 0
@@ -385,42 +124,5 @@ class LandingPageViewModel: ViewModel() {
     fun printWaste2(waste: Card) {
         println("Waste:   ${waste.value.toString()+waste.suit}")
     }
-
-
-    fun printWaste(waste: DetectionResult) {
-        Log.i(ContentValues.TAG, "Block: Waste")
-        Log.i(ContentValues.TAG, "Block: x: ${waste.boundingBox.centerX()}, y: ${waste.boundingBox.centerY()}, ${waste.toText()}")
-
-    }
-
-
-
-     fun printOut(results: List<DetectionResult>){
-        results.forEach {
-            Log.i(ContentValues.TAG,"MachineL => ${it.toText()}")
-        }
-    }
-
-     fun printOutCoordinates(results: List<DetectionResult>) {
-        results.forEach {
-            Log.i(ContentValues.TAG, "Block2: x: ${it.boundingBox.centerX()}, y: ${it.boundingBox.centerY()}, ${it.toText()}")
-        }
-    }
-
-
-    fun drawBoundingBox(image : Bitmap) {
-        val outputBitmap = image.copy(Bitmap.Config.ARGB_8888, true)
-        val canvas = Canvas(outputBitmap)
-
-        val paint = Paint()
-
-        canvas.drawRect(0.0f, 0.0f, image.width.toFloat(), image.height.toFloat(), paint)
-
-        Log.i(TAG, "hello ${canvas.width}")
-
-
-    }
-
-
 
 }

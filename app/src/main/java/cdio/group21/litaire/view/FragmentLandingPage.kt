@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,10 +70,8 @@ class FragmentLandingPage : Fragment() {
         solver.initt()
 
         viewModel.getImageBitmap().observe(viewLifecycleOwner) {
-            Log.i(TAG, "image width 2 ${it.width}")
             binding?.ivBackground?.setImageBitmap(it)
             sharedViewModel.processImage(it.copy(Bitmap.Config.RGB_565, false))
-            Log.e("ImageBitmap: ", "has been observed")
             //findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
         }
 

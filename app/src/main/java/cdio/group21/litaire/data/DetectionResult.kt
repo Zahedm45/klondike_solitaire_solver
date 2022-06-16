@@ -5,14 +5,14 @@ import cdio.group21.litaire.API.Prediction
 
 data class DetectionResult(val boundingBox: RectF, val card: Card2, val confidence: Double) {
 	fun toText() : String {
-		return card.value.toString() + card.suit +"," + percentage
+		return card.toString() + "," + confidence
 	}
 
 	fun deepCopy(
 		boundingBox: RectF = this.boundingBox,
-		percentage: Int = this.percentage,
-		card: Card = this.card
-	) = DetectionResult(boundingBox, percentage, card)
+		percentage: Double = this.confidence,
+		card: Card2 = this.card
+	) = DetectionResult(boundingBox, card, confidence)
 
 	companion object {
 		fun fromPrediction(prediction: Prediction): DetectionResult {
