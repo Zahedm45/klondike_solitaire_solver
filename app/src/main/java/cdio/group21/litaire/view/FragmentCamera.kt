@@ -3,6 +3,8 @@ package cdio.group21.litaire.view
 import android.os.Bundle
 import android.content.ContentValues
 import android.content.pm.ActivityInfo
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.VectorDrawable
 import android.os.Build
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -76,9 +78,11 @@ class FragmentCamera : Fragment() {
 
         sharedViewModel.getImageURI().observe(viewLifecycleOwner){
             Log.d("Call:", "set image background")
-
             binding.ivBackground.setImageURI(it)
-
+            binding.btCheckmark?.visibility = View.VISIBLE
+            val vectorDrawable : AnimatedVectorDrawable = binding.btCheckmark?.drawable as AnimatedVectorDrawable
+            vectorDrawable.start()
+            updateUIpreview()
         }
     }
 
@@ -165,6 +169,10 @@ class FragmentCamera : Fragment() {
             }
 
         }, ContextCompat.getMainExecutor(this.requireContext()))
+    }
+
+    private fun updateUIpreview(){
+        binding.btImageCapture.setImageResource(R.drawable.vector_camera_button)
     }
 
     companion object {

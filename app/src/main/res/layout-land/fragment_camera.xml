@@ -47,27 +47,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/bt_return"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/vector_return"
+        <LinearLayout
+            android:id="@+id/layout_camera_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/bt_image_capture"
 
             app:layout_constraintStart_toStartOf="@id/bt_image_capture"
             app:layout_constraintTop_toBottomOf="@id/bt_image_capture"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintVertical_bias="0.6" >
+
+            <ImageView
+                android:id="@+id/bt_return"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/vector_return"
+                />
+            <ImageView
+                android:id="@+id/bt_camera_reset"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/vector_camera_button"
+                />
+
+
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/bt_checkmark"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/vector_checkmark"
-            app:layout_constraintBottom_toTopOf="@+id/bt_image_capture"
-            app:layout_constraintEnd_toEndOf="@id/bt_image_capture"
+            android:src="@drawable/anim_checkmark"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/layout_camera_buttons"
+            app:layout_constraintEnd_toEndOf="@id/layout_camera_buttons"
 
-            app:layout_constraintStart_toStartOf="@id/bt_image_capture"
+            app:layout_constraintStart_toStartOf="@id/layout_camera_buttons"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.40" />
 
