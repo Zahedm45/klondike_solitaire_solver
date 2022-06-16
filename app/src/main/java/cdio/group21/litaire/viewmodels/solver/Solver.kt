@@ -7,10 +7,7 @@ import cdio.group21.litaire.viewmodels.LandingPageViewModel
 class Solver {
     private var lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
     private var waste = DUMMY_CARD.deepCopy()
-
     private var foundations: ArrayList<Card> = ArrayList()
-    //private val blocks: ArrayList<ArrayList<Card>> = ArrayList()
-
     private val blocks: ArrayList<Block> = ArrayList()
     val gameLogic = GameLogic()
 

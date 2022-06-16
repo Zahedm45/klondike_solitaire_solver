@@ -60,7 +60,7 @@ class GameLogic {
             if (waste != null){
                 //check waste pile to block
                 if(evalBlockToBlockAndWasteToBlock(lastCard,waste)){
-                    val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION, indexBlock.toByte())
+                    val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, indexBlock.toByte())
                     possibleMoves.add(newMove)
 
                 }
@@ -80,7 +80,7 @@ class GameLogic {
 
         if (waste?.value == (13).toByte()) {
             if (hasChecked && emptyBlockIndex != -1) {
-                val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_FOUNDATION, emptyBlockIndex.toByte())
+                val newMove = Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, emptyBlockIndex.toByte())
                 possibleMoves.add(newMove)
             }
         }
