@@ -46,28 +46,29 @@ data class Solitaire(
     /**
      * Finds a card in the tableu that is the same kind. This is to prevent having lots of copies around.
      */
-    private fun findEqualCard(targetCard: Card): Card? {
+    private fun findEqualCard(targetCard: Card): Result<Card> {
         tableau.forEach { col ->
             val foundCard = col.find { card ->
                 Log.i("findCardFromString", "target: $targetCard found: $card ")
                 return@find card == targetCard
             }
             if (foundCard != null) {
-                return foundCard
+                return Result.success(foundCard)
             }
         }
-        return null
+        return Result.failure(IllegalArgumentException("Error: Card not found!"))
     }
 
     /**
      * Removes a card from the tableau and returns it
      */
-    private fun removeCard(card: Card) : Card? {
-        val actualCard = findEqualCard(card)
+    private fun removeCard(card: Card) : Result<Card> {
+        val result = findEqualCard(card)
+        val actualCard = result.getOrElse { return Result.failure(it) }
         tableau.forEach { col ->
-         if(col.removeIf{ it == actualCard }) return@forEach
+            if(col.removeIf{ it == actualCard }) return@forEach
         }
-        return actualCard
+        return result
     }
 
     /**
@@ -104,14 +105,30 @@ data class Solitaire(
     fun moveCardToFoundation(card: Card, shouldPop: Boolean = true) : Boolean{
 
         if(shouldPop){
-            val poppedCard = removeCard(card) ?: return false
-            val foundation = getFoundationFromSuit(poppedCard.suit) ?: return false
+            val poppedCard = removeCard(card).getOrElse { return false }
+            val foundation = getFoundationFromSuit(poppedCard.suit).getOrElse { return false }
             foundation.add(poppedCard)
             return true
         }
-        val foundation = getFoundationFromSuit(card.suit) ?: return false
+        val foundation = getFoundationFromSuit(card.suit).getOrElse { return false }
         foundation.add(card)
         return true
+    }
+
+    /**
+     * Move a card and cards under it from a block to another block in the tableau
+     * @param fromIndex The index of the block to move from
+     * @param toIndex The index of the block to move to
+     * @param card The top card to move
+     */
+    fun moveCardsInTableau(card: Card, fromIndex: Int, toIndex: Int){
+        val fromBlock = tableau[fromIndex]
+        val toBlock = tableau[toIndex]
+        val cardIndex = fromBlock.indexOfFirst {it.toString() ==  card.toString()}
+        val lastFromBlockIndex = fromBlock.lastIndex
+        val cardsToMove = fromBlock.subList(cardIndex, lastFromBlockIndex + 1)
+        toBlock.addAll(cardsToMove)
+        fromBlock.removeAll(cardsToMove)
     }
 
     /**
@@ -125,10 +142,14 @@ data class Solitaire(
         if(toFoundation) moveCardToFoundation(card) else addCardToTableau(card, blockIndex)
     }
 
-    private fun getFoundationFromSuit(suit: Suit) : MutableList<Card>? {
-        return foundations.find { list ->
-            list.find { card -> card.suit == suit } != null
-        } ?: foundations.find { it.isEmpty() }
+    private fun getFoundationFromSuit(suit: Suit) : Result<MutableList<Card>> {
+        when(suit){
+            Suit.CLUB -> return Result.success(foundations[0])
+            Suit.DIAMOND -> return Result.success(foundations[1])
+            Suit.HEART -> return Result.success(foundations[2])
+            Suit.SPADE -> return Result.success(foundations[3])
+            Suit.UNKNOWN -> return Result.failure(IllegalArgumentException("Error: Unknown suit"))
+        }
     }
 
     companion object {
