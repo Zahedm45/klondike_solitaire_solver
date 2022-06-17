@@ -81,7 +81,7 @@ class FragmentCamera : Fragment() {
 
         sharedViewModel.getImageURI().observe(viewLifecycleOwner){
             Log.d("Call:", "set image background")
-            binding.ivBackground.setImageURI(it)
+            binding.ivPreviewFrame?.setImageURI(it)
             binding.btCheckmark?.visibility = View.VISIBLE
             val vectorDrawable : AnimatedVectorDrawable = binding.btCheckmark?.drawable as AnimatedVectorDrawable
             vectorDrawable.start()
@@ -182,13 +182,17 @@ class FragmentCamera : Fragment() {
 
     private fun updateUIpreview(){
         binding.btImageCapture.visibility = View.GONE
+        binding.ivDottedRectangle.visibility = View.GONE
         binding.btCameraReset?.visibility = View.VISIBLE
+        binding.ivPreviewFrame?.visibility = View.VISIBLE
     }
 
     private fun updateUIclean(){
         binding.btImageCapture.visibility = View.VISIBLE
+        binding.ivDottedRectangle.visibility = View.VISIBLE
         binding.btCameraReset?.visibility = View.GONE
         binding.btCheckmark?.visibility = View.GONE
+        binding.ivPreviewFrame?.visibility = View.GONE
     }
 
     companion object {
