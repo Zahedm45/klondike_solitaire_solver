@@ -74,12 +74,18 @@ class FragmentLandingPage : Fragment() {
         }
 
         sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
-            val result = sharedViewModel.updateGame(detectionList)
-            if(detectionList.isEmpty()) return@observe
-            if(result.isFailure){
-                updateUItoLoading(visible = false)
-                setErrorMessage(enabled = true, msg = result.exceptionOrNull().toString())
+
+            try {
+                val result = sharedViewModel.updateGame(detectionList)
+                if(detectionList.isEmpty()) return@observe
+                if(result.isFailure){
+                    updateUItoLoading(visible = false)
+                    setErrorMessage(enabled = true, msg = result.exceptionOrNull().toString())
+                }
+            }catch (err: Exception){
+                err.message?.let { Log.e("Update Game", it) }
             }
+
         }
 
         sharedViewModel.getGameState().observe(viewLifecycleOwner) { game ->

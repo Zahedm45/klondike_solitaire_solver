@@ -92,7 +92,7 @@ class SharedViewModel : ViewModel() {
         Log.i("SharedViewModel", "Update Game: $list")
         Log.i("SharedViewModel", "Update Game: List size: " + list.size)
 
-        if(list.isEmpty()) return Result.success(Unit)
+        if(list.isEmpty()) return Result.failure(Exception("No detection results found!"))
 
         if (list.size == 7){
             gameState.postValue(ObjectRecognition.initGame(list))
