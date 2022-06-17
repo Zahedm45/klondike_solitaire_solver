@@ -49,10 +49,10 @@ data class Solitaire(
             tableau.forEach { col ->
                 val foundCard = col.find { card ->
                     Log.i("findCardFromString", "target: $targetCard found: $card ")
-                    return@find card.toString() == targetCard.toString() }
+                    return@find card == targetCard
+                }
                 if (foundCard != null) {
-                    resultCard = foundCard
-                    return@forEach
+                    return foundCard
                 }
             }
             return resultCard
