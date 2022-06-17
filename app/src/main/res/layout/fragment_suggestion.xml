@@ -104,7 +104,7 @@
         android:layout_width="246dp"
         android:layout_height="41dp"
         android:ems="10"
-        android:hint="from to"
+        android:hint="{rank}{suit} {to}"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="@+id/iv_background"
