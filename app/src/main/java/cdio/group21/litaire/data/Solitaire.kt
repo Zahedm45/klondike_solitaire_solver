@@ -6,6 +6,8 @@ import android.util.Log
 import cdio.group21.litaire.utils.MutableMemoryList
 import cdio.group21.litaire.utils.mutableMemoryListOf
 
+data class CardAndContainer(val card: Card, val pile: MutableList<Card>)
+
 data class Solitaire(
     val tableau: List<MutableList<Card>>,
     val foundations: List<MutableList<Card>>,
@@ -46,45 +48,26 @@ data class Solitaire(
     /**
      * Finds a card in the tableu that is the same kind. This is to prevent having lots of copies around.
      */
-    private fun findEqualCard(targetCard: Card): Result<Card> {
+    private fun findEqualCard(targetCard: Card): Result<CardAndContainer> {
         tableau.forEach { col ->
             val foundCard = col.find { card ->
                 Log.i("findCardFromString", "target: $targetCard found: $card ")
                 return@find card == targetCard
             }
             if (foundCard != null) {
-                return Result.success(foundCard)
+                return Result.success(CardAndContainer(foundCard, col))
             }
         }
         return Result.failure(IllegalArgumentException("Error: Card not found!"))
     }
 
     /**
-     * Removes a card from the tableau and returns it
+     * Removes a card from its pile and returns both.
      */
-    private fun removeCard(card: Card) : Result<Card> {
-        val result = findEqualCard(card)
-        val actualCard = result.getOrElse { return Result.failure(it) }
-        tableau.forEach { col ->
-            if(col.removeIf{ it == actualCard }) return@forEach
-        }
-        return result
-    }
-
-    /**
-     * Move a card and cards under it from a block to another block in the tableau
-     * @param fromIndex The index of the block to move from
-     * @param toIndex The index of the block to move to
-     * @param card The top card to move
-     */
-    fun moveCardsInTableau(card: Card, fromIndex: Int, toIndex: Int){
-        val fromBlock = tableau[fromIndex]
-        val toBlock = tableau[toIndex]
-        val cardIndex = fromBlock.indexOfFirst {it.toString() ==  card.toString()}
-        val lastFromBlockIndex = fromBlock.lastIndex
-        val cardsToMove = fromBlock.subList(cardIndex, lastFromBlockIndex + 1)
-        toBlock.addAll(cardsToMove)
-        fromBlock.removeAll(cardsToMove)
+    private fun removeCard(card: Card) : Result<CardAndContainer> {
+        val cardAndContainer = findEqualCard(card).getOrElse { return Result.failure(it) }
+        if (!cardAndContainer.pile.remove(card)) return Result.failure(IllegalArgumentException("Error: Card could not be removed!"))
+        return Result.success(cardAndContainer);
     }
 
     /**
@@ -105,7 +88,7 @@ data class Solitaire(
     fun moveCardToFoundation(card: Card, shouldPop: Boolean = true) : Boolean{
 
         if(shouldPop){
-            val poppedCard = removeCard(card).getOrElse { return false }
+            val poppedCard = removeCard(card).getOrElse { return false }.card
             val foundation = getFoundationFromSuit(poppedCard.suit).getOrElse { return false }
             foundation.add(poppedCard)
             return true
