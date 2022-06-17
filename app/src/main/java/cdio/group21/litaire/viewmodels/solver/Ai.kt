@@ -32,12 +32,7 @@ class Ai {
 
 
 
-        var isGameInLastEnd = false
-        val retVal1 = heuristicFaceDown(blocks)
-        if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
-            isGameInLastEnd = true
-        }
-
+        val isGameInLastEnd = heuristicFaceDown(blocks) >= 6* FACE_DOWN_CARD_VALUE
 
         if (!isGameInLastEnd) {
             if (availableMoves.size == 1) {
