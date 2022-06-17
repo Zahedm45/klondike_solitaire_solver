@@ -5,3 +5,6 @@ interface MutableMemoryList<E>: MutableList<E> {
 	fun forget(element: E): Result<Boolean>
 	fun memories(): Collection<E>
 }
+
+
+inline fun <T> mutableMemoryListOf(): MutableMemoryList<T> = ArrayHashmapMemoryList()
