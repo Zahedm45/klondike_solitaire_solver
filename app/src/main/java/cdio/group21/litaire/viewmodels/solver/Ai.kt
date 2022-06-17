@@ -49,7 +49,7 @@ class Ai {
 
 
         availableMoves.forEach {currMove ->
-            if (currMove.card.rank == Rank.KING) {
+            if (currMove.card.rank == Rank.ACE) {
                 if (currMove.isMoveToFoundation && foundations.size < 4) {
                      return currMove
                 }
@@ -106,7 +106,7 @@ class Ai {
                     } else if (newSate.length == bestState.length) {
 
                         if (bestState.afterFirstMove != null) {
-                            if (bestState.afterFirstMove!!.heuristicOneVal < sateAfterFirstMove.heuristicOneVal) {
+                            if (sateAfterFirstMove.heuristicOneVal > bestState.afterFirstMove!!.heuristicOneVal) {
                                 bestMove = currMove
                                 bestState = newSate
                                 bestState.afterFirstMove = sateAfterFirstMove
