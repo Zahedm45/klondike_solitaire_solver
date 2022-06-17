@@ -127,14 +127,13 @@ class SharedViewModel : ViewModel() {
 			weirdState.blocks,
 			weirdState.waste,
 			lastMoves
-		)
+		) ?: return
 
-		if (move != null) {
-			moves.value?.add(move)
-			moves.postValue(moves.value)
-		}
-
+		val mοves = moves.value ?: return
+		mοves.add(move)
+		moves.postValue(mοves)
 	}
+
 
 }
 
