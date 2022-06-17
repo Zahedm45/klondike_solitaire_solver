@@ -64,7 +64,7 @@ data class Solitaire(
     private fun popCard(card: Card) : Card? {
         val actualCard = findEqualCard(card)
         tableau.forEach { col ->
-         if(col.removeIf{ it.toString() == actualCard.toString() }) return@forEach
+         if(col.removeIf{ it == actualCard }) return@forEach
         }
         return actualCard
     }
