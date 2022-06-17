@@ -26,7 +26,7 @@ class Solver {
 		landingPageViewModel.printBlock2(blocks)
 
 		val ai = Ai()
-		val game = Game()
+		val game = Game.emptyGame()
 		var counter = UtilSolver.cardDeck.size - 1
 		for (i in 0..125) {
 			println("Iteration: $i")
@@ -93,7 +93,7 @@ class Solver {
 
 	fun solveLastFewSteps() {
 		val ai = Ai()
-		val game = Game()
+		val game = Game.emptyGame()
 		val landingPageViewModel = LandingPageViewModel()
 		UtilSolver.lastFewSteps(foundations, blocks, waste)
 		landingPageViewModel.printFoundation2(foundations)

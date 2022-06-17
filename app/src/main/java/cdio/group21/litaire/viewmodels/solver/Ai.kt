@@ -14,7 +14,7 @@ val CARDS_TO_FOUNDATION = 5
 
 class Ai {
 
-	val ga = Game()
+	val ga = Game.emptyGame()
 	val gameLogic = GameLogic()
 	fun findBestMove(
 		foundations: ArrayList<Card>,

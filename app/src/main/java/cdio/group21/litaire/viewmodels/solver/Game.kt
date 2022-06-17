@@ -6,7 +6,13 @@ import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.SortedResult
 
-class Game {
+data class Game(val foundations: MutableList<Card>, val blocks: MutableList<Block>, var waste: Card, val lastMoves: HashMap<String, HashMap<String, Boolean>>) {
+
+	companion object {
+		fun emptyGame(): Game {
+			return Game(mutableListOf(), mutableListOf(), Card(Suit.UNKNOWN, Rank.UNKNOWN), HashMap())
+		}
+	}
 
 	val gameLogic = GameLogic()
 
