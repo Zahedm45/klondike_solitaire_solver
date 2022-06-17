@@ -3,11 +3,13 @@ package cdio.group21.litaire.data
 import Card
 import Suit
 import android.util.Log
+import cdio.group21.litaire.utils.MutableMemoryList
+import cdio.group21.litaire.utils.mutableMemoryListOf
 
 data class Solitaire(
     val tableau: List<MutableList<Card>>,
     val foundations: List<MutableList<Card>>,
-    val stock: MutableList<Card>,
+    val stock: MutableMemoryList<Card>,
     val talon: MutableList<Card>,
 
 ) {
@@ -45,17 +47,16 @@ data class Solitaire(
      * Finds a card in the tableu that is the same kind. This is to prevent having lots of copies around.
      */
     private fun findEqualCard(targetCard: Card): Card? {
-            var resultCard: Card? = null
-            tableau.forEach { col ->
-                val foundCard = col.find { card ->
-                    Log.i("findCardFromString", "target: $targetCard found: $card ")
-                    return@find card == targetCard
-                }
-                if (foundCard != null) {
-                    return foundCard
-                }
+        tableau.forEach { col ->
+            val foundCard = col.find { card ->
+                Log.i("findCardFromString", "target: $targetCard found: $card ")
+                return@find card == targetCard
             }
-            return resultCard
+            if (foundCard != null) {
+                return foundCard
+            }
+        }
+        return null
     }
 
     /**
@@ -144,7 +145,7 @@ data class Solitaire(
                 tableau[i].add(knownCards[i])
             }
             val foundations = List(4) { mutableListOf<Card>() }
-            val stock = mutableListOf<Card>()
+            val stock = mutableMemoryListOf<Card>()
             for (i in 0..24) {
                 stock.add(Card(Suit.UNKNOWN, Rank.UNKNOWN))
             }
@@ -156,7 +157,7 @@ data class Solitaire(
         private fun emptyGame(): Solitaire {
             val tableau = List(7) { mutableListOf<Card>() }
             val foundations = List(4) { mutableListOf<Card>() }
-            val stock = mutableListOf<Card>()
+            val stock = mutableMemoryListOf<Card>()
             val talon = mutableListOf<Card>()
             return Solitaire(tableau, foundations, stock, talon)
         }
