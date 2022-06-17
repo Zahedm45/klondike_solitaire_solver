@@ -44,7 +44,22 @@ class FragmentSuggestion : Fragment() {
             binding.ivBackground.setImageBitmap(it)
         }
         viewModel.getSuggestion().observe(viewLifecycleOwner) {
-            setSuggestionUI(it.first, it.second)
+
+        }
+
+        viewModel.getMoves().observe(viewLifecycleOwner){
+            moves ->
+          val currentMove =  moves.last()
+
+          if(currentMove == null) {
+              setSuggestionUI("", "")
+              return@observe
+          }
+          if(currentMove.isMoveToFoundation){
+              setSuggestionUI("${currentMove.card} ${currentMove.indexOfSourceBlock}", "Foundation")
+          }
+          setSuggestionUI("${currentMove.card} ${currentMove.indexOfSourceBlock}", "${currentMove.indexOfDestination}")
+
         }
         binding.ivBackbutton.setOnClickListener(){
             findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
@@ -84,17 +99,9 @@ class FragmentSuggestion : Fragment() {
 
     }
 
-    private fun setSuggestionUI(from: Card, to: Card){
-        val fromNum = from.rank.toString()
-        val fromIcon = suitToIconID(from.suit)
-        val toNum = to.rank.toString()
-        val toIcon = suitToIconID(to.suit)
-
-        binding.leftMoveIcon.setImageResource(fromIcon)
-        binding.leftMoveText.text = fromNum.toString()
-
-        binding.rightMoveIcon.setImageResource(toIcon)
-        binding.rightMoveText.text = toNum.toString()
+    private fun setSuggestionUI(from: String, to: String){
+        binding.leftMoveText.text = from
+        binding.rightMoveText.text = to
     }
 
     private fun suitToIconID(suit: Suit): IconID {

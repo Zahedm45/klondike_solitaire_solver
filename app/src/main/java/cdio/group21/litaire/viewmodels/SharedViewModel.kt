@@ -10,9 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cdio.group21.litaire.data.DetectionResult
+import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.Solitaire
 import cdio.group21.litaire.tflite.DetectionConfig
 import cdio.group21.litaire.tflite.ObjectRecognition
+import cdio.group21.litaire.viewmodels.solver.Ai
 
 
 import kotlinx.coroutines.*
@@ -21,6 +23,7 @@ import kotlinx.coroutines.Dispatchers.IO
 
 class SharedViewModel : ViewModel() {
     private val suggestion = MutableLiveData<Pair<Card, Card>>()
+    private val moves = MutableLiveData<MutableList<Move>>(mutableListOf())
 
     private val previewBitmap = MutableLiveData<Bitmap>()
 
@@ -30,12 +33,20 @@ class SharedViewModel : ViewModel() {
 
     private var cardObjectToReveal: Card? = null
 
+    private var ai : Ai = Ai()
+
+    private val lastMoves : HashMap<String, HashMap<String, Boolean>> = HashMap()
+
     fun setPreviewBitmap(bitmap: Bitmap) {
         previewBitmap.value = bitmap
     }
 
     fun getPreviewBitmap(): LiveData<Bitmap> {
         return previewBitmap
+    }
+
+    fun getMoves(): MutableLiveData<MutableList<Move>> {
+        return moves
     }
 
     fun getDetectionList(): LiveData<List<DetectionResult>> {
@@ -76,7 +87,7 @@ class SharedViewModel : ViewModel() {
 
 
     fun updateGame(list: List<DetectionResult>) : Result<Unit> {
-        Log.i("SharedViewModel", "Update Game: " + list.toString())
+        Log.i("SharedViewModel", "Update Game: $list")
         Log.i("SharedViewModel", "Update Game: List size: " + list.size)
         if (list.size == 7){
             gameState.postValue(ObjectRecognition.initGame(list))
@@ -101,6 +112,17 @@ class SharedViewModel : ViewModel() {
 
     fun setCardObjectToReveal(cardObject: Card) {
         cardObjectToReveal = cardObject
+    }
+
+    fun runSolver() {
+        if(ai == null) ai = Ai()
+        val gameState = gameState.value ?: return
+
+        val move = ai.findBestMove(gameState.foundations, gameState.tableau, gameState.stock.first(), lastMoves)
+        if (move != null) {
+            moves.value?.add(move)
+            moves.postValue(moves.value)
+        }
     }
 
 }

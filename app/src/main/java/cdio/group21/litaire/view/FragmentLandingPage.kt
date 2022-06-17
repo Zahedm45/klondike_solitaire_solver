@@ -91,6 +91,7 @@ class FragmentLandingPage : Fragment() {
                 binding?.ivBackground?.setImageBitmap(imgResult)
                 findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
             }
+            sharedViewModel.runSolver()
 
         }
 

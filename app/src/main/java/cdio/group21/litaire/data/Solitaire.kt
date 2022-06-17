@@ -7,7 +7,8 @@ data class Solitaire(
     val tableau: List<MutableList<Card>>,
     val foundations: List<MutableList<Card>>,
     val stock: MutableList<Card>,
-    val talon: MutableList<Card>
+    val talon: MutableList<Card>,
+
 ) {
 
     fun replaceCardObject(cardObjectToReveal: Card, value: Card) {
