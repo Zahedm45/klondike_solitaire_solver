@@ -1,7 +1,10 @@
 package cdio.group21.litaire.utils.extensions
 
 import android.graphics.Bitmap
-import cdio.group21.litaire.utils.*
+import cdio.group21.litaire.utils.Array2D
+import cdio.group21.litaire.utils.Point
+import cdio.group21.litaire.utils.Size
+import cdio.group21.litaire.utils.createArray
 
 data class BitmapSlice(val bitmap: Bitmap, val position: Point)
 
@@ -22,7 +25,7 @@ fun Bitmap.split(
 	val minPos = Point(0, 0)
 	val maxPos = Point(this.width, this.height)
 
-	val bitmaps = Pair(num_rows, num_columns).createArray() { row, column ->
+	val bitmaps = Pair(num_rows, num_columns).createArray { row, column ->
 		val position = Point((column * size.width).toInt(), (row * size.height).toInt())
 		val offsetPosition = (position - overlap.toPoint()).clamp(minPos, maxPos)
 		val end = (position + size.toPoint() + overlap.toPoint()).clamp(minPos, maxPos)

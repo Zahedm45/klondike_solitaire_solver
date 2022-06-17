@@ -1,9 +1,6 @@
 package cdio.group21.litaire.utils
 
-import android.os.Parcel
-import android.os.Parcelable
-
-class ArrayHashmapMemoryList<E>() : MutableMemoryList<E>, ArrayList<E>() {
+class ArrayHashmapMemoryList<E> : MutableMemoryList<E>, ArrayList<E>() {
 	private val map = HashMap<Int, E>()
 
 	override fun add(element: E): Boolean {
@@ -17,7 +14,7 @@ class ArrayHashmapMemoryList<E>() : MutableMemoryList<E>, ArrayList<E>() {
 
 	override fun forget(element: E): Result<Boolean> {
 		if (super.contains(element)) {
-			return Result.failure(IllegalArgumentException("Error: Element cannot be forgotten as it is still in the list!"));
+			return Result.failure(IllegalArgumentException("Error: Element cannot be forgotten as it is still in the list!"))
 		}
 		return Result.success(map.remove(element.hashCode()) != null)
 	}

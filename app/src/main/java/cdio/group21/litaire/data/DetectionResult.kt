@@ -1,11 +1,13 @@
 package cdio.group21.litaire.data
 
 import Card
+import Rank
+import Suit
 import android.graphics.RectF
 import cdio.group21.litaire.API.Prediction
 
 data class DetectionResult(val boundingBox: RectF, val card: Card, val confidence: Double) {
-	fun toText() : String {
+	fun toText(): String {
 		return card.toString() + "," + confidence
 	}
 

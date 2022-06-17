@@ -44,7 +44,7 @@ class FragmentLandingPage : Fragment() {
 	private val viewModel: LandingPageViewModel by viewModels()
 	private var tempImageUri: Uri? = null
 
-    override fun onCreateView(
+	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
@@ -108,7 +108,7 @@ class FragmentLandingPage : Fragment() {
 				return@observe
 			}
 			sharedViewModel.setCardObjectToReveal(revealedCard ?: return@observe)
-        }
+		}
 
 
 

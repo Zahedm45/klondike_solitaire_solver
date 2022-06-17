@@ -71,7 +71,7 @@ data class Solitaire(
 		val cardAndContainer = findEqualCard(card).getOrElse { return Result.failure(it) }
 		if (!cardAndContainer.pile.remove(card)) return Result.failure(IllegalArgumentException("Error: Card could not be removed!"))
 		return Result.success(cardAndContainer)
-    }
+	}
 
 	/**
 	 * Adds a card the the specified block in the tableau

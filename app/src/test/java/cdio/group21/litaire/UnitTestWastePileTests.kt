@@ -1,7 +1,9 @@
 package cdio.group21.litaire
 
-import cdio.group21.litaire.data.Block
 import Card
+import Rank
+import Suit
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
@@ -11,116 +13,113 @@ import org.junit.Test
 
 class UnitTestWastePileTests {
 
-    private var foundation: ArrayList<Card> = ArrayList()
-    private val blocks: ArrayList<Block> = ArrayList()
-    val waste = DUMMY_CARD.deepCopy()
-    val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
-    val gameLogic = GameLogic()
+	private var foundation: ArrayList<Card> = ArrayList()
+	private val blocks: ArrayList<Block> = ArrayList()
+	val waste = DUMMY_CARD.deepCopy()
+	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+	val gameLogic = GameLogic()
 
 
+	fun initializeBlocks() {
+		for (i in 0..6) {
+			blocks.add(Block())
+		}
+	}
 
 
-    fun initializeBlocks() {
-        for (i in 0..6) {
-            blocks.add(Block())
-        }
-    }
+	@Test
+	fun testWasteToBlock() {
+		initializeBlocks()
+		val waste: Card = Card(Suit.CLUB, Rank.TWO)
+
+		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
 
 
-    @Test
-    fun testWasteToBlock() {
-        initializeBlocks()
-        val waste: Card = Card(Suit.CLUB, Rank.TWO)
+		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		Assert.assertEquals(moves.size, 1)
+		Assert.assertEquals(moves[0], Move(false, waste, 8, 0))
 
-        blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+	}
 
+	@Test
+	fun testWasteToFoundation() {
+		initializeBlocks()
+		val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-        Assert.assertEquals(moves.size, 1)
-        Assert.assertEquals(moves[0], Move(false, waste, 8, 0))
+		foundation.add(Card(Suit.CLUB, Rank.ACE))
 
-    }
+		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		Assert.assertEquals(moves.size, 1)
+		Assert.assertEquals(moves[0], Move(true, waste, 8, 0))
 
-    @Test
-    fun testWasteToFoundation() {
-        initializeBlocks()
-        val waste: Card = Card(Suit.CLUB, Rank.TWO)
+	}
 
-        foundation.add(Card(Suit.CLUB, Rank.ACE))
+	@Test
+	fun testMoveOfWasteToFoundation() {
+		initializeBlocks()
+		val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-        Assert.assertEquals(moves.size, 1)
-        Assert.assertEquals(moves[0], Move(true, waste, 8, 0))
+		foundation.add(Card(Suit.CLUB, Rank.ACE))
 
-    }
+		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
-    @Test
-    fun testMoveOfWasteToFoundation() {
-        initializeBlocks()
-        val waste: Card = Card(Suit.CLUB, Rank.TWO)
+		val game = Game()
+		game.moveFromWasteToFoundation(moves[0], foundation, waste)
 
-        foundation.add(Card(Suit.CLUB, Rank.ACE))
+		Assert.assertEquals(foundation[0], Card(Suit.CLUB, Rank.TWO))
 
-        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+	}
 
-        val game = Game()
-        game.moveFromWasteToFoundation(moves[0], foundation, waste)
+	@Test
+	fun testWasteToFoundationIfAce() {
+		initializeBlocks()
+		val waste: Card = Card(Suit.CLUB, Rank.ACE)
 
-        Assert.assertEquals(foundation[0], Card(Suit.CLUB, Rank.TWO))
+		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		Assert.assertEquals(moves.size, 1)
+		Assert.assertEquals(moves[0], Move(true, waste, 8, -1))
 
-    }
+	}
 
-    @Test
-    fun testWasteToFoundationIfAce() {
-        initializeBlocks()
-        val waste: Card = Card(Suit.CLUB, Rank.ACE)
+	@Test
+	fun testWasteToFoundationAndBlock() {
+		initializeBlocks()
+		val waste: Card = Card(Suit.CLUB, Rank.THREE)
 
-        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-        Assert.assertEquals(moves.size, 1)
-        Assert.assertEquals(moves[0], Move(true, waste, 8, -1))
+		foundation.add(Card(Suit.CLUB, Rank.TWO))
+		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
-    }
+		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
-    @Test
-    fun testWasteToFoundationAndBlock() {
-        initializeBlocks()
-        val waste: Card = Card(Suit.CLUB, Rank.THREE)
+		val move1 = Move(true, waste, 8, 0)
+		val move2 = Move(false, waste, 8, 0)
 
-        foundation.add(Card(Suit.CLUB, Rank.TWO))
-        blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
+		Assert.assertEquals(moves.size, 2)
+		Assert.assertEquals(moves.contains(move1), true)
+		Assert.assertEquals(moves.contains(move2), true)
+	}
 
-        val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+	@Test
+	fun testMoveFromWasteToBlock() {
+		initializeBlocks()
 
-        val move1 = Move(true, waste, 8, 0)
-        val move2 = Move(false, waste, 8,0)
+		val waste: Card = Card(Suit.CLUB, Rank.THREE)
 
-        Assert.assertEquals(moves.size, 2)
-        Assert.assertEquals(moves.contains(move1), true)
-        Assert.assertEquals(moves.contains(move2), true)
-    }
+		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
-    @Test
-    fun testMoveFromWasteToBlock() {
-        initializeBlocks()
-
-        val waste: Card = Card(Suit.CLUB, Rank.THREE)
-
-        blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
-
-        val moves = gameLogic.allPossibleMoves(foundation,blocks,waste, lastMovesMap)
-        val move1 = Move(false, waste, 8,0)
+		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val move1 = Move(false, waste, 8, 0)
 
 
-        val game = Game()
-        val retVal = game.moveFromWasteToBlock(move1,blocks,waste)
+		val game = Game()
+		val retVal = game.moveFromWasteToBlock(move1, blocks, waste)
 
 
-        Assert.assertEquals(retVal, true)
+		Assert.assertEquals(retVal, true)
 
-        Assert.assertEquals(blocks[0].cards.last(), Card(Suit.CLUB, Rank.THREE))
+		Assert.assertEquals(blocks[0].cards.last(), Card(Suit.CLUB, Rank.THREE))
 
-    }
-
+	}
 
 
 }

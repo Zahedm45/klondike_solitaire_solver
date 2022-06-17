@@ -1,7 +1,5 @@
 package cdio.group21.litaire.utils
 
-import android.icu.number.IntegerWidth
-
 data class Size(val width: UInt, val height: UInt) {
 	fun toPoint(): Point = Point(width.toInt(), height.toInt())
 
