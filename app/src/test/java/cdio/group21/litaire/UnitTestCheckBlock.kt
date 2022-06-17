@@ -20,6 +20,7 @@ class UnitTestCheckBlock {
     * Tests if a block of 3 cards, where 2 are in order
     * will be added to the temp block
     */
+
     @Test
     fun checkBlock2Cards(){
 
