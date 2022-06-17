@@ -49,6 +49,8 @@ class FragmentSuggestion : Fragment() {
 
         viewModel.getMoves().observe(viewLifecycleOwner){
             moves ->
+            if(moves.isEmpty()) return@observe
+
           val currentMove =  moves.last()
 
           if(currentMove == null) {
