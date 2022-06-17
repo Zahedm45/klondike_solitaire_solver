@@ -7,19 +7,20 @@ import cdio.group21.litaire.viewmodels.LandingPageViewModel
 class Solver {
 	private var lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
 	private var waste = DUMMY_CARD.deepCopy()
-	private var foundations: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundations: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
+	private var game = Game(foundations, blocks, waste, lastMoves)
 	val gameLogic = GameLogic()
 
 	companion object {
-		val allWaste: ArrayList<Card> = ArrayList()
+		val allWaste: MutableList<Card> = mutableListOf()
 	}
 
 
 	fun initt() {
 
 		//UtilSolver.simulateRandomCards(foundations, blocks, waste)
-		UtilSolver.solvableCardDeck(foundations, blocks, waste)
+		UtilSolver.solvableCardDeck(game.foundations, blocks, waste)
 		val landingPageViewModel = LandingPageViewModel()
 		landingPageViewModel.printFoundation2(foundations)
 		landingPageViewModel.printWaste2(waste)

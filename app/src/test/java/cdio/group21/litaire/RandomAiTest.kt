@@ -10,8 +10,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class RandomAiTest {
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	val waste = DUMMY_CARD.deepCopy()
 	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 
@@ -88,7 +88,7 @@ class RandomAiTest {
 
 		val moves = GameLogic().allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
-		val ret = Game().move_(moves[0], foundation, blocks, waste, lastMovesMap)
+		val ret = Game.emptyGame().move_(moves[0], foundation, blocks, waste, lastMovesMap)
 		assertEquals(ret, true)
 		assertEquals(blocks[2].hiddenCards, 3)
 	}

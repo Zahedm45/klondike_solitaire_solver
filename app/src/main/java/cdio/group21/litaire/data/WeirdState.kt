@@ -5,18 +5,18 @@ import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 
 
 data class WeirdState(
-	val foundations: ArrayList<Card>,
-	val blocks: ArrayList<Block>,
+	val foundations: MutableList<Card>,
+	val blocks: MutableList<Block>,
 	val waste: Card
 ) {
 	companion object {
 		fun fromSolitaire(solitaire: Solitaire): WeirdState {
-			val blocks = ArrayList<Block>()
+			val blocks = mutableListOf<Block>()
 			solitaire.tableau.forEach { block ->
 				blocks.add(Block.fromTableau(block))
 			}
 
-			val foundations = ArrayList<Card>()
+			val foundations = mutableListOf<Card>()
 			solitaire.foundations.forEach { foundation ->
 				if (foundation.isNotEmpty()) foundations.add(foundation.last())
 			}

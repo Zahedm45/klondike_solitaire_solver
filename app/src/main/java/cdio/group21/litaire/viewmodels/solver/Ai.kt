@@ -17,8 +17,8 @@ class Ai {
 	val ga = Game.emptyGame()
 	val gameLogic = GameLogic()
 	fun findBestMove(
-		foundations: ArrayList<Card>,
-		blocks: ArrayList<Block>,
+		foundations: MutableList<Card>,
+		blocks: MutableList<Block>,
 		waste: Card,
 		lastMoves: HashMap<String, HashMap<String, Boolean>>
 	): Move? {
@@ -60,7 +60,7 @@ class Ai {
 			val foundationsCopy = ArrayList(foundations.map { detectR -> detectR.deepCopy() })
 			val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
 			val wasteCopy = waste.copy()
-			val leafValue: ArrayList<GameSate> = ArrayList()
+			val leafValue: MutableList<GameSate> = mutableListOf()
 			val mapCopy = mapDeepCopy(lastMoves)
 
 
@@ -147,10 +147,10 @@ class Ai {
 
 
 	private fun algorithm(
-		currBlocks: ArrayList<Block>,
-		currFoundations: ArrayList<Card>,
+		currBlocks: MutableList<Block>,
+		currFoundations: MutableList<Card>,
 		currWaste: Card,
-		leafValues: ArrayList<GameSate>,
+		leafValues: MutableList<GameSate>,
 		lastMovesMap: HashMap<String, HashMap<String, Boolean>>,
 		depth: Int
 	) {
@@ -184,10 +184,10 @@ class Ai {
 
 
 	private fun setGameState(
-		blocks: ArrayList<Block>,
-		foundations: ArrayList<Card>,
+		blocks: MutableList<Block>,
+		foundations: MutableList<Card>,
 		waste: Card,
-		leafValues: ArrayList<GameSate>,
+		leafValues: MutableList<GameSate>,
 		length: Int
 	) {
 
@@ -202,8 +202,8 @@ class Ai {
 
 
 	fun heuristicOne(
-		blocks: ArrayList<Block>,
-		foundations: ArrayList<Card>
+		blocks: MutableList<Block>,
+		foundations: MutableList<Card>
 	): Int {
 		return heuristicFaceDown(blocks) +
 				heuristicFoundations(foundations) +
@@ -212,7 +212,7 @@ class Ai {
 
 
 	fun heuristicFoundations(
-		foundations: ArrayList<Card>
+		foundations: MutableList<Card>
 	): Int {
 
 		var total = 0
@@ -228,7 +228,7 @@ class Ai {
 
 
 	fun heuristicFaceDown(
-		blocks: ArrayList<Block>,
+		blocks: MutableList<Block>,
 	): Int {
 
 		/**
@@ -244,7 +244,7 @@ class Ai {
 
 
 	fun heuristicCardsNotInBuild(
-		blocks: ArrayList<Block>,
+		blocks: MutableList<Block>,
 		value: Int
 	): Int {
 		var total = 0
@@ -267,8 +267,8 @@ class Ai {
 
 
 /*    fun heuristicTwo(
-        blocks: ArrayList<Block>,
-        foundations: ArrayList<Card>,
+        blocks: MutableList<Block>,
+        foundations: MutableList<Card>,
         waste: Card
     ): Int {
 
@@ -280,8 +280,8 @@ class Ai {
 
 
 	fun heuristicTwo(
-		blocks: ArrayList<Block>,
-		foundations: ArrayList<Card>,
+		blocks: MutableList<Block>,
+		foundations: MutableList<Card>,
 		waste: Card
 	): Int {
 
@@ -290,7 +290,7 @@ class Ai {
 
 
 	fun heuristicFoundationsTwo(
-		foundations: ArrayList<Card>
+		foundations: MutableList<Card>
 	): Int {
 		var total = 0
 		foundations.forEach { f ->
@@ -301,8 +301,8 @@ class Ai {
 
 
 	fun isWasteAbleToMove(
-		blocks: ArrayList<Block>,
-		foundations: ArrayList<Card>,
+		blocks: MutableList<Block>,
+		foundations: MutableList<Card>,
 		waste: Card
 	): Int {
 		var total = waste.rank.ordinal

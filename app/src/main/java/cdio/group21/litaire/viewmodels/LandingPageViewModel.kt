@@ -15,14 +15,14 @@ class LandingPageViewModel : ViewModel() {
 	private val detectionList = MutableLiveData<List<DetectionResult>>()
 
 
-	var resultAfterFoundationWaste: ArrayList<DetectionResult> = ArrayList()
+	var resultAfterFoundationWaste: MutableList<DetectionResult> = mutableListOf()
 
 	lateinit var newResult: List<DetectionResult>
 	var isNewResultInitialized = false
 
 	var waste: DetectionResult? = null
-	var foundation: ArrayList<DetectionResult> = ArrayList()
-	var block: ArrayList<SortedResult> = ArrayList()
+	var foundation: MutableList<DetectionResult> = mutableListOf()
+	var block: MutableList<SortedResult> = mutableListOf()
 
 
 	fun setImageBitmap(bitmap: Bitmap) {
@@ -42,8 +42,8 @@ class LandingPageViewModel : ViewModel() {
 	 */
 
 	private fun removeDuplicateBlock(
-		results: ArrayList<SortedResult>
-	): ArrayList<SortedResult> {
+		results: MutableList<SortedResult>
+	): MutableList<SortedResult> {
 
 		var i = 1
 
@@ -60,7 +60,7 @@ class LandingPageViewModel : ViewModel() {
 		}
 
 
-		val newResult: ArrayList<SortedResult> = ArrayList()
+		val newResult: MutableList<SortedResult> = mutableListOf()
 		results.forEach {
 			if (it.centerX != 0.0f && it.centerY != 0.0f) {
 				newResult.add(it)
@@ -72,8 +72,8 @@ class LandingPageViewModel : ViewModel() {
 
 
 	private fun sortAccordingToXCoordinate(
-		centerXBlock: ArrayList<SortedResult>
-	): ArrayList<SortedResult> {
+		centerXBlock: MutableList<SortedResult>
+	): MutableList<SortedResult> {
 		centerXBlock.sortBy { it.centerX }
 
 		centerXBlock.forEach { curr ->
@@ -85,7 +85,7 @@ class LandingPageViewModel : ViewModel() {
 	}
 
 
-	fun printBlock2(blocks: ArrayList<Block>) {
+	fun printBlock2(blocks: MutableList<Block>) {
 		// Log.i(ContentValues.TAG, "Block2")
 		var i = 0
 
@@ -101,7 +101,7 @@ class LandingPageViewModel : ViewModel() {
 	}
 
 
-	fun printFoundation2(results: ArrayList<Card>) {
+	fun printFoundation2(results: MutableList<Card>) {
 		//Log.i(ContentValues.TAG, "Foundation")
 
 		print("Foundations -> ")

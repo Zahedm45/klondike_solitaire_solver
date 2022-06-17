@@ -14,8 +14,8 @@ import org.junit.Test
 
 class UnitTestBlockTest {
 
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	private var waste = DUMMY_CARD.deepCopy()
 
 	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
@@ -42,7 +42,7 @@ class UnitTestBlockTest {
 		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
 
-		val returnVal: ArrayList<Move> = ArrayList()
+		val returnVal: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val item = blocks[indexBlock]
@@ -100,7 +100,7 @@ class UnitTestBlockTest {
 		Assert.assertEquals(moves[0], Move(false, Card(Suit.SPADE, Rank.FIVE), 0, 2))
 
 
-		val game = Game()
+		val game = Game.emptyGame()
 
 		moves.forEach {
 			game.moveFromBlockToBlock(it, blocks, lastMovesMap)
@@ -175,7 +175,7 @@ class UnitTestBlockTest {
 		Assert.assertEquals(moves[0], Move(false, Card(Suit.SPADE, Rank.FIVE), 0, 2))
 
 
-		val game = Game()
+		val game = Game.emptyGame()
 
 		game.moveFromBlockToBlock(moves[0], blocks, lastMovesMap)
 
@@ -239,7 +239,7 @@ class UnitTestBlockTest {
 
 		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
 
-		var returnVal: ArrayList<Move> = ArrayList()
+		var returnVal: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val itemBlock = blocks[indexBlock]
@@ -295,7 +295,7 @@ class UnitTestBlockTest {
 		blocks[6].cards.add(Card(Suit.CLUB, Rank.FIVE))
 		blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
-		var returnVal: ArrayList<Move> = ArrayList()
+		var returnVal: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val itemBlock = blocks[indexBlock]
@@ -355,7 +355,7 @@ class UnitTestBlockTest {
 		blocks[6].cards.add(Card(Suit.CLUB, Rank.FIVE))
 		blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
-		var returnVal: ArrayList<Move> = ArrayList()
+		var returnVal: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val itemBlock = blocks[indexBlock]
@@ -419,8 +419,8 @@ class UnitTestBlockTest {
 
 		blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
 
-		val game = Game()
-		var returnVal = game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val game = Game.emptyGame()
+		var returnVal = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
 
 		val move1 = Move(false, Card(Suit.SPADE, Rank.FOUR), 0, 6)
@@ -466,7 +466,7 @@ class UnitTestBlockTest {
 		blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
 
-		var returnVal: ArrayList<Move> = ArrayList()
+		var returnVal: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val itemBlock = blocks[indexBlock]
@@ -534,7 +534,7 @@ class UnitTestBlockTest {
 		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
 
 
-		var returnVal: ArrayList<Move> = ArrayList()
+		var returnVal: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val itemBlock = blocks[indexBlock]
@@ -597,7 +597,7 @@ class UnitTestBlockTest {
 		blocks[4].cards.add(Card(Suit.HEART, Rank.KING))
 
 
-		var returnVal: ArrayList<Move> = ArrayList()
+		var returnVal: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val itemBlock = blocks[indexBlock]
@@ -664,7 +664,7 @@ class UnitTestBlockTest {
 		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 		blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
-		val returnVal: ArrayList<Move> = ArrayList()
+		val returnVal: MutableList<Move> = mutableListOf()
 		gameLogic.possibleMovesFromBlockToBlock(blocks[0], blocks, 0, returnVal, lastMovesMap)
 		val moveTest = Move(false, Card(Suit.HEART, Rank.FOUR), 0, 1)
 
@@ -681,7 +681,7 @@ class UnitTestBlockTest {
 		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 		blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
-		val returnVal: ArrayList<Move> = ArrayList()
+		val returnVal: MutableList<Move> = mutableListOf()
 		gameLogic.possibleMovesFromBlockToBlock(blocks[0], blocks, 0, returnVal, lastMovesMap)
 
 		Assert.assertEquals(returnVal.size, 0)

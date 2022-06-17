@@ -1,5 +1,7 @@
 package cdio.group21.litaire.utils
 
+import java.util.ArrayList
+
 class ArrayHashmapMemoryList<E> : MutableMemoryList<E>, ArrayList<E>() {
 	private val map = HashMap<Int, E>()
 

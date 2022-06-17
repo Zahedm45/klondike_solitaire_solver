@@ -13,16 +13,16 @@ class GameLogic {
 
 
 	fun allPossibleMoves(
-		foundations: ArrayList<Card>,
-		blocks: ArrayList<Block>,
+		foundations: MutableList<Card>,
+		blocks: MutableList<Block>,
 		waste: Card?,
 		lastMovesMap: HashMap<String, HashMap<String, Boolean>>
-	): ArrayList<Move> {
+	): MutableList<Move> {
 
 		emptyBlockIndex = -1
 		hasChecked = false
 
-		val possibleMoves: ArrayList<Move> = ArrayList()
+		val possibleMoves: MutableList<Move> = mutableListOf()
 
 		for (indexBlock in blocks.indices) {
 			val block = blocks[indexBlock]
@@ -124,7 +124,7 @@ class GameLogic {
 	* of possible cards to be moved
 	* in a block
 	*/
-	fun checkBlock(block: Block): ArrayList<Card>? {
+	fun checkBlock(block: Block): MutableList<Card>? {
 		// check if block is empty
 		if (block.cards.isEmpty()) {
 			return null
@@ -132,7 +132,7 @@ class GameLogic {
 
 		//should start from the back of the array (first visible card in block)
 		var cur_index = block.cards.size - 1
-		var tempBlock: ArrayList<Card> = ArrayList()
+		var tempBlock: MutableList<Card> = mutableListOf()
 
 		//add the first visible card, as 1 card should always be moved (unless empty)
 		tempBlock.add(block.cards[cur_index])
@@ -156,9 +156,9 @@ class GameLogic {
 
 	fun possibleMovesFromBlockToBlock(
 		sourceBlock: Block,
-		blocks: ArrayList<Block>,
+		blocks: MutableList<Block>,
 		indexBlock: Int,
-		possibleMoves: ArrayList<Move>,
+		possibleMoves: MutableList<Move>,
 		lastMovesMap: HashMap<String, HashMap<String, Boolean>>
 	) {
 
@@ -296,7 +296,7 @@ class GameLogic {
 		return card.rank.isPrevious(foundation.rank)
 	}
 
-	fun findPreviousFoundationValue(foundations: ArrayList<Card>, indexFoundation: Byte): Card {
+	fun findPreviousFoundationValue(foundations: MutableList<Card>, indexFoundation: Byte): Card {
 		var index = indexFoundation.toInt()
 		var oldCard = foundations[index]
 
@@ -359,7 +359,7 @@ class GameLogic {
 		return false
 	}
 
-	fun isGameWon(foundation: ArrayList<Card>): Boolean {
+	fun isGameWon(foundation: MutableList<Card>): Boolean {
 		var winCount = 0
 		for (i in foundation.indices) {
 			if (foundation[i].rank == Rank.KING) {

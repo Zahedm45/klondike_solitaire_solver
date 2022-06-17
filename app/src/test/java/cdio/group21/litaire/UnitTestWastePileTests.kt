@@ -13,8 +13,8 @@ import org.junit.Test
 
 class UnitTestWastePileTests {
 
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	val waste = DUMMY_CARD.deepCopy()
 	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 	val gameLogic = GameLogic()
@@ -63,7 +63,7 @@ class UnitTestWastePileTests {
 
 		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
-		val game = Game()
+		val game = Game.emptyGame()
 		game.moveFromWasteToFoundation(moves[0], foundation, waste)
 
 		Assert.assertEquals(foundation[0], Card(Suit.CLUB, Rank.TWO))
@@ -111,7 +111,7 @@ class UnitTestWastePileTests {
 		val move1 = Move(false, waste, 8, 0)
 
 
-		val game = Game()
+		val game = Game.emptyGame()
 		val retVal = game.moveFromWasteToBlock(move1, blocks, waste)
 
 

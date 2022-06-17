@@ -15,7 +15,7 @@ import org.junit.Test
 
 class UnitTestCheckBlock {
 
-	private val blocks: ArrayList<Block> = ArrayList()
+	private val blocks: MutableList<Block> = mutableListOf()
 	val gameLogic = GameLogic()
 
 	/*

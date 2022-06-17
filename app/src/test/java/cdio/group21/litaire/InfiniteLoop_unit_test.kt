@@ -14,8 +14,8 @@ import org.junit.Test
 
 class InfiniteLoop_unit_test {
 
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 
 	//private val waste = Card('k', 0)
 	private val waste = DUMMY_CARD.deepCopy()
@@ -85,7 +85,7 @@ class InfiniteLoop_unit_test {
 
 
 		// moves 4c to 5h
-		val game = Game()
+		val game = Game.emptyGame()
 		val move1 = Move(false, card2, 1, 5)
 		val retMove = game.moveFromBlockToBlock(move1, blocks, lastMovesHash)
 

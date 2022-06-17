@@ -13,8 +13,8 @@ import org.junit.Test
 
 class UnitTestFoundationTests {
 
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	private var waste = DUMMY_CARD.deepCopy()
 	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 	val gameLogic = GameLogic()
@@ -200,7 +200,7 @@ class UnitTestFoundationTests {
 
 
 		var moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		val game = Game()
+		val game = Game.emptyGame()
 
 		moves.forEach {
 			game.moveFromBlockToFoundation(it, foundation, blocks)
@@ -237,7 +237,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(blocks[1].cards.last() == detect3, true)
 
 		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		val game = Game()
+		val game = Game.emptyGame()
 
 		Assert.assertEquals(moves.size, 1)
 
@@ -293,7 +293,7 @@ class UnitTestFoundationTests {
 
 		Assert.assertEquals(result, true)
 
-		val game = Game()
+		val game = Game.emptyGame()
 		val result2 = game.moveFromFoundationToBlock(move, blocks, foundation, lastMovesMap)
 
 		Assert.assertEquals(result2, true)
@@ -314,7 +314,7 @@ class UnitTestFoundationTests {
 
 		Assert.assertEquals(result, false)
 
-		val game = Game()
+		val game = Game.emptyGame()
 		val result2 = game.moveFromFoundationToBlock(move, blocks, foundation, lastMovesMap)
 
 		Assert.assertEquals(result2, false)
@@ -382,7 +382,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result.contains(move2), true)
 		Assert.assertEquals(result.contains(move3), true)
 
-		val game = Game()
+		val game = Game.emptyGame()
 		game.moveFromBlockToFoundation(move1, foundation, blocks)
 		game.moveFromBlockToFoundation(move2, foundation, blocks)
 		game.moveFromBlockToFoundation(move3, foundation, blocks)

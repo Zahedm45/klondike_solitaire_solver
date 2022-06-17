@@ -13,8 +13,8 @@ import org.junit.Test
 
 class TestDeck {
 
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	var waste = DUMMY_CARD.deepCopy()
 
 	private val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
@@ -53,7 +53,7 @@ class TestDeck {
 
 		waste = Card(Suit.HEART, Rank.ACE)
 
-		val game = Game()
+		val game = Game.emptyGame()
 		val ai = Ai()
 
 		var bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
@@ -589,7 +589,7 @@ class TestDeck {
 		}
 
 		// game should be finished. Check results:
-		val result2 = game.gameLogic.isGameWon(foundation)
+		val result2 = Game.gameLogic.isGameWon(foundation)
 
 		Assert.assertEquals(result2, true)
 		Assert.assertEquals(foundation[0].rank, Rank.KING)
@@ -623,7 +623,7 @@ class TestDeck {
 
 		waste = Card(Suit.CLUB, Rank.ACE)
 
-		val game = Game()
+		val game = Game.emptyGame()
 		val ai = Ai()
 
 		var bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
@@ -1223,7 +1223,7 @@ class TestDeck {
 		if (bestMove != null) {
 			game.move_(bestMove, foundation, blocks, waste, lastMovesMap)
 		}
-		val gameResult = game.gameLogic.isGameWon(foundation)
+		val gameResult = Game.gameLogic.isGameWon(foundation)
 		Assert.assertEquals(gameResult, true)
 
 	}

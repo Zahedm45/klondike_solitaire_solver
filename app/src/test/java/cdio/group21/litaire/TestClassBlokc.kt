@@ -11,8 +11,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class TestClassBlock {
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	val waste = DUMMY_CARD.deepCopy()
 	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 
@@ -31,7 +31,7 @@ class TestClassBlock {
 
 		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 		assertEquals(blocks[5].hiddenCards, 2)
-		val k = Game().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+		val k = Game.emptyGame().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
 		assertEquals(k, true)
 		assertEquals(blocks[5].hiddenCards, 2)
 	}
@@ -53,7 +53,7 @@ class TestClassBlock {
 
 		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 		assertEquals(blocks[5].hiddenCards, 1)
-		val k = Game().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+		val k = Game.emptyGame().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
 		assertEquals(k, true)
 		assertEquals(blocks[5].hiddenCards, 1)
 		assertEquals(blocks[0].hiddenCards, 1)
@@ -78,10 +78,10 @@ class TestClassBlock {
 		blocks[5].cards.add(card3)
 
 		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
-		val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
+		val blocksCopy = blocks.map { b -> b.deepCopy() }.toList()
 		assertEquals(blocks == blocksCopy, true)
 		assertEquals(blocks[5].hiddenCards, 1)
-		val k = Game().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+		val k = Game.emptyGame().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
 		assertEquals(k, true)
 		assertEquals(blocks[5].hiddenCards, 1)
 		assertEquals(blocks[0].hiddenCards, 1)

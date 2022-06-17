@@ -15,8 +15,8 @@ import org.junit.Test
 
 class UnitTestPossibleMoves {
 
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	var waste = DUMMY_CARD.deepCopy()
 
 	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()

@@ -14,11 +14,11 @@ class UtilSolver {
 	companion object {
 
 
-		val cardDeck: ArrayList<Card> = ArrayList()
+		val cardDeck: MutableList<Card> = mutableListOf()
 
 		fun lastFewSteps(
-			foundation: ArrayList<Card>,
-			blocks: ArrayList<Block>,
+			foundation: MutableList<Card>,
+			blocks: MutableList<Block>,
 			waste: Card
 		) {
 			for (i in 0..6) {
@@ -106,8 +106,8 @@ class UtilSolver {
 
 
 		fun simulateRandomCards(
-			foundation: ArrayList<Card>,
-			blocks: ArrayList<Block>,
+			foundation: MutableList<Card>,
+			blocks: MutableList<Block>,
 			waste: Card
 		) {
 
@@ -158,8 +158,8 @@ class UtilSolver {
 
 
 		fun solvableCardDeck(
-			foundation: ArrayList<Card>,
-			blocks: ArrayList<Block>,
+			foundation: MutableList<Card>,
+			blocks: MutableList<Block>,
 			waste: Card
 		) {
 
@@ -223,7 +223,7 @@ class UtilSolver {
 			blocks[6].cards.add(cardDeck[25].deepCopy())
 			blocks[6].cards.add(cardDeck[26].deepCopy())
 
-			val temp: ArrayList<Card> = ArrayList()
+			val temp: MutableList<Card> = mutableListOf()
 
 
 			blocks.forEach {

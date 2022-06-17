@@ -11,8 +11,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class Simulate_unitTest {
-	private var foundation: ArrayList<Card> = ArrayList()
-	private val blocks: ArrayList<Block> = ArrayList()
+	private var foundation: MutableList<Card> = mutableListOf()
+	private val blocks: MutableList<Block> = mutableListOf()
 	var waste = DUMMY_CARD.deepCopy()
 	val lastMovesHash: HashMap<String, HashMap<String, Boolean>> = HashMap()
 	val gameLogic = GameLogic()
@@ -36,7 +36,7 @@ class Simulate_unitTest {
 		foundation.add(card3)
 		waste = card2.deepCopy()
 
-		val game = Game()
+		val game = Game.emptyGame()
 
 
 		val retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
@@ -63,7 +63,7 @@ class Simulate_unitTest {
 		foundation.add(card3)
 		waste = card2.deepCopy()
 
-		val game = Game()
+		val game = Game.emptyGame()
 
 
 		val retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
@@ -91,7 +91,7 @@ class Simulate_unitTest {
 		foundation.add(card3)
 		waste = card2.deepCopy()
 
-		val game = Game()
+		val game = Game.emptyGame()
 
 
 		val retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
@@ -119,7 +119,7 @@ class Simulate_unitTest {
 		foundation.add(card3)
 		waste = card2.deepCopy()
 
-		val game = Game()
+		val game = Game.emptyGame()
 
 
 		var retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
