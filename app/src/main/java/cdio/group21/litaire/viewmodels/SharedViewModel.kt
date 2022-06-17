@@ -95,20 +95,20 @@ class SharedViewModel : ViewModel() {
 			gameState.postValue(ObjectRecognition.initGame(list))
 			return Result.success(Unit)
 		}
-		if (list.size == 1 && gameState.value != null && gameState.value != Solitaire.EMPTY_GAME) {
-			if (cardObjectToReveal == null) {
-				Log.e("SharedViewModel", "Update Game: Error: cardObjectToReveal not set!")
-				return Result.failure(IllegalStateException("Error: cardObjectToReveal not set!"))
-			}
-			gameState.value?.replaceCardObject(cardObjectToReveal!!, list[0].card)
-			cardObjectToReveal = null
-			gameState.postValue(gameState.value)
-			return Result.success(Unit)
+
+		if (list.size != 1 || gameState.value == Solitaire.EMPTY_GAME) {
+			return Result.failure(
+				IllegalArgumentException("Error: Inappropriate number of cards: " + list.size)
+			)
 		}
-		Log.e("SharedViewModel", "Update Game: Error: Inappropriate number of cards!")
-		return Result.failure(
-			IllegalArgumentException("Error: Inappropriate number of cards: " + list.size)
-		)
+
+		val card = cardObjectToReveal
+			?: return Result.failure(IllegalStateException("Error: cardObjectToReveal not set!"))
+		cardObjectToReveal = null
+
+		replaceCardInGame(card, list[0].card)
+		gameState.postValue(gameState.value)
+		return Result.success(Unit)
 	}
 
 	fun setCardObjectToReveal(cardObject: Card) {
@@ -123,11 +123,11 @@ class SharedViewModel : ViewModel() {
 		val weirdState = WeirdState.fromSolitaire(gameState)
 
 		val move = ai.findBestMove(
-            weirdState.foundations,
-            weirdState.blocks,
-            weirdState.waste,
-            lastMoves
-        )
+			weirdState.foundations,
+			weirdState.blocks,
+			weirdState.waste,
+			lastMoves
+		)
 
 		if (move != null) {
 			moves.value?.add(move)
