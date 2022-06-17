@@ -160,7 +160,66 @@ class GameLogic {
             return
         }
 
-        retVal.forEach { sourceCard ->
+
+        val sourceCard = retVal.last()
+        for (k in blocks.indices) {
+
+            if (k == indexBlock || blocks[k].cards.isEmpty()) {
+                continue
+            }
+
+            if (sourceCard.rank == Rank.KING) {
+                if (hasChecked && emptyBlockIndex >= 0) {
+                    // hasChecked returns true if there exists an empty block, so there is no need to check it again
+                    val newMove = Move(
+                        false,
+                        sourceCard,
+                        indexBlock.toByte(),
+                        emptyBlockIndex.toByte()
+                    )
+                    possibleMoves.add(newMove)
+
+                } else if (!hasChecked) {
+
+                    // Checks if there is an empty block out of the 7 blocks
+                    for (iter in blocks.indices) {
+                        if (blocks[iter].cards.isEmpty()) {
+                            val newMove =
+                                Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
+                            possibleMoves.add(newMove)
+                            hasChecked = true
+                            emptyBlockIndex = iter
+
+                            break
+                        }
+                    }
+
+                    hasChecked = true
+                    emptyBlockIndex = -1
+                }
+
+
+                break
+
+
+            } else {
+
+                val destCard = blocks[k].cards.last()
+                if (evalBlockToBlockAndWasteToBlock(destCard, sourceCard)) {
+
+                    if (!isStateKnown(sourceCard, destCard, lastMovesMap)) {
+                        val newMove = Move(false, sourceCard, indexBlock.toByte(), k.toByte())
+                        possibleMoves.add(newMove)
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        /*retVal.forEach { sourceCard ->
 
             for (k in blocks.indices) {
 
@@ -218,7 +277,7 @@ class GameLogic {
                 }
 
             }
-        }
+        }*/
     }
 
 
