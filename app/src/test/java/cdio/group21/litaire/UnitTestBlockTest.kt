@@ -398,7 +398,7 @@ class UnitTestBlockTest {
         blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
         blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-        blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+        blocks[1].cards.add(Card(Suit.CLUB, Rank.THREE))
         blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
         blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
@@ -406,52 +406,29 @@ class UnitTestBlockTest {
         blocks[2].cards.add(Card(Suit.CLUB, Rank.FOUR))
 
         blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-        blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+        blocks[3].cards.add(Card(Suit.SPADE, Rank.ACE))
         blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
         blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
         blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-        blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
+        blocks[4].cards.add(Card(Suit.HEART, Rank.JACK))
 
         blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
         blocks[5].cards.add(Card(Suit.CLUB, Rank.JACK))
 
         blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
 
+        val game = Game()
+        var returnVal = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
 
-        var returnVal: ArrayList<Move> = ArrayList()
-
-        for (indexBlock in blocks.indices) {
-            val itemBlock = blocks[indexBlock]
-
-            if (itemBlock.cards.isNullOrEmpty()) {
-                continue
-            }
-            gameLogic.hasChecked = false
-
-            val result = gameLogic.possibleMovesFromBlockToBlock(
-                itemBlock,
-                blocks,
-                indexBlock,
-                returnVal,
-                lastMovesMap
-            )
-
-
-        }
 
         val move1 = Move(false, Card(Suit.SPADE, Rank.FOUR), 0, 6)
         val move2 = Move(false, Card(Suit.DIAMOND, Rank.TEN), 1, 5)
-        val move3 = Move(false, Card(Suit.CLUB, Rank.JACK), 5, 4)
-        val move4 = Move(false, Card(Suit.HEART, Rank.THREE), 0, 2)
-        val move5 = Move(false, Card(Suit.CLUB, Rank.FOUR), 2, 6)
+        val move3 = Move(false, Card(Suit.CLUB, Rank.FOUR), 2, 6)
 
-        Assert.assertEquals(returnVal.size, 5)
+        Assert.assertEquals(returnVal.size, 3)
         Assert.assertEquals(returnVal.contains(move1), true)
         Assert.assertEquals(returnVal.contains(move2), true)
-        Assert.assertEquals(returnVal.contains(move3), true)
-        Assert.assertEquals(returnVal.contains(move4), true)
-        Assert.assertEquals(returnVal.contains(move5), true)
     }
 
     /*
