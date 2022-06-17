@@ -12,10 +12,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,7 +23,6 @@ import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.utils.SolitaireDrawUtils.drawSolitaireGame
-import cdio.group21.litaire.utils.extensions.forEachIndexed2D
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
 import kotlinx.coroutines.Dispatchers
@@ -99,6 +96,18 @@ class FragmentLandingPage : Fragment() {
             }
             sharedViewModel.runSolver()
 
+        }
+
+        sharedViewModel.getMoves().observe(viewLifecycleOwner) { moves ->
+            if (moves.isEmpty()) return@observe
+
+            val currentMove = moves.last()
+            val gameState = sharedViewModel.getGameState().value ?: return@observe
+            val revealedCard = gameState.performMove(currentMove).getOrElse {
+                setErrorMessage(enabled = true, msg = "Error: Move could not be applied to internal state!")
+                return@observe
+            }
+            sharedViewModel.setCardObjectToReveal(revealedCard ?: return@observe);
         }
 
 
