@@ -2,7 +2,6 @@ package cdio.group21.litaire
 
 import Card
 import cdio.group21.litaire.data.Block
-import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.Ai
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game

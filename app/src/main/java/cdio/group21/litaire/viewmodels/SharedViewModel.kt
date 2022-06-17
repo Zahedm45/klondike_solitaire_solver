@@ -9,12 +9,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.Solitaire
 import cdio.group21.litaire.tflite.DetectionConfig
 import cdio.group21.litaire.tflite.ObjectRecognition
 import cdio.group21.litaire.viewmodels.solver.Ai
+import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 
 
 import kotlinx.coroutines.*
@@ -89,9 +91,11 @@ class SharedViewModel : ViewModel() {
     fun updateGame(list: List<DetectionResult>) : Result<Unit> {
         Log.i("SharedViewModel", "Update Game: $list")
         Log.i("SharedViewModel", "Update Game: List size: " + list.size)
+
+        if(list.isEmpty()) return Result.success(Unit)
+
         if (list.size == 7){
             gameState.postValue(ObjectRecognition.initGame(list))
-            setCardObjectToReveal(gameState.value!!.tableau[1].first())
             return Result.success(Unit)
         }
         if (list.size == 1 && gameState.value != null && gameState.value != Solitaire.EMPTY_GAME) {
@@ -117,12 +121,30 @@ class SharedViewModel : ViewModel() {
     fun runSolver() {
         if(ai == null) ai = Ai()
         val gameState = gameState.value ?: return
+        if(gameState.tableau.isEmpty()) return
+        val blocks = ArrayList<Block>()
 
-        val move = ai.findBestMove(gameState.foundations, gameState.tableau, gameState.stock.first(), lastMoves)
+        gameState.tableau.forEach {
+            block -> blocks.add(Block.fromTableau(block))
+        }
+        val foundations = ArrayList<Card>()
+
+        if(gameState.foundations.isNotEmpty()){
+            gameState.foundations.forEach {
+                    foundation ->
+                if(foundation.isNotEmpty()) foundations.add(foundation.last())
+            }
+        }
+
+
+        val waste = if(gameState.talon.isEmpty()) DUMMY_CARD else gameState.talon.first()
+
+        val move = ai.findBestMove(foundations, blocks, waste, lastMoves)
         if (move != null) {
             moves.value?.add(move)
             moves.postValue(moves.value)
         }
+
     }
 
 }
