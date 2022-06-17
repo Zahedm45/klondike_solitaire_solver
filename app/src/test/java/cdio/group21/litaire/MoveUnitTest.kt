@@ -43,7 +43,7 @@ class Simulate_unitTest {
 		assertEquals(retValMove.size, 2)
 		retValMove.forEach {
 			if (it.isMoveToFoundation) {
-				assertEquals(game.move_(it, foundation, blocks, waste, lastMovesHash), true)
+				assertEquals(Game.move_(game, it, foundation, blocks, waste, lastMovesHash), true)
 				assertEquals(waste, DUMMY_CARD)
 				assertEquals(foundation[0], card2)
 			}
@@ -70,7 +70,7 @@ class Simulate_unitTest {
 		assertEquals(retValMove.size, 2)
 		retValMove.forEach {
 			if (!it.isMoveToFoundation) {
-				assertEquals(game.move_(it, foundation, blocks, waste, lastMovesHash), true)
+				assertEquals(Game.move_(game, it, foundation, blocks, waste, lastMovesHash), true)
 				assertEquals(waste, DUMMY_CARD)
 				assertEquals(blocks[0].cards[1], card2)
 			}
@@ -97,7 +97,7 @@ class Simulate_unitTest {
 		val retValMove = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
 		assertEquals(retValMove.size, 0)
 		retValMove.forEach {
-			game.move_(it, foundation, blocks, waste, lastMovesHash)
+			Game.move_(game, it, foundation, blocks, waste, lastMovesHash)
 		}
 
 		waste = Card(Suit.SPADE, Rank.FOUR)
@@ -126,7 +126,7 @@ class Simulate_unitTest {
 		assertEquals(retValMove.size, 1)
 		retValMove.forEach {
 			if (!it.isMoveToFoundation) {
-				assertEquals(game.move_(it, foundation, blocks, waste, lastMovesHash), true)
+				assertEquals(Game.move_(game, it, foundation, blocks, waste, lastMovesHash), true)
 				assertEquals(waste, DUMMY_CARD)
 				assertEquals(blocks[0].cards[1], card2)
 			}

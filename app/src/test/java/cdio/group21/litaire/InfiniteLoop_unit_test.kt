@@ -87,7 +87,7 @@ class InfiniteLoop_unit_test {
 		// moves 4c to 5h
 		val game = Game.emptyGame()
 		val move1 = Move(false, card2, 1, 5)
-		val retMove = game.moveFromBlockToBlock(move1, blocks, lastMovesHash)
+		val retMove = Game.moveFromBlockToBlock(game, move1, blocks, lastMovesHash)
 
 
 		assertEquals(retMove, true)
@@ -101,7 +101,7 @@ class InfiniteLoop_unit_test {
 		assertEquals(possibleMoves1.size, 0)
 
 		val move2 = Move(false, card2, 5, 1)
-		val retMove2 = game.move_(move2, foundation, blocks, waste, lastMovesHash)
+		val retMove2 = Game.move_(game, move2, foundation, blocks, waste, lastMovesHash)
 		assertEquals(retMove2, true)
 		assertEquals(lastMovesHash.get(card2Key)?.size, 2)
 		assertEquals(lastMovesHash.get(card2Key)?.containsKey(card3Key), true)
@@ -118,7 +118,7 @@ class InfiniteLoop_unit_test {
 
 		val move3 = Move(false, card2, 1, 5)
 
-		val retMove3 = game.move_(move3, foundation, blocks, waste, mapCopy)
+		val retMove3 = Game.move_(game, move3, foundation, blocks, waste, mapCopy)
 
 		assertEquals(mapCopy == lastMovesHash, false)
 		assertEquals(retMove3, true)

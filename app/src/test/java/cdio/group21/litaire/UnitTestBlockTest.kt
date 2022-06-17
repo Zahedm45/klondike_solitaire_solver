@@ -103,7 +103,7 @@ class UnitTestBlockTest {
 		val game = Game.emptyGame()
 
 		moves.forEach {
-			game.moveFromBlockToBlock(it, blocks, lastMovesMap)
+			Game.moveFromBlockToBlock(game, it, blocks, lastMovesMap)
 		}
 
 		Assert.assertEquals(blocks[2].cards.last(), detect2)
@@ -177,7 +177,7 @@ class UnitTestBlockTest {
 
 		val game = Game.emptyGame()
 
-		game.moveFromBlockToBlock(moves[0], blocks, lastMovesMap)
+		Game.moveFromBlockToBlock(game, moves[0], blocks, lastMovesMap)
 
 		Assert.assertEquals(blocks[2].cards.last(), detect2)
 		Assert.assertEquals(blocks[2].cards.size, 3)

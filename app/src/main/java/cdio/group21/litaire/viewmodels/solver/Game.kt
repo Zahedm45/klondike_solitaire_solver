@@ -25,27 +25,27 @@ data class Game(
 		}
 
 		val gameLogic = GameLogic()
-	}
-
 		fun move_(
-			move: Move,
+			game: Game, move: Move,
 			foundations: MutableList<Card>,
 			blocks: MutableList<Block>,
 			waste: Card,
 			lastMoves: HashMap<String, HashMap<String, Boolean>>
 		): Boolean {
 			if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
-				return moveWasteToFoundationAndBlock(move, foundations, waste, blocks)
+				return Companion.moveWasteToFoundationAndBlock(
+					game,
+					move, foundations, waste, blocks
+				)
 			}
 			if (move.isMoveToFoundation) {
-				return moveFromBlockToFoundation(move, foundations, blocks)
+				return Companion.moveFromBlockToFoundation(game, move, foundations, blocks)
 			}
-			return moveFromBlockToBlock(move, blocks, lastMoves)
+			return Companion.moveFromBlockToBlock(game, move, blocks, lastMoves)
 		}
 
-
 		fun moveFromBlockToFoundation(
-			move: Move,
+			game: Game, move: Move,
 			foundations: MutableList<Card>,
 			blocks: MutableList<Block>
 
@@ -59,14 +59,14 @@ data class Game(
 				if (dest.toByte() == DESTINATION_UNKNOWN) {
 					foundations.add(block.cards.last())
 					block.cards.removeLast()
-					updateUnknownCards(block)
+					Companion.updateUnknownCards(block)
 					return true
 
 				} else if (dest in 0..3) {
 					if (gameLogic.evalBlockToFoundation(foundations[dest], move.card)) {
 						foundations[dest] = block.cards.last()
 						block.cards.removeLast()
-						updateUnknownCards(block)
+						Companion.updateUnknownCards(block)
 						return true
 					}
 				}
@@ -74,9 +74,8 @@ data class Game(
 			return false
 		}
 
-
 		fun moveFromBlockToBlock(
-			move: Move,
+			game: Game, move: Move,
 			blocks: MutableList<Block>,
 			lastMoves: HashMap<String, HashMap<String, Boolean>>
 		): Boolean {
@@ -110,7 +109,7 @@ data class Game(
 			if (hasCardMoved) {
 
 				// Adds the card's position to the hashmap.
-				addCardPosition(lastMoves, sourceBlock.cards, move, i)
+				Companion.addCardPosition(lastMoves, sourceBlock.cards, move, i)
 
 
 				// Removes the card(s) from the source block.
@@ -124,7 +123,7 @@ data class Game(
 				}
 
 				val sBlock = blocks[sourceIndex]
-				updateUnknownCards(sBlock)
+				Companion.updateUnknownCards(sBlock)
 
 
 				// Adds the card(s) to the destination block.
@@ -140,20 +139,18 @@ data class Game(
 			return false
 		}
 
-
 		fun moveWasteToFoundationAndBlock(
-			move: Move,
+			game: Game, move: Move,
 			foundations: MutableList<Card>,
 			waste: Card,
 			blocks: MutableList<Block>
 		): Boolean {
 			if (move.isMoveToFoundation) {
-				return moveFromWasteToFoundation(move, foundations, waste)
+				return Companion.moveFromWasteToFoundation(move, foundations, waste)
 			} else {
-				return moveFromWasteToBlock(move, blocks, waste)
+				return Companion.moveFromWasteToBlock(move, blocks, waste)
 			}
 		}
-
 
 		fun moveFromWasteToFoundation(
 			move: Move,
@@ -186,7 +183,6 @@ data class Game(
 			}
 			return false
 		}
-
 
 		fun moveFromWasteToBlock(
 			move: Move,
@@ -232,7 +228,7 @@ data class Game(
 		}
 
 		fun moveFromFoundationToBlock(
-			move: Move,
+			game: Game, move: Move,
 			blocks: MutableList<Block>,
 			foundations: MutableList<Card>,
 			lastMoves: HashMap<String, HashMap<String, Boolean>>
@@ -253,7 +249,7 @@ data class Game(
 					}
 				}
 
-			} else if (Companion.gameLogic.evalBlockToBlockAndWasteToBlock(
+			} else if (gameLogic.evalBlockToBlockAndWasteToBlock(
 					block.cards.last(),
 					foundationCard
 				)
@@ -265,11 +261,16 @@ data class Game(
 			if (hasCardMoved) {
 
 				// Adds the card's position to the hashmap.
-				addCardPosition(lastMoves, foundations, move, move.indexOfSourceBlock.toInt())
+				Companion.addCardPosition(
+					lastMoves,
+					foundations,
+					move,
+					move.indexOfSourceBlock.toInt()
+				)
 
 
 				//gets new foundation card
-				var newCard = Companion.gameLogic.findPreviousFoundationValue(foundations, sour.toByte())
+				var newCard = gameLogic.findPreviousFoundationValue(foundations, sour.toByte())
 
 				// Adds the card to the destination block.
 				block.cards.add(foundationCard)
@@ -283,9 +284,8 @@ data class Game(
 			return false
 		}
 
-
 		/* This function evaluates the foundation piles and calculates the sum to figure out
-		* the game's state */
+					* the game's state */
 		fun evalFoundation(foundations: MutableList<Card>): Int {
 			var sum = 0
 
@@ -310,7 +310,6 @@ data class Game(
 			return size
 		}
 
-
 		/**
 		 * Returns the amount of the empty blocks
 		 */
@@ -324,7 +323,6 @@ data class Game(
 			}
 			return counter
 		}
-
 
 		private fun addCardPosition(
 			lastMoves: HashMap<String, HashMap<String, Boolean>>,
@@ -372,12 +370,12 @@ data class Game(
 			}
 		}
 
-
 		fun updateUnknownCards(sBlock: Block) {
 			if (sBlock.cards.size == 0 && sBlock.hiddenCards >= 1) {
 				sBlock.hiddenCards = sBlock.hiddenCards - 1
 			}
 		}
+	}
 
 }
 

@@ -88,7 +88,7 @@ class RandomAiTest {
 
 		val moves = GameLogic().allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
-		val ret = Game.emptyGame().move_(moves[0], foundation, blocks, waste, lastMovesMap)
+		val ret = Game.move_(Game.emptyGame(), moves[0], foundation, blocks, waste, lastMovesMap)
 		assertEquals(ret, true)
 		assertEquals(blocks[2].hiddenCards, 3)
 	}

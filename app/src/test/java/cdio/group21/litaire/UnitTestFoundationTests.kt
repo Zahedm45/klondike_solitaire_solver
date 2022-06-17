@@ -203,7 +203,7 @@ class UnitTestFoundationTests {
 		val game = Game.emptyGame()
 
 		moves.forEach {
-			game.moveFromBlockToFoundation(it, foundation, blocks)
+			Game.moveFromBlockToFoundation(game, it, foundation, blocks)
 		}
 
 		Assert.assertEquals(foundation[1] == card3, true)
@@ -242,7 +242,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(moves.size, 1)
 
 		moves.forEach {
-			game.moveFromBlockToFoundation(it, foundation, blocks)
+			Game.moveFromBlockToFoundation(game, it, foundation, blocks)
 		}
 
 		Assert.assertEquals(foundation[1] == detect3, true)
@@ -294,7 +294,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result, true)
 
 		val game = Game.emptyGame()
-		val result2 = game.moveFromFoundationToBlock(move, blocks, foundation, lastMovesMap)
+		val result2 = Game.moveFromFoundationToBlock(game, move, blocks, foundation, lastMovesMap)
 
 		Assert.assertEquals(result2, true)
 	}
@@ -315,7 +315,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result, false)
 
 		val game = Game.emptyGame()
-		val result2 = game.moveFromFoundationToBlock(move, blocks, foundation, lastMovesMap)
+		val result2 = Game.moveFromFoundationToBlock(game, move, blocks, foundation, lastMovesMap)
 
 		Assert.assertEquals(result2, false)
 	}
@@ -383,9 +383,9 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result.contains(move3), true)
 
 		val game = Game.emptyGame()
-		game.moveFromBlockToFoundation(move1, foundation, blocks)
-		game.moveFromBlockToFoundation(move2, foundation, blocks)
-		game.moveFromBlockToFoundation(move3, foundation, blocks)
+		Game.moveFromBlockToFoundation(game, move1, foundation, blocks)
+		Game.moveFromBlockToFoundation(game, move2, foundation, blocks)
+		Game.moveFromBlockToFoundation(game, move3, foundation, blocks)
 
 		val result2 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 		val move4 = Move(true, Card(Suit.HEART, Rank.KING), 1.toByte(), 2.toByte())
@@ -394,8 +394,8 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result2.contains(move4), true)
 		Assert.assertEquals(result2.contains(move5), true)
 
-		game.moveFromBlockToFoundation(move4, foundation, blocks)
-		game.moveFromBlockToFoundation(move5, foundation, blocks)
+		Game.moveFromBlockToFoundation(game, move4, foundation, blocks)
+		Game.moveFromBlockToFoundation(game, move5, foundation, blocks)
 
 		Assert.assertEquals(foundation[0], Card(Suit.SPADE, Rank.KING))
 		Assert.assertEquals(foundation[1], Card(Suit.CLUB, Rank.KING))

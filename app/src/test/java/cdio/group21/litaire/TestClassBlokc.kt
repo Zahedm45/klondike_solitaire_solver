@@ -31,7 +31,9 @@ class TestClassBlock {
 
 		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 		assertEquals(blocks[5].hiddenCards, 2)
-		val k = Game.emptyGame().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+		val k = Game.move_(
+			Game.emptyGame(),
+			Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
 		assertEquals(k, true)
 		assertEquals(blocks[5].hiddenCards, 2)
 	}
@@ -53,7 +55,9 @@ class TestClassBlock {
 
 		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 		assertEquals(blocks[5].hiddenCards, 1)
-		val k = Game.emptyGame().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+		val k = Game.move_(
+			Game.emptyGame(),
+			Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
 		assertEquals(k, true)
 		assertEquals(blocks[5].hiddenCards, 1)
 		assertEquals(blocks[0].hiddenCards, 1)
@@ -81,7 +85,9 @@ class TestClassBlock {
 		val blocksCopy = blocks.map { b -> b.deepCopy() }.toList()
 		assertEquals(blocks == blocksCopy, true)
 		assertEquals(blocks[5].hiddenCards, 1)
-		val k = Game.emptyGame().move_(Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+		val k = Game.move_(
+			Game.emptyGame(),
+			Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
 		assertEquals(k, true)
 		assertEquals(blocks[5].hiddenCards, 1)
 		assertEquals(blocks[0].hiddenCards, 1)

@@ -64,7 +64,7 @@ class UnitTestWastePileTests {
 		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
 
 		val game = Game.emptyGame()
-		game.moveFromWasteToFoundation(moves[0], foundation, waste)
+		Game.moveFromWasteToFoundation(moves[0], foundation, waste)
 
 		Assert.assertEquals(foundation[0], Card(Suit.CLUB, Rank.TWO))
 
@@ -112,7 +112,7 @@ class UnitTestWastePileTests {
 
 
 		val game = Game.emptyGame()
-		val retVal = game.moveFromWasteToBlock(move1, blocks, waste)
+		val retVal = Game.moveFromWasteToBlock(move1, blocks, waste)
 
 
 		Assert.assertEquals(retVal, true)

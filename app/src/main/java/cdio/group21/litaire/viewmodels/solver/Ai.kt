@@ -64,7 +64,7 @@ class Ai {
 			val mapCopy = mapDeepCopy(lastMoves)
 
 
-			val newMoves = ga.move_(currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
+			val newMoves = Game.move_(ga, currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
 			if (!newMoves) {
 				return@forEach
 			}
@@ -175,7 +175,7 @@ class Ai {
 			//val mapCopy = HashMap(lastMovesMap)
 			val mapCopy = mapDeepCopy(lastMovesMap)
 
-			ga.move_(move, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
+			Game.move_(ga, move, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
 			algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValues, mapCopy, depth - 1)
 
 		}
