@@ -80,6 +80,71 @@ data class Solitaire(
         toBlock.add(card)
     }
 
+    fun validTableau(weirdMoveIndex: UInt): Boolean {
+        if (weirdMoveIndex < 7u) return true
+        return false
+    }
+
+    fun weirdMoveIndexToFoundation(weirdMoveIndex: UInt): Result<MutableList<Card>> {
+        return when (weirdMoveIndex) {
+            0u -> getFoundationFromSuit(Suit.CLUB)
+            1u -> getFoundationFromSuit(Suit.DIAMOND)
+            2u -> getFoundationFromSuit(Suit.HEART)
+            3u -> getFoundationFromSuit(Suit.SPADE)
+            else -> return Result.failure(IllegalArgumentException("Error: Invalid WeirdMove index!"))
+        }
+    }
+
+    fun weirdMoveIndexToPile(weirdMoveIndex: UInt, foundation: Boolean = false): Result<MutableList<Card>> {
+        if (foundation) {
+            return weirdMoveIndexToFoundation(weirdMoveIndex)
+        }
+
+        when (weirdMoveIndex) {
+            8u -> return Result.success(talon)
+            7u -> return Result.success(stock)
+        }
+
+        if (!validTableau(weirdMoveIndex))
+            return Result.failure(IllegalArgumentException("Error: Invalid WeirdMove index!"))
+        return Result.success(tableau[weirdMoveIndex.toInt()])
+    }
+
+    fun performMove(move: Move): Result<Card?> {
+        if (move.isMoveToFoundation)
+            return performMoveToFoundation(move)
+
+        return performMoveToTableau(move)
+    }
+
+    private fun performMoveToFoundation(move: Move): Result<Card?> {
+        val foundation = getFoundationFromSuit(move.card.suit).getOrElse { return Result.failure(it) }
+        val cardAndContainer = removeCard(move.card).getOrElse { return Result.failure(it) }
+        foundation.add(cardAndContainer.card)
+        return Result.success(cardAndContainer.pile.last())
+    }
+
+    private fun performMoveToTableau(move: Move): Result<Card?> {
+        if (validTableau(move.indexOfSourceBlock.toUInt()))
+            return moveBetweenTableau(move)
+        val cardAndContainer = removeCard(move.card).getOrElse { return Result.failure(it) }
+        val destinationPile = weirdMoveIndexToPile(move.indexOfSourceBlock.toUInt()).getOrElse { return Result.failure(it) }
+        destinationPile.add(cardAndContainer.card)
+        return Result.success(cardAndContainer.pile.last())
+    }
+
+    private fun moveBetweenTableau(move: Move): Result<Card?> {
+        val source = findEqualCard(move.card).getOrElse { return Result.failure(it) }
+        val destination = weirdMoveIndexToPile(move.indexOfSourceBlock.toUInt()).getOrElse { return Result.failure(it) }
+        do {
+            val card = source.pile.removeAt(source.pile.size - 1)
+            destination.add(card)
+        } while (card != move.card && source.pile.isNotEmpty())
+
+        return Result.success(source.pile.last())
+    }
+
+
     /**
      * Removes a card from a block and adds it to a fitting foundation
      * @param card The card to move
