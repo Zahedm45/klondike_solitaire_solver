@@ -5,5 +5,6 @@ data class GameSate(
     var emptyBlock: Int,*/
     var heuristicOneVal: Int,
     var heuristicTwoVal: Int,
-    var length: Int
+    var length: Int,
+    var afterFirstMove: GameSate? = null
 )
