@@ -62,7 +62,7 @@ data class Solitaire(
     /**
      * Removes a card from the tableau and returns it
      */
-    private fun popCard(card: Card) : Card? {
+    private fun removeCard(card: Card) : Card? {
         val actualCard = findEqualCard(card)
         tableau.forEach { col ->
          if(col.removeIf{ it == actualCard }) return@forEach
@@ -104,7 +104,7 @@ data class Solitaire(
     fun moveCardToFoundation(card: Card, shouldPop: Boolean = true) : Boolean{
 
         if(shouldPop){
-            val poppedCard = popCard(card) ?: return false
+            val poppedCard = removeCard(card) ?: return false
             val foundation = getFoundationFromSuit(poppedCard.suit) ?: return false
             foundation.add(poppedCard)
             return true
