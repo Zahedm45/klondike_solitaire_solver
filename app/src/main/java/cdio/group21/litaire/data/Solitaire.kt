@@ -1,6 +1,7 @@
 package cdio.group21.litaire.data
 
 import Card
+import Suit
 import android.util.Log
 
 data class Solitaire(
@@ -38,7 +39,95 @@ data class Solitaire(
             }
         }
         return resultCard
+    }
 
+    /**
+     * Finds a card in the tableu that is the same kind. This is to prevent having lots of copies around.
+     */
+    private fun findEqualCard(targetCard: Card): Card? {
+            var resultCard: Card? = null
+            tableau.forEach { col ->
+                val foundCard = col.find { card ->
+                    Log.i("findCardFromString", "target: $targetCard found: $card ")
+                    return@find card.toString() == targetCard.toString() }
+                if (foundCard != null) {
+                    resultCard = foundCard
+                    return@forEach
+                }
+            }
+            return resultCard
+    }
+
+    /**
+     * Removes a card from the tableau and returns it
+     */
+    private fun popCard(card: Card) : Card? {
+        val actualCard = findEqualCard(card)
+        tableau.forEach { col ->
+         if(col.removeIf{ it.toString() == actualCard.toString() }) return@forEach
+        }
+        return actualCard
+    }
+
+    /**
+     * Move a card and cards under it from a block to another block in the tableau
+     * @param fromIndex The index of the block to move from
+     * @param toIndex The index of the block to move to
+     * @param card The top card to move
+     */
+    fun moveCardsInTableau(card: Card, fromIndex: Int, toIndex: Int){
+        val fromBlock = tableau[fromIndex]
+        val toBlock = tableau[toIndex]
+        val cardIndex = fromBlock.indexOfFirst {it.toString() ==  card.toString()}
+        val lastFromBlockIndex = fromBlock.lastIndex
+        val cardsToMove = fromBlock.subList(cardIndex, lastFromBlockIndex + 1)
+        toBlock.addAll(cardsToMove)
+        fromBlock.removeAll(cardsToMove)
+    }
+
+    /**
+     * Adds a card the the specified block in the tableau
+     * @param card The card to add
+     * @param blockIndex The index of the block to add the card to
+     */
+    private fun addCardToTableau(card: Card, blockIndex: Int){
+        val toBlock = tableau[blockIndex]
+        toBlock.add(card)
+    }
+
+    /**
+     * Removes a card from a block and adds it to a fitting foundation
+     * @param card The card to move
+     * @param shouldPop Should the card be removed from tableau?
+     */
+    fun moveCardToFoundation(card: Card, shouldPop: Boolean = true) : Boolean{
+
+        if(shouldPop){
+            val poppedCard = popCard(card) ?: return false
+            val foundation = getFoundationFromSuit(poppedCard.suit) ?: return false
+            foundation.add(poppedCard)
+            return true
+        }
+        val foundation = getFoundationFromSuit(card.suit) ?: return false
+        foundation.add(card)
+        return true
+    }
+
+    /**
+     * Move a card from the talon (waste) to either the foundation or a block in the tableau
+     * @param blockIndex The block in the tableau to move the card to
+     * @param toFoundation Should the card be moved to foundation?
+     */
+    fun moveCardFromTalon(toFoundation : Boolean = false, blockIndex: Int = 0){
+        if(talon.isEmpty()) return
+        val card = talon.last()
+        if(toFoundation) moveCardToFoundation(card) else addCardToTableau(card, blockIndex)
+    }
+
+    private fun getFoundationFromSuit(suit: Suit) : MutableList<Card>? {
+        return foundations.find { list ->
+            list.find { card -> card.suit == suit } != null
+        } ?: foundations.find { it.isEmpty() }
     }
 
     companion object {
