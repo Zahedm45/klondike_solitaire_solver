@@ -54,7 +54,7 @@
         <LinearLayout
             android:id="@+id/layout_camera_buttons"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="vertical"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
