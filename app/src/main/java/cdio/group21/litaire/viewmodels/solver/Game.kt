@@ -124,7 +124,7 @@ data class Game(
 				}
 
 				val sBlock = blocks[sourceIndex]
-				Companion.updateUnknownCards(sBlock)
+				updateUnknownCards(sBlock)
 
 
 				// Adds the card(s) to the destination block.
@@ -154,7 +154,6 @@ data class Game(
 			move: Move,
 			foundations: MutableList<Card>,
 			waste: Card
-
 		): Boolean {
 			val sour = move.indexOfSourceBlock.toInt()
 			val dest = move.indexOfDestination.toInt()
@@ -215,7 +214,6 @@ data class Game(
 
 			if (hasCardMoved) {
 				// Adds the card(s) to the destination block.
-
 				destBlock.cards.add(waste.deepCopy())
 				waste.rank = DUMMY_CARD.rank
 				waste.suit = DUMMY_CARD.suit
@@ -225,61 +223,49 @@ data class Game(
 			return false
 		}
 
-		fun moveFromFoundationToBlock(
-			game: Game, move: Move,
-			blocks: MutableList<Block>,
-			foundations: MutableList<Card>,
-			lastMoves: HashMap<String, HashMap<String, Boolean>>
-
-		): Boolean {
+		fun moveFromFoundationToBlock(game: Game, move: Move): Boolean {
+			val foundations = game.foundations
 			val sour = move.indexOfSourceBlock.toInt()
 			val dest = move.indexOfDestination.toInt()
-			val block = blocks[dest]
+			val block = game.blocks[dest]
 			val foundationCard = foundations[sour]
 			var hasCardMoved = false
 
 
 			if (foundationCard.rank == Rank.KING) {
 				for (j in 0..6) {
-					if (block.cards.isEmpty()) {
+					if (game.blocks[j].cards.isEmpty()) {
 						hasCardMoved = true
 						break
 					}
 				}
-
-			} else if (gameLogic.evalBlockToBlockAndWasteToBlock(
-					block.cards.last(),
-					foundationCard
-				)
-			) {
+			} else if (gameLogic.evalBlockToBlockAndWasteToBlock(block.cards.last(), foundationCard)) {
 				hasCardMoved = true
 			}
 
 
-			if (hasCardMoved) {
-
-				// Adds the card's position to the hashmap.
-				Companion.addCardPosition(
-					lastMoves,
-					foundations,
-					move,
-					move.indexOfSourceBlock.toInt()
-				)
-
-
-				//gets new foundation card
-				var newCard = gameLogic.findPreviousFoundationValue(foundations, sour.toByte())
-
-				// Adds the card to the destination block.
-				block.cards.add(foundationCard)
-
-				// Removes the card from the source foundation.
-				foundations[sour] = newCard
-
-				return true
+			if (!hasCardMoved) {
+				return false
 			}
 
-			return false
+			// Adds the card's position to the hashmap.
+			addCardPosition(
+				game.lastMoves,
+				foundations,
+				move,
+				move.indexOfSourceBlock.toInt()
+			)
+
+			//gets new foundation card
+			var newCard = gameLogic.findPreviousFoundationValue(foundations, sour.toByte())
+
+			// Adds the card to the destination block.
+			block.cards.add(foundationCard)
+
+			// Removes the card from the source foundation.
+			foundations[sour] = newCard
+
+			return true
 		}
 
 		/* This function evaluates the foundation piles and calculates the sum to figure out

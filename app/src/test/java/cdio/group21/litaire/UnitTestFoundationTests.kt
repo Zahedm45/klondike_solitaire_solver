@@ -290,7 +290,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result, true)
 
 		
-		val result2 = Game.moveFromFoundationToBlock(game, move, game.blocks, game.foundations, game.lastMoves)
+		val result2 = Game.moveFromFoundationToBlock(game, move)
 
 		Assert.assertEquals(result2, true)
 	}
@@ -311,7 +311,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result, false)
 
 		
-		val result2 = Game.moveFromFoundationToBlock(game, move, game.blocks, game.foundations, game.lastMoves)
+		val result2 = Game.moveFromFoundationToBlock(game, move)
 
 		Assert.assertEquals(result2, false)
 	}
