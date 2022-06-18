@@ -8,7 +8,6 @@ import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
-import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 import cdio.group21.litaire.viewmodels.solver.deepCopy
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -101,7 +100,7 @@ class InfiniteLoop_unit_test {
 		assertEquals(game.lastMoves.get(card2Key)?.get(card3Key) == false, true)
 
 
-		val mapCopy = mapDeepCopy(game.lastMoves)
+		val mapCopy = game.lastMoves.deepCopy()
 
 
 		// moves 4c back to 5h again

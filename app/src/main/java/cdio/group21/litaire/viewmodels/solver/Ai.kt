@@ -5,7 +5,6 @@ import Rank
 import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.GameSate
 import cdio.group21.litaire.data.Move
-import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
 
 val FACE_DOWN_CARD_VALUE = -8
 val CARDS_NOT_IN_TABLEAU_BUILD = -5
@@ -58,7 +57,7 @@ class Ai {
 			val blocksCopy = ArrayList(game.blocks.map { b -> b.deepCopy() })
 			val wasteCopy = game.waste.copy()
 			val leafValue: MutableList<GameSate> = mutableListOf()
-			val mapCopy = mapDeepCopy(game.lastMoves)
+			val mapCopy = game.lastMoves.deepCopy()
 
 
 			val newMoves = Game.move_(ga, currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
@@ -170,7 +169,7 @@ class Ai {
 			val foundationsCopy = ArrayList(currFoundations.map { detectR -> detectR.deepCopy() })
 			val wasteCopy = currWaste.copy()
 			//val mapCopy = HashMap(lastMovesMap)
-			val mapCopy = mapDeepCopy(lastMovesMap)
+			val mapCopy = lastMovesMap.deepCopy()
 
 			Game.move_(ga, move, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
 			algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValues, mapCopy, depth - 1)
