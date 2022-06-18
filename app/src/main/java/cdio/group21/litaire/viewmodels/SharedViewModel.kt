@@ -17,6 +17,7 @@ import cdio.group21.litaire.data.WeirdState
 import cdio.group21.litaire.tflite.DetectionConfig
 import cdio.group21.litaire.tflite.ObjectRecognition
 import cdio.group21.litaire.viewmodels.solver.Ai
+import cdio.group21.litaire.viewmodels.solver.Game
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
@@ -123,10 +124,7 @@ class SharedViewModel : ViewModel() {
 		val weirdState = WeirdState.fromSolitaire(gameState)
 
 		val move = ai.findBestMove(
-			weirdState.foundations,
-			weirdState.blocks,
-			weirdState.waste,
-			lastMoves
+			Game(weirdState.foundations, weirdState.blocks, weirdState.waste, lastMoves)
 		) ?: return
 
 		val mοves = moves.value ?: return

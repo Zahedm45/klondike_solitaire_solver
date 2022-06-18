@@ -14,17 +14,13 @@ import org.junit.Test
 
 class UnitTestBlockTest {
 
-	private var foundation: MutableList<Card> = mutableListOf()
-	private val blocks: MutableList<Block> = mutableListOf()
-	private var waste = DUMMY_CARD.deepCopy()
-
-	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+	private val game = Game(mutableListOf(), mutableListOf(), DUMMY_CARD.deepCopy(), HashMap())
 	val gameLogic = GameLogic()
 
 
 	fun initializeBlocks() {
 		for (i in 0..6) {
-			blocks.add(Block())
+			game.blocks.add(Block())
 		}
 	}
 
@@ -38,24 +34,24 @@ class UnitTestBlockTest {
 
 		initializeBlocks()
 
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
 
 		val returnVal: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val item = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val item = game.blocks[indexBlock]
 
 			if (item.cards.isNullOrEmpty()) {
 				continue
 			}
 			gameLogic.possibleMovesFromBlockToBlock(
 				item,
-				blocks,
+				game.blocks,
 				indexBlock,
 				returnVal,
-				lastMovesMap
+				game.lastMoves
 			)
 
 
@@ -81,36 +77,34 @@ class UnitTestBlockTest {
 		val detect1 = Card(Suit.DIAMOND, Rank.QUEEN)
 		val detect2 = Card(Suit.SPADE, Rank.FIVE)
 
-		blocks[0].cards.add(detect1)
-		blocks[0].cards.add(detect2)
+		game.blocks[0].cards.add(detect1)
+		game.blocks[0].cards.add(detect2)
 
 
 		val detect4 = Card(Suit.CLUB, Rank.FIVE)
 		val detect3 = Card(Suit.HEART, Rank.SIX)
 
-		blocks[2].cards.add(detect4)
-		blocks[2].cards.add(detect3)
+		game.blocks[2].cards.add(detect4)
+		game.blocks[2].cards.add(detect3)
 
-		Assert.assertEquals(blocks[2].cards.size, 2)
-		Assert.assertEquals(blocks[0].cards.size, 2)
+		Assert.assertEquals(game.blocks[2].cards.size, 2)
+		Assert.assertEquals(game.blocks[0].cards.size, 2)
 
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 		Assert.assertEquals(moves.size, 1)
 		Assert.assertEquals(moves[0], Move(false, Card(Suit.SPADE, Rank.FIVE), 0, 2))
-
-
-		val game = Game.emptyGame()
+		
 
 		moves.forEach {
-			Game.moveFromBlockToBlock(game, it, blocks, lastMovesMap)
+			Game.moveFromBlockToBlock(game, it, game.blocks, game.lastMoves)
 		}
 
-		Assert.assertEquals(blocks[2].cards.last(), detect2)
-		Assert.assertEquals(blocks[2].cards.size, 3)
+		Assert.assertEquals(game.blocks[2].cards.last(), detect2)
+		Assert.assertEquals(game.blocks[2].cards.size, 3)
 
-		Assert.assertEquals(blocks[0].cards.size, 1)
-		Assert.assertEquals(blocks[0].cards.last(), detect1)
+		Assert.assertEquals(game.blocks[0].cards.size, 1)
+		Assert.assertEquals(game.blocks[0].cards.last(), detect1)
 
 	}
 
@@ -128,23 +122,23 @@ class UnitTestBlockTest {
 		val detect5 = Card(Suit.SPADE, Rank.TEN)
 
 
-		blocks[0].cards.add(detect1)
-		blocks[0].cards.add(detect2)
-		blocks[0].cards.add(detect5)
+		game.blocks[0].cards.add(detect1)
+		game.blocks[0].cards.add(detect2)
+		game.blocks[0].cards.add(detect5)
 
 
 		val detect4 = Card(Suit.CLUB, Rank.FIVE)
 		val detect3 = Card(Suit.HEART, Rank.SIX)
 
-		blocks[2].cards.add(detect4)
-		blocks[2].cards.add(detect3)
+		game.blocks[2].cards.add(detect4)
+		game.blocks[2].cards.add(detect3)
 
 
-		Assert.assertEquals(blocks[0].cards.size, 3)
-		Assert.assertEquals(blocks[2].cards.size, 2)
+		Assert.assertEquals(game.blocks[0].cards.size, 3)
+		Assert.assertEquals(game.blocks[2].cards.size, 2)
 
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 		Assert.assertEquals(moves.size, 0)
 
 	}
@@ -158,30 +152,30 @@ class UnitTestBlockTest {
 		initializeBlocks()
 
 		val detect2 = Card(Suit.SPADE, Rank.FIVE)
-		blocks[0].cards.add(detect2)
+		game.blocks[0].cards.add(detect2)
 
 		val detect4 = Card(Suit.CLUB, Rank.FIVE)
 		val detect3 = Card(Suit.HEART, Rank.SIX)
 
-		blocks[2].cards.add(detect4)
-		blocks[2].cards.add(detect3)
+		game.blocks[2].cards.add(detect4)
+		game.blocks[2].cards.add(detect3)
 
-		Assert.assertEquals(blocks[0].cards.size, 1)
-		Assert.assertEquals(blocks[2].cards.size, 2)
+		Assert.assertEquals(game.blocks[0].cards.size, 1)
+		Assert.assertEquals(game.blocks[2].cards.size, 2)
 
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 		Assert.assertEquals(moves.size, 1)
 		Assert.assertEquals(moves[0], Move(false, Card(Suit.SPADE, Rank.FIVE), 0, 2))
 
 
-		val game = Game.emptyGame()
+		
 
-		Game.moveFromBlockToBlock(game, moves[0], blocks, lastMovesMap)
+		Game.moveFromBlockToBlock(game, moves[0], game.blocks, game.lastMoves)
 
-		Assert.assertEquals(blocks[2].cards.last(), detect2)
-		Assert.assertEquals(blocks[2].cards.size, 3)
-		Assert.assertEquals(blocks[0].cards.size, 0)
+		Assert.assertEquals(game.blocks[2].cards.last(), detect2)
+		Assert.assertEquals(game.blocks[2].cards.size, 3)
+		Assert.assertEquals(game.blocks[0].cards.size, 0)
 
 	}
 
@@ -193,18 +187,18 @@ class UnitTestBlockTest {
 		initializeBlocks()
 
 		val detect2 = Card(Suit.SPADE, Rank.KING)
-		blocks[6].cards.add(detect2)
+		game.blocks[6].cards.add(detect2)
 
 		val detect4 = Card(Suit.CLUB, Rank.FIVE)
 		val detect3 = Card(Suit.HEART, Rank.SIX)
 
-		blocks[2].cards.add(detect4)
-		blocks[2].cards.add(detect3)
+		game.blocks[2].cards.add(detect4)
+		game.blocks[2].cards.add(detect3)
 
-		Assert.assertEquals(blocks[6].cards.size, 1)
-		Assert.assertEquals(blocks[2].cards.size, 2)
+		Assert.assertEquals(game.blocks[6].cards.size, 1)
+		Assert.assertEquals(game.blocks[2].cards.size, 2)
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 		Assert.assertEquals(moves.size, 0)
 	}
 
@@ -218,31 +212,31 @@ class UnitTestBlockTest {
 		initializeBlocks()
 
 
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
 
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
 
 		var returnVal: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val itemBlock = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val itemBlock = game.blocks[indexBlock]
 
 			if (itemBlock.cards.isNullOrEmpty()) {
 				continue
@@ -251,10 +245,10 @@ class UnitTestBlockTest {
 
 			gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
-				blocks,
+				game.blocks,
 				indexBlock,
 				returnVal,
-				lastMovesMap
+				game.lastMoves
 			)
 
 			Assert.assertEquals(returnVal.size, 0)
@@ -270,35 +264,35 @@ class UnitTestBlockTest {
 
 		initializeBlocks()
 
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
 
 
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
 
-		blocks[6].cards.add(Card(Suit.CLUB, Rank.FIVE))
-		blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
+		game.blocks[6].cards.add(Card(Suit.CLUB, Rank.FIVE))
+		game.blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
 		var returnVal: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val itemBlock = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val itemBlock = game.blocks[indexBlock]
 
 			if (itemBlock.cards.isNullOrEmpty()) {
 				continue
@@ -307,10 +301,10 @@ class UnitTestBlockTest {
 
 			val result = gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
-				blocks,
+				game.blocks,
 				indexBlock,
 				returnVal,
-				lastMovesMap
+				game.lastMoves
 			)
 
 		}
@@ -330,35 +324,35 @@ class UnitTestBlockTest {
 
 		initializeBlocks()
 
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
 
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.JACK))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.JACK))
 
-		blocks[6].cards.add(Card(Suit.CLUB, Rank.FIVE))
-		blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
+		game.blocks[6].cards.add(Card(Suit.CLUB, Rank.FIVE))
+		game.blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
 		var returnVal: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val itemBlock = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val itemBlock = game.blocks[indexBlock]
 
 			if (itemBlock.cards.isNullOrEmpty()) {
 				continue
@@ -367,10 +361,10 @@ class UnitTestBlockTest {
 
 			val result = gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
-				blocks,
+				game.blocks,
 				indexBlock,
 				returnVal,
-				lastMovesMap
+				game.lastMoves
 			)
 
 
@@ -394,33 +388,33 @@ class UnitTestBlockTest {
 
 		initializeBlocks()
 
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FOUR))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FOUR))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.CLUB, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.FOUR))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.FOUR))
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.ACE))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.ACE))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.JACK))
 
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.JACK))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.JACK))
 
-		blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
+		game.blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
 
-		val game = Game.emptyGame()
-		var returnVal = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		
+		var returnVal = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		val move1 = Move(false, Card(Suit.SPADE, Rank.FOUR), 0, 6)
@@ -440,36 +434,36 @@ class UnitTestBlockTest {
 	fun multiplePossibleMovesFromBlockToBlock2() {
 
 		initializeBlocks()
-		blocks[0].cards.add(Card(Suit.DIAMOND, Rank.FOUR))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.DIAMOND, Rank.FOUR))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.QUEEN))
 
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.JACK))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.JACK))
 
-		blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
-		blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
+		game.blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
+		game.blocks[6].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
 
 		var returnVal: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val itemBlock = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val itemBlock = game.blocks[indexBlock]
 
 			if (itemBlock.cards.isNullOrEmpty()) {
 				continue
@@ -478,10 +472,10 @@ class UnitTestBlockTest {
 
 			val result = gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
-				blocks,
+				game.blocks,
 				indexBlock,
 				returnVal,
-				lastMovesMap
+				game.lastMoves
 			)
 
 		}
@@ -504,40 +498,40 @@ class UnitTestBlockTest {
 	fun findMoveKingToEmptyBlock() {
 		initializeBlocks()
 
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
 
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
 
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
 
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
 
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.KING))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.KING))
 
 
 
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
 
 
 		var returnVal: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val itemBlock = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val itemBlock = game.blocks[indexBlock]
 
 			if (itemBlock.cards.isNullOrEmpty()) {
 				continue
@@ -546,10 +540,10 @@ class UnitTestBlockTest {
 
 			gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
-				blocks,
+				game.blocks,
 				indexBlock,
 				returnVal,
-				lastMovesMap
+				game.lastMoves
 			)
 
 		}
@@ -571,36 +565,36 @@ class UnitTestBlockTest {
 	fun findMoveMultipleKingsToEmptyBlock() {
 		initializeBlocks()
 
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.KING))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.KING))
 
 
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
 
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
 
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.SIX))
 
 
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.KING))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.KING))
 
 
 		var returnVal: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val itemBlock = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val itemBlock = game.blocks[indexBlock]
 
 			if (itemBlock.cards.isNullOrEmpty()) {
 				continue
@@ -609,10 +603,10 @@ class UnitTestBlockTest {
 
 			gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
-				blocks,
+				game.blocks,
 				indexBlock,
 				returnVal,
-				lastMovesMap
+				game.lastMoves
 			)
 
 		}
@@ -658,14 +652,14 @@ class UnitTestBlockTest {
 	@Test
 	fun testPossibleMovesFromBlockToBlock() {
 		initializeBlocks()
-		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.THREE))
 
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SIX))
-		blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SIX))
+		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
 		val returnVal: MutableList<Move> = mutableListOf()
-		gameLogic.possibleMovesFromBlockToBlock(blocks[0], blocks, 0, returnVal, lastMovesMap)
+		gameLogic.possibleMovesFromBlockToBlock(game.blocks[0], game.blocks, 0, returnVal, game.lastMoves)
 		val moveTest = Move(false, Card(Suit.HEART, Rank.FOUR), 0, 1)
 
 		Assert.assertEquals(returnVal.contains(moveTest), true)
@@ -675,14 +669,14 @@ class UnitTestBlockTest {
 	@Test
 	fun testPossibleMovesFromBlockToBlockFail() {
 		initializeBlocks()
-		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.ACE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.ACE))
 
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SIX))
-		blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SIX))
+		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
 		val returnVal: MutableList<Move> = mutableListOf()
-		gameLogic.possibleMovesFromBlockToBlock(blocks[0], blocks, 0, returnVal, lastMovesMap)
+		gameLogic.possibleMovesFromBlockToBlock(game.blocks[0], game.blocks, 0, returnVal, game.lastMoves)
 
 		Assert.assertEquals(returnVal.size, 0)
 	}

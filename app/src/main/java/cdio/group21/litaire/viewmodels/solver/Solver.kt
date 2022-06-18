@@ -32,7 +32,7 @@ class Solver {
 		for (i in 0..125) {
 			println("Iteration: $i")
 			//val moves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
-			val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
+			val nextMove = ai.findBestMove(game)
 
 /*            if (nextMove == null && moves.isNotEmpty()) {
                 val bestM = ai.findBestMove(foundations, blocks, waste, lastMoves)
@@ -94,16 +94,15 @@ class Solver {
 
 	fun solveLastFewSteps() {
 		val ai = Ai()
-		val game = Game.emptyGame()
 		val landingPageViewModel = LandingPageViewModel()
 		UtilSolver.lastFewSteps(foundations, blocks, waste)
 		landingPageViewModel.printFoundation2(foundations)
 		landingPageViewModel.printWaste2(waste)
 		landingPageViewModel.printBlock2(blocks)
 		for (i in 0..51) {
-			val nextMove = ai.findBestMove(foundations, blocks, waste, lastMoves)
+			val nextMove = ai.findBestMove(game)
 			if (nextMove != null) {
-				Game.move_(game, nextMove, foundations, blocks, waste, lastMoves)
+				Game.move_(Game.emptyGame(), nextMove, foundations, blocks, waste, lastMoves)
 
 			} else {
 				println("No more move available!")

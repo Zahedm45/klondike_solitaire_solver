@@ -12,17 +12,13 @@ import org.junit.Assert
 import org.junit.Test
 
 class UnitTestFoundationTests {
-
-	private var foundation: MutableList<Card> = mutableListOf()
-	private val blocks: MutableList<Block> = mutableListOf()
-	private var waste = DUMMY_CARD.deepCopy()
-	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+	val game = Game(mutableListOf(), mutableListOf(), DUMMY_CARD.deepCopy(), HashMap())
 	val gameLogic = GameLogic()
 
 
 	fun initializeBlocks() {
 		for (i in 0..6) {
-			blocks.add(Block())
+			game.blocks.add(Block())
 		}
 	}
 
@@ -34,32 +30,32 @@ class UnitTestFoundationTests {
 	@Test
 	fun findAllMovesToFoundation() {
 
-		foundation.add(Card(Suit.DIAMOND, Rank.NINE))
-		foundation.add(Card(Suit.HEART, Rank.FIVE))
-		foundation.add(Card(Suit.SPADE, Rank.ACE))
+		game.foundations.add(Card(Suit.DIAMOND, Rank.NINE))
+		game.foundations.add(Card(Suit.HEART, Rank.FIVE))
+		game.foundations.add(Card(Suit.SPADE, Rank.ACE))
 
 		initializeBlocks()
 
 		//  Adding cards to the blocks
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.THREE))
 
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
 
 
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
 
 
 		// Initializing the expected moves
@@ -68,7 +64,7 @@ class UnitTestFoundationTests {
 		val move3 = Move(true, Card(Suit.CLUB, Rank.ACE), 4, -1)
 
 
-		var result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		var result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 
 		Assert.assertEquals(result.size, 3)
 
@@ -87,39 +83,39 @@ class UnitTestFoundationTests {
 	@Test
 	fun findAfterAddingCardAllPossibleMovesToFoundation() {
 
-		foundation.add(Card(Suit.DIAMOND, Rank.NINE))
-		foundation.add(Card(Suit.HEART, Rank.FIVE))
-		foundation.add(Card(Suit.SPADE, Rank.ACE))
+		game.foundations.add(Card(Suit.DIAMOND, Rank.NINE))
+		game.foundations.add(Card(Suit.HEART, Rank.FIVE))
+		game.foundations.add(Card(Suit.SPADE, Rank.ACE))
 
 		initializeBlocks()
 
 		//  Adding cards to the blocks
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.THREE))
 
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
 
 
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
 
 
-		var result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		var result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 		Assert.assertEquals(result.size, 3)
 
-		foundation.add(Card(Suit.CLUB, Rank.FOUR))
-		result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		game.foundations.add(Card(Suit.CLUB, Rank.FOUR))
+		result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 
 		val move1 = Move(true, Card(Suit.DIAMOND, Rank.TEN), 1, 0)
 		val move2 = Move(true, Card(Suit.SPADE, Rank.TWO), 3, 2)
@@ -140,35 +136,35 @@ class UnitTestFoundationTests {
 	@Test
 	fun makeNotPossibleMoveToFoundation() {
 
-		foundation.add(Card(Suit.DIAMOND, Rank.NINE))
-		foundation.add(Card(Suit.HEART, Rank.FIVE))
-		foundation.add(Card(Suit.SPADE, Rank.ACE))
+		game.foundations.add(Card(Suit.DIAMOND, Rank.NINE))
+		game.foundations.add(Card(Suit.HEART, Rank.FIVE))
+		game.foundations.add(Card(Suit.SPADE, Rank.ACE))
 
 		initializeBlocks()
 
 		//  Adding cards to the blocks
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
 
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.FOUR))
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.THREE))
 
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.TWO))
 
 
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
 
 
-		var result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		var result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 
 		// Initializing an unexpected move
 		val move = Move(true, Card(Suit.CLUB, Rank.THREE), 2, 3)
@@ -187,27 +183,27 @@ class UnitTestFoundationTests {
 		initializeBlocks()
 		val card1 = Card(Suit.DIAMOND, Rank.NINE)
 		val card2 = Card(Suit.HEART, Rank.FIVE)
-		foundation.add(card1)
-		foundation.add(card2)
+		game.foundations.add(card1)
+		game.foundations.add(card2)
 
 		val card3 = Card(Suit.HEART, Rank.SIX)
-		blocks[1].cards.add(card3)
+		game.blocks[1].cards.add(card3)
 
-		Assert.assertEquals(foundation[0] == card1, true)
-		Assert.assertEquals(foundation[1] == card2, true)
+		Assert.assertEquals(game.foundations[0] == card1, true)
+		Assert.assertEquals(game.foundations[1] == card2, true)
 
-		Assert.assertEquals(blocks[1].cards.last() == card3, true)
+		Assert.assertEquals(game.blocks[1].cards.last() == card3, true)
 
 
-		var moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		val game = Game.emptyGame()
+		var moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		
 
 		moves.forEach {
-			Game.moveFromBlockToFoundation(game, it, foundation, blocks)
+			Game.moveFromBlockToFoundation(game, it, game.foundations, game.blocks)
 		}
 
-		Assert.assertEquals(foundation[1] == card3, true)
-		Assert.assertEquals(blocks[1].cards.isEmpty(), true)
+		Assert.assertEquals(game.foundations[1] == card3, true)
+		Assert.assertEquals(game.blocks[1].cards.isEmpty(), true)
 
 	}
 
@@ -221,33 +217,33 @@ class UnitTestFoundationTests {
 		initializeBlocks()
 		val detect1 = Card(Suit.DIAMOND, Rank.NINE)
 		val detect2 = Card(Suit.HEART, Rank.FIVE)
-		foundation.add(detect1)
-		foundation.add(detect2)
+		game.foundations.add(detect1)
+		game.foundations.add(detect2)
 
 		val detect4 = Card(Suit.CLUB, Rank.FIVE)
-		blocks[1].cards.add(detect4)
+		game.blocks[1].cards.add(detect4)
 		val detect3 = Card(Suit.HEART, Rank.SIX)
-		blocks[1].cards.add(detect3)
+		game.blocks[1].cards.add(detect3)
 
-		blocks[0].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
+		game.blocks[0].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
 
-		Assert.assertEquals(foundation[0] == detect1, true)
-		Assert.assertEquals(foundation[1] == detect2, true)
+		Assert.assertEquals(game.foundations[0] == detect1, true)
+		Assert.assertEquals(game.foundations[1] == detect2, true)
 
-		Assert.assertEquals(blocks[1].cards.last() == detect3, true)
+		Assert.assertEquals(game.blocks[1].cards.last() == detect3, true)
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		val game = Game.emptyGame()
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		
 
 		Assert.assertEquals(moves.size, 1)
 
 		moves.forEach {
-			Game.moveFromBlockToFoundation(game, it, foundation, blocks)
+			Game.moveFromBlockToFoundation(game, it, game.foundations, game.blocks)
 		}
 
-		Assert.assertEquals(foundation[1] == detect3, true)
-		Assert.assertEquals(blocks[1].cards.size, 1)
-		Assert.assertEquals(blocks[1].cards.last(), detect4)
+		Assert.assertEquals(game.foundations[1] == detect3, true)
+		Assert.assertEquals(game.blocks[1].cards.size, 1)
+		Assert.assertEquals(game.blocks[1].cards.last(), detect4)
 	}
 
 	/*Test if evalBlockToFoundation works as intended*/
@@ -255,11 +251,11 @@ class UnitTestFoundationTests {
 	fun testEvalBlockToFoundation() {
 		initializeBlocks()
 
-		foundation.add(Card(Suit.SPADE, Rank.ACE))
+		game.foundations.add(Card(Suit.SPADE, Rank.ACE))
 
 		val testCard = Card(Suit.SPADE, Rank.TWO)
 
-		val result = gameLogic.evalBlockToFoundation(foundation[0], testCard)
+		val result = gameLogic.evalBlockToFoundation(game.foundations[0], testCard)
 
 		Assert.assertEquals(result, true)
 	}
@@ -269,11 +265,11 @@ class UnitTestFoundationTests {
 	fun testEvalBlockToFoundationFail() {
 		initializeBlocks()
 
-		foundation.add(Card(Suit.SPADE, Rank.ACE))
+		game.foundations.add(Card(Suit.SPADE, Rank.ACE))
 
 		val testCard = Card(Suit.CLUB, Rank.TWO)
 
-		val result = gameLogic.evalBlockToFoundation(foundation[0], testCard)
+		val result = gameLogic.evalBlockToFoundation(game.foundations[0], testCard)
 
 		Assert.assertEquals(result, false)
 	}
@@ -283,18 +279,18 @@ class UnitTestFoundationTests {
 	fun testEvalFoundationToBlock() {
 		initializeBlocks()
 
-		foundation.add(Card(Suit.SPADE, Rank.THREE))
+		game.foundations.add(Card(Suit.SPADE, Rank.THREE))
 
-		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
 		val result =
-			gameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].cards.last(), foundation[0])
-		val move = Move(false, foundation[0], 0.toByte(), 0.toByte())
+			gameLogic.evalBlockToBlockAndWasteToBlock(game.blocks[0].cards.last(), game.foundations[0])
+		val move = Move(false, game.foundations[0], 0.toByte(), 0.toByte())
 
 		Assert.assertEquals(result, true)
 
-		val game = Game.emptyGame()
-		val result2 = Game.moveFromFoundationToBlock(game, move, blocks, foundation, lastMovesMap)
+		
+		val result2 = Game.moveFromFoundationToBlock(game, move, game.blocks, game.foundations, game.lastMoves)
 
 		Assert.assertEquals(result2, true)
 	}
@@ -304,18 +300,18 @@ class UnitTestFoundationTests {
 	fun testEvalFoundationToBlockFail() {
 		initializeBlocks()
 
-		foundation.add(Card(Suit.SPADE, Rank.TWO))
+		game.foundations.add(Card(Suit.SPADE, Rank.TWO))
 
-		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
 		val result =
-			gameLogic.evalBlockToBlockAndWasteToBlock(blocks[0].cards.last(), foundation[0])
-		val move = Move(false, foundation[0], 0.toByte(), 0.toByte())
+			gameLogic.evalBlockToBlockAndWasteToBlock(game.blocks[0].cards.last(), game.foundations[0])
+		val move = Move(false, game.foundations[0], 0.toByte(), 0.toByte())
 
 		Assert.assertEquals(result, false)
 
-		val game = Game.emptyGame()
-		val result2 = Game.moveFromFoundationToBlock(game, move, blocks, foundation, lastMovesMap)
+		
+		val result2 = Game.moveFromFoundationToBlock(game, move, game.blocks, game.foundations, game.lastMoves)
 
 		Assert.assertEquals(result2, false)
 	}
@@ -359,21 +355,21 @@ class UnitTestFoundationTests {
 	@Test
 	fun winScenario() {
 		initializeBlocks()
-		foundation.add(Card(Suit.SPADE, Rank.JACK))
-		foundation.add(Card(Suit.CLUB, Rank.QUEEN))
-		foundation.add(Card(Suit.HEART, Rank.QUEEN))
-		foundation.add(Card(Suit.DIAMOND, Rank.QUEEN))
+		game.foundations.add(Card(Suit.SPADE, Rank.JACK))
+		game.foundations.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.foundations.add(Card(Suit.HEART, Rank.QUEEN))
+		game.foundations.add(Card(Suit.DIAMOND, Rank.QUEEN))
 
-		blocks[0].cards.add(Card(Suit.DIAMOND, Rank.KING))
+		game.blocks[0].cards.add(Card(Suit.DIAMOND, Rank.KING))
 
-		blocks[1].cards.add(Card(Suit.HEART, Rank.KING))
-		blocks[1].cards.add(Card(Suit.SPADE, Rank.QUEEN))
+		game.blocks[1].cards.add(Card(Suit.HEART, Rank.KING))
+		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.QUEEN))
 
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.KING))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.KING))
 
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.KING))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.KING))
 
-		val result = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 		val move1 = Move(true, Card(Suit.DIAMOND, Rank.KING), 0.toByte(), 3.toByte())
 		val move2 = Move(true, Card(Suit.SPADE, Rank.QUEEN), 1.toByte(), 0.toByte())
 		val move3 = Move(true, Card(Suit.CLUB, Rank.KING), 2.toByte(), 1.toByte())
@@ -382,25 +378,25 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result.contains(move2), true)
 		Assert.assertEquals(result.contains(move3), true)
 
-		val game = Game.emptyGame()
-		Game.moveFromBlockToFoundation(game, move1, foundation, blocks)
-		Game.moveFromBlockToFoundation(game, move2, foundation, blocks)
-		Game.moveFromBlockToFoundation(game, move3, foundation, blocks)
+		
+		Game.moveFromBlockToFoundation(game, move1, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(game, move2, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(game, move3, game.foundations, game.blocks)
 
-		val result2 = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val result2 = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 		val move4 = Move(true, Card(Suit.HEART, Rank.KING), 1.toByte(), 2.toByte())
 		val move5 = Move(true, Card(Suit.SPADE, Rank.KING), 3.toByte(), 0.toByte())
 
 		Assert.assertEquals(result2.contains(move4), true)
 		Assert.assertEquals(result2.contains(move5), true)
 
-		Game.moveFromBlockToFoundation(game, move4, foundation, blocks)
-		Game.moveFromBlockToFoundation(game, move5, foundation, blocks)
+		Game.moveFromBlockToFoundation(game, move4, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(game, move5, game.foundations, game.blocks)
 
-		Assert.assertEquals(foundation[0], Card(Suit.SPADE, Rank.KING))
-		Assert.assertEquals(foundation[1], Card(Suit.CLUB, Rank.KING))
-		Assert.assertEquals(foundation[2], Card(Suit.HEART, Rank.KING))
-		Assert.assertEquals(foundation[3], Card(Suit.DIAMOND, Rank.KING))
+		Assert.assertEquals(game.foundations[0], Card(Suit.SPADE, Rank.KING))
+		Assert.assertEquals(game.foundations[1], Card(Suit.CLUB, Rank.KING))
+		Assert.assertEquals(game.foundations[2], Card(Suit.HEART, Rank.KING))
+		Assert.assertEquals(game.foundations[3], Card(Suit.DIAMOND, Rank.KING))
 	}
 
 }

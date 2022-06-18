@@ -12,819 +12,815 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class CardDeck2Test {
-	private var foundation: MutableList<Card> = mutableListOf()
-	private val blocks: MutableList<Block> = mutableListOf()
-	var waste = DUMMY_CARD.deepCopy()
-	val game = Game.emptyGame()
+	val game = Game(mutableListOf(), mutableListOf(), DUMMY_CARD.deepCopy(), HashMap())
 	val ai = Ai()
 
-	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
 	val gameLogic = GameLogic()
 
-	fun initializeBlocks() {
+	fun initializeblocks() {
 		for (i in 0..6) {
-			blocks.add(Block())
+			game.blocks.add(Block())
 		}
 	}
 
 	@Test
 	fun test1() {
 
-		initializeBlocks()
+		initializeblocks()
 
 		for (i in 0..6) {
-			blocks[i].hiddenCards = i
+			game.blocks[i].hiddenCards = i
 		}
 
-		blocks[0].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
-		blocks[1].cards.add(Card(Suit.CLUB, Rank.TWO))
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.EIGHT))
-		blocks[3].cards.add(Card(Suit.SPADE, Rank.FIVE))
-		blocks[4].cards.add(Card(Suit.HEART, Rank.THREE))
-		blocks[5].cards.add(Card(Suit.DIAMOND, Rank.EIGHT))
-		blocks[6].cards.add(Card(Suit.DIAMOND, Rank.JACK))
+		game.blocks[0].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
+		game.blocks[1].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.EIGHT))
+		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.EIGHT))
+		game.blocks[6].cards.add(Card(Suit.DIAMOND, Rank.JACK))
 
 
 		// turn 1
-		var moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		var bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		var moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var bestMove = ai.findBestMove(game)
 		if (bestMove != null) {
-			Game.move_(game, bestMove, foundation, blocks, waste, lastMovesMap)
+			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
 		}
-		assertEquals(blocks[1].hiddenCards, 0)
+		assertEquals(game.blocks[1].hiddenCards, 0)
 
 
 		// turn 2
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.ACE))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.ACE))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 3
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 4
-		waste = Card(Suit.CLUB, Rank.ACE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.ACE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 5
-		waste = Card(Suit.SPADE, Rank.QUEEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.QUEEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 6
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 7
-		waste = Card(Suit.CLUB, Rank.SEVEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.SEVEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 8
-		waste = Card(Suit.SPADE, Rank.TWO)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.TWO)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 9
-		waste = Card(Suit.DIAMOND, Rank.KING)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.KING)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 10
-		waste = Card(Suit.SPADE, Rank.QUEEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.QUEEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 11
-		waste = Card(Suit.CLUB, Rank.QUEEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.QUEEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 12
-		blocks[6].cards.add(Card(Suit.CLUB, Rank.TEN))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[6].cards.add(Card(Suit.CLUB, Rank.TEN))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 13
-		blocks[6].cards.add(Card(Suit.SPADE, Rank.SEVEN))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[6].cards.add(Card(Suit.SPADE, Rank.SEVEN))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 14
-		waste = Card(Suit.CLUB, Rank.FOUR)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.FOUR)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 15
-		waste = Card(Suit.HEART, Rank.EIGHT)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.HEART, Rank.EIGHT)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 16
-		blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 17
-		blocks[2].cards.add(Card(Suit.HEART, Rank.QUEEN))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.QUEEN))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 18
-		blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SIX))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SIX))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 19
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 20
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.NINE))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.NINE))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 21
-		blocks[5].cards.add(Card(Suit.HEART, Rank.TWO))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[5].cards.add(Card(Suit.HEART, Rank.TWO))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 22
-		waste = Card(Suit.HEART, Rank.SIX)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.HEART, Rank.SIX)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 23
-		waste = Card(Suit.DIAMOND, Rank.THREE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.THREE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 24
-		waste = Card(Suit.HEART, Rank.SEVEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.HEART, Rank.SEVEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 25
-		waste = Card(Suit.CLUB, Rank.SIX)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.SIX)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 26
-		waste = Card(Suit.CLUB, Rank.KING)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.KING)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 27
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 28
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
 		if (bestMove != null) {
-			Game.move_(game, bestMove, foundation, blocks, waste, lastMovesMap)
+			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
 		}
 
 
 		// turn 29
-		blocks[2].cards.add(Card(Suit.SPADE, Rank.ACE))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.ACE))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 30
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 31
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 32
-		waste = Card(Suit.DIAMOND, Rank.FOUR)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.FOUR)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 33
-		waste = Card(Suit.SPADE, Rank.EIGHT)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.EIGHT)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 34
-		waste = Card(Suit.DIAMOND, Rank.NINE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.NINE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 33
-		waste = Card(Suit.DIAMOND, Rank.TWO)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.TWO)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 34
-		waste = Card(Suit.SPADE, Rank.FOUR)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.FOUR)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 35
-		waste = Card(Suit.HEART, Rank.EIGHT)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.HEART, Rank.EIGHT)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 36
-		waste = Card(Suit.SPADE, Rank.THREE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.THREE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 37
-		waste = Card(Suit.DIAMOND, Rank.THREE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.THREE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 38
-		blocks[5].cards.add(Card(Suit.SPADE, Rank.JACK))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.JACK))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 39
-		blocks[5].cards.add(Card(Suit.SPADE, Rank.KING))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.KING))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 40
-		blocks[3].cards.add(Card(Suit.HEART, Rank.ACE))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.ACE))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 41
-		blocks[3].cards.add(Card(Suit.CLUB, Rank.NINE))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[3].cards.add(Card(Suit.CLUB, Rank.NINE))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 42
-		blocks[5].cards.add(Card(Suit.SPADE, Rank.TEN))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.TEN))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 43
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 44
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 45
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 46
-		waste = Card(Suit.DIAMOND, Rank.TEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.TEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 47
-		waste = Card(Suit.HEART, Rank.EIGHT)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.HEART, Rank.EIGHT)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 48
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 49
-		waste = Card(Suit.CLUB, Rank.FIVE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.FIVE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 50
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 51
-		blocks[6].cards.add(Card(Suit.HEART, Rank.KING))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[6].cards.add(Card(Suit.HEART, Rank.KING))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 52
-		waste = Card(Suit.CLUB, Rank.QUEEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.QUEEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 53
-		blocks[6].cards.add(Card(Suit.HEART, Rank.JACK))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[6].cards.add(Card(Suit.HEART, Rank.JACK))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 54
-		waste = Card(Suit.CLUB, Rank.QUEEN)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.QUEEN)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 55
-		blocks[5].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 56
-		blocks[6].cards.add(Card(Suit.HEART, Rank.TEN))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[6].cards.add(Card(Suit.HEART, Rank.TEN))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 57
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SIX))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SIX))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 58
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 		// turn 59
-		waste = Card(Suit.SPADE, Rank.FOUR)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.FOUR)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 60
-		waste = Card(Suit.CLUB, Rank.JACK)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.CLUB, Rank.JACK)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 61
-		waste = Card(Suit.DIAMOND, Rank.NINE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.DIAMOND, Rank.NINE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 62
-		waste = Card(Suit.HEART, Rank.FOUR)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.HEART, Rank.FOUR)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 63
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 64
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 65
-		blocks[6].cards.add(Card(Suit.CLUB, Rank.THREE))
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.blocks[6].cards.add(Card(Suit.CLUB, Rank.THREE))
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 66
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 67
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 68
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 69
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 70
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 71
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 72
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 73
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 74
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 75
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 76
-		waste = Card(Suit.HEART, Rank.FIVE)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.HEART, Rank.FIVE)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 77
-		waste = Card(Suit.SPADE, Rank.EIGHT)
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		game.waste = Card(Suit.SPADE, Rank.EIGHT)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 76
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 77
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 78
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 79
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 80
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 81
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 82
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 83
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 84
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 85
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 86
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 87
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 88
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 89
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 90
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 91
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 92
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 93
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 94
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 95
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 96
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 97
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 98
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		// turn 99
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, foundation, blocks, waste, lastMovesMap)
+		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 
 
-		moves = Game.gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
-		bestMove = ai.findBestMove(foundation, blocks, waste, lastMovesMap)
+		moves = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove, null)
 
 
 /*        // turn 100
-        moves = game.gameLogic.allPossibleMoves(foundation,blocks,waste,lastMovesMap)
-        bestMove = ai.findBestMove(foundation,blocks,waste,lastMovesMap)
+        moves = game.gameLogic.allPossibleMoves(game.foundations,game.blocks,game.waste,game.lastMoves)
+        bestMove = ai.findBestMove(game)
         assertEquals(bestMove != null, true)
-        game.move_(bestMove!!, foundation, blocks, waste, lastMovesMap)*/
+        game.move_(bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)*/
 
 
 	}

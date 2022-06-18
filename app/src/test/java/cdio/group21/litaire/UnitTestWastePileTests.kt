@@ -12,17 +12,13 @@ import org.junit.Assert
 import org.junit.Test
 
 class UnitTestWastePileTests {
-
-	private var foundation: MutableList<Card> = mutableListOf()
-	private val blocks: MutableList<Block> = mutableListOf()
-	val waste = DUMMY_CARD.deepCopy()
-	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+	private val game = Game(mutableListOf(), mutableListOf(), DUMMY_CARD.deepCopy(), HashMap())
 	val gameLogic = GameLogic()
 
 
 	fun initializeBlocks() {
 		for (i in 0..6) {
-			blocks.add(Block())
+			game.blocks.add(Block())
 		}
 	}
 
@@ -32,10 +28,10 @@ class UnitTestWastePileTests {
 		initializeBlocks()
 		val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
 
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 		Assert.assertEquals(moves.size, 1)
 		Assert.assertEquals(moves[0], Move(false, waste, 8, 0))
 
@@ -46,9 +42,9 @@ class UnitTestWastePileTests {
 		initializeBlocks()
 		val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-		foundation.add(Card(Suit.CLUB, Rank.ACE))
+		game.foundations.add(Card(Suit.CLUB, Rank.ACE))
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 		Assert.assertEquals(moves.size, 1)
 		Assert.assertEquals(moves[0], Move(true, waste, 8, 0))
 
@@ -59,14 +55,13 @@ class UnitTestWastePileTests {
 		initializeBlocks()
 		val waste: Card = Card(Suit.CLUB, Rank.TWO)
 
-		foundation.add(Card(Suit.CLUB, Rank.ACE))
+		game.foundations.add(Card(Suit.CLUB, Rank.ACE))
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 
-		val game = Game.emptyGame()
-		Game.moveFromWasteToFoundation(moves[0], foundation, waste)
+		Game.moveFromWasteToFoundation(moves[0], game.foundations, waste)
 
-		Assert.assertEquals(foundation[0], Card(Suit.CLUB, Rank.TWO))
+		Assert.assertEquals(game.foundations[0], Card(Suit.CLUB, Rank.TWO))
 
 	}
 
@@ -75,7 +70,7 @@ class UnitTestWastePileTests {
 		initializeBlocks()
 		val waste: Card = Card(Suit.CLUB, Rank.ACE)
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 		Assert.assertEquals(moves.size, 1)
 		Assert.assertEquals(moves[0], Move(true, waste, 8, -1))
 
@@ -86,10 +81,10 @@ class UnitTestWastePileTests {
 		initializeBlocks()
 		val waste: Card = Card(Suit.CLUB, Rank.THREE)
 
-		foundation.add(Card(Suit.CLUB, Rank.TWO))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.foundations.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 
 		val move1 = Move(true, waste, 8, 0)
 		val move2 = Move(false, waste, 8, 0)
@@ -105,19 +100,19 @@ class UnitTestWastePileTests {
 
 		val waste: Card = Card(Suit.CLUB, Rank.THREE)
 
-		blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 		val move1 = Move(false, waste, 8, 0)
 
 
-		val game = Game.emptyGame()
-		val retVal = Game.moveFromWasteToBlock(move1, blocks, waste)
+		
+		val retVal = Game.moveFromWasteToBlock(move1, game.blocks, waste)
 
 
 		Assert.assertEquals(retVal, true)
 
-		Assert.assertEquals(blocks[0].cards.last(), Card(Suit.CLUB, Rank.THREE))
+		Assert.assertEquals(game.blocks[0].cards.last(), Card(Suit.CLUB, Rank.THREE))
 
 	}
 

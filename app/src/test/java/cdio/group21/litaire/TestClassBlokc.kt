@@ -11,58 +11,55 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class TestClassBlock {
-	private var foundation: MutableList<Card> = mutableListOf()
-	private val blocks: MutableList<Block> = mutableListOf()
-	val waste = DUMMY_CARD.deepCopy()
-	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+	private val game = Game(mutableListOf(), mutableListOf(), DUMMY_CARD.deepCopy(), HashMap())
 
 
 	@Test
 	fun blockTest() {
 		initialize()
-		blocks[5].hiddenCards = 2
+		game.blocks[5].hiddenCards = 2
 		val card1 = Card(Suit.CLUB, Rank.SEVEN)
 		val card2 = Card(Suit.HEART, Rank.SIX)
 		val card3 = Card(Suit.CLUB, Rank.FIVE)
 
-		blocks[5].cards.add(card1)
-		blocks[5].cards.add(card2)
-		blocks[5].cards.add(card3)
+		game.blocks[5].cards.add(card1)
+		game.blocks[5].cards.add(card2)
+		game.blocks[5].cards.add(card3)
 
-		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
-		assertEquals(blocks[5].hiddenCards, 2)
+		game.blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
+		assertEquals(game.blocks[5].hiddenCards, 2)
 		val k = Game.move_(
 			Game.emptyGame(),
-			Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+			Move(false, card3, 5, 2), game.foundations, game.blocks, game.waste, game.lastMoves)
 		assertEquals(k, true)
-		assertEquals(blocks[5].hiddenCards, 2)
+		assertEquals(game.blocks[5].hiddenCards, 2)
 	}
 
 
 	@Test
 	fun blockTest2() {
 		initialize()
-		blocks[5].hiddenCards = 1
+		game.blocks[5].hiddenCards = 1
 		val card1 = Card(Suit.CLUB, Rank.SEVEN)
 		val card2 = Card(Suit.HEART, Rank.SIX)
 		val card3 = Card(Suit.CLUB, Rank.FIVE)
 
-		blocks[0].hiddenCards = 1
+		game.blocks[0].hiddenCards = 1
 
-		blocks[5].cards.add(card1)
-		blocks[5].cards.add(card2)
-		blocks[5].cards.add(card3)
+		game.blocks[5].cards.add(card1)
+		game.blocks[5].cards.add(card2)
+		game.blocks[5].cards.add(card3)
 
-		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
-		assertEquals(blocks[5].hiddenCards, 1)
+		game.blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
+		assertEquals(game.blocks[5].hiddenCards, 1)
 		val k = Game.move_(
 			Game.emptyGame(),
-			Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+			Move(false, card3, 5, 2), game.foundations, game.blocks, game.waste, game.lastMoves)
 		assertEquals(k, true)
-		assertEquals(blocks[5].hiddenCards, 1)
-		assertEquals(blocks[0].hiddenCards, 1)
-		assertEquals(blocks[2].hiddenCards, 0)
-		assertEquals(blocks[6].hiddenCards, 0)
+		assertEquals(game.blocks[5].hiddenCards, 1)
+		assertEquals(game.blocks[0].hiddenCards, 1)
+		assertEquals(game.blocks[2].hiddenCards, 0)
+		assertEquals(game.blocks[6].hiddenCards, 0)
 
 	}
 
@@ -70,32 +67,32 @@ class TestClassBlock {
 	@Test
 	fun deepCopyTest() {
 		initialize()
-		blocks[5].hiddenCards = 1
+		game.blocks[5].hiddenCards = 1
 		val card1 = Card(Suit.CLUB, Rank.SEVEN)
 		val card2 = Card(Suit.HEART, Rank.SIX)
 		val card3 = Card(Suit.CLUB, Rank.FIVE)
 
-		blocks[0].hiddenCards = 1
+		game.blocks[0].hiddenCards = 1
 
-		blocks[5].cards.add(card1)
-		blocks[5].cards.add(card2)
-		blocks[5].cards.add(card3)
+		game.blocks[5].cards.add(card1)
+		game.blocks[5].cards.add(card2)
+		game.blocks[5].cards.add(card3)
 
-		blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
-		val blocksCopy = blocks.map { b -> b.deepCopy() }.toList()
-		assertEquals(blocks == blocksCopy, true)
-		assertEquals(blocks[5].hiddenCards, 1)
+		game.blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
+		val blocksCopy = game.blocks.map { b -> b.deepCopy() }.toList()
+		assertEquals(game.blocks == blocksCopy, true)
+		assertEquals(game.blocks[5].hiddenCards, 1)
 		val k = Game.move_(
 			Game.emptyGame(),
-			Move(false, card3, 5, 2), foundation, blocks, waste, lastMovesMap)
+			Move(false, card3, 5, 2), game.foundations, game.blocks, game.waste, game.lastMoves)
 		assertEquals(k, true)
-		assertEquals(blocks[5].hiddenCards, 1)
-		assertEquals(blocks[0].hiddenCards, 1)
-		assertEquals(blocks[2].hiddenCards, 0)
-		assertEquals(blocks[6].hiddenCards, 0)
+		assertEquals(game.blocks[5].hiddenCards, 1)
+		assertEquals(game.blocks[0].hiddenCards, 1)
+		assertEquals(game.blocks[2].hiddenCards, 0)
+		assertEquals(game.blocks[6].hiddenCards, 0)
 
-		assertEquals(blocks == blocksCopy, false)
-		assertEquals(blocks[5].cards.size, 2)
+		assertEquals(game.blocks == blocksCopy, false)
+		assertEquals(game.blocks[5].cards.size, 2)
 		assertEquals(blocksCopy[5].cards.size, 3)
 
 	}
@@ -103,7 +100,7 @@ class TestClassBlock {
 
 	private fun initialize() {
 		for (i in 0..6) {
-			blocks.add(Block())
+			game.blocks.add(Block())
 		}
 	}
 }

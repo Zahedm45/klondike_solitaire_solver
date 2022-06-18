@@ -5,6 +5,7 @@ import Rank
 import Suit
 import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
+import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,17 +16,13 @@ import org.junit.Test
 
 class UnitTestPossibleMoves {
 
-	private var foundation: MutableList<Card> = mutableListOf()
-	private val blocks: MutableList<Block> = mutableListOf()
-	var waste = DUMMY_CARD.deepCopy()
-
-	val lastMovesMap: HashMap<String, HashMap<String, Boolean>> = HashMap()
+	private val game = Game(mutableListOf(), mutableListOf(), DUMMY_CARD.deepCopy(), HashMap())
 	val gameLogic = GameLogic()
 
 
 	fun initializeBlocks() {
 		for (i in 0..6) {
-			blocks.add(Block())
+			game.blocks.add(Block())
 		}
 	}
 
@@ -33,34 +30,34 @@ class UnitTestPossibleMoves {
 	fun testMoveWasteBlockFoundation() {
 		initializeBlocks()
 
-		foundation.add(Card(Suit.CLUB, Rank.THREE))
+		game.foundations.add(Card(Suit.CLUB, Rank.THREE))
 
 		val waste = Card(Suit.CLUB, Rank.FOUR)
 
-		blocks[0].cards.add(Card(Suit.HEART, Rank.KING))
-		blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
-		blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.KING))
+		game.blocks[0].cards.add(Card(Suit.CLUB, Rank.TWO))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.THREE))
 
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.ACE))
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
-		blocks[1].cards.add(Card(Suit.SPADE, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.ACE))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
+		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.SIX))
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.KING))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.KING))
 
-		blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.EIGHT))
-		blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SIX))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.EIGHT))
+		game.blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SIX))
 
-		blocks[5].cards.add(Card(Suit.DIAMOND, Rank.KING))
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[5].cards.add(Card(Suit.DIAMOND, Rank.JACK))
-		blocks[5].cards.add(Card(Suit.SPADE, Rank.TEN))
+		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.KING))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.JACK))
+		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.TEN))
 
-		blocks[6].cards.add(Card(Suit.HEART, Rank.FIVE))
+		game.blocks[6].cards.add(Card(Suit.HEART, Rank.FIVE))
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 		assertEquals(moves.size, 6)
 
 	}
@@ -70,34 +67,34 @@ class UnitTestPossibleMoves {
 	fun testMoveWasteBlockFoundation2() {
 		initializeBlocks()
 
-		foundation.add(Card(Suit.CLUB, Rank.THREE))
+		game.foundations.add(Card(Suit.CLUB, Rank.THREE))
 
 		val waste = Card(Suit.CLUB, Rank.FOUR)
 
-		blocks[0].cards.add(Card(Suit.HEART, Rank.KING))
-		blocks[0].cards.add(Card(Suit.SPADE, Rank.ACE))
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.KING))
+		game.blocks[0].cards.add(Card(Suit.SPADE, Rank.ACE))
 
-		blocks[1].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
-		blocks[1].cards.add(Card(Suit.SPADE, Rank.FOUR))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
+		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.FOUR))
 
-		blocks[2].cards.add(Card(Suit.HEART, Rank.SIX))
-		blocks[2].cards.add(Card(Suit.CLUB, Rank.KING))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.SIX))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.KING))
 
-		blocks[3].cards.add(Card(Suit.DIAMOND, Rank.NINE))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.NINE))
 
-		blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
-		blocks[4].cards.add(Card(Suit.CLUB, Rank.EIGHT))
-		blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
-		blocks[4].cards.add(Card(Suit.SPADE, Rank.SIX))
+		game.blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
+		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.EIGHT))
+		game.blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SIX))
 
-		blocks[5].cards.add(Card(Suit.DIAMOND, Rank.KING))
-		blocks[5].cards.add(Card(Suit.CLUB, Rank.QUEEN))
-		blocks[5].cards.add(Card(Suit.DIAMOND, Rank.JACK))
-		blocks[5].cards.add(Card(Suit.SPADE, Rank.TEN))
+		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.KING))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.QUEEN))
+		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.JACK))
+		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.TEN))
 
-		blocks[6].cards.add(Card(Suit.HEART, Rank.FIVE))
+		game.blocks[6].cards.add(Card(Suit.HEART, Rank.FIVE))
 
-		val moves = gameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 		assertEquals(moves.size, 7)
 
 	}
@@ -107,7 +104,7 @@ class UnitTestPossibleMoves {
 	fun moveWasteToBlock() {
 		initializeBlocks()
 		val waste = Card(Suit.CLUB, Rank.KING)
-		val moves = GameLogic().allPossibleMoves(foundation, blocks, waste, lastMovesMap)
+		val moves = GameLogic().allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
 		assertEquals(moves.size, 1)
 
 	}

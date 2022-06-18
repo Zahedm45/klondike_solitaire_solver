@@ -17,25 +17,22 @@ class Ai {
 	val ga = Game.emptyGame()
 	val gameLogic = GameLogic()
 	fun findBestMove(
-		foundations: MutableList<Card>,
-		blocks: MutableList<Block>,
-		waste: Card,
-		lastMoves: HashMap<String, HashMap<String, Boolean>>
+		game: Game,
 	): Move? {
 		val depth = 8
 /*        val initialState = GameSate(ga.evalFoundation(foundations), 0)
         var bestState = GameSate(ga.evalFoundation(foundations), 0)*/
 
-		val heu1 = heuristicOne(blocks, foundations)
-		val heu2 = heuristicTwo(blocks, foundations, waste)
+		val heu1 = heuristicOne(game.blocks, game.foundations)
+		val heu2 = heuristicTwo(game.blocks, game.foundations, game.waste)
 		val initialState = GameSate(heu1, heu2, 0)
 		var bestState = GameSate(heu1, heu2, 0)
 		var bestMove: Move? = null
-		val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
+		val availableMoves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
 
 
 		var isGameInLastEnd = false
-		val retVal1 = heuristicFaceDown(blocks)
+		val retVal1 = heuristicFaceDown(game.blocks)
 		if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
 			isGameInLastEnd = true
 		}
@@ -51,17 +48,17 @@ class Ai {
 
 		availableMoves.forEach { currMove ->
 			if (currMove.card.rank == Rank.ACE) {
-				if (currMove.isMoveToFoundation && foundations.size < 4) {
+				if (currMove.isMoveToFoundation && game.foundations.size < 4) {
 					return currMove
 				}
 			}
 
 
-			val foundationsCopy = ArrayList(foundations.map { detectR -> detectR.deepCopy() })
-			val blocksCopy = ArrayList(blocks.map { b -> b.deepCopy() })
-			val wasteCopy = waste.copy()
+			val foundationsCopy = ArrayList(game.foundations.map { detectR -> detectR.deepCopy() })
+			val blocksCopy = ArrayList(game.blocks.map { b -> b.deepCopy() })
+			val wasteCopy = game.waste.copy()
 			val leafValue: MutableList<GameSate> = mutableListOf()
-			val mapCopy = mapDeepCopy(lastMoves)
+			val mapCopy = mapDeepCopy(game.lastMoves)
 
 
 			val newMoves = Game.move_(ga, currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
