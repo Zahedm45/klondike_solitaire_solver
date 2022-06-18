@@ -50,12 +50,12 @@ class GameLogic {
 			}
 
 			if (block.cards[0].rank != Rank.KING || (block.cards[0].rank == Rank.KING && block.hiddenCards > 0)) {
-				possibleMovesFromBlockToBlock(
-					block,
-					game.blocks,
-					indexBlock,
-					possibleMoves,
-					game.lastMoves
+				possibleMoves.addAll(possibleMovesFromBlockToBlock(
+						block,
+						game.blocks,
+						indexBlock,
+						game.lastMoves
+					)
 				)
 			}
 
@@ -147,16 +147,17 @@ class GameLogic {
 
 	fun possibleMovesFromBlockToBlock(
 		sourceBlock: Block,
-		blocks: MutableList<Block>,
+		blocks: List<Block>,
 		indexBlock: Int,
-		possibleMoves: MutableList<Move>,
 		lastMovesMap: HashMap<String, HashMap<String, Boolean>>
-	) {
+	): List<Move> {
+
+		val possibleMoves: MutableList<Move> = mutableListOf()
 
 		val retVal = checkBlock(sourceBlock)
 		if (retVal == null) {
 			println("")
-			return
+			return possibleMoves
 		}
 
 
@@ -167,56 +168,47 @@ class GameLogic {
 				continue
 			}
 
-			if (sourceCard.rank == Rank.KING) {
-				if (hasChecked && emptyBlockIndex >= 0) {
-					// hasChecked returns true if there exists an empty block, so there is no need to check it again
-					val newMove = Move(
-						false,
-						sourceCard,
-						indexBlock.toByte(),
-						emptyBlockIndex.toByte()
-					)
-					possibleMoves.add(newMove)
-
-				} else if (!hasChecked) {
-
-					// Checks if there is an empty block out of the 7 blocks
-					for (iter in blocks.indices) {
-						if (blocks[iter].cards.isEmpty()) {
-							val newMove =
-								Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
-							possibleMoves.add(newMove)
-							hasChecked = true
-							emptyBlockIndex = iter
-
-							break
-						}
-					}
-
-					hasChecked = true
-					emptyBlockIndex = -1
-				}
-
-
-				break
-
-
-			} else {
-
+			if (sourceCard.rank != Rank.KING) {
 				val destCard = blocks[k].cards.last()
 				if (evalBlockToBlockAndWasteToBlock(destCard, sourceCard)) {
-
 					if (!isStateKnown(sourceCard, destCard, lastMovesMap)) {
 						val newMove = Move(false, sourceCard, indexBlock.toByte(), k.toByte())
 						possibleMoves.add(newMove)
-
 					}
-
 				}
-
+				continue
 			}
 
+			if (hasChecked) {
+				if (emptyBlockIndex < 0) return possibleMoves
+				// hasChecked returns true if there exists an empty block, so there is no need to check it again
+				val newMove = Move(
+					false,
+					sourceCard,
+					indexBlock.toByte(),
+					emptyBlockIndex.toByte()
+				)
+				possibleMoves.add(newMove)
+				return possibleMoves
+			}
+
+			// Checks if there is an empty block out of the 7 blocks
+			for (iter in blocks.indices) {
+				if (blocks[iter].cards.isEmpty()) {
+					val newMove =
+						Move(false, sourceCard, indexBlock.toByte(), iter.toByte())
+					possibleMoves.add(newMove)
+					hasChecked = true
+					emptyBlockIndex = iter
+					break
+				}
+			}
+
+			hasChecked = true
+			emptyBlockIndex = -1
+			return possibleMoves
 		}
+		return possibleMoves
 
 		/*retVal.forEach { sourceCard ->
 

@@ -46,12 +46,12 @@ class UnitTestBlockTest {
 			if (item.cards.isNullOrEmpty()) {
 				continue
 			}
-			gameLogic.possibleMovesFromBlockToBlock(
-				item,
-				game.blocks,
-				indexBlock,
-				returnVal,
-				game.lastMoves
+			returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(
+					item,
+					game.blocks,
+					indexBlock,
+					game.lastMoves
+				)
 			)
 
 
@@ -243,13 +243,12 @@ class UnitTestBlockTest {
 			}
 			gameLogic.hasChecked = false
 
-			gameLogic.possibleMovesFromBlockToBlock(
+			returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
 				game.blocks,
 				indexBlock,
-				returnVal,
 				game.lastMoves
-			)
+			))
 
 			Assert.assertEquals(returnVal.size, 0)
 		}
@@ -299,13 +298,12 @@ class UnitTestBlockTest {
 			}
 			gameLogic.hasChecked = false
 
-			val result = gameLogic.possibleMovesFromBlockToBlock(
+			returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
 				game.blocks,
 				indexBlock,
-				returnVal,
 				game.lastMoves
-			)
+			))
 
 		}
 
@@ -359,13 +357,12 @@ class UnitTestBlockTest {
 			}
 			gameLogic.hasChecked = false
 
-			val result = gameLogic.possibleMovesFromBlockToBlock(
+			returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
 				game.blocks,
 				indexBlock,
-				returnVal,
 				game.lastMoves
-			)
+			))
 
 
 		}
@@ -470,13 +467,12 @@ class UnitTestBlockTest {
 			}
 			gameLogic.hasChecked = false
 
-			val result = gameLogic.possibleMovesFromBlockToBlock(
+			returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
 				game.blocks,
 				indexBlock,
-				returnVal,
 				game.lastMoves
-			)
+			))
 
 		}
 
@@ -538,13 +534,12 @@ class UnitTestBlockTest {
 			}
 			gameLogic.hasChecked = false
 
-			gameLogic.possibleMovesFromBlockToBlock(
+			returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
 				game.blocks,
 				indexBlock,
-				returnVal,
 				game.lastMoves
-			)
+			))
 
 		}
 
@@ -601,13 +596,12 @@ class UnitTestBlockTest {
 			}
 			gameLogic.hasChecked = false
 
-			gameLogic.possibleMovesFromBlockToBlock(
+			returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(
 				itemBlock,
 				game.blocks,
 				indexBlock,
-				returnVal,
 				game.lastMoves
-			)
+			))
 
 		}
 
@@ -659,7 +653,7 @@ class UnitTestBlockTest {
 		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
 		val returnVal: MutableList<Move> = mutableListOf()
-		gameLogic.possibleMovesFromBlockToBlock(game.blocks[0], game.blocks, 0, returnVal, game.lastMoves)
+		returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(game.blocks[0], game.blocks, 0, game.lastMoves))
 		val moveTest = Move(false, Card(Suit.HEART, Rank.FOUR), 0, 1)
 
 		Assert.assertEquals(returnVal.contains(moveTest), true)
@@ -676,7 +670,7 @@ class UnitTestBlockTest {
 		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.FIVE))
 
 		val returnVal: MutableList<Move> = mutableListOf()
-		gameLogic.possibleMovesFromBlockToBlock(game.blocks[0], game.blocks, 0, returnVal, game.lastMoves)
+		returnVal.addAll(gameLogic.possibleMovesFromBlockToBlock(game.blocks[0], game.blocks, 0, game.lastMoves))
 
 		Assert.assertEquals(returnVal.size, 0)
 	}
