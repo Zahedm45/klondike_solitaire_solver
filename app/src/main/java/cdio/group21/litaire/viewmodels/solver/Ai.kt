@@ -34,11 +34,17 @@ class Ai {
 		val availableMoves = gameLogic.allPossibleMoves(foundations, blocks, waste, lastMoves)
 
 
-		val isGameInLastEnd = heuristicFaceDown(blocks) >= 6 * FACE_DOWN_CARD_VALUE
+		var isGameInLastEnd = false
+		val retVal1 = heuristicFaceDown(blocks)
+		if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
+			isGameInLastEnd = true
+		}
 
-		if (!isGameInLastEnd && availableMoves.size == 1) {
-			if (availableMoves[0].indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
-				return availableMoves[0]
+		if (!isGameInLastEnd) {
+			if (availableMoves.size == 1) {
+				if (availableMoves[0].indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
+					return availableMoves[0]
+				}
 			}
 		}
 
