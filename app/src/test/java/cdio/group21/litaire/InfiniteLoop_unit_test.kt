@@ -9,6 +9,7 @@ import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.GameLogic
 import cdio.group21.litaire.viewmodels.solver.UtilSolver.Companion.mapDeepCopy
+import cdio.group21.litaire.viewmodels.solver.deepCopy
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -73,7 +74,7 @@ class InfiniteLoop_unit_test {
 		game.blocks[5].cards.add(card3)
 
 
-		var possibleMoves1 = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(possibleMoves1.size, 0)
 
 
@@ -89,7 +90,7 @@ class InfiniteLoop_unit_test {
 
 
 		// moves 4c back to 5d
-		possibleMoves1 = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(possibleMoves1.size, 0)
 
 		val move2 = Move(false, card2, 5, 1)
@@ -104,7 +105,7 @@ class InfiniteLoop_unit_test {
 
 
 		// moves 4c back to 5h again
-		possibleMoves1 = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, mapCopy)
+		possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, mapCopy))
 		assertEquals(possibleMoves1.size, 0)
 
 
@@ -123,7 +124,7 @@ class InfiniteLoop_unit_test {
 
 
 
-		possibleMoves1 = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, mapCopy)
+		possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, mapCopy))
 		assertEquals(possibleMoves1.size, 0)
 	}
 
@@ -149,7 +150,7 @@ class InfiniteLoop_unit_test {
 		game.blocks[5].cards.add(card3)
 
 
-/*        var possibleMoves = GameLogic.allPossibleMoves(foundation, blocks, waste, lastMovesHash)
+/*        var possibleMoves = GameLogic.allPossibleMoves(Game(foundation, blocks, waste, lastMovesHash))
         assertEquals(possibleMoves.size, 3)*/
 
 	}

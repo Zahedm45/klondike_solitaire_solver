@@ -50,7 +50,7 @@ class RandomAiTest {
 		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
 
 		assertEquals(Ai().heuristicFaceDown(game.blocks), 3 * FACE_DOWN_CARD_VALUE)
-		val moves = GameLogic().allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val moves = GameLogic().allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		val move1 = Move(false, Card(Suit.SPADE, Rank.SIX), 3, 1)
 		val move2 = Move(false, Card(Suit.CLUB, Rank.FIVE), 5, 2)
 		assertEquals(moves.contains(move1), false)
@@ -83,7 +83,7 @@ class RandomAiTest {
 
 		game.blocks[2].hiddenCards = 3
 
-		val moves = GameLogic().allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val moves = GameLogic().allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 
 		val ret = Game.move_(game, moves[0], game.foundations, game.blocks, game.waste, game.lastMoves)
 		assertEquals(ret, true)

@@ -13,10 +13,7 @@ class GameLogic {
 
 
 	fun allPossibleMoves(
-		foundations: MutableList<Card>,
-		blocks: MutableList<Block>,
-		waste: Card?,
-		lastMovesMap: HashMap<String, HashMap<String, Boolean>>
+		game: Game
 	): MutableList<Move> {
 
 		emptyBlockIndex = -1
@@ -24,8 +21,8 @@ class GameLogic {
 
 		val possibleMoves: MutableList<Move> = mutableListOf()
 
-		for (indexBlock in blocks.indices) {
-			val block = blocks[indexBlock]
+		for (indexBlock in game.blocks.indices) {
+			val block = game.blocks[indexBlock]
 
 			if (block.cards.isEmpty()) {
 				hasChecked = true
@@ -36,14 +33,14 @@ class GameLogic {
 			val lastCard = block.cards.last()
 
 
-			if (lastCard.rank == Rank.ACE && foundations.size < 4) {
+			if (lastCard.rank == Rank.ACE && game.foundations.size < 4) {
 				val newMove = Move(true, lastCard, indexBlock.toByte(), DESTINATION_UNKNOWN)
 
 				possibleMoves.add(newMove)
 
 			} else {
-				for (k in foundations.indices) {
-					val foundation = foundations[k]
+				for (k in game.foundations.indices) {
+					val foundation = game.foundations[k]
 					if (evalBlockToFoundation(foundation, lastCard)) {
 
 						val newMove = Move(true, lastCard, indexBlock.toByte(), k.toByte())
@@ -55,20 +52,20 @@ class GameLogic {
 			if (block.cards[0].rank != Rank.KING || (block.cards[0].rank == Rank.KING && block.hiddenCards > 0)) {
 				possibleMovesFromBlockToBlock(
 					block,
-					blocks,
+					game.blocks,
 					indexBlock,
 					possibleMoves,
-					lastMovesMap
+					game.lastMoves
 				)
 			}
 
 
 
-			if (waste != null) {
+			if (game.waste != null) {
 				//check waste pile to block
-				if (evalBlockToBlockAndWasteToBlock(lastCard, waste)) {
+				if (evalBlockToBlockAndWasteToBlock(lastCard, game.waste)) {
 					val newMove =
-						Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, indexBlock.toByte())
+						Move(false, game.waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, indexBlock.toByte())
 					possibleMoves.add(newMove)
 
 				}
@@ -86,29 +83,29 @@ class GameLogic {
 
 
 
-		if (waste?.rank == Rank.KING) {
+		if (game.waste?.rank == Rank.KING) {
 			if (hasChecked && emptyBlockIndex != -1) {
 				val newMove =
-					Move(false, waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, emptyBlockIndex.toByte())
+					Move(false, game.waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, emptyBlockIndex.toByte())
 				possibleMoves.add(newMove)
 			}
 		}
 
 
 		//check waste pile to foundation
-		if (waste != null) {
+		if (game.waste != null) {
 
-			if (waste.rank == Rank.ACE && foundations.size < 4) {
-				val newMove = Move(true, waste, 8, -1)
+			if (game.waste.rank == Rank.ACE && game.foundations.size < 4) {
+				val newMove = Move(true, game.waste, 8, -1)
 
 				possibleMoves.add(newMove)
 
 			} else {
-				for (k in foundations.indices) {
-					val foundation = foundations[k]
-					if (evalBlockToFoundation(foundation, waste)) {
+				for (k in game.foundations.indices) {
+					val foundation = game.foundations[k]
+					if (evalBlockToFoundation(foundation, game.waste)) {
 
-						val newMove = Move(true, waste, 8, k.toByte())
+						val newMove = Move(true, game.waste, 8, k.toByte())
 						possibleMoves.add(newMove)
 					}
 				}

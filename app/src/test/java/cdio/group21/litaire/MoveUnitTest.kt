@@ -34,7 +34,7 @@ class Simulate_unitTest {
 		game.waste = card2.deepCopy()
 
 
-		val retValMove = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val retValMove = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(retValMove.size, 2)
 		retValMove.forEach {
 			if (it.isMoveToFoundation) {
@@ -59,7 +59,7 @@ class Simulate_unitTest {
 		game.waste = card2.deepCopy()
 
 
-		val retValMove = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val retValMove = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(retValMove.size, 2)
 		retValMove.forEach {
 			if (!it.isMoveToFoundation) {
@@ -85,14 +85,14 @@ class Simulate_unitTest {
 		game.waste = card2.deepCopy()
 
 
-		val retValMove = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val retValMove = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(retValMove.size, 0)
 		retValMove.forEach {
 			Game.move_(game, it, game.foundations, game.blocks, game.waste, game.lastMoves)
 		}
 
 		game.waste = Card(Suit.SPADE, Rank.FOUR)
-		val retValMove1 = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val retValMove1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(retValMove1.size, 1)
 
 	}
@@ -113,7 +113,7 @@ class Simulate_unitTest {
 		
 
 
-		var retValMove = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var retValMove = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(retValMove.size, 1)
 		retValMove.forEach {
 			if (!it.isMoveToFoundation) {
@@ -124,12 +124,12 @@ class Simulate_unitTest {
 		}
 
 
-		retValMove = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		retValMove = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(retValMove.size, 0)
 
 		game.waste = Card(Suit.CLUB, Rank.JACK)
 
-		retValMove = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		retValMove = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		assertEquals(retValMove.size, 1)
 
 

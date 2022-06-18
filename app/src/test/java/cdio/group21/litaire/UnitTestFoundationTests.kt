@@ -64,7 +64,7 @@ class UnitTestFoundationTests {
 		val move3 = Move(true, Card(Suit.CLUB, Rank.ACE), 4, -1)
 
 
-		var result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var result = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 
 		Assert.assertEquals(result.size, 3)
 
@@ -111,11 +111,11 @@ class UnitTestFoundationTests {
 		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
 
 
-		var result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var result = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		Assert.assertEquals(result.size, 3)
 
 		game.foundations.add(Card(Suit.CLUB, Rank.FOUR))
-		result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		result = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 
 		val move1 = Move(true, Card(Suit.DIAMOND, Rank.TEN), 1, 0)
 		val move2 = Move(true, Card(Suit.SPADE, Rank.TWO), 3, 2)
@@ -164,7 +164,7 @@ class UnitTestFoundationTests {
 		game.blocks[4].cards.add(Card(Suit.CLUB, Rank.ACE))
 
 
-		var result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var result = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 
 		// Initializing an unexpected move
 		val move = Move(true, Card(Suit.CLUB, Rank.THREE), 2, 3)
@@ -195,7 +195,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(game.blocks[1].cards.last() == card3, true)
 
 
-		var moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		
 
 		moves.forEach {
@@ -232,7 +232,7 @@ class UnitTestFoundationTests {
 
 		Assert.assertEquals(game.blocks[1].cards.last() == detect3, true)
 
-		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		
 
 		Assert.assertEquals(moves.size, 1)
@@ -325,7 +325,7 @@ class UnitTestFoundationTests {
 
         blocks[0].cards.add(Card(Suit.HEART, Rank.FOUR))
 
-        val result = gameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
+        val result = gameLogic.allPossibleMoves(Game(foundation, blocks,waste,lastMovesMap))
         val move = Move(false, Card(Suit.SPADE, Rank.THREE),0.toByte(),0.toByte())
 
         Assert.assertEquals(result.contains(move), true)
@@ -346,7 +346,7 @@ class UnitTestFoundationTests {
 
         blocks[2].cards.add(Card(Suit.HEART, Rank.SIX))
 
-        val result = gameLogic.allPossibleMoves(foundation, blocks,waste,lastMovesMap)
+        val result = gameLogic.allPossibleMoves(Game(foundation, blocks,waste,lastMovesMap))
         val move = Move(false, Card(Suit.SPADE, Rank.THREE),0.toByte(),0.toByte())
 
         Assert.assertEquals(result.contains(move), true)
@@ -369,7 +369,7 @@ class UnitTestFoundationTests {
 
 		game.blocks[3].cards.add(Card(Suit.SPADE, Rank.KING))
 
-		val result = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val result = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		val move1 = Move(true, Card(Suit.DIAMOND, Rank.KING), 0.toByte(), 3.toByte())
 		val move2 = Move(true, Card(Suit.SPADE, Rank.QUEEN), 1.toByte(), 0.toByte())
 		val move3 = Move(true, Card(Suit.CLUB, Rank.KING), 2.toByte(), 1.toByte())
@@ -383,7 +383,7 @@ class UnitTestFoundationTests {
 		Game.moveFromBlockToFoundation(game, move2, game.foundations, game.blocks)
 		Game.moveFromBlockToFoundation(game, move3, game.foundations, game.blocks)
 
-		val result2 = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val result2 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		val move4 = Move(true, Card(Suit.HEART, Rank.KING), 1.toByte(), 2.toByte())
 		val move5 = Move(true, Card(Suit.SPADE, Rank.KING), 3.toByte(), 0.toByte())
 

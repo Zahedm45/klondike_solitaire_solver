@@ -91,7 +91,7 @@ class UnitTestBlockTest {
 		Assert.assertEquals(game.blocks[0].cards.size, 2)
 
 
-		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		Assert.assertEquals(moves.size, 1)
 		Assert.assertEquals(moves[0], Move(false, Card(Suit.SPADE, Rank.FIVE), 0, 2))
 		
@@ -138,7 +138,7 @@ class UnitTestBlockTest {
 		Assert.assertEquals(game.blocks[2].cards.size, 2)
 
 
-		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		Assert.assertEquals(moves.size, 0)
 
 	}
@@ -164,7 +164,7 @@ class UnitTestBlockTest {
 		Assert.assertEquals(game.blocks[2].cards.size, 2)
 
 
-		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		Assert.assertEquals(moves.size, 1)
 		Assert.assertEquals(moves[0], Move(false, Card(Suit.SPADE, Rank.FIVE), 0, 2))
 
@@ -198,7 +198,7 @@ class UnitTestBlockTest {
 		Assert.assertEquals(game.blocks[6].cards.size, 1)
 		Assert.assertEquals(game.blocks[2].cards.size, 2)
 
-		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		Assert.assertEquals(moves.size, 0)
 	}
 
@@ -414,7 +414,7 @@ class UnitTestBlockTest {
 		game.blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
 
 		
-		var returnVal = Game.gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		var returnVal = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 
 
 		val move1 = Move(false, Card(Suit.SPADE, Rank.FOUR), 0, 6)

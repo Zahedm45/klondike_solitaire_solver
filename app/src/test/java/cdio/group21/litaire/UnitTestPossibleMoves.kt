@@ -57,7 +57,7 @@ class UnitTestPossibleMoves {
 
 		game.blocks[6].cards.add(Card(Suit.HEART, Rank.FIVE))
 
-		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
+		val moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, waste, game.lastMoves))
 		assertEquals(moves.size, 6)
 
 	}
@@ -94,7 +94,7 @@ class UnitTestPossibleMoves {
 
 		game.blocks[6].cards.add(Card(Suit.HEART, Rank.FIVE))
 
-		val moves = gameLogic.allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
+		val moves = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, waste, game.lastMoves))
 		assertEquals(moves.size, 7)
 
 	}
@@ -104,7 +104,7 @@ class UnitTestPossibleMoves {
 	fun moveWasteToBlock() {
 		initializeBlocks()
 		val waste = Card(Suit.CLUB, Rank.KING)
-		val moves = GameLogic().allPossibleMoves(game.foundations, game.blocks, waste, game.lastMoves)
+		val moves = GameLogic().allPossibleMoves(Game(game.foundations, game.blocks, waste, game.lastMoves))
 		assertEquals(moves.size, 1)
 
 	}

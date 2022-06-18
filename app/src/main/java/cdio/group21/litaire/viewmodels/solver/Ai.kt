@@ -28,7 +28,7 @@ class Ai {
 		val initialState = GameSate(heu1, heu2, 0)
 		var bestState = GameSate(heu1, heu2, 0)
 		var bestMove: Move? = null
-		val availableMoves = gameLogic.allPossibleMoves(game.foundations, game.blocks, game.waste, game.lastMoves)
+		val availableMoves = gameLogic.allPossibleMoves(game)
 
 
 		var isGameInLastEnd = false
@@ -158,7 +158,7 @@ class Ai {
 		}
 
 		val newPossibleMoves =
-			gameLogic.allPossibleMoves(currFoundations, currBlocks, currWaste, lastMovesMap)
+			gameLogic.allPossibleMoves(Game(currFoundations, currBlocks, currWaste, lastMovesMap))
 
 		if (newPossibleMoves.isEmpty()) {
 			setGameState(currBlocks, currFoundations, currWaste, leafValues, depth)

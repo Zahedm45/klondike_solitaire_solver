@@ -296,3 +296,14 @@ class UtilSolver {
 
 	}
 }
+
+fun HashMap<String, HashMap<String, Boolean>>.deepCopy(): HashMap<String, HashMap<String, Boolean>> {
+	val newCopy: HashMap<String, HashMap<String, Boolean>> = HashMap()
+
+	this.forEach { innerMap ->
+		val newInnerMap: HashMap<String, Boolean> = HashMap(innerMap.value)
+		newCopy.put(innerMap.key, newInnerMap)
+	}
+
+	return newCopy
+}
