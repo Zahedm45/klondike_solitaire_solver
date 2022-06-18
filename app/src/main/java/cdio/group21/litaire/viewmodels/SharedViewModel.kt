@@ -13,18 +13,18 @@ import androidx.lifecycle.viewModelScope
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.data.Solitaire
-import cdio.group21.litaire.data.WeirdState
 import cdio.group21.litaire.tflite.DetectionConfig
 import cdio.group21.litaire.tflite.ObjectRecognition
 import cdio.group21.litaire.viewmodels.solver.Ai
 import cdio.group21.litaire.viewmodels.solver.Game
+import cdio.group21.litaire.viewmodels.solver.insaneMoveMemory
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 
 class SharedViewModel : ViewModel() {
 	private val suggestion = MutableLiveData<Pair<Card, Card>>()
-	private val moves = MutableLiveData<MutableList<Move>>(mutableListOf())
+	private val moves = MutableLiveData<MutableList<Move>>(mutableListOf()) // Used by the app
 
 	private val previewBitmap = MutableLiveData<Bitmap>()
 
@@ -35,8 +35,7 @@ class SharedViewModel : ViewModel() {
 	private var cardObjectToReveal: Card? = null
 
 	private var ai: Ai = Ai()
-
-	private val lastMoves: HashMap<String, HashMap<String, Boolean>> = HashMap()
+	private var lastMoves: insaneMoveMemory = HashMap() // Used by the solver
 
 	fun setPreviewBitmap(bitmap: Bitmap) {
 		previewBitmap.value = bitmap
@@ -52,10 +51,6 @@ class SharedViewModel : ViewModel() {
 
 	fun getDetectionList(): LiveData<List<DetectionResult>> {
 		return detectionList
-	}
-
-	fun setGameState(value: Solitaire) {
-		gameState.value = value
 	}
 
 	fun getGameState(): MutableLiveData<Solitaire> {
@@ -108,7 +103,6 @@ class SharedViewModel : ViewModel() {
 		cardObjectToReveal = null
 
 		replaceCardInGame(card, list[0].card)
-		gameState.postValue(gameState.value)
 		return Result.success(Unit)
 	}
 
@@ -117,16 +111,12 @@ class SharedViewModel : ViewModel() {
 	}
 
 	fun runSolver() {
-		if (ai == null) ai = Ai()
 		val gameState = gameState.value ?: return
-		if (gameState.tableau.isEmpty()) return
 
-		val weirdState = WeirdState.fromSolitaire(gameState)
-
-		val move = ai.findBestMove(
-			Game(weirdState.foundations, weirdState.blocks, weirdState.waste, lastMoves)
-		) ?: return
-
+		val game = Game.fromSolitaire(gameState, lastMoves)
+		val move = ai.findBestMove(game) ?: return // TODO: Handle this?
+		if (Game.move_(game, move))
+			lastMoves = game.lastMoves
 		val mοves = moves.value ?: return
 		mοves.add(move)
 		moves.postValue(mοves)

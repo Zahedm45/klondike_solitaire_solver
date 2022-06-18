@@ -5,7 +5,10 @@ import Rank
 import Suit
 import cdio.group21.litaire.data.Block
 import cdio.group21.litaire.data.Move
+import cdio.group21.litaire.data.Solitaire
 import cdio.group21.litaire.data.SortedResult
+
+typealias insaneMoveMemory = HashMap<String, HashMap<String, Boolean>>
 
 data class Game(
 	val foundations: MutableList<Card>,
@@ -31,6 +34,27 @@ data class Game(
 				Card(Suit.UNKNOWN, Rank.UNKNOWN),
 				HashMap()
 			)
+		}
+
+		fun fromSolitaire(solitaire: Solitaire, previousMoves: insaneMoveMemory): Game {
+			val foundations = solitaire.foundations
+				.filter{ it.isNotEmpty() }
+				.map { foundation -> foundation.last().deepCopy() }
+				.toMutableList()
+
+			val blocks = solitaire.tableau.map { tableau ->
+				Block(
+					tableau
+						.filter{ card -> !card.isUnknown() }
+						.map { card -> card.deepCopy() }
+						.toMutableList(),
+					tableau.count { card -> card.isUnknown() }
+				)
+			}.toMutableList()
+
+			val waste = solitaire.talon.lastOrNull()?.deepCopy() ?: DUMMY_CARD.deepCopy()
+
+			return Game(foundations, blocks, waste, previousMoves)
 		}
 
 		val gameLogic = GameLogic()

@@ -178,6 +178,10 @@ data class Card(var suit: Suit, var rank: Rank) {
 		return Card(suit.copy(), rank.copy())
 	}
 
+	fun isUnknown(): Boolean {
+		return suit == Suit.UNKNOWN || rank == Rank.UNKNOWN
+	}
+
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (javaClass != other?.javaClass) return false
