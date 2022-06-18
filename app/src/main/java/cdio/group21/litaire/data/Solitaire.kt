@@ -144,7 +144,7 @@ data class Solitaire(
 
 	private fun moveBetweenTableau(move: Move): Result<Card?> {
 		val source = findEqualCard(move.card).getOrElse { return Result.failure(it) }
-		val destination = weirdMoveIndexToPile(move.indexOfSourceBlock.toUInt()).getOrElse {
+		val destination = weirdMoveIndexToPile(move.indexOfDestination.toUInt()).getOrElse {
 			return Result.failure(it)
 		}
 		do {
