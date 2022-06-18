@@ -15,15 +15,15 @@ class Ai {
 	val gameLogic = GameLogic()
 	fun findBestMove(
 		game: Game,
+		searchDepth: UInt = 8u,
 	): Move? {
-		val depth = 8
 /*        val initialState = GameSate(ga.evalFoundation(foundations), 0)
         var bestState = GameSate(ga.evalFoundation(foundations), 0)*/
 
 		val heu1 = heuristicOne(game.blocks, game.foundations)
 		val heu2 = heuristicTwo(game.blocks, game.foundations, game.waste)
-		val initialState = GameSate(heu1, heu2, 0)
-		var bestState = GameSate(heu1, heu2, 0)
+		val initialState = GameSate(heu1, heu2, 0u)
+		var bestState = GameSate(heu1, heu2, 0u)
 		var bestMove: Move? = null
 		val availableMoves = gameLogic.allPossibleMoves(game)
 
@@ -65,10 +65,10 @@ class Ai {
 			val sateAfterFirstMove = GameSate(
 				heuristicOne(blocksCopy, foundationsCopy),
 				heuristicFoundationsTwo(foundationsCopy),
-				depth - 1
+				searchDepth - 1u
 			)
 
-			algorithm(gameCopy, leafValue, depth - 1)
+			algorithm(gameCopy, leafValue, searchDepth - 1u)
 			if (leafValue.isEmpty()) {
 				return@forEach
 			}
@@ -123,7 +123,7 @@ class Ai {
 		bestState.heuristicOneVal = bestState.heuristicOneVal - initialState.heuristicOneVal
 		bestState.heuristicTwoVal = bestState.heuristicTwoVal - initialState.heuristicTwoVal
 
-		bestState.length = depth - bestState.length
+		bestState.length = searchDepth - bestState.length
 
 
 		if (bestMove == null) {
@@ -143,10 +143,10 @@ class Ai {
 	private fun algorithm(
 		game: Game,
 		leafValues: MutableList<GameSate>,
-		depth: Int
+		depth: UInt
 	) {
 
-		if (depth < 1) {
+		if (depth < 1u) {
 			setGameState(game, leafValues, depth)
 			return
 		}
@@ -161,7 +161,7 @@ class Ai {
 		newPossibleMoves.forEach { move ->
 			val gameCopy = game.deepCopy()
 			Game.move_(gameCopy, move)
-			algorithm(gameCopy, leafValues, depth - 1)
+			algorithm(gameCopy, leafValues, depth - 1u)
 		}
 
 	}
@@ -170,7 +170,7 @@ class Ai {
 	private fun setGameState(
 		game: Game,
 		leafValues: MutableList<GameSate>,
-		length: Int
+		length: UInt
 	) {
 
 		val gameSate = GameSate(
