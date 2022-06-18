@@ -61,14 +61,11 @@ class GameLogic {
 
 
 
-			if (game.waste != null) {
-				//check waste pile to block
-				if (evalBlockToBlockAndWasteToBlock(lastCard, game.waste)) {
-					val newMove =
-						Move(false, game.waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, indexBlock.toByte())
-					possibleMoves.add(newMove)
+			if (evalBlockToBlockAndWasteToBlock(lastCard, game.waste)) {
+				val newMove =
+					Move(false, game.waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, indexBlock.toByte())
+				possibleMoves.add(newMove)
 
-				}
 			}
 
 /*            //add foundation to block
@@ -83,7 +80,7 @@ class GameLogic {
 
 
 
-		if (game.waste?.rank == Rank.KING) {
+		if (game.waste.rank == Rank.KING) {
 			if (hasChecked && emptyBlockIndex != -1) {
 				val newMove =
 					Move(false, game.waste, INDEX_OF_SOURCE_BLOCK_FROM_WASTE, emptyBlockIndex.toByte())
@@ -93,21 +90,18 @@ class GameLogic {
 
 
 		//check waste pile to foundation
-		if (game.waste != null) {
+		if (game.waste.rank == Rank.ACE && game.foundations.size < 4) {
+			val newMove = Move(true, game.waste, 8, -1)
 
-			if (game.waste.rank == Rank.ACE && game.foundations.size < 4) {
-				val newMove = Move(true, game.waste, 8, -1)
+			possibleMoves.add(newMove)
 
-				possibleMoves.add(newMove)
+		} else {
+			for (k in game.foundations.indices) {
+				val foundation = game.foundations[k]
+				if (evalBlockToFoundation(foundation, game.waste)) {
 
-			} else {
-				for (k in game.foundations.indices) {
-					val foundation = game.foundations[k]
-					if (evalBlockToFoundation(foundation, game.waste)) {
-
-						val newMove = Move(true, game.waste, 8, k.toByte())
-						possibleMoves.add(newMove)
-					}
+					val newMove = Move(true, game.waste, 8, k.toByte())
+					possibleMoves.add(newMove)
 				}
 			}
 		}
