@@ -73,13 +73,13 @@ class InfiniteLoop_unit_test {
 		game.blocks[5].cards.add(card3)
 
 
-		var possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
+		var possibleMoves1 = gameLogic.allPossibleMoves(game)
 		assertEquals(possibleMoves1.size, 0)
 
 
 		// moves 4c to 5h
 		val move1 = Move(false, card2, 1, 5)
-		val retMove = Game.moveFromBlockToBlock(game, move1, game.blocks, game.lastMoves)
+		val retMove = Game.moveFromBlockToBlock(move1, game.blocks, game.lastMoves)
 
 
 		assertEquals(retMove, true)
@@ -89,11 +89,11 @@ class InfiniteLoop_unit_test {
 
 
 		// moves 4c back to 5d
-		possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
+		possibleMoves1 = gameLogic.allPossibleMoves(game)
 		assertEquals(possibleMoves1.size, 0)
 
 		val move2 = Move(false, card2, 5, 1)
-		val retMove2 = Game.move_(game, move2, game.foundations, game.blocks, game.waste, game.lastMoves)
+		val retMove2 = Game.move_(game, move2)
 		assertEquals(retMove2, true)
 		assertEquals(game.lastMoves.get(card2Key)?.size, 2)
 		assertEquals(game.lastMoves.get(card2Key)?.containsKey(card3Key), true)
@@ -104,17 +104,17 @@ class InfiniteLoop_unit_test {
 
 
 		// moves 4c back to 5h again
-		possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, mapCopy))
+		possibleMoves1 = gameLogic.allPossibleMoves(game)
 		assertEquals(possibleMoves1.size, 0)
 
 
 		val move3 = Move(false, card2, 1, 5)
 
-		val retMove3 = Game.move_(game, move3, game.foundations, game.blocks, game.waste, mapCopy)
+		val retMove3 = Game.move_(game, move3)
 
 		assertEquals(mapCopy == game.lastMoves, false)
 		assertEquals(retMove3, true)
-		assertEquals(mapCopy.get(card2Key)?.get(card1Key), true)
+		assertEquals(game.lastMoves.get(card2Key)?.get(card1Key), true)
 
 
 		assertEquals(game.blocks[1].cards.size, 1)
@@ -123,7 +123,7 @@ class InfiniteLoop_unit_test {
 
 
 
-		possibleMoves1 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, mapCopy))
+		possibleMoves1 = gameLogic.allPossibleMoves(game)
 		assertEquals(possibleMoves1.size, 0)
 	}
 

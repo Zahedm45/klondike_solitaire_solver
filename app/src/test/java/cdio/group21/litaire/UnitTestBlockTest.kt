@@ -97,7 +97,7 @@ class UnitTestBlockTest {
 		
 
 		moves.forEach {
-			Game.moveFromBlockToBlock(game, it, game.blocks, game.lastMoves)
+			Game.moveFromBlockToBlock(it, game.blocks, game.lastMoves)
 		}
 
 		Assert.assertEquals(game.blocks[2].cards.last(), detect2)
@@ -171,7 +171,7 @@ class UnitTestBlockTest {
 
 		
 
-		Game.moveFromBlockToBlock(game, moves[0], game.blocks, game.lastMoves)
+		Game.moveFromBlockToBlock(moves[0], game.blocks, game.lastMoves)
 
 		Assert.assertEquals(game.blocks[2].cards.last(), detect2)
 		Assert.assertEquals(game.blocks[2].cards.size, 3)

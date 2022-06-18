@@ -45,7 +45,7 @@ class CardDeck2Test {
 		var moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		var bestMove = ai.findBestMove(game)
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		assertEquals(game.blocks[1].hiddenCards, 0)
 
@@ -55,7 +55,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 3
@@ -69,7 +69,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 5
@@ -77,7 +77,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 6
@@ -91,7 +91,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 8
@@ -99,7 +99,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 9
@@ -107,7 +107,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 10
@@ -115,7 +115,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 11
@@ -123,7 +123,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 12
@@ -131,7 +131,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 13
@@ -146,7 +146,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 15
@@ -154,7 +154,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 16
@@ -162,7 +162,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 17
@@ -170,7 +170,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 18
@@ -178,7 +178,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 19
@@ -186,7 +186,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 20
@@ -194,7 +194,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 21
@@ -209,7 +209,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 23
@@ -224,7 +224,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 25
@@ -232,7 +232,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 26
@@ -240,14 +240,14 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 27
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 28
@@ -255,7 +255,7 @@ class CardDeck2Test {
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 
@@ -264,14 +264,14 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 30
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 31
@@ -285,7 +285,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 33
@@ -307,7 +307,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 34
@@ -329,7 +329,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 37
@@ -337,7 +337,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 38
@@ -345,7 +345,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 39
@@ -353,7 +353,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 40
@@ -361,7 +361,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 41
@@ -369,7 +369,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 42
@@ -377,28 +377,28 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 43
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 44
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 45
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 46
@@ -406,7 +406,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 47
@@ -414,14 +414,14 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 48
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 49
@@ -429,14 +429,14 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 50
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 51
@@ -444,7 +444,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 52
@@ -452,7 +452,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 53
@@ -460,7 +460,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 54
@@ -468,7 +468,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 55
@@ -476,7 +476,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 56
@@ -484,7 +484,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 57
@@ -492,7 +492,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 58
@@ -506,7 +506,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 60
@@ -514,7 +514,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 61
@@ -522,7 +522,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 62
@@ -530,21 +530,21 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 63
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 64
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 65
@@ -552,77 +552,77 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 66
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 67
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 68
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 69
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 70
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 71
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 72
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 73
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 74
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 75
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 76
@@ -630,7 +630,7 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 77
@@ -638,175 +638,175 @@ class CardDeck2Test {
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 76
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 77
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 78
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 79
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 80
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 81
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 82
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 83
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 84
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 85
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 86
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 87
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 88
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 89
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 90
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 91
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 92
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 93
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 94
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 95
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 96
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 97
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 98
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 		// turn 99
 		moves = Game.gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		bestMove = ai.findBestMove(game)
 		assertEquals(bestMove != null, true)
-		Game.move_(game, bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)
+		Game.move_(game, bestMove!!)
 
 
 
@@ -820,7 +820,7 @@ class CardDeck2Test {
         moves = game.gameLogic.allPossibleMoves(Game(game.foundations,game.blocks,game.waste,game.lastMoves))
         bestMove = ai.findBestMove(game)
         assertEquals(bestMove != null, true)
-        game.move_(bestMove!!, game.foundations, game.blocks, game.waste, game.lastMoves)*/
+        game.move_(bestMove!!, game.foundations)*/
 
 
 	}

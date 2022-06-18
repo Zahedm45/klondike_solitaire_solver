@@ -39,7 +39,7 @@ class Solver {
             }*/
 
 			if (nextMove != null) {
-				Game.move_(game, nextMove, foundations, blocks, waste, lastMoves)
+				Game.move_(Game(foundations, blocks, waste, lastMoves), nextMove)
 				if (waste == DUMMY_CARD) {
 					if (counter >= 0) {
 						UtilSolver.cardDeck.removeAt(counter)
@@ -102,7 +102,7 @@ class Solver {
 		for (i in 0..51) {
 			val nextMove = ai.findBestMove(game)
 			if (nextMove != null) {
-				Game.move_(Game.emptyGame(), nextMove, foundations, blocks, waste, lastMoves)
+				Game.move_(Game(foundations, blocks, waste, lastMoves), nextMove)
 
 			} else {
 				println("No more move available!")

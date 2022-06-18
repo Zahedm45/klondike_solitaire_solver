@@ -54,78 +54,78 @@ class TestDeck {
 		var bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[6].cards.add(Card(Suit.HEART, Rank.KING))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.waste = Card(Suit.HEART, Rank.THREE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[3].cards.add(Card(Suit.CLUB, Rank.KING))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[5].cards.add(Card(Suit.HEART, Rank.EIGHT))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[1].cards.add(Card(Suit.CLUB, Rank.ACE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.DIAMOND, Rank.FIVE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.SPADE, Rank.EIGHT))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.DIAMOND, Rank.TEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.HEART, Rank.JACK))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.KING)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		// turn
@@ -134,375 +134,375 @@ class TestDeck {
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.NINE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.HEART, Rank.SEVEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.TWO))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.THREE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.QUEEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.FOUR))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[4].cards.add(Card(Suit.HEART, Rank.SIX))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[3].cards.add(Card(Suit.CLUB, Rank.TEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.QUEEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.NINE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.CLUB, Rank.FOUR))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.SPADE, Rank.ACE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.FOUR)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.waste = Card(Suit.HEART, Rank.FIVE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[4].cards.add(Card(Suit.DIAMOND, Rank.FOUR))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		// turn
 		game.waste = Card(Suit.SPADE, Rank.FIVE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.FIVE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.SIX)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		// turn
 		game.waste = Card(Suit.DIAMOND, Rank.SEVEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		// turn
 		game.waste = Card(Suit.CLUB, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.TEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		// turn
 		game.waste = Card(Suit.SPADE, Rank.TWO)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.TEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		// turn
 		game.waste = Card(Suit.DIAMOND, Rank.THREE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.KING)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.JACK)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		// turn
 		game.waste = Card(Suit.SPADE, Rank.SIX)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.KING)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		// turn
 		game.waste = Card(Suit.DIAMOND, Rank.SEVEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.NINE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.QUEEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.CLUB, Rank.SEVEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.TEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		//turn since otherwise we'll lose !
@@ -510,77 +510,77 @@ class TestDeck {
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.TEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.JACK)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.TEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		// game should be finished. Check results:
@@ -623,186 +623,186 @@ class TestDeck {
 		var bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.waste = Card(Suit.SPADE, Rank.QUEEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.ACE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.CLUB, Rank.SEVEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.waste = Card(Suit.SPADE, Rank.TWO)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.waste = Card(Suit.DIAMOND, Rank.KING)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.QUEEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.QUEEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[6].cards.add(Card(Suit.CLUB, Rank.TEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[6].cards.add(Card(Suit.SPADE, Rank.SEVEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.CLUB, Rank.FOUR)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[4].cards.add(Card(Suit.HEART, Rank.NINE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[2].cards.add(Card(Suit.HEART, Rank.QUEEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[4].cards.add(Card(Suit.DIAMOND, Rank.SIX))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.NINE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.HEART, Rank.TWO))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.HEART, Rank.SIX)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		game.waste = Card(Suit.DIAMOND, Rank.THREE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.HEART, Rank.SEVEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.SIX)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.KING)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.THREE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.ACE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 
 		//turn
@@ -810,412 +810,412 @@ class TestDeck {
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.DIAMOND, Rank.NINE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.DIAMOND, Rank.TWO)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.FOUR)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn tableau and start over
 		game.waste = Card(Suit.HEART, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.SPADE, Rank.THREE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.THREE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.JACK))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.KING))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[3].cards.add(Card(Suit.HEART, Rank.ACE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[3].cards.add(Card(Suit.CLUB, Rank.NINE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.SPADE, Rank.TEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.TEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.FIVE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.HEART, Rank.KING))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.QUEEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.HEART, Rank.JACK))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.SEVEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.HEART, Rank.TEN))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.SIX))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.HEART, Rank.FOUR)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.FIVE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		//turn
 		game.waste = Card(Suit.SPADE, Rank.FOUR)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.CLUB, Rank.JACK)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.DIAMOND, Rank.NINE)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.SPADE, Rank.EIGHT)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		game.blocks[6].cards.add(Card(Suit.CLUB, Rank.THREE))
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
-			Game.move_(game, bestMove, game.foundations, game.blocks, game.waste, game.lastMoves)
+			Game.move_(game, bestMove)
 		}
 		val gameResult = Game.gameLogic.isGameWon(game.foundations)
 		Assert.assertEquals(gameResult, true)

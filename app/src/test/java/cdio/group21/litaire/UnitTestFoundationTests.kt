@@ -199,7 +199,7 @@ class UnitTestFoundationTests {
 		
 
 		moves.forEach {
-			Game.moveFromBlockToFoundation(game, it, game.foundations, game.blocks)
+			Game.moveFromBlockToFoundation(it, game.foundations, game.blocks)
 		}
 
 		Assert.assertEquals(game.foundations[1] == card3, true)
@@ -238,7 +238,7 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(moves.size, 1)
 
 		moves.forEach {
-			Game.moveFromBlockToFoundation(game, it, game.foundations, game.blocks)
+			Game.moveFromBlockToFoundation(it, game.foundations, game.blocks)
 		}
 
 		Assert.assertEquals(game.foundations[1] == detect3, true)
@@ -379,9 +379,9 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result.contains(move3), true)
 
 		
-		Game.moveFromBlockToFoundation(game, move1, game.foundations, game.blocks)
-		Game.moveFromBlockToFoundation(game, move2, game.foundations, game.blocks)
-		Game.moveFromBlockToFoundation(game, move3, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(move1, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(move2, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(move3, game.foundations, game.blocks)
 
 		val result2 = gameLogic.allPossibleMoves(Game(game.foundations, game.blocks, game.waste, game.lastMoves))
 		val move4 = Move(true, Card(Suit.HEART, Rank.KING), 1.toByte(), 2.toByte())
@@ -390,8 +390,8 @@ class UnitTestFoundationTests {
 		Assert.assertEquals(result2.contains(move4), true)
 		Assert.assertEquals(result2.contains(move5), true)
 
-		Game.moveFromBlockToFoundation(game, move4, game.foundations, game.blocks)
-		Game.moveFromBlockToFoundation(game, move5, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(move4, game.foundations, game.blocks)
+		Game.moveFromBlockToFoundation(move5, game.foundations, game.blocks)
 
 		Assert.assertEquals(game.foundations[0], Card(Suit.SPADE, Rank.KING))
 		Assert.assertEquals(game.foundations[1], Card(Suit.CLUB, Rank.KING))

@@ -47,28 +47,20 @@ data class Game(
 		val gameLogic = GameLogic()
 		fun move_(
 			game: Game, move: Move,
-			foundations: MutableList<Card>,
-			blocks: MutableList<Block>,
-			waste: Card,
-			lastMoves: HashMap<String, HashMap<String, Boolean>>
 		): Boolean {
-			if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
-				return Companion.moveWasteToFoundationAndBlock(
-					game,
-					move, foundations, waste, blocks
-				)
-			}
-			if (move.isMoveToFoundation) {
-				return Companion.moveFromBlockToFoundation(game, move, foundations, blocks)
-			}
-			return Companion.moveFromBlockToBlock(game, move, blocks, lastMoves)
+			if (move.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE)
+				return moveWasteToFoundationAndBlock(game, move)
+
+			if (move.isMoveToFoundation)
+				return moveFromBlockToFoundation(move, game.foundations, game.blocks)
+
+			return moveFromBlockToBlock(move, game.blocks, game.lastMoves)
 		}
 
 		fun moveFromBlockToFoundation(
-			game: Game, move: Move,
+			move: Move,
 			foundations: MutableList<Card>,
 			blocks: MutableList<Block>
-
 		): Boolean {
 			val gameLogic = GameLogic()
 			val sour = move.indexOfSourceBlock.toInt()
@@ -95,7 +87,7 @@ data class Game(
 		}
 
 		fun moveFromBlockToBlock(
-			game: Game, move: Move,
+			move: Move,
 			blocks: MutableList<Block>,
 			lastMoves: HashMap<String, HashMap<String, Boolean>>
 		): Boolean {
@@ -161,14 +153,11 @@ data class Game(
 
 		fun moveWasteToFoundationAndBlock(
 			game: Game, move: Move,
-			foundations: MutableList<Card>,
-			waste: Card,
-			blocks: MutableList<Block>
 		): Boolean {
 			if (move.isMoveToFoundation) {
-				return Companion.moveFromWasteToFoundation(move, foundations, waste)
+				return moveFromWasteToFoundation(move, game.foundations, game.waste)
 			} else {
-				return Companion.moveFromWasteToBlock(move, blocks, waste)
+				return moveFromWasteToBlock(move, game.blocks, game.waste)
 			}
 		}
 

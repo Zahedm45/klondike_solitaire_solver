@@ -58,9 +58,9 @@ class Ai {
 			val wasteCopy = game.waste.copy()
 			val leafValue: MutableList<GameSate> = mutableListOf()
 			val mapCopy = game.lastMoves.deepCopy()
+			val gameCopy = Game(foundationsCopy, blocksCopy, wasteCopy, mapCopy)
 
-
-			val newMoves = Game.move_(ga, currMove, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
+			val newMoves = Game.move_(gameCopy, currMove)
 			if (!newMoves) {
 				return@forEach
 			}
@@ -170,8 +170,9 @@ class Ai {
 			val wasteCopy = currWaste.copy()
 			//val mapCopy = HashMap(lastMovesMap)
 			val mapCopy = lastMovesMap.deepCopy()
+			val gameCopy = Game(foundationsCopy, blocksCopy, wasteCopy, mapCopy)
 
-			Game.move_(ga, move, foundationsCopy, blocksCopy, wasteCopy, mapCopy)
+			Game.move_(gameCopy, move)
 			algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValues, mapCopy, depth - 1)
 
 		}
