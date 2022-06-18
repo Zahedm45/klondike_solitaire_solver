@@ -15,22 +15,11 @@ data class Game(
 ) {
 
 	fun deepCopy(): Game {
-		val foundations = mutableListOf<Card>()
-		val blocks = mutableListOf<Block>()
-		for (foundation in this.foundations) {
-			foundations.add(foundation.deepCopy())
-		}
-		for (block in this.blocks) {
-			blocks.add(block.deepCopy())
-		}
+		val foundations = this.foundations.map { it.deepCopy() }.toMutableList();
+		val blocks = this.blocks.map { it.deepCopy() }.toMutableList();
 		val waste = this.waste.deepCopy()
-		val lastMoves = HashMap<String, HashMap<String, Boolean>>()
-		for (key in this.lastMoves.keys) {
-			lastMoves[key] = HashMap<String, Boolean>()
-			for (key2 in this.lastMoves[key]!!.keys) {
-				lastMoves[key]!![key2] = this.lastMoves[key]!![key2]!!
-			}
-		}
+		val lastMoves = this.lastMoves.deepCopy()
+
 		return Game(foundations, blocks, waste, lastMoves)
 	}
 

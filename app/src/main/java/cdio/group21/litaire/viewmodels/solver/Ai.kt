@@ -70,7 +70,7 @@ class Ai {
 				depth - 1
 			)
 
-			algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValue, mapCopy, depth - 1)
+			algorithm(gameCopy, leafValue, depth - 1)
 			if (leafValue.isEmpty()) {
 				return@forEach
 			}
@@ -143,38 +143,28 @@ class Ai {
 
 
 	private fun algorithm(
-		currBlocks: MutableList<Block>,
-		currFoundations: MutableList<Card>,
-		currWaste: Card,
+		game: Game,
 		leafValues: MutableList<GameSate>,
-		lastMovesMap: HashMap<String, HashMap<String, Boolean>>,
 		depth: Int
 	) {
 
 		if (depth < 1) {
-			setGameState(currBlocks, currFoundations, currWaste, leafValues, depth)
+			setGameState(game.blocks, game.foundations, game.waste, leafValues, depth)
 			return
 		}
 
 		val newPossibleMoves =
-			gameLogic.allPossibleMoves(Game(currFoundations, currBlocks, currWaste, lastMovesMap))
+			gameLogic.allPossibleMoves(game)
 
 		if (newPossibleMoves.isEmpty()) {
-			setGameState(currBlocks, currFoundations, currWaste, leafValues, depth)
+			setGameState(game.blocks, game.foundations, game.waste, leafValues, depth)
 			return
 		}
 
 		newPossibleMoves.forEach { move ->
-			val blocksCopy = ArrayList(currBlocks.map { b -> b.deepCopy() })
-			val foundationsCopy = ArrayList(currFoundations.map { detectR -> detectR.deepCopy() })
-			val wasteCopy = currWaste.copy()
-			//val mapCopy = HashMap(lastMovesMap)
-			val mapCopy = lastMovesMap.deepCopy()
-			val gameCopy = Game(foundationsCopy, blocksCopy, wasteCopy, mapCopy)
-
+			val gameCopy = game.deepCopy()
 			Game.move_(gameCopy, move)
-			algorithm(blocksCopy, foundationsCopy, wasteCopy, leafValues, mapCopy, depth - 1)
-
+			algorithm(gameCopy, leafValues, depth - 1)
 		}
 
 	}
