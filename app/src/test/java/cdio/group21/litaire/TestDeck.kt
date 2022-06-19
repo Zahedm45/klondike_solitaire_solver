@@ -505,14 +505,27 @@ class TestDeck {
 			Game.move_(game, bestMove)
 		}
 
+		bestMove = ai.findBestMove(game)
+
+		if (bestMove != null) {
+			Game.move_(game, bestMove)
+		}
 		//turn since otherwise we'll lose !
 		game.waste = Card(Suit.CLUB, Rank.JACK)
+
+		bestMove = ai.findBestMove(game)
+
+		if (bestMove != null) {
+			Game.move_(game, bestMove)
+		}
+
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
 			Game.move_(game, bestMove)
 		}
 		game.waste = Card(Suit.HEART, Rank.TEN)
+
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
@@ -530,18 +543,6 @@ class TestDeck {
 		if (bestMove != null) {
 			Game.move_(game, bestMove)
 		}
-
-		bestMove = ai.findBestMove(game)
-
-		if (bestMove != null) {
-			Game.move_(game, bestMove)
-		}
-		bestMove = ai.findBestMove(game)
-
-		if (bestMove != null) {
-			Game.move_(game, bestMove)
-		}
-		game.waste = Card(Suit.SPADE, Rank.TEN)
 		bestMove = ai.findBestMove(game)
 
 		if (bestMove != null) {
