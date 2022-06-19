@@ -20,7 +20,6 @@ operator fun Int.div(numRows: UInt): Int {
 }
 
 
-
 operator fun UInt.plus(other: Float): Float {
 	return this.toFloat() - other
 }
@@ -32,7 +31,6 @@ operator fun UInt.minus(other: Float): Float {
 operator fun UInt.times(other: Float): Float {
 	return this.toFloat() * other
 }
-
 
 
 operator fun UShort.times(other: Float): Float {

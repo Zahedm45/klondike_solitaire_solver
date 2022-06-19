@@ -1,19 +1,20 @@
 package cdio.group21.litaire.utils
 
+import cdio.group21.litaire.utils.extensions.pmap
+import cdio.group21.litaire.utils.extensions.pmapIndexed
 import kotlinx.coroutines.*
-import cdio.group21.litaire.utils.extensions.*
 
 typealias Array2D<T> = Array<Array<T>>
 
-inline fun<reified T> Pair<UInt, UInt>.createArray(function: (UInt, UInt) -> T): Array2D<T> {
-	return Array(this.first.toInt()) { i ->
-		Array(this.second.toInt()) { j ->
-			function(i.toUInt(), j.toUInt())
+inline fun <reified T> Pair<UInt, UInt>.createArray(function: (UInt, UInt) -> T): Array2D<T> {
+	return Array(this.first.toInt()) { row ->
+		Array(this.second.toInt()) { column ->
+			function(row.toUInt(), column.toUInt())
 		}
 	}
 }
 
-inline fun<reified T> Array2D<T>.mapInPlaceIndexed(function: (UInt, UInt, T) -> T) {
+inline fun <reified T> Array2D<T>.mapInPlaceIndexed(function: (UInt, UInt, T) -> T) {
 	this.forEachIndexed { i, array ->
 		array.forEachIndexed { j, value ->
 			this[i][j] = function(i.toUInt(), j.toUInt(), value)
@@ -21,7 +22,7 @@ inline fun<reified T> Array2D<T>.mapInPlaceIndexed(function: (UInt, UInt, T) -> 
 	}
 }
 
-inline fun<reified T> Array2D<T>.mapInPlace(function: (T) -> T) {
+inline fun <reified T> Array2D<T>.mapInPlace(function: (T) -> T) {
 	this.forEachIndexed { i, array ->
 		array.forEachIndexed { j, value ->
 			this[i][j] = function(value)
@@ -29,9 +30,10 @@ inline fun<reified T> Array2D<T>.mapInPlace(function: (T) -> T) {
 	}
 }
 
-suspend inline fun<T, reified R> Array2D<T>.pmap2D(
+suspend inline fun <T, reified R> Array2D<T>.pmap2D(
 	dispatcher: CoroutineDispatcher = Dispatchers.IO,
-	crossinline function: suspend (T) -> R): Array2D<R> {
+	crossinline function: suspend (T) -> R
+): Array2D<R> {
 	return withContext(dispatcher) {
 		map {
 			async { it.pmap(dispatcher, function) }
@@ -39,20 +41,22 @@ suspend inline fun<T, reified R> Array2D<T>.pmap2D(
 	}
 }
 
-inline fun<T, reified R> Array2D<T>.map2D(function: (T) -> R): Array2D<R> {
+inline fun <T, reified R> Array2D<T>.map2D(function: (T) -> R): Array2D<R> {
 	return this.map { array -> array.map { function(it) }.toTypedArray() }.toTypedArray()
 }
 
-inline fun<T, reified R> Array2D<T>.mapIndexed2D(function: (Int, Int, T) -> R): Array2D<R> {
+inline fun <T, reified R> Array2D<T>.mapIndexed2D(function: (Int, Int, T) -> R): Array2D<R> {
 	return this.mapIndexed { i, array ->
 		array.mapIndexed { j, value ->
-			function(i, j, value) }.toTypedArray()
+			function(i, j, value)
+		}.toTypedArray()
 	}.toTypedArray()
 }
 
-suspend inline fun<T, reified R> Array2D<T>.pmapIndexed2D(
+suspend inline fun <T, reified R> Array2D<T>.pmapIndexed2D(
 	dispatcher: CoroutineDispatcher = Dispatchers.Default,
-	crossinline function: suspend (Int, Int, T) -> R): Array2D<R> {
+	crossinline function: suspend (Int, Int, T) -> R
+): Array2D<R> {
 	return withContext(dispatcher) {
 		mapIndexed { i, array ->
 			async { array.pmapIndexed(dispatcher) { j, value -> function(i, j, value) } }

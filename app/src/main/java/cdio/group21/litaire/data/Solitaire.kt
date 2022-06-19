@@ -1,132 +1,244 @@
 package cdio.group21.litaire.data
 
-import cdio.group21.litaire.utils.Array2D
+import Card
+import Rank
+import Suit
+import android.util.Log
+import cdio.group21.litaire.utils.MutableMemoryList
+import cdio.group21.litaire.utils.mutableMemoryListOf
 
-enum class Suit {
-	HEART,
-	DIAMOND,
-	SPADE,
-	CLUB,
-	UNKNOWN;
+data class CardAndContainer(val card: Card, val pile: MutableList<Card>)
 
-	override fun toString(): String {
-		return when (this) {
-			HEART -> "♥"
-			DIAMOND -> "♦"
-			SPADE -> "♠"
-			CLUB -> "♣"
-			UNKNOWN -> "?"
+data class Solitaire(
+	val tableau: List<MutableList<Card>>,
+	val foundations: List<MutableList<Card>>,
+	val stock: MutableMemoryList<Card>,
+	val talon: MutableList<Card>,
+
+	) {
+
+	fun replaceCardObject(cardObjectToReveal: Card, value: Card) {
+		val talonIndex = talon.indexOf(cardObjectToReveal)
+		if (talonIndex != -1) talon[talonIndex] = value
+
+		tableau.forEach { cards ->
+			val index = cards.indexOf(cardObjectToReveal)
+			if (index == -1) return@forEach
+			cards[index] = value
+			return
 		}
 	}
 
-	companion object {
-		fun fromChar(i: Char): Suit {
-			return when (i.uppercaseChar()) {
-				'H' -> HEART
-				'D' -> DIAMOND
-				'S' -> SPADE
-				'C' -> CLUB
-				'?' -> UNKNOWN
-				else -> throw IllegalArgumentException("Invalid suit: $i")
+	fun findCardFromString(cardString: String): Card? {
+
+		val targetCard =
+			Card(rank = Rank.fromChar(cardString[0]), suit = Suit.fromChar(cardString[1]))
+
+		var resultCard: Card? = null
+		tableau.forEach { col ->
+			val foundCard = col.find { card ->
+				Log.i("findCardFromString", "target: $targetCard found: $card ")
+				return@find card.toString() == targetCard.toString()
+			}
+			if (foundCard != null) {
+				resultCard = foundCard
+				return@forEach
 			}
 		}
-	}
-}
-
-enum class Rank {
-	ACE,
-	TWO,
-	THREE,
-	FOUR,
-	FIVE,
-	SIX,
-	SEVEN,
-	EIGHT,
-	NINE,
-	TEN,
-	JACK,
-	QUEEN,
-	KING,
-	UNKNOWN;
-
-	override fun toString(): String {
-		return when (this) {
-			ACE -> "A"
-			TWO -> "2"
-			THREE -> "3"
-			FOUR -> "4"
-			FIVE -> "5"
-			SIX -> "6"
-			SEVEN -> "7"
-			EIGHT -> "8"
-			NINE -> "9"
-			TEN -> "T"
-			JACK -> "J"
-			QUEEN -> "Q"
-			KING -> "K"
-			UNKNOWN -> "?"
-		}
+		return resultCard
 	}
 
-	companion object {
-		fun fromChar(i: Char): Rank {
-			return when (i.uppercaseChar()) {
-				'K' -> KING
-				'Q' -> QUEEN
-				'J' -> JACK
-				'T' -> TEN
-				'9' -> NINE
-				'8' -> EIGHT
-				'7' -> SEVEN
-				'6' -> SIX
-				'5' -> FIVE
-				'4' -> FOUR
-				'3' -> THREE
-				'2' -> TWO
-				'A' -> ACE
-				'?' -> UNKNOWN
-				else -> throw IllegalArgumentException("Invalid rank: $i")
+	/**
+	 * Finds a card in the tableu that is the same kind. This is to prevent having lots of copies around.
+	 */
+	private fun findEqualCard(targetCard: Card): Result<CardAndContainer> {
+		tableau.forEach { col ->
+			val foundCard = col.find { card ->
+				Log.i("findCardFromString", "target: $targetCard found: $card ")
+				return@find card == targetCard
+			}
+			if (foundCard != null) {
+				return Result.success(CardAndContainer(foundCard, col))
 			}
 		}
+		return Result.failure(IllegalArgumentException("Error: Card not found!"))
 	}
-}
 
-
-
-data class Card2(val suit: Suit, val rank: Rank) {
-	override fun toString(): String {
-		return "${suit}${rank}"
+	/**
+	 * Removes a card from its pile and returns both.
+	 */
+	private fun removeCard(card: Card): Result<CardAndContainer> {
+		val cardAndContainer = findEqualCard(card).getOrElse { return Result.failure(it) }
+		if (!cardAndContainer.pile.remove(card)) return Result.failure(IllegalArgumentException("Error: Card could not be removed!"))
+		return Result.success(cardAndContainer)
 	}
-}
 
-data class Solitaire(val tableau: List<MutableList<Card2>>, val foundations: List<MutableList<Card2>>, val stock: MutableList<Card2>, val talon: MutableList<Card2>) {
+	/**
+	 * Adds a card the the specified block in the tableau
+	 * @param card The card to add
+	 * @param blockIndex The index of the block to add the card to
+	 */
+	private fun addCardToTableau(card: Card, blockIndex: Int) {
+		val toBlock = tableau[blockIndex]
+		toBlock.add(card)
+	}
+
+	fun validTableau(weirdMoveIndex: UInt): Boolean {
+		if (weirdMoveIndex < 7u) return true
+		return false
+	}
+
+	fun weirdMoveIndexToFoundation(weirdMoveIndex: UInt): Result<MutableList<Card>> {
+		return when (weirdMoveIndex) {
+			0u -> getFoundationFromSuit(Suit.CLUB)
+			1u -> getFoundationFromSuit(Suit.DIAMOND)
+			2u -> getFoundationFromSuit(Suit.HEART)
+			3u -> getFoundationFromSuit(Suit.SPADE)
+			else -> return Result.failure(IllegalArgumentException("Error: Invalid WeirdMove index!"))
+		}
+	}
+
+	fun weirdMoveIndexToPile(
+		weirdMoveIndex: UInt,
+		foundation: Boolean = false
+	): Result<MutableList<Card>> {
+		if (foundation) {
+			return weirdMoveIndexToFoundation(weirdMoveIndex)
+		}
+
+		when (weirdMoveIndex) {
+			8u -> return Result.success(talon)
+			7u -> return Result.success(stock)
+		}
+
+		if (!validTableau(weirdMoveIndex))
+			return Result.failure(IllegalArgumentException("Error: Invalid WeirdMove index!"))
+		return Result.success(tableau[weirdMoveIndex.toInt()])
+	}
+
+	fun performMove(move: Move): Result<Card?> {
+		if (move.isMoveToFoundation)
+			return performMoveToFoundation(move)
+
+		return performMoveToTableau(move)
+	}
+
+	private fun performMoveToFoundation(move: Move): Result<Card?> {
+		val foundation =
+			getFoundationFromSuit(move.card.suit).getOrElse { return Result.failure(it) }
+		val cardAndContainer = removeCard(move.card).getOrElse { return Result.failure(it) }
+		foundation.add(cardAndContainer.card)
+		return Result.success(cardAndContainer.pile.last())
+	}
+
+	private fun performMoveToTableau(move: Move): Result<Card?> {
+		if (validTableau(move.indexOfSourceBlock.toUInt()))
+			return moveBetweenTableau(move)
+		val cardAndContainer = removeCard(move.card).getOrElse { return Result.failure(it) }
+		val destinationPile = weirdMoveIndexToPile(move.indexOfSourceBlock.toUInt()).getOrElse {
+			return Result.failure(it)
+		}
+		destinationPile.add(cardAndContainer.card)
+		return Result.success(cardAndContainer.pile.last())
+	}
+
+	private fun moveBetweenTableau(move: Move): Result<Card?> {
+		val source = findEqualCard(move.card).getOrElse { return Result.failure(it) }
+		val destination = weirdMoveIndexToPile(move.indexOfDestination.toUInt()).getOrElse {
+			return Result.failure(it)
+		}
+		do {
+			val card = source.pile.removeAt(source.pile.size - 1)
+			destination.add(card)
+		} while (card != move.card && source.pile.isNotEmpty())
+
+		return Result.success(source.pile.last())
+	}
+
+
+	/**
+	 * Removes a card from a block and adds it to a fitting foundation
+	 * @param card The card to move
+	 * @param shouldPop Should the card be removed from tableau?
+	 */
+	fun moveCardToFoundation(card: Card, shouldPop: Boolean = true): Boolean {
+
+		if (shouldPop) {
+			val poppedCard = removeCard(card).getOrElse { return false }.card
+			val foundation = getFoundationFromSuit(poppedCard.suit).getOrElse { return false }
+			foundation.add(poppedCard)
+			return true
+		}
+		val foundation = getFoundationFromSuit(card.suit).getOrElse { return false }
+		foundation.add(card)
+		return true
+	}
+
+	/**
+	 * Move a card and cards under it from a block to another block in the tableau
+	 * @param fromIndex The index of the block to move from
+	 * @param toIndex The index of the block to move to
+	 * @param card The top card to move
+	 */
+	fun moveCardsInTableau(card: Card, fromIndex: Int, toIndex: Int) {
+		val fromBlock = tableau[fromIndex]
+		val toBlock = tableau[toIndex]
+		val cardIndex = fromBlock.indexOfFirst { it.toString() == card.toString() }
+		val lastFromBlockIndex = fromBlock.lastIndex
+		val cardsToMove = fromBlock.subList(cardIndex, lastFromBlockIndex + 1)
+		toBlock.addAll(cardsToMove)
+		fromBlock.removeAll(cardsToMove)
+	}
+
+	/**
+	 * Move a card from the talon (waste) to either the foundation or a block in the tableau
+	 * @param blockIndex The block in the tableau to move the card to
+	 * @param toFoundation Should the card be moved to foundation?
+	 */
+	fun moveCardFromTalon(toFoundation: Boolean = false, blockIndex: Int = 0) {
+		if (talon.isEmpty()) return
+		val card = talon.last()
+		if (toFoundation) moveCardToFoundation(card) else addCardToTableau(card, blockIndex)
+	}
+
+	private fun getFoundationFromSuit(suit: Suit): Result<MutableList<Card>> {
+		when (suit) {
+			Suit.CLUB -> return Result.success(foundations[0])
+			Suit.DIAMOND -> return Result.success(foundations[1])
+			Suit.HEART -> return Result.success(foundations[2])
+			Suit.SPADE -> return Result.success(foundations[3])
+			Suit.UNKNOWN -> return Result.failure(IllegalArgumentException("Error: Unknown suit"))
+		}
+	}
+
 	companion object {
-		fun fromInitialCards(knownCards: List<Card2>): Solitaire {
+		fun fromInitialCards(knownCards: List<Card>): Solitaire {
 			if (knownCards.size != 7) {
 				throw IllegalArgumentException("Error: Expected 7 cards!")
 			}
 
-			val tableau = List(7) { mutableListOf<Card2>() }
+			val tableau = List(7) { mutableListOf<Card>() }
 			for (i in 0..6) {
 				for (j in 0 until i) {
-					tableau[i].add(Card2(Suit.UNKNOWN, Rank.UNKNOWN))
+					tableau[i].add(Card(Suit.UNKNOWN, Rank.UNKNOWN))
 				}
 				tableau[i].add(knownCards[i])
 			}
-			val foundations = List(4) { mutableListOf<Card2>() }
-			val stock = mutableListOf<Card2>()
+			val foundations = List(4) { mutableListOf<Card>() }
+			val stock = mutableMemoryListOf<Card>()
 			for (i in 0..24) {
-				stock.add(Card2(Suit.UNKNOWN, Rank.UNKNOWN))
+				stock.add(Card(Suit.UNKNOWN, Rank.UNKNOWN))
 			}
-			val talon = mutableListOf<Card2>()
+			val talon = mutableListOf<Card>()
 			return Solitaire(tableau, foundations, stock, talon)
 		}
 
-		fun emptyGame(): Solitaire {
-			val tableau = List(7) { mutableListOf<Card2>() }
-			val foundations = List(4) { mutableListOf<Card2>() }
-			val stock = mutableListOf<Card2>()
-			val talon = mutableListOf<Card2>()
+		val EMPTY_GAME: Solitaire = emptyGame()
+		private fun emptyGame(): Solitaire {
+			val tableau = List(7) { mutableListOf<Card>() }
+			val foundations = List(4) { mutableListOf<Card>() }
+			val stock = mutableMemoryListOf<Card>()
+			val talon = mutableListOf<Card>()
 			return Solitaire(tableau, foundations, stock, talon)
 		}
 	}

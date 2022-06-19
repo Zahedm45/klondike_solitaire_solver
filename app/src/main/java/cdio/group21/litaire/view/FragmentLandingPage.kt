@@ -1,11 +1,9 @@
 package cdio.group21.litaire.view
 
-import android.app.Activity
+import Suit
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.graphics.*
 import android.net.Uri
 import android.os.Build
@@ -15,8 +13,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -24,238 +22,252 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
-import cdio.group21.litaire.data.Suit
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
+import cdio.group21.litaire.utils.SolitaireDrawUtils.drawSolitaireGame
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
-import id.zelory.compressor.Compressor
+import cdio.group21.litaire.viewmodels.solver.Solver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 
 
 class FragmentLandingPage : Fragment() {
 
-    private var _binding: FragmentLandingPageBinding? = null
+	private var _binding: FragmentLandingPageBinding? = null
 
-    private val binding get() = _binding!!
+	private val binding get() = _binding
 
-    private val sharedViewModel: SharedViewModel by activityViewModels()
-    private val viewModel: LandingPageViewModel by viewModels()
-    private var tempImageUri: Uri? = null
+	private val sharedViewModel: SharedViewModel by activityViewModels()
+	private val viewModel: LandingPageViewModel by viewModels()
+	private var tempImageUri: Uri? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLandingPageBinding.inflate(inflater, container, false)
+	override fun onCreateView(
+		inflater: LayoutInflater, container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
+		_binding = FragmentLandingPageBinding.inflate(inflater, container, false)
 
-        return binding.root
-    }
+		return binding!!.root
+	}
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+	@RequiresApi(Build.VERSION_CODES.O)
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getImageBitmap().observe(viewLifecycleOwner) {
-            Log.i(TAG, "image width 2 ${it.width}")
-            binding.ivBackground.setImageBitmap(it)
-            viewModel.processImage(this.requireContext(), it.copy(Bitmap.Config.RGB_565, false))
-            //findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
-        }
+		viewModel.getImageBitmap().observe(viewLifecycleOwner) {
+			binding?.ivBackground?.setImageBitmap(it)
+			sharedViewModel.processImage(it.copy(Bitmap.Config.RGB_565, false))
+			//findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+		}
 
-        viewModel.getDetectionList().observe(viewLifecycleOwner){
+		sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
 
-            val img = viewModel.getImageBitmap().value
+			try {
+				val result = sharedViewModel.updateGame(detectionList)
+				if (detectionList.isEmpty()) return@observe
+				if (result.isFailure) {
+					updateUItoLoading(visible = false)
+					setErrorMessage(enabled = true, msg = result.exceptionOrNull().toString())
+				}
+			} catch (err: Exception) {
+				err.message?.let { Log.e("Update Game", it) }
+			}
 
-            if (img != null) {
+		}
 
-                var imgResult = drawDetectionResult(img, it)
+		sharedViewModel.getGameState().observe(viewLifecycleOwner) { game ->
+			val img = viewModel.getImageBitmap().value
+			Log.e("Gamestate: ", "has been observed")
+			if (img != null && game != null) {
+				val imgResult = drawSolitaireGame(img, game)
+				sharedViewModel.setPreviewBitmap(imgResult)
+				binding?.ivBackground?.setImageBitmap(imgResult)
+				findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+			}
+			sharedViewModel.runSolver()
 
+		}
 
-                if (it.isNotEmpty()) {
-                    viewModel.detectFoundationAndWaste(it, viewModel.getImageBitmap().value!!)
-                    viewModel.detectTableaus(viewModel.resultAfterFoundationWaste)
-                    viewModel.setNewResults()
+		sharedViewModel.getMoves().observe(viewLifecycleOwner) { moves ->
+			if (moves.isEmpty()) return@observe
 
-
-                    if (viewModel.waste != null) {
-                        viewModel.printWaste(viewModel.waste!!)
-                    }
-
-                    viewModel.printFoundation(viewModel.foundation)
-                    viewModel.printTableaus(viewModel.tableaus)
-
-                    imgResult = drawDetectionResult(img, viewModel.newResult)
-                }
-
-
-                sharedViewModel.setImageBitmap(imgResult)
-                findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
-
-            }
-
-        }
-
-
-
-        binding.ivCameraButton.setOnClickListener() {
-            //takePicture()
-            findNavController().navigate(R.id.action_LandingPage_to_fragmentCamera)
-        }
-        binding.ivAlbumButton.setOnClickListener(){
-            selectPictureLauncher.launch("image/*")
-        }
-
-
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun takePicture(){
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, "New Picture")
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
-        tempImageUri = requireContext().contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            values
-        )!!
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
-        cameraLauncher.launch(cameraIntent)
-    }
+			val currentMove = moves.last()
+			val gameState = sharedViewModel.getGameState().value ?: return@observe
+			val revealedCard = gameState.performMove(currentMove).getOrElse {
+				setErrorMessage(
+					enabled = true,
+					msg = "Error: Move could not be applied to internal state!"
+				)
+				return@observe
+			}
+			sharedViewModel.setCardObjectToReveal(revealedCard ?: return@observe)
+		}
 
 
 
+		binding?.ivCameraButton?.setOnClickListener {
+			takePicture()
+		}
+		binding?.ivAlbumButton?.setOnClickListener {
+			selectPictureLauncher.launch("image/*")
+		}
 
 
-    private val selectPictureLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
-        lifecycleScope.launch {
-            it?.apply {
-                binding.ivBackground.setImageURI(it)
-                viewModel.setImageBitmap(uriToBitmap(it))
-                sharedViewModel.setImageBitmap(uriToBitmap(it))
+	}
 
-                updateUItoLoading()
-            }
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
 
-        }
-
-    }
-
-
-    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback{
-
-        lifecycleScope.launch{
-            if(it.resultCode == RESULT_OK){
-                binding.ivBackground.setImageURI(tempImageUri)
-                viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
-                sharedViewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
-                updateUItoLoading()
-            }
-        }
-
-    })
+	private fun takePicture() {
+		val values = ContentValues()
+		values.put(MediaStore.Images.Media.TITLE, "New Picture")
+		values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
+		tempImageUri = requireContext().contentResolver.insert(
+			MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+			values
+		)!!
+		val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempImageUri)
+		cameraLauncher.launch(cameraIntent)
+	}
 
 
+	private val selectPictureLauncher =
+		registerForActivityResult(ActivityResultContracts.GetContent()) {
+			lifecycleScope.launch {
+				setErrorMessage(enabled = false, msg = "")
+				updateUItoLoading(visible = true)
+				it?.apply {
+					launch {
+						binding?.ivBackground?.setImageURI(it)
+					}
+					launch {
+						viewModel.setImageBitmap(uriToBitmap(it))
+					}
+				}
+
+			}
+
+		}
 
 
+	private val cameraLauncher = registerForActivityResult(
+		ActivityResultContracts.StartActivityForResult()
+	) {
+		lifecycleScope.launch {
+			if (it.resultCode == RESULT_OK) {
+				setErrorMessage(enabled = false, msg = "")
+				updateUItoLoading(visible = true)
+				launch {
+					binding?.ivBackground?.setImageURI(tempImageUri)
+				}
+				launch {
+					viewModel.setImageBitmap(uriToBitmap(tempImageUri!!))
+				}
+			}
+		}
+	}
 
 
-    /**
-     *@param bitmap the bitmap representation of the image that was processed
-     *@param detectionResults the list of Detectionresults
-     *@return Bitmap of the ML processed image with a layered box and its detection rate
-     */
-    private fun drawDetectionResult(
-        bitmap: Bitmap,
-        detectionResults: List<DetectionResult>
-    ): Bitmap {
-        val outputBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-        val canvas = Canvas(outputBitmap)
-        val pen = Paint()
-        pen.textAlign = Paint.Align.LEFT
+	/**
+	 *@param bitmap the bitmap representation of the image that was processed
+	 *@param detectionResults the list of Detectionresults
+	 *@return Bitmap of the ML processed image with a layered box and its detection rate
+	 */
+	private fun drawDetectionResult(
+		bitmap: Bitmap,
+		detectionResults: List<DetectionResult>
+	): Bitmap {
+		val outputBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+		val canvas = Canvas(outputBitmap)
+		val pen = Paint()
+		pen.textAlign = Paint.Align.LEFT
 
-       val detectionResults = detectionResults.distinctBy { it.card }
-
-
-        detectionResults.forEach {
-            // draw bounding box
-            pen.color = Color.RED
-            pen.strokeWidth = 0.7F
-            pen.style = Paint.Style.STROKE
-            val box = it.boundingBox
-            canvas.drawRect(box, pen)
+		val detectionResults = detectionResults.distinctBy { it.card.toString() }
 
 
-            val tagSize = Rect(0, 0, 0, 0)
+		detectionResults.forEach {
+			// draw bounding box
+			pen.color = Color.RED
+			pen.strokeWidth = 0.7F
+			pen.style = Paint.Style.STROKE
+			val box = it.boundingBox
+			canvas.drawRect(box, pen)
 
-            // calculate the right font size
-            pen.style = Paint.Style.FILL_AND_STROKE
-            pen.color = if(it.card.suit == Suit.DIAMOND || it.card.suit == Suit.HEART) Color.RED else Color.BLACK
-            pen.strokeWidth = 2.5F
 
-            pen.textSize = 60F
-            val text = it.card.toString() + " " + (it.confidence * 100).toString() + "%"
-            pen.getTextBounds(text, 0, text.length, tagSize)
-            val fontSize: Float = (pen.textSize )// tagSize.width()
+			val tagSize = Rect(0, 0, 0, 0)
 
-            // adjust the font size so texts are inside the bounding box
-            if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
+			// calculate the right font size
+			pen.style = Paint.Style.FILL_AND_STROKE
+			pen.color =
+				if (it.card.suit == Suit.DIAMOND || it.card.suit == Suit.HEART) Color.RED else Color.BLACK
+			pen.strokeWidth = 2.5F
 
-            val margin = (box.width() - tagSize.width()) / 2.0F
-            //if (margin < 0F) margin = 0F
+			pen.textSize = 60F
+			val text = it.card.toString() + " " + (it.confidence * 100).toString() + "%"
+			pen.getTextBounds(text, 0, text.length, tagSize)
+			val fontSize: Float = (pen.textSize)// tagSize.width()
 
-            canvas.drawText(
-                text, box.left + margin,
-                box.top + tagSize.height().times(1F), pen
-            )
+			// adjust the font size so texts are inside the bounding box
+			if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
 
-        }
-        return outputBitmap
-    }
-    private suspend fun uriToBitmap(uri: Uri): Bitmap {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+			val margin = (box.width() - tagSize.width()) / 2.0F
+			//if (margin < 0F) margin = 0F
 
-            val source =  ImageDecoder.createSource(requireActivity().contentResolver, uri)
-            val bitmap  = ImageDecoder.decodeBitmap(source)
-            val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            val data = baos.toByteArray()
+			canvas.drawText(
+				text, box.left + margin,
+				box.top + tagSize.height().times(1F), pen
+			)
 
-            val file = File(requireContext().cacheDir, "temp.jpg")
-            file.createNewFile()
+		}
+		return outputBitmap
+	}
 
-            val fos = FileOutputStream(file)
-            fos.write(data)
-            fos.flush()
-            fos.close()
-            Log.i("Image Compression", file.readBytes().size.toString() + " bytes")
-            val comp =  Compressor.compress(requireContext(), file)
-            val compBitmap = BitmapFactory.decodeFile(comp.path)
-            Log.i("Image Compression", comp.readBytes().size.toString() + " bytes")
-            file.delete()
+	private suspend fun uriToBitmap(uri: Uri): Bitmap {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+			val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
+			val bitmap = withContext(Dispatchers.IO) {
+				async { return@async ImageDecoder.decodeBitmap(source) }.await()
+			}
+			//val bitmap = ImageDecoder.decodeBitmap(source)
 
-            return compBitmap
+			val desiredWidth = 2048
+			val scalingFactor = desiredWidth.toDouble() / bitmap.width.toDouble()
+			val scaledBitmap = Bitmap.createScaledBitmap(
+				bitmap,
+				(bitmap.width * scalingFactor).toInt(),
+				(bitmap.height * scalingFactor).toInt(), true
+			)
 
-        } else {
-            TODO("VERSION.SDK_INT < P")
-        }
-    }
+			val baos = ByteArrayOutputStream()
+			scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+			val data = baos.toByteArray()
 
-    private fun updateUItoLoading(){
-        binding.ivAlbumButton.visibility = View.GONE
-        binding.ivCameraButton.visibility = View.GONE
-        binding.tvTitle.visibility = View.GONE
-        binding.tvAction.text = "Loading..."
-        binding.pbThinking.visibility = View.VISIBLE
-    }
+			return BitmapFactory.decodeByteArray(data, 0, data.size)
+		} else {
+			TODO("VERSION.SDK_INT < P")
+		}
+	}
 
+	private inline fun updateUItoLoading(visible: Boolean) {
+		binding?.ivAlbumButton?.visibility = if (visible) View.GONE else View.VISIBLE
+		binding?.ivCameraButton?.visibility = if (visible) View.GONE else View.VISIBLE
+		binding?.tvTitle?.visibility = if (visible) View.GONE else View.VISIBLE
+		binding?.tvAction?.text = if (visible) "Loading..." else ""
+		binding?.pbThinking?.visibility = if (visible) View.VISIBLE else View.GONE
+	}
+
+	private inline fun setErrorMessage(enabled: Boolean, msg: String = "Error, Try Again!") {
+		binding?.ivAlbumButton?.visibility = if (!enabled) View.GONE else View.VISIBLE
+		binding?.ivCameraButton?.visibility = if (!enabled) View.GONE else View.VISIBLE
+		binding?.tvTitle?.visibility = if (!enabled) View.GONE else View.VISIBLE
+		binding?.tvAction?.text = if (enabled) msg else ""
+	}
 
 }
 
