@@ -79,9 +79,9 @@ class FragmentCamera : Fragment() {
         //binding.btImageCapture.setOnClickListener { takePhoto() }
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        sharedViewModel.getImageURI().observe(viewLifecycleOwner){
+        sharedViewModel.getPreviewBitmap().observe(viewLifecycleOwner){
             Log.d("Call:", "set image background")
-            binding.ivPreviewFrame?.setImageURI(it)
+            binding.ivPreviewFrame?.setImageBitmap(it)
             binding.btCheckmark?.visibility = View.VISIBLE
             val vectorDrawable : AnimatedVectorDrawable = binding.btCheckmark?.drawable as AnimatedVectorDrawable
             vectorDrawable.start()
@@ -137,8 +137,8 @@ class FragmentCamera : Fragment() {
 
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults){
-                    sharedViewModel.setImageBitmap(MediaStore.Images.Media.getBitmap(this@FragmentCamera.requireContext().contentResolver, output.savedUri))
-                    output.savedUri?.let { sharedViewModel.setURI(it) }
+                    sharedViewModel.setPreviewBitmap(MediaStore.Images.Media.getBitmap(this@FragmentCamera.requireContext().contentResolver, output.savedUri))
+                    //output.savedUri?.let { sharedViewModel.setURI(it) }
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(this@FragmentCamera.requireContext(), msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
