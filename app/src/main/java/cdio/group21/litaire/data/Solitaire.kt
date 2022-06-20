@@ -55,7 +55,7 @@ data class Solitaire(
 		tableau.forEach { col ->
 			val foundCard = col.find { card ->
 				Log.i("findCardFromString", "target: $targetCard found: $card ")
-				return@find card == targetCard
+				card == targetCard
 			}
 			if (foundCard != null) {
 				return Result.success(CardAndContainer(foundCard, col))
@@ -128,18 +128,18 @@ data class Solitaire(
 			getFoundationFromSuit(move.card.suit).getOrElse { return Result.failure(it) }
 		val cardAndContainer = removeCard(move.card).getOrElse { return Result.failure(it) }
 		foundation.add(cardAndContainer.card)
-		return Result.success(cardAndContainer.pile.last())
+		return Result.success(cardAndContainer.pile.lastOrNull())
 	}
 
 	private fun performMoveToTableau(move: Move): Result<Card?> {
 		if (validTableau(move.indexOfSourceBlock.toUInt()))
 			return moveBetweenTableau(move)
 		val cardAndContainer = removeCard(move.card).getOrElse { return Result.failure(it) }
-		val destinationPile = weirdMoveIndexToPile(move.indexOfSourceBlock.toUInt()).getOrElse {
+		val destinationPile = weirdMoveIndexToPile(move.indexOfDestination.toUInt()).getOrElse {
 			return Result.failure(it)
 		}
 		destinationPile.add(cardAndContainer.card)
-		return Result.success(cardAndContainer.pile.last())
+		return Result.success(cardAndContainer.pile.lastOrNull())
 	}
 
 	private fun moveBetweenTableau(move: Move): Result<Card?> {
@@ -147,12 +147,15 @@ data class Solitaire(
 		val destination = weirdMoveIndexToPile(move.indexOfDestination.toUInt()).getOrElse {
 			return Result.failure(it)
 		}
+		// This is inefficient, but it works.
+		val tempStorage = mutableListOf<Card>()
 		do {
-			val card = source.pile.removeAt(source.pile.size - 1)
-			destination.add(card)
+			val card = source.pile.removeLast()
+			tempStorage.add(card)
 		} while (card != move.card && source.pile.isNotEmpty())
+		destination.addAll(tempStorage.reversed())
 
-		return Result.success(source.pile.last())
+		return Result.success(source.pile.lastOrNull())
 	}
 
 
