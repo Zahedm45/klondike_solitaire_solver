@@ -23,4 +23,11 @@ data class Block(
 			return Block(cards, hiddenCards)
 		}
 	}
+
+	fun flipcard(): Card {
+		var card = cards[cards.size-1]
+		cards.removeAt(cards.size-1)
+
+		return card
+	}
 }

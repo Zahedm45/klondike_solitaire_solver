@@ -200,5 +200,11 @@ data class Card(var suit: Suit, var rank: Rank) {
 		return result
 	}
 
+	fun printCard(){
+		print(rank.toString())
+		print(suit.toString())
+		println()
+	}
+
 
 }

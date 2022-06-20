@@ -12,7 +12,7 @@ typealias insaneMoveMemory = HashMap<String, HashMap<String, Boolean>>
 
 data class Game(
 	val foundations: MutableList<Card>,
-	val blocks: MutableList<Block>,
+	var blocks: MutableList<Block>,
 	var waste: Card,
 	val lastMoves: HashMap<String, HashMap<String, Boolean>>
 ) {
