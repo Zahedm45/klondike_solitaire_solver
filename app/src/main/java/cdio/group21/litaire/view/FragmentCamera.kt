@@ -87,6 +87,11 @@ class FragmentCamera : Fragment() {
             vectorDrawable.start()
             updateUIpreview()
         }
+
+        binding.btCheckmark?.setOnClickListener{
+            val action = FragmentCameraDirections.actionFragmentCameraToLandingPage(isPicReady = true)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onDestroy() {

@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import cdio.group21.litaire.R
 import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
@@ -44,6 +45,8 @@ class FragmentLandingPage : Fragment() {
 	private val viewModel: LandingPageViewModel by viewModels()
 	private var tempImageUri: Uri? = null
 
+	private val safeArgs: FragmentLandingPageArgs by navArgs()
+
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
@@ -61,6 +64,10 @@ class FragmentLandingPage : Fragment() {
 			binding?.ivBackground?.setImageBitmap(it)
 			sharedViewModel.processImage(it.copy(Bitmap.Config.RGB_565, false))
 			//findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+		}
+
+		if(safeArgs.isPicReady){
+			viewModel.setImageBitmap(sharedViewModel.getPreviewBitmap().value!!)
 		}
 
 		sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
@@ -87,7 +94,6 @@ class FragmentLandingPage : Fragment() {
 				findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
 			}
 			sharedViewModel.runSolver()
-
 		}
 
 		sharedViewModel.getMoves().observe(viewLifecycleOwner) { moves ->
@@ -108,7 +114,8 @@ class FragmentLandingPage : Fragment() {
 
 
 		binding?.ivCameraButton?.setOnClickListener {
-			takePicture()
+			//takePicture()
+			findNavController().navigate(R.id.action_LandingPage_to_fragmentCamera)
 		}
 		binding?.ivAlbumButton?.setOnClickListener {
 			selectPictureLauncher.launch("image/*")
