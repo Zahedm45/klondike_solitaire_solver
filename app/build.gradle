@@ -3,6 +3,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-android'
     id("com.google.devtools.ksp").version("1.6.10-1.0.4") // Or latest version of KSP
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {

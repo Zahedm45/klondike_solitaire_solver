@@ -64,7 +64,6 @@ class FragmentLandingPage : Fragment() {
 		}
 
 		sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
-
 			try {
 				val result = sharedViewModel.updateGame(detectionList)
 				if (detectionList.isEmpty()) return@observe
