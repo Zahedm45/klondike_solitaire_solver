@@ -10,6 +10,10 @@
         android:name="cdio.group21.litaire.view.FragmentLandingPage"
         android:label="fragment_landing_page"
         tools:layout="@layout/fragment_landing_page">
+        <argument
+            android:name="isPicReady"
+            app:argType="boolean"
+            android:defaultValue="true" />
         <action
             android:id="@+id/action_LandingPage_to_fragmentNomoves"
             app:destination="@id/fragmentNomoves" />
@@ -60,10 +64,7 @@
         <action
             android:id="@+id/action_fragmentCamera_to_LandingPage"
             app:destination="@id/LandingPage">
-        <argument
-            android:name="myArg"
-            app:argType="boolean"
-            android:defaultValue="true" />
+
             </action>
     </fragment>
 </navigation>
