@@ -23,6 +23,11 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.HashMap
 
+enum class ImageAcquisitionMode {
+	CAMERA,
+	GALLERY,
+	NONE
+}
 
 class SharedViewModel : ViewModel() {
 	private val suggestion = MutableLiveData<Pair<Card, Card>>()
@@ -37,6 +42,11 @@ class SharedViewModel : ViewModel() {
 
 	private var ai: Ai = Ai()
 	private var lastMoves: insaneMoveMemory = HashMap() // Used by the solver
+
+	val acquiringImage = MutableLiveData(ImageAcquisitionMode.NONE)
+
+
+
 
 	fun setPreviewBitmap(bitmap: Bitmap) {
 		previewBitmap.value = bitmap

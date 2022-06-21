@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.utils.SolitaireDrawUtils.drawSolitaireGame
+import cdio.group21.litaire.viewmodels.ImageAcquisitionMode
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
 import kotlinx.coroutines.Dispatchers
@@ -62,6 +63,17 @@ class FragmentLandingPage : Fragment() {
 			//findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
 		}
 
+		sharedViewModel.acquiringImage.observe(viewLifecycleOwner) {
+			val acquisitionMode = it ?: return@observe
+
+			when (it) {
+				ImageAcquisitionMode.CAMERA -> takePicture()
+				ImageAcquisitionMode.GALLERY -> selectPictureLauncher.launch("image/*")
+				ImageAcquisitionMode.NONE -> return@observe
+			}
+			sharedViewModel.acquiringImage.value = ImageAcquisitionMode.NONE
+		}
+
 		sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
 			sharedViewModel.updateGame(detectionList).getOrElse {
 				updateUItoLoading(visible = false)
@@ -82,10 +94,10 @@ class FragmentLandingPage : Fragment() {
 
 
 		binding?.ivCameraButton?.setOnClickListener {
-			takePicture()
+			sharedViewModel.acquiringImage.postValue(ImageAcquisitionMode.CAMERA)
 		}
 		binding?.ivAlbumButton?.setOnClickListener {
-			selectPictureLauncher.launch("image/*")
+			sharedViewModel.acquiringImage.postValue(ImageAcquisitionMode.GALLERY)
 		}
 
 

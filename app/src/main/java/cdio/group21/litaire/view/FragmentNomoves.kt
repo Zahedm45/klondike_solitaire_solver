@@ -31,7 +31,7 @@ class FragmentNomoves : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		binding.ivBackbutton.setOnClickListener {
+		binding.ivAlbumButtonSuggestion.setOnClickListener {
 			findNavController().navigate(R.id.action_fragmentNomoves_to_LandingPage)
 		}
 

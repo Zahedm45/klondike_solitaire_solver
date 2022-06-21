@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentSuggestionBinding
 import cdio.group21.litaire.utils.SolitaireDrawUtils
+import cdio.group21.litaire.viewmodels.ImageAcquisitionMode
 import cdio.group21.litaire.viewmodels.SharedViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -83,7 +83,13 @@ class FragmentSuggestion : Fragment() {
 			}
 		}
 
-		binding.ivBackbutton.setOnClickListener {
+		binding.ivAlbumButtonSuggestion.setOnClickListener {
+			viewModel.acquiringImage.postValue(ImageAcquisitionMode.GALLERY)
+			findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
+		}
+
+		binding.ivCameraButtonSuggestion.setOnClickListener {
+			viewModel.acquiringImage.postValue(ImageAcquisitionMode.CAMERA)
 			findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
 		}
 
@@ -132,14 +138,5 @@ class FragmentSuggestion : Fragment() {
 		binding.rightMoveText.text = to
 	}
 
-	private fun suitToIconID(suit: Suit): IconID {
-		when (suit) {
-			Suit.HEART -> return R.drawable.vector_hearts
-			Suit.SPADE -> return R.drawable.vector_spades
-			Suit.DIAMOND -> return R.drawable.vector_diamonds
-			Suit.CLUB -> return R.drawable.vector_clubs
-			else -> return R.drawable.vector_circle
-		}
-	}
 
 }

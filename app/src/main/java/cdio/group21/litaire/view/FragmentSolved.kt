@@ -30,7 +30,7 @@ class FragmentSolved : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		binding.ivBackbutton.setOnClickListener {
+		binding.ivAlbumButtonSuggestion.setOnClickListener {
 			findNavController().navigate(R.id.action_fragmentSolved_to_LandingPage)
 		}
 	}

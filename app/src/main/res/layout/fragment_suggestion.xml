@@ -20,10 +20,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
-        android:id="@+id/iv_backbutton"
+        android:id="@+id/iv_album_button_suggestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="48dp"
@@ -31,10 +31,10 @@
         android:src="@drawable/vector_album_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.331"
+        app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022">
+        app:layout_constraintVertical_bias="0.757">
 
     </ImageView>
 
@@ -47,10 +47,10 @@
         android:src="@drawable/vector_backarrow_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toEndOf="@+id/iv_backbutton"
+        app:layout_constraintHorizontal_bias="0.312"
+        app:layout_constraintStart_toEndOf="@+id/iv_album_button_suggestion"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022">
+        app:layout_constraintVertical_bias="0.023">
 
     </ImageView>
 
@@ -128,7 +128,7 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_background"
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_backbutton"
+        app:layout_constraintTop_toBottomOf="@+id/iv_album_button_suggestion"
         app:layout_constraintVertical_bias="0.95" />
 
     <Button
@@ -140,7 +140,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.255"
         app:layout_constraintStart_toEndOf="@+id/TextEditGame"
-        app:layout_constraintTop_toBottomOf="@+id/iv_backbutton"
+        app:layout_constraintTop_toBottomOf="@+id/iv_album_button_suggestion"
         app:layout_constraintVertical_bias="0.949" />
+
+    <ImageView
+        android:id="@+id/iv_camera_button_suggestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vector_camera_circle"
+        app:layout_constraintBottom_toTopOf="@+id/apply_edits_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.877"
+        app:layout_constraintStart_toEndOf="@+id/iv_album_button_suggestion"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.954" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
