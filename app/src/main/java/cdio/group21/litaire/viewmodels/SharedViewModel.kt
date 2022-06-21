@@ -20,6 +20,8 @@ import cdio.group21.litaire.viewmodels.solver.Game
 import cdio.group21.litaire.viewmodels.solver.insaneMoveMemory
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class SharedViewModel : ViewModel() {
@@ -31,7 +33,7 @@ class SharedViewModel : ViewModel() {
 	private val detectionList = MutableLiveData<List<DetectionResult>>(emptyList())
 
 	private val gameState = MutableLiveData(Solitaire.EMPTY_GAME)
-	private var gameStateCopy: Solitaire = Solitaire.EMPTY_GAME
+	private var priorGameStates: Stack<Solitaire> = Stack()
 
 	var _cardObjectToReveal: Card? = null
 
@@ -97,6 +99,7 @@ class SharedViewModel : ViewModel() {
 		if (list.size == 7) {
 			lastMoves.clear()
 			moves.value?.clear()
+			priorGameStates.clear()
 			_cardObjectToReveal = null
 			gameState.value = ObjectRecognition.initGame(list)
 			runSolver()
@@ -125,17 +128,18 @@ class SharedViewModel : ViewModel() {
 
 	fun undoSolverRun(){
 		Log.i("SharedViewModel", "Undo solver run")
+		if (priorGameStates.isEmpty()) return
 		lastMoves.clear()
 		moves.value?.clear()
 		moves.postValue(moves.value)
-		gameState.value = gameStateCopy
+		gameState.value = priorGameStates.pop()
 		gameState.postValue(gameState.value)
 	}
 
 	fun runSolver() {
 		Log.i("SharedViewModel", "Run solver")
 		val gameState_ = gameState.value ?: return
-		gameStateCopy = gameState_.copy()
+		priorGameStates.add(gameState_)
 
 		val movesList = moves.value ?: return
 		movesList.clear()
