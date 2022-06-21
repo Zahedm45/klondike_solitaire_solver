@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class SharedViewModel : ViewModel() {
 	private val suggestion = MutableLiveData<Pair<Card, Card>>()
-	private val moves = MutableLiveData<MutableList<Move>>(mutableListOf()) // Used by the app
+	private val moves = MutableLiveData<MutableList<Move?>>(mutableListOf()) // Used by the app
 
 	private val previewBitmap = MutableLiveData<Bitmap>()
 
@@ -45,7 +45,7 @@ class SharedViewModel : ViewModel() {
 		return previewBitmap
 	}
 
-	fun getMoves(): MutableLiveData<MutableList<Move>> {
+	fun getMoves(): MutableLiveData<MutableList<Move?>> {
 		return moves
 	}
 

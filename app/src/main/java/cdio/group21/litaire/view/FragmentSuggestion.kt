@@ -45,6 +45,7 @@ class FragmentSuggestion : Fragment() {
 		viewModel.getMoves().observe(viewLifecycleOwner) { moves ->
 			if (moves.isEmpty()) return@observe
 			val currentMove = moves.last()
+				?: return@observe setSuggestionUI("Draw three cards", "Talon")
 
 			if (currentMove.isMoveToFoundation) {
 				setSuggestionUI(
