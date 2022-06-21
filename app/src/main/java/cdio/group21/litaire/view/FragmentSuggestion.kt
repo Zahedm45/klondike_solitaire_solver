@@ -87,6 +87,10 @@ class FragmentSuggestion : Fragment() {
 			findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
 		}
 
+		binding.ivUndobutton.setOnClickListener {
+			viewModel.undoSolverRun()
+		}
+
 		viewModel.getGameState().observe(viewLifecycleOwner) { solitaire ->
 			if (solitaire == null) return@observe
 			viewModel.getPreviewBitmap().value?.let { preview ->
