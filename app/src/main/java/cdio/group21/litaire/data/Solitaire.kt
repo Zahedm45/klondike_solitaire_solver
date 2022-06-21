@@ -114,11 +114,31 @@ data class Solitaire(
 		return Result.success(tableau[weirdMoveIndex.toInt()])
 	}
 
-	fun performMove(move: Move): Result<Card?> {
+	fun performMove(move: Move?): Result<Card?> {
+		if (move == null) {
+			return drawCards()
+		}
+
 		if (move.isMoveToFoundation)
 			return performMoveToFoundation(move)
 
 		return performMoveToTableau(move)
+	}
+
+	private fun drawCards(): Result<Card?> {
+		if (stock.size < 3) {
+			stock.addAll(talon.reversed())
+			talon.clear()
+		}
+		if (stock.size < 3) return Result.failure(IllegalArgumentException("Error: Stock is empty!"))
+
+		for (i in 0 until 3) {
+			talon.add(stock.removeFirst())
+		}
+
+		val revealedCard = talon.last()
+		if (revealedCard.isUnknown()) return Result.success(revealedCard);
+		return Result.success(null)
 	}
 
 	private fun performMoveToFoundation(move: Move): Result<Card?> {
