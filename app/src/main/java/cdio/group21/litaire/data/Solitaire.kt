@@ -37,7 +37,6 @@ data class Solitaire(
 		var resultCard: Card? = null
 		tableau.forEach { col ->
 			val foundCard = col.find { card ->
-				Log.i("findCardFromString", "target: $targetCard found: $card ")
 				return@find card.toString() == targetCard.toString()
 			}
 			if (foundCard != null) {
@@ -54,7 +53,6 @@ data class Solitaire(
 	private fun findEqualCard(targetCard: Card): Result<CardAndContainer> {
 		tableau.forEach { col ->
 			val foundCard = col.find { card ->
-				Log.i("findCardFromString", "target: $targetCard found: $card ")
 				card == targetCard
 			}
 			if (foundCard != null) {
