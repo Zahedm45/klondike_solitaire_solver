@@ -63,6 +63,17 @@ data class Solitaire(
 				return Result.success(CardAndContainer(foundCard, col))
 			}
 		}
+		foundations.forEach {foundation ->
+			foundation.find { card -> card == targetCard }?.let {
+				return Result.success(CardAndContainer(it, talon))
+			}
+		}
+		talon.find { card -> card == targetCard }?.let {
+			return Result.success(CardAndContainer(it, talon))
+		}
+		stock.find { card -> card == targetCard }?.let {
+			return Result.success(CardAndContainer(it, stock))
+		}
 		return Result.failure(IllegalArgumentException("Error: ${targetCard} not found!"))
 	}
 
