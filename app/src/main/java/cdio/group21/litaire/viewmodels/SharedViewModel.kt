@@ -130,19 +130,26 @@ class SharedViewModel : ViewModel() {
 			return // Todo: report
 		}
 
-		val game = Game.fromSolitaire(gameState_, lastMoves)
-		val move = ai.findBestMove(game)
-		setCardObjectToReveal(gameState_.performMove(move).getOrThrow())
-		gameState.postValue(gameState_)
-		val mοves = moves.value ?: return
-		mοves.add(move)
-		moves.postValue(mοves)
+		var safetyLimit = 100
 
-		if (move == null) {
-			lastMoves.clear()
-		}
-		else if (Game.move_(game, move))
-			lastMoves = game.lastMoves
+		do {
+			Log.i("SharedViewModel", "Safety limit: $safetyLimit")
+			val game = Game.fromSolitaire(gameState_, lastMoves)
+			val move = ai.findBestMove(game, 20u)
+			val revealedCard = gameState_.performMove(move).getOrThrow()
+			setCardObjectToReveal(revealedCard)
+			gameState.postValue(gameState_)
+			val mοves = moves.value ?: return
+			mοves.add(move)
+			moves.postValue(mοves)
+			if (move == null) {
+				lastMoves.clear()
+			}
+			else if (Game.move_(game, move))
+				lastMoves = game.lastMoves
+			safetyLimit--
+		} while(revealedCard == null && !gameState_.isWon() && safetyLimit > 0)
+
 	}
 
 

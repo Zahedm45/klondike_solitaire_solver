@@ -17,6 +17,10 @@ data class Solitaire(
 
 	) {
 
+	fun isWon(): Boolean {
+		return foundations.all { it.size == 13 }
+	}
+
 	fun replaceCardObject(cardObjectToReveal: Card, value: Card) {
 		val talonIndex = talon.indexOf(cardObjectToReveal)
 		if (talonIndex != -1) talon[talonIndex] = value
