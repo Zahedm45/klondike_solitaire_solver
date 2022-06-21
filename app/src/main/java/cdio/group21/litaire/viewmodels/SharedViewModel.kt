@@ -76,12 +76,18 @@ class SharedViewModel : ViewModel() {
 	}
 
 	fun replaceCardInGame(from: Card, to: Card) {
+		Log.i("SharedViewModel", "Replacing card")
 		gameState.value?.replaceCardObject(from, to)
 		gameState.postValue(gameState.value)
 	}
 
-
+	var lastList: List<DetectionResult>? = null
 	fun updateGame(list: List<DetectionResult>): Result<Unit> {
+		if (list == lastList) {
+			return Result.success(Unit)
+		}
+		lastList = list
+
 		Log.i("SharedViewModel", "Update Game: $list")
 		Log.i("SharedViewModel", "Update Game: List size: " + list.size)
 
@@ -91,7 +97,8 @@ class SharedViewModel : ViewModel() {
 			lastMoves.clear()
 			moves.value?.clear()
 			cardObjectToReveal = null
-			gameState.postValue(ObjectRecognition.initGame(list))
+			gameState.value = ObjectRecognition.initGame(list)
+			runSolver()
 			return Result.success(Unit)
 		}
 
@@ -104,18 +111,22 @@ class SharedViewModel : ViewModel() {
 		val card = cardObjectToReveal
 			?: return Result.failure(IllegalStateException("Error: cardObjectToReveal not set!"))
 		cardObjectToReveal = null
-
 		replaceCardInGame(card, list[0].card)
+
+		runSolver()
 		return Result.success(Unit)
 	}
 
 	fun setCardObjectToReveal(cardObject: Card?) {
+		Log.i("SharedViewModel", "Set cardObjectToReveal: $cardObject")
 		cardObjectToReveal = cardObject
 	}
 
 	fun runSolver() {
+		Log.i("SharedViewModel", "Run solver")
 		val gameState_ = gameState.value ?: return
 		if (cardObjectToReveal != null) {
+			Log.e("SharedViewModel", "Error: cardObjectToReveal not null!")
 			return // Todo: report
 		}
 
@@ -123,7 +134,7 @@ class SharedViewModel : ViewModel() {
 		val move = ai.findBestMove(game) ?: return // TODO: Handle this?
 		if (Game.move_(game, move))
 			lastMoves = game.lastMoves
-		cardObjectToReveal = gameState_.performMove(move).getOrThrow()
+		setCardObjectToReveal(gameState_.performMove(move).getOrThrow())
 		gameState.postValue(gameState_)
 		val mοves = moves.value ?: return
 		mοves.add(move)

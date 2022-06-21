@@ -22,7 +22,7 @@ data class Solitaire(
 		if (talonIndex != -1) talon[talonIndex] = value
 
 		tableau.forEach { cards ->
-			val index = cards.indexOf(cardObjectToReveal)
+			val index = cards.indexOfFirst { card -> card === cardObjectToReveal }
 			if (index == -1) return@forEach
 			cards[index] = value
 			return

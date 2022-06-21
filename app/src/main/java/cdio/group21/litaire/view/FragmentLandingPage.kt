@@ -64,7 +64,6 @@ class FragmentLandingPage : Fragment() {
 		}
 
 		sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
-
 			try {
 				val result = sharedViewModel.updateGame(detectionList)
 				if (detectionList.isEmpty()) return@observe
@@ -86,27 +85,8 @@ class FragmentLandingPage : Fragment() {
 				sharedViewModel.setPreviewBitmap(imgResult)
 				binding?.ivBackground?.setImageBitmap(imgResult)
 				findNavController().navigate(R.id.fragmentSuggestion)
-				sharedViewModel.runSolver()
 			}
 		}
-
-		sharedViewModel.getMoves().observe(viewLifecycleOwner) { moves ->
-			/*
-			if (moves.isEmpty()) return@observe
-
-			val currentMove = moves.last()
-			val gameState = sharedViewModel.getGameState().value ?: return@observe
-			val revealedCard = gameState.performMove(currentMove).getOrElse {
-				setErrorMessage(
-					enabled = true,
-					msg = "Error: Move could not be applied to internal state!"
-				)
-				return@observe
-			}
-			sharedViewModel.setCardObjectToReveal(revealedCard ?: return@observe)
-			 */
-		}
-
 
 
 		binding?.ivCameraButton?.setOnClickListener {
