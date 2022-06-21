@@ -43,21 +43,23 @@ class FragmentSuggestion : Fragment() {
 		}
 
 		viewModel.getMoves().observe(viewLifecycleOwner) { moves ->
-			if (moves.isEmpty()) return@observe
+			if (moves.isEmpty()) {
+				return@observe setSuggestionUI("📷", "📸")
+			}
 			val currentMove = moves.firstOrNull()
 				?: return@observe setSuggestionUI("Draw three cards", "Talon")
 
 			val source = if (currentMove.indexOfSourceBlock.toInt() == 8) {
 				"Talon"
 			} else {
-				(currentMove.indexOfSourceBlock + 1).toString()
+				"${currentMove.card} ${currentMove.indexOfSourceBlock + 1}"
 			}
 
 			val destination = if (currentMove.isMoveToFoundation)
 				"Foundation" else (currentMove.indexOfDestination + 1).toString()
 
 			setSuggestionUI(
-				"${currentMove.card} $source",
+				"$source",
 				destination
 			)
 

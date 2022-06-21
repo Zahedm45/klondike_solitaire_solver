@@ -125,8 +125,8 @@ class SharedViewModel : ViewModel() {
 	fun runSolver() {
 		Log.i("SharedViewModel", "Run solver")
 		val gameState_ = gameState.value ?: return
-		val mοves = moves.value ?: return
-		mοves.clear()
+		val movesList = moves.value ?: return
+		movesList.clear()
 		if (cardObjectToReveal != null) {
 			Log.e("SharedViewModel", "Error: cardObjectToReveal not null!")
 			return // Todo: report
@@ -141,8 +141,8 @@ class SharedViewModel : ViewModel() {
 			val revealedCard = gameState_.performMove(move).getOrThrow()
 			setCardObjectToReveal(revealedCard)
 			gameState.postValue(gameState_)
-			mοves.add(move)
-			moves.postValue(mοves)
+			movesList.add(move)
+			moves.postValue(movesList)
 			if (move == null) {
 				//lastMoves.clear()
 			}
