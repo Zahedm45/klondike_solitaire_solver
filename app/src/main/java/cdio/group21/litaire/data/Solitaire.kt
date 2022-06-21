@@ -18,27 +18,41 @@ data class Solitaire(
 	val talon: MutableList<Card>,
 
 	) {
+	private var cardObjectToReveal: Card? = null
+
+	fun revealCard(newCard: Card): Result<Unit> {
+		val cardObjectToReveal = this.cardObjectToReveal ?:
+			return Result.failure(IllegalStateException("Error: No card to reveal!"))
+		val result = replaceCardObject(cardObjectToReveal, newCard).getOrElse { return Result.failure(it) }
+		this.cardObjectToReveal = null
+		return Result.success(result)
+	}
 
 	fun isWon(): Boolean {
 		return foundations.all { it.size == 13 }
 	}
 
-	fun replaceCardObject(cardObjectToReveal: Card, value: Card) {
+	fun replaceCardObject(cardObjectToReveal: Card, value: Card): Result<Unit> {
 		val talonIndex = talon.indexOfFirst { card -> card === cardObjectToReveal }
-		if (talonIndex != -1) talon[talonIndex] = value
+		if (talonIndex != -1) {
+			talon[talonIndex] = value
+			return Result.success(Unit)
+		}
 
 		tableau.forEach { cards ->
 			val index = cards.indexOfFirst { card -> card === cardObjectToReveal }
 			if (index == -1) return@forEach
 			cards[index] = value
-			return
+			return Result.success(Unit)
 		}
 		foundations.forEach { foundation ->
 			val index = foundation.indexOfFirst { card -> card === cardObjectToReveal }
 			if (index == -1) return@forEach
 			foundation[index] = value
-			return
+			return Result.success(Unit)
 		}
+
+		return Result.failure(IllegalArgumentException("Error: $cardObjectToReveal is not in the game!"))
 	}
 
 	fun findCardFromString(cardString: String): Card? {
@@ -95,12 +109,14 @@ data class Solitaire(
 	}
 
 	fun copy(): Solitaire {
-		return Solitaire(
+		val solitaire = Solitaire(
 			tableau = tableau.map { it.mutableCopyOf() },
 			foundations = foundations.map { it.mutableCopyOf() },
 			stock = stock.mutableCopyOf(),
 			talon = talon.mutableCopyOf()
 		)
+		solitaire.cardObjectToReveal = this.cardObjectToReveal
+		return solitaire
 	}
 
 	/**
@@ -147,14 +163,15 @@ data class Solitaire(
 	}
 
 	fun performMove(move: Move?): Result<Card?> {
-		if (move == null) {
-			return drawCards()
-		}
-
-		if (move.isMoveToFoundation)
-			return performMoveToFoundation(move)
-
-		return performMoveToTableau(move)
+		val card =
+			if (move == null)
+				drawCards().getOrElse { return Result.failure(it) }
+			else if (move.isMoveToFoundation)
+				performMoveToFoundation(move).getOrElse { return Result.failure(it) }
+			else
+				performMoveToTableau(move).getOrElse { return Result.failure(it) }
+		cardObjectToReveal = card
+		return Result.success(card)
 	}
 
 	private fun drawCards(): Result<Card?> {

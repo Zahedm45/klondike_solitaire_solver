@@ -35,8 +35,6 @@ class SharedViewModel : ViewModel() {
 	private val gameState = MutableLiveData(Solitaire.EMPTY_GAME)
 	private var priorGameStates: Stack<Solitaire> = Stack()
 
-	private var _cardObjectToReveal: Card? = null
-
 	private var ai: Ai = Ai()
 	private var lastMoves: insaneMoveMemory = HashMap() // Used by the solver
 
@@ -100,10 +98,8 @@ class SharedViewModel : ViewModel() {
 			lastMoves.clear()
 			moves.value?.clear()
 			priorGameStates.clear()
-			_cardObjectToReveal = null
 			gameState.value = ObjectRecognition.initGame(list)
-			runSolver()
-			return Result.success(Unit)
+			return runSolver()
 		}
 
 		if (list.size != 1 || gameState.value == Solitaire.EMPTY_GAME) {
@@ -112,19 +108,13 @@ class SharedViewModel : ViewModel() {
 			)
 		}
 
-		val card = _cardObjectToReveal
-			?: return Result.failure(IllegalStateException("Error: cardObjectToReveal not set!"))
-		_cardObjectToReveal = null
-		replaceCardInGame(card, list[0].card)
+		val gameState = gameState.value ?: return Result.failure(IllegalStateException("Error: gameState not set!"))
+		priorGameStates.add(gameState.copy())
+		gameState.revealCard(list[0].card).getOrElse { return Result.failure(it) }
 
-		runSolver()
-		return Result.success(Unit)
+		return runSolver()
 	}
 
-	fun setCardObjectToReveal(cardObject: Card?) {
-		Log.i("SharedViewModel", "Set cardObjectToReveal: $cardObject")
-		_cardObjectToReveal = cardObject
-	}
 
 	fun undoSolverRun(){
 		if (priorGameStates.isEmpty()) return
@@ -136,37 +126,31 @@ class SharedViewModel : ViewModel() {
 		gameState.postValue(oldState)
 	}
 
-	fun runSolver() {
+	fun runSolver(): Result<Unit> {
 		Log.i("SharedViewModel", "Run solver")
-		val gameState_ = gameState.value ?: return
-		priorGameStates.add(gameState_.copy())
+		val gameState_ = gameState.value ?: return Result.failure(IllegalStateException("Error: gameState not set!"))
+		val movesList = moves.value ?: return Result.failure(IllegalStateException("Error: moves not set!"))
 
-		val movesList = moves.value ?: return
 		movesList.clear()
-		if (_cardObjectToReveal != null) {
-			Log.e("SharedViewModel", "Error: cardObjectToReveal not null!")
-			return // Todo: report
-		}
 
 		var safetyLimit = 100
-
 		do {
 			Log.i("SharedViewModel", "Safety limit: $safetyLimit")
 			val game = Game.fromSolitaire(gameState_, lastMoves)
 			val move = ai.findBestMove(game, 500u)
-			val revealedCard = gameState_.performMove(move).getOrThrow()
-			setCardObjectToReveal(revealedCard)
+			val revealedCard = gameState_.performMove(move).getOrElse { return Result.failure(it) }
 			gameState.postValue(gameState_)
 			movesList.add(move)
 			moves.postValue(movesList)
 			if (move == null) {
-				//lastMoves.clear()
+				lastMoves.clear()
 			}
 			else if (Game.move_(game, move))
 				lastMoves = game.lastMoves
 			safetyLimit--
 		} while(revealedCard == null && !gameState_.isWon() && safetyLimit > 0)
 
+		return Result.success(Unit)
 	}
 
 
