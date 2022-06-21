@@ -167,7 +167,10 @@ data class Solitaire(
 			getFoundationFromSuit(move.card.suit).getOrElse { return Result.failure(it) }
 		val cardAndContainer = removeCard(move.card).getOrElse { return Result.failure(it) }
 		foundation.add(cardAndContainer.card)
-		return Result.success(cardAndContainer.pile.lastOrNull())
+
+		val revealedCard = cardAndContainer.pile.lastOrNull() ?: return Result.success(null)
+		if (!revealedCard.isUnknown()) return Result.success(null);
+		return Result.success(revealedCard)
 	}
 
 	private fun performMoveToTableau(move: Move): Result<Card?> {
@@ -178,7 +181,9 @@ data class Solitaire(
 			return Result.failure(it)
 		}
 		destinationPile.add(cardAndContainer.card)
-		return Result.success(cardAndContainer.pile.lastOrNull())
+		val revealedCard = cardAndContainer.pile.lastOrNull() ?: return Result.success(null)
+		if (!revealedCard.isUnknown()) return Result.success(null);
+		return Result.success(revealedCard)
 	}
 
 	private fun moveBetweenTableau(move: Move): Result<Card?> {
@@ -194,7 +199,9 @@ data class Solitaire(
 		} while (card != move.card && source.pile.isNotEmpty())
 		destination.addAll(tempStorage.reversed())
 
-		return Result.success(source.pile.lastOrNull())
+		val revealedCard = source.pile.lastOrNull() ?: return Result.success(null)
+		if (!revealedCard.isUnknown()) return Result.success(null);
+		return Result.success(revealedCard)
 	}
 
 
