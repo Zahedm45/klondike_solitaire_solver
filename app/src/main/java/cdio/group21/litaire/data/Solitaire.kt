@@ -22,7 +22,7 @@ data class Solitaire(
 	}
 
 	fun replaceCardObject(cardObjectToReveal: Card, value: Card) {
-		val talonIndex = talon.indexOf(cardObjectToReveal)
+		val talonIndex = talon.indexOfFirst { card -> card === cardObjectToReveal }
 		if (talonIndex != -1) talon[talonIndex] = value
 
 		tableau.forEach { cards ->
