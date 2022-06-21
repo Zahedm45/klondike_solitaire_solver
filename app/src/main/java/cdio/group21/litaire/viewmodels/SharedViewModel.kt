@@ -35,7 +35,7 @@ class SharedViewModel : ViewModel() {
 	private val gameState = MutableLiveData(Solitaire.EMPTY_GAME)
 	private var priorGameStates: Stack<Solitaire> = Stack()
 
-	var _cardObjectToReveal: Card? = null
+	private var _cardObjectToReveal: Card? = null
 
 	private var ai: Ai = Ai()
 	private var lastMoves: insaneMoveMemory = HashMap() // Used by the solver

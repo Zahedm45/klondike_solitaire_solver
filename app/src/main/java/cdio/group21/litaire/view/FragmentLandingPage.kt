@@ -1,10 +1,11 @@
 package cdio.group21.litaire.view
 
-import Suit
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.Intent
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,12 +22,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
-import cdio.group21.litaire.data.DetectionResult
 import cdio.group21.litaire.databinding.FragmentLandingPageBinding
 import cdio.group21.litaire.utils.SolitaireDrawUtils.drawSolitaireGame
 import cdio.group21.litaire.viewmodels.LandingPageViewModel
 import cdio.group21.litaire.viewmodels.SharedViewModel
-import cdio.group21.litaire.viewmodels.solver.Solver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -64,28 +63,21 @@ class FragmentLandingPage : Fragment() {
 		}
 
 		sharedViewModel.getDetectionList().observe(viewLifecycleOwner) { detectionList ->
-			try {
-				val result = sharedViewModel.updateGame(detectionList)
-				if (detectionList.isEmpty()) return@observe
-				if (result.isFailure) {
-					updateUItoLoading(visible = false)
-					setErrorMessage(enabled = true, msg = result.exceptionOrNull().toString())
-				}
-			} catch (err: Exception) {
-				err.message?.let { Log.e("Update Game", it) }
+			sharedViewModel.updateGame(detectionList).getOrElse {
+				updateUItoLoading(visible = false)
+				setErrorMessage(enabled = true, msg = it.message ?: "Error: Not message specified")
 			}
-
 		}
 
 		sharedViewModel.getGameState().observe(viewLifecycleOwner) { game ->
-			val img = viewModel.getImageBitmap().value
-			Log.e("Gamestate: ", "has been observed")
-			if (img != null && game != null) {
-				val imgResult = drawSolitaireGame(img, game)
-				sharedViewModel.setPreviewBitmap(imgResult)
-				binding?.ivBackground?.setImageBitmap(imgResult)
-				findNavController().navigate(R.id.fragmentSuggestion)
-			}
+			val img = viewModel.getImageBitmap().value ?: return@observe
+			val game = game ?: return@observe
+
+			Log.i("Gamestate: ", "has been observed")
+			val imgResult = drawSolitaireGame(img, game)
+			sharedViewModel.setPreviewBitmap(imgResult)
+			binding?.ivBackground?.setImageBitmap(imgResult)
+			findNavController().navigate(R.id.fragmentSuggestion)
 		}
 
 
@@ -152,61 +144,6 @@ class FragmentLandingPage : Fragment() {
 				}
 			}
 		}
-	}
-
-
-	/**
-	 *@param bitmap the bitmap representation of the image that was processed
-	 *@param detectionResults the list of Detectionresults
-	 *@return Bitmap of the ML processed image with a layered box and its detection rate
-	 */
-	private fun drawDetectionResult(
-		bitmap: Bitmap,
-		detectionResults: List<DetectionResult>
-	): Bitmap {
-		val outputBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-		val canvas = Canvas(outputBitmap)
-		val pen = Paint()
-		pen.textAlign = Paint.Align.LEFT
-
-		val detectionResults = detectionResults.distinctBy { it.card.toString() }
-
-
-		detectionResults.forEach {
-			// draw bounding box
-			pen.color = Color.RED
-			pen.strokeWidth = 0.7F
-			pen.style = Paint.Style.STROKE
-			val box = it.boundingBox
-			canvas.drawRect(box, pen)
-
-
-			val tagSize = Rect(0, 0, 0, 0)
-
-			// calculate the right font size
-			pen.style = Paint.Style.FILL_AND_STROKE
-			pen.color =
-				if (it.card.suit == Suit.DIAMOND || it.card.suit == Suit.HEART) Color.RED else Color.BLACK
-			pen.strokeWidth = 2.5F
-
-			pen.textSize = 60F
-			val text = it.card.toString() + " " + (it.confidence * 100).toString() + "%"
-			pen.getTextBounds(text, 0, text.length, tagSize)
-			val fontSize: Float = (pen.textSize)// tagSize.width()
-
-			// adjust the font size so texts are inside the bounding box
-			if (fontSize < pen.textSize) pen.textSize = fontSize + 10.0F
-
-			val margin = (box.width() - tagSize.width()) / 2.0F
-			//if (margin < 0F) margin = 0F
-
-			canvas.drawText(
-				text, box.left + margin,
-				box.top + tagSize.height().times(1F), pen
-			)
-
-		}
-		return outputBitmap
 	}
 
 	private suspend fun uriToBitmap(uri: Uri): Bitmap {
