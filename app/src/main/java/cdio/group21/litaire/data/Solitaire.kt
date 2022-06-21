@@ -31,6 +31,12 @@ data class Solitaire(
 			cards[index] = value
 			return
 		}
+		foundations.forEach { foundation ->
+			val index = foundation.indexOfFirst { card -> card === cardObjectToReveal }
+			if (index == -1) return@forEach
+			foundation[index] = value
+			return
+		}
 	}
 
 	fun findCardFromString(cardString: String): Card? {
