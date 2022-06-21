@@ -135,7 +135,7 @@ class SharedViewModel : ViewModel() {
 		do {
 			Log.i("SharedViewModel", "Safety limit: $safetyLimit")
 			val game = Game.fromSolitaire(gameState_, lastMoves)
-			val move = ai.findBestMove(game, 20u)
+			val move = ai.findBestMove(game, 200u)
 			val revealedCard = gameState_.performMove(move).getOrThrow()
 			setCardObjectToReveal(revealedCard)
 			gameState.postValue(gameState_)
