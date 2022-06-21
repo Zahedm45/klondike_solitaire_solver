@@ -99,7 +99,8 @@
             android:text="Take a picture or select from album to continue."
             android:textAlignment="center"
             android:textColor="?android:textColorPrimary"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            app:autoSizeTextType="uniform" />
 
     </androidx.cardview.widget.CardView>
 
