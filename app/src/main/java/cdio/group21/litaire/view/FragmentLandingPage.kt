@@ -86,12 +86,12 @@ class FragmentLandingPage : Fragment() {
 				sharedViewModel.setPreviewBitmap(imgResult)
 				binding?.ivBackground?.setImageBitmap(imgResult)
 				findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+				sharedViewModel.runSolver()
 			}
-			sharedViewModel.runSolver()
-
 		}
 
 		sharedViewModel.getMoves().observe(viewLifecycleOwner) { moves ->
+			/*
 			if (moves.isEmpty()) return@observe
 
 			val currentMove = moves.last()
@@ -104,6 +104,7 @@ class FragmentLandingPage : Fragment() {
 				return@observe
 			}
 			sharedViewModel.setCardObjectToReveal(revealedCard ?: return@observe)
+			 */
 		}
 
 

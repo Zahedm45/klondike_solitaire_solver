@@ -88,6 +88,9 @@ class SharedViewModel : ViewModel() {
 		if (list.isEmpty()) return Result.failure(Exception("No detection results found!"))
 
 		if (list.size == 7) {
+			lastMoves.clear()
+			moves.value?.clear()
+			cardObjectToReveal = null
 			gameState.postValue(ObjectRecognition.initGame(list))
 			return Result.success(Unit)
 		}
@@ -106,17 +109,22 @@ class SharedViewModel : ViewModel() {
 		return Result.success(Unit)
 	}
 
-	fun setCardObjectToReveal(cardObject: Card) {
+	fun setCardObjectToReveal(cardObject: Card?) {
 		cardObjectToReveal = cardObject
 	}
 
 	fun runSolver() {
-		val gameState = gameState.value ?: return
+		val gameState_ = gameState.value ?: return
+		if (cardObjectToReveal != null) {
+			return // Todo: report
+		}
 
-		val game = Game.fromSolitaire(gameState, lastMoves)
+		val game = Game.fromSolitaire(gameState_, lastMoves)
 		val move = ai.findBestMove(game) ?: return // TODO: Handle this?
 		if (Game.move_(game, move))
 			lastMoves = game.lastMoves
+		cardObjectToReveal = gameState_.performMove(move).getOrThrow()
+		gameState.postValue(gameState_)
 		val mοves = moves.value ?: return
 		mοves.add(move)
 		moves.postValue(mοves)
