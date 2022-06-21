@@ -85,7 +85,7 @@ class FragmentLandingPage : Fragment() {
 				val imgResult = drawSolitaireGame(img, game)
 				sharedViewModel.setPreviewBitmap(imgResult)
 				binding?.ivBackground?.setImageBitmap(imgResult)
-				findNavController().navigate(R.id.action_LandingPage_to_fragmentSuggestion)
+				findNavController().navigate(R.id.fragmentSuggestion)
 				sharedViewModel.runSolver()
 			}
 		}
