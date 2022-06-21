@@ -139,7 +139,7 @@ class SharedViewModel : ViewModel() {
 	fun runSolver() {
 		Log.i("SharedViewModel", "Run solver")
 		val gameState_ = gameState.value ?: return
-		priorGameStates.add(gameState_)
+		priorGameStates.add(gameState_.copy())
 
 		val movesList = moves.value ?: return
 		movesList.clear()

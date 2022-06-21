@@ -94,7 +94,7 @@ data class Solitaire(
 		return Result.success(cardAndContainer)
 	}
 
-	override fun copy(): Solitaire {
+	fun copy(): Solitaire {
 		return Solitaire(
 			tableau = tableau.map { it.mutableCopyOf() },
 			foundations = foundations.map { it.mutableCopyOf() },
