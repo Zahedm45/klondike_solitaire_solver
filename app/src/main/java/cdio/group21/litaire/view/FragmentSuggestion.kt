@@ -44,7 +44,7 @@ class FragmentSuggestion : Fragment() {
 
 		viewModel.getMoves().observe(viewLifecycleOwner) { moves ->
 			if (moves.isEmpty()) return@observe
-			val currentMove = moves.last()
+			val currentMove = moves.firstOrNull()
 				?: return@observe setSuggestionUI("Draw three cards", "Talon")
 
 			val source = if (currentMove.indexOfSourceBlock.toInt() == 8) {
@@ -62,6 +62,14 @@ class FragmentSuggestion : Fragment() {
 			)
 
 		}
+
+		binding.cardView2.setOnClickListener {
+			val moves = viewModel.getMoves().value ?: return@setOnClickListener
+			if (moves.isEmpty()) return@setOnClickListener
+			moves.removeFirst()
+			viewModel.getMoves().postValue(moves)
+		}
+
 		binding.ivBackbutton.setOnClickListener {
 			findNavController().navigate(R.id.action_fragmentSuggestion_to_LandingPage)
 		}
@@ -97,7 +105,10 @@ class FragmentSuggestion : Fragment() {
 				binding.TextEditGame.setText("")
 			}
 		}
+
 	}
+
+
 
 	private fun setSuggestionUI(from: String, to: String) {
 		binding.leftMoveText.text = from
