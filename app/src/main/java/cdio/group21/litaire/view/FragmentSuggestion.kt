@@ -10,11 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cdio.group21.litaire.R
 import cdio.group21.litaire.databinding.FragmentSuggestionBinding
 import cdio.group21.litaire.utils.SolitaireDrawUtils
 import cdio.group21.litaire.viewmodels.SharedViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 typealias IconID = Int
@@ -70,6 +74,13 @@ class FragmentSuggestion : Fragment() {
 			if (moves.isEmpty()) return@setOnClickListener
 			moves.removeFirst()
 			viewModel.getMoves().postValue(moves)
+
+			// Blink so the user knows that their input was registered
+			binding.cardView2.visibility = View.INVISIBLE
+			lifecycleScope.launch {
+				delay(100)
+				binding.cardView2.visibility = View.VISIBLE
+			}
 		}
 
 		binding.ivBackbutton.setOnClickListener {
