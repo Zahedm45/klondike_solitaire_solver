@@ -127,13 +127,13 @@ class SharedViewModel : ViewModel() {
 	}
 
 	fun undoSolverRun(){
-		Log.i("SharedViewModel", "Undo solver run")
 		if (priorGameStates.isEmpty()) return
+		Log.i("SharedViewModel", "Undo solver run")
 		lastMoves.clear()
 		moves.value?.clear()
 		moves.postValue(moves.value)
-		gameState.value = priorGameStates.pop()
-		gameState.postValue(gameState.value)
+		val oldState = priorGameStates.pop()
+		gameState.postValue(oldState)
 	}
 
 	fun runSolver() {
