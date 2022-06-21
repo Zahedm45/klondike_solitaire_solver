@@ -4,6 +4,7 @@ import Card
 import Rank
 import Suit
 import cdio.group21.litaire.data.Block
+import cdio.group21.litaire.data.Move
 import cdio.group21.litaire.viewmodels.solver.Ai
 import cdio.group21.litaire.viewmodels.solver.DUMMY_CARD
 import cdio.group21.litaire.viewmodels.solver.Game
@@ -1275,12 +1276,10 @@ class TestDeck {
 
 		game.waste = Card(Suit.DIAMOND, Rank.KING)
 
-		var ai = Ai()
+		val ai = Ai()
 
-		var bestMove = ai.findBestMove(game)
+		val bestMove = ai.findBestMove(game)
 
-		if (bestMove != null) {
-			Game.move_(game, bestMove)
-		}
+		Assert.assertEquals(bestMove, Move(false,Card(Suit.CLUB,Rank.SIX),3,5))
 	}
 	}
