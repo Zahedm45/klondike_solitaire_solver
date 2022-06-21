@@ -5,6 +5,8 @@ import Rank
 import Suit
 import android.util.Log
 import cdio.group21.litaire.utils.MutableMemoryList
+import cdio.group21.litaire.utils.extensions.copyOf
+import cdio.group21.litaire.utils.extensions.mutableCopyOf
 import cdio.group21.litaire.utils.mutableMemoryListOf
 
 data class CardAndContainer(val card: Card, val pile: MutableList<Card>)
@@ -12,7 +14,7 @@ data class CardAndContainer(val card: Card, val pile: MutableList<Card>)
 data class Solitaire(
 	val tableau: List<MutableList<Card>>,
 	val foundations: List<MutableList<Card>>,
-	val stock: MutableMemoryList<Card>,
+	val stock: MutableList<Card>,
 	val talon: MutableList<Card>,
 
 	) {
@@ -90,6 +92,15 @@ data class Solitaire(
 		val cardAndContainer = findEqualCard(card).getOrElse { return Result.failure(it) }
 		if (!cardAndContainer.pile.remove(card)) return Result.failure(IllegalArgumentException("Error: ${card} could not be removed!"))
 		return Result.success(cardAndContainer)
+	}
+
+	override fun copy(): Solitaire {
+		return Solitaire(
+			tableau = tableau.map { it.mutableCopyOf() },
+			foundations = foundations.map { it.mutableCopyOf() },
+			stock = stock.mutableCopyOf(),
+			talon = talon.mutableCopyOf()
+		)
 	}
 
 	/**
