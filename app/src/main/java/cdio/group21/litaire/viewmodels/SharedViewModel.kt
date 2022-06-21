@@ -125,6 +125,8 @@ class SharedViewModel : ViewModel() {
 	fun runSolver() {
 		Log.i("SharedViewModel", "Run solver")
 		val gameState_ = gameState.value ?: return
+		val mοves = moves.value ?: return
+		mοves.clear()
 		if (cardObjectToReveal != null) {
 			Log.e("SharedViewModel", "Error: cardObjectToReveal not null!")
 			return // Todo: report
@@ -139,11 +141,10 @@ class SharedViewModel : ViewModel() {
 			val revealedCard = gameState_.performMove(move).getOrThrow()
 			setCardObjectToReveal(revealedCard)
 			gameState.postValue(gameState_)
-			val mοves = moves.value ?: return
 			mοves.add(move)
 			moves.postValue(mοves)
 			if (move == null) {
-				lastMoves.clear()
+				//lastMoves.clear()
 			}
 			else if (Game.move_(game, move))
 				lastMoves = game.lastMoves
