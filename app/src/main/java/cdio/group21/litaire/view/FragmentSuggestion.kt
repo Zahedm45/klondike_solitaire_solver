@@ -50,19 +50,15 @@ class FragmentSuggestion : Fragment() {
 			val source = if (currentMove.indexOfSourceBlock.toInt() == 8) {
 				"Talon"
 			} else {
-				currentMove.indexOfSourceBlock.toString()
+				(currentMove.indexOfSourceBlock + 1).toString()
 			}
 
-			if (currentMove.isMoveToFoundation) {
-				setSuggestionUI(
-					"${currentMove.card} $source",
-					"Foundation"
-				)
-			}
+			val destination = if (currentMove.isMoveToFoundation)
+				"Foundation" else (currentMove.indexOfDestination + 1).toString()
 
 			setSuggestionUI(
-				"${currentMove.card} ${source}",
-				"${currentMove.indexOfDestination}"
+				"${currentMove.card} $source",
+				destination
 			)
 
 		}
