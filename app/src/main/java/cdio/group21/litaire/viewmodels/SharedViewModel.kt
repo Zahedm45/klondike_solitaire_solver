@@ -131,14 +131,18 @@ class SharedViewModel : ViewModel() {
 		}
 
 		val game = Game.fromSolitaire(gameState_, lastMoves)
-		val move = ai.findBestMove(game) ?: return // TODO: Handle this?
-		if (Game.move_(game, move))
-			lastMoves = game.lastMoves
+		val move = ai.findBestMove(game)
 		setCardObjectToReveal(gameState_.performMove(move).getOrThrow())
 		gameState.postValue(gameState_)
 		val mοves = moves.value ?: return
 		mοves.add(move)
 		moves.postValue(mοves)
+
+		if (move == null) {
+			lastMoves.clear()
+		}
+		else if (Game.move_(game, move))
+			lastMoves = game.lastMoves
 	}
 
 
