@@ -47,15 +47,21 @@ class FragmentSuggestion : Fragment() {
 			val currentMove = moves.last()
 				?: return@observe setSuggestionUI("Draw three cards", "Talon")
 
+			val source = if (currentMove.indexOfSourceBlock.toInt() == 8) {
+				"Talon"
+			} else {
+				currentMove.indexOfSourceBlock.toString()
+			}
+
 			if (currentMove.isMoveToFoundation) {
 				setSuggestionUI(
-					"${currentMove.card} ${currentMove.indexOfSourceBlock}",
+					"${currentMove.card} $source",
 					"Foundation"
 				)
 			}
 
 			setSuggestionUI(
-				"${currentMove.card} ${currentMove.indexOfSourceBlock}",
+				"${currentMove.card} ${source}",
 				"${currentMove.indexOfDestination}"
 			)
 
