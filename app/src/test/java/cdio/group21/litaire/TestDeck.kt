@@ -1222,4 +1222,65 @@ class TestDeck {
 		Assert.assertEquals(gameResult, true)
 
 	}
-}
+
+	@Test
+	fun moveAlthoughCardsBehind() {
+
+		//Innitialize blocks and insert the cards
+		initializeBlocks()
+
+		for (i in 0..6) {
+			game.blocks[i].hiddenCards = i
+		}
+
+		game.blocks[0].cards.add(Card(Suit.HEART, Rank.JACK))
+		game.blocks[0].hiddenCards = 0
+
+		game.blocks[1].cards.add(Card(Suit.CLUB, Rank.KING))
+		game.blocks[1].cards.add(Card(Suit.DIAMOND, Rank.QUEEN))
+		game.blocks[1].cards.add(Card(Suit.SPADE, Rank.JACK))
+		game.blocks[1].hiddenCards = 0
+
+
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.KING))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.QUEEN))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.JACK))
+		game.blocks[2].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.NINE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.EIGHT))
+		game.blocks[2].cards.add(Card(Suit.CLUB, Rank.SEVEN))
+		game.blocks[2].cards.add(Card(Suit.DIAMOND, Rank.SIX))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.FIVE))
+		game.blocks[2].cards.add(Card(Suit.HEART, Rank.FOUR))
+		game.blocks[2].cards.add(Card(Suit.SPADE, Rank.THREE))
+		game.blocks[2].cards.add(Card(Suit.DIAMOND, Rank.TWO))
+		game.blocks[2].hiddenCards = 0
+
+		game.blocks[3].cards.add(Card(Suit.CLUB, Rank.SIX))
+		game.blocks[3].cards.add(Card(Suit.HEART, Rank.FIVE))
+		game.blocks[3].cards.add(Card(Suit.CLUB, Rank.FOUR))
+		game.blocks[3].cards.add(Card(Suit.DIAMOND, Rank.THREE))
+		game.blocks[3].hiddenCards = 0
+
+		game.blocks[4].cards.add(Card(Suit.SPADE, Rank.NINE))
+		game.blocks[4].hiddenCards = 2
+
+		game.blocks[5].cards.add(Card(Suit.DIAMOND, Rank.NINE))
+		game.blocks[5].cards.add(Card(Suit.CLUB, Rank.EIGHT))
+		game.blocks[5].cards.add(Card(Suit.HEART, Rank.SEVEN))
+		game.blocks[5].hiddenCards = 4
+
+		game.blocks[6].cards.add(Card(Suit.DIAMOND, Rank.JACK))
+		game.blocks[6].hiddenCards = 4
+
+		game.waste = Card(Suit.DIAMOND, Rank.KING)
+
+		var ai = Ai()
+
+		var bestMove = ai.findBestMove(game)
+
+		if (bestMove != null) {
+			Game.move_(game, bestMove)
+		}
+	}
+	}
