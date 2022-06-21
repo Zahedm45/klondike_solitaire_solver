@@ -63,7 +63,7 @@ data class Solitaire(
 				return Result.success(CardAndContainer(foundCard, col))
 			}
 		}
-		return Result.failure(IllegalArgumentException("Error: Card not found!"))
+		return Result.failure(IllegalArgumentException("Error: ${targetCard} not found!"))
 	}
 
 	/**
@@ -71,7 +71,7 @@ data class Solitaire(
 	 */
 	private fun removeCard(card: Card): Result<CardAndContainer> {
 		val cardAndContainer = findEqualCard(card).getOrElse { return Result.failure(it) }
-		if (!cardAndContainer.pile.remove(card)) return Result.failure(IllegalArgumentException("Error: Card could not be removed!"))
+		if (!cardAndContainer.pile.remove(card)) return Result.failure(IllegalArgumentException("Error: ${card} could not be removed!"))
 		return Result.success(cardAndContainer)
 	}
 
