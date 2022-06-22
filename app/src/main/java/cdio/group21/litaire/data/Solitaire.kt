@@ -185,7 +185,7 @@ data class Solitaire(
 			talon.add(stock.removeFirst())
 		}
 
-		val revealedCard = talon.last()
+		val revealedCard = talon.lastOrNull() ?: return Result.success(null)
 		if (revealedCard.isUnknown()) return Result.success(revealedCard);
 		return Result.success(null)
 	}
