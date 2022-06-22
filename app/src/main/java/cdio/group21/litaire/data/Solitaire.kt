@@ -176,7 +176,7 @@ data class Solitaire(
 
 	private fun drawCards(): Result<Card?> {
 		if (stock.size < 3) {
-			stock.addAll(talon.reversed())
+			stock.addAll(talon)
 			talon.clear()
 		}
 		if (stock.size < 3) return Result.failure(IllegalArgumentException("Error: Stock is empty!"))
