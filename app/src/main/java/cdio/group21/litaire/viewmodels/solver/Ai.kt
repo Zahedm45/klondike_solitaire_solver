@@ -10,6 +10,11 @@ val FACE_DOWN_CARD_VALUE = -8
 val CARDS_NOT_IN_TABLEAU_BUILD = -5
 val CARDS_TO_FOUNDATION = 5
 
+/**
+ * This is the function that finds the best move in a given state for the user. It takes a game as an argument
+ * and returns a move, which is the best move according to this function.
+ *@author Zahed-s186517
+ */
 
 class Ai {
 	val gameLogic = GameLogic()
@@ -17,17 +22,12 @@ class Ai {
 		game: Game,
 		searchDepth: UInt = 8u,
 	): Move? {
-/*        val initialState = GameSate(ga.evalFoundation(foundations), 0)
-        var bestState = GameSate(ga.evalFoundation(foundations), 0)*/
-
 		val heu1 = heuristicOne(game.blocks, game.foundations)
 		val heu2 = heuristicTwo(game.blocks, game.foundations, game.waste)
 		val initialState = GameSate(heu1, heu2, 0u)
 		var bestState = GameSate(heu1, heu2, 0u)
 		var bestMove: Move? = null
 		val availableMoves = gameLogic.allPossibleMoves(game)
-
-
 		var isGameInLastEnd = false
 		val retVal1 = heuristicFaceDown(game.blocks)
 		if (retVal1 >= 6* FACE_DOWN_CARD_VALUE) {
@@ -50,7 +50,6 @@ class Ai {
 				}
 			}
 
-
 			val foundationsCopy = ArrayList(game.foundations.map { detectR -> detectR.deepCopy() })
 			val blocksCopy = ArrayList(game.blocks.map { b -> b.deepCopy() })
 			val wasteCopy = game.waste.copy()
@@ -67,7 +66,6 @@ class Ai {
 				heuristicFoundationsTwo(foundationsCopy),
 				searchDepth - 1u
 			)
-
 			algorithm(gameCopy, leafValue, searchDepth - 1u)
 			if (leafValue.isEmpty()) {
 				return@forEach
@@ -75,7 +73,6 @@ class Ai {
 
 			if (isGameInLastEnd) {
 				leafValue.sortBy { gs -> gs.heuristicTwoVal }
-
 				val newSate = leafValue.last()
 				if (newSate.heuristicTwoVal > bestState.heuristicTwoVal) {
 					bestMove = currMove
@@ -87,8 +84,6 @@ class Ai {
 						bestState = newSate
 					}
 				}
-
-
 			} else {
 				leafValue.sortBy { gs -> gs.heuristicOneVal }
 				val newSate = leafValue.last()
@@ -96,8 +91,6 @@ class Ai {
 					bestMove = currMove
 					bestState = newSate
 					bestState.afterFirstMove = sateAfterFirstMove
-
-
 				} else if (newSate.heuristicOneVal == bestState.heuristicOneVal && initialState.heuristicOneVal != newSate.heuristicOneVal) {
 					if (newSate.length > bestState.length) {
 						bestMove = currMove
@@ -116,16 +109,10 @@ class Ai {
 					}
 				}
 			}
-
-
 		}
-
 		bestState.heuristicOneVal = bestState.heuristicOneVal - initialState.heuristicOneVal
 		bestState.heuristicTwoVal = bestState.heuristicTwoVal - initialState.heuristicTwoVal
-
 		bestState.length = searchDepth - bestState.length
-
-
 		if (bestMove == null) {
 			availableMoves.forEach { m ->
 				if (m.indexOfSourceBlock == INDEX_OF_SOURCE_BLOCK_FROM_WASTE) {
@@ -133,37 +120,35 @@ class Ai {
 				}
 			}
 		}
-
-		//println( "The next move is: $bestMove, $bestState")
-
 		return bestMove
 	}
 
 
+	/**
+	 * This function is called by the function 'findBestMove' to travers the tree, and it can't be
+	 * called outside of the the function 'findBestMove'. It returns an array of its leaf-nodes
+	 * heuristic values.
+	 * @author Zahed-s186517
+	 */
 	private fun algorithm(
 		game: Game,
 		leafValues: MutableList<GameSate>,
 		depth: UInt
 	) {
-
 		if (depth < 1u) {
 			setGameState(game, leafValues, depth)
 			return
 		}
-
 		val newPossibleMoves = gameLogic.allPossibleMoves(game)
-
 		if (newPossibleMoves.isEmpty()) {
 			setGameState(game, leafValues, depth)
 			return
 		}
-
 		newPossibleMoves.forEach { move ->
 			val gameCopy = game.deepCopy()
 			Game.move_(gameCopy, move)
 			algorithm(gameCopy, leafValues, depth - 1u)
 		}
-
 	}
 
 
@@ -179,7 +164,6 @@ class Ai {
 			length
 		)
 		leafValues.add(gameSate)
-
 	}
 
 
