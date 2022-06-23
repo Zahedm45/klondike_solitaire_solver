@@ -1278,8 +1278,9 @@ class TestDeck {
 
 		val ai = Ai()
 
+		val move = gameLogic.allPossibleMoves(game)
 		val bestMove = ai.findBestMove(game)
 
-		Assert.assertEquals(bestMove, Move(false,Card(Suit.CLUB,Rank.SIX),3,5))
+		Assert.assertEquals(bestMove, move[0])
 	}
 	}
